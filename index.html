@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FC Barcelona | Més que un club</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+scroll-behavior:smooth;
+font-family:Segoe UI, Arial;
+}
+
+body{
+background:#f7f2f4;
+color:#222;
+}
+
+/* NAVBAR */
+
+nav{
+background:#A50044;
+color:white;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 40px;
+position:sticky;
+top:0;
+}
+
+nav ul{
+list-style:none;
+display:flex;
+gap:20px;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+font-weight:600;
+transition:0.3s;
+}
+
+nav a:hover{
+opacity:0.7;
+}
+
+/* HERO */
+
+.hero{
+height:85vh;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+background:linear-gradient(135deg,#A50044,#d90452);
+color:white;
+}
+
+.hero h1{
+font-size:4rem;
+letter-spacing:2px;
+}
+
+.hero p{
+margin-top:15px;
+font-size:1.4rem;
+}
+
+/* SECTIONS */
+
+section{
+padding:80px 12%;
+}
+
+h2{
+color:#A50044;
+margin-bottom:20px;
+font-size:2rem;
+}
+
+/* HISTORY */
+
+.history{
+background:white;
+border-radius:10px;
+padding:30px;
+box-shadow:0 3px 10px rgba(0,0,0,0.1);
+}
+
+/* PLAYER CARDS */
+
+.players{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+gap:25px;
+}
+
+.card{
+background:white;
+padding:25px;
+border-radius:10px;
+box-shadow:0 5px 12px rgba(0,0,0,0.15);
+transition:0.3s;
+border-top:5px solid #A50044;
+}
+
+.card:hover{
+transform:translateY(-10px);
+}
+
+.card h3{
+color:#A50044;
+margin-bottom:10px;
+}
+
+/* MESSI */
+
+.messi{
+background:white;
+border-radius:10px;
+padding:30px;
+box-shadow:0 3px 10px rgba(0,0,0,0.1);
+}
+
+/* RESULTS */
+
+.results{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+}
+
+.match{
+background:white;
+border-radius:8px;
+padding:20px;
+text-align:center;
+box-shadow:0 3px 8px rgba(0,0,0,0.15);
+transition:0.2s;
+}
+
+.match:hover{
+transform:scale(1.05);
+}
+
+.score{
+font-size:2rem;
+color:#A50044;
+margin:10px 0;
+}
+
+/* GALLERY */
+
+.gallery{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+}
+
+.gallery-box{
+background:white;
+padding:30px;
+border-radius:10px;
+text-align:center;
+box-shadow:0 3px 8px rgba(0,0,0,0.1);
+font-weight:600;
+}
+
+/* FOOTER */
+
+footer{
+background:#A50044;
+color:white;
+text-align:center;
+padding:30px;
+margin-top:40px;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.hero h1{
+font-size:2.5rem;
+}
+
+nav{
+flex-direction:column;
+gap:10px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav>
+
+<h2>FC Barcelona</h2>
+
+<ul>
+<li><a href="#home">Home</a></li>
+<li><a href="#history">History</a></li>
+<li><a href="#players">Legends</a></li>
+<li><a href="#messi">Messi</a></li>
+<li><a href="#results">Results</a></li>
+<li><a href="#gallery">Moments</a></li>
+</ul>
+
+</nav>
+
+<!-- HERO -->
+
+<section class="hero" id="home">
+
+<div>
+<h1>FC Barcelona</h1>
+<p>Més que un club</p>
+</div>
+
+</section>
+
+<!-- HISTORY -->
+
+<section id="history">
+
+<h2>Club History</h2>
+
+<div class="history">
+
+<p>
+FC Barcelona was founded in 1899 and is one of the most successful football clubs in the world.
+The club represents Catalan pride and is famous for its beautiful attacking football style.
+</p>
+
+<br>
+
+<p>
+Barcelona has won numerous trophies including La Liga titles,
+Copa del Rey trophies, and multiple UEFA Champions League championships.
+</p>
+
+<br>
+
+<p>
+Their legendary stadium Camp Nou is one of the most iconic football stadiums in the world.
+</p>
+
+</div>
+
+</section>
+
+<!-- PLAYERS -->
+
+<section id="players">
+
+<h2>Legendary Players</h2>
+
+<div class="players">
+
+<div class="card">
+<h3>Lionel Messi</h3>
+<p>Position: Forward</p>
+<p>Years: 2004–2021</p>
+<p>Barcelona's greatest player and record goalscorer.</p>
+</div>
+
+<div class="card">
+<h3>Johan Cruyff</h3>
+<p>Position: Forward</p>
+<p>Years: 1973–1978</p>
+<p>Introduced Total Football philosophy.</p>
+</div>
+
+<div class="card">
+<h3>Ronaldinho</h3>
+<p>Position: Attacking Midfielder</p>
+<p>Years: 2003–2008</p>
+<p>Brought magic and creativity to the team.</p>
+</div>
+
+<div class="card">
+<h3>Xavi</h3>
+<p>Position: Midfielder</p>
+<p>Years: 1998–2015</p>
+<p>Tiki-taka mastermind.</p>
+</div>
+
+<div class="card">
+<h3>Andrés Iniesta</h3>
+<p>Position: Midfielder</p>
+<p>Years: 2002–2018</p>
+<p>Elegant playmaker and club legend.</p>
+</div>
+
+<div class="card">
+<h3>Carles Puyol</h3>
+<p>Position: Defender</p>
+<p>Years: 1999–2014</p>
+<p>Legendary captain and defensive leader.</p>
+</div>
+
+</div>
+
+</section>
+
+<!-- MESSI -->
+
+<section id="messi">
+
+<h2>Lionel Messi Career</h2>
+
+<div class="messi">
+
+<p>
+Matches Played: <b>778</b><br>
+Goals Scored: <b>672</b><br>
+Ballon d'Or Awards: <b>8</b><br>
+Barcelona Trophies: <b>35</b>
+</p>
+
+<br>
+
+<canvas id="messiChart"></canvas>
+
+</div>
+
+</section>
+
+<!-- RESULTS -->
+
+<section id="results">
+
+<h2>Recent Results</h2>
+
+<div class="results">
+
+<div class="match">
+Barcelona vs Villarreal
+<div class="score">4 - 1</div>
+</div>
+
+<div class="match">
+Barcelona vs Levante
+<div class="score">3 - 0</div>
+</div>
+
+<div class="match">
+Girona vs Barcelona
+<div class="score">2 - 1</div>
+</div>
+
+</div>
+
+</section>
+
+<!-- MOMENTS -->
+
+<section id="gallery">
+
+<h2>Famous Moments</h2>
+
+<div class="gallery">
+
+<div class="gallery-box">Champions League Victories</div>
+<div class="gallery-box">Historic Camp Nou Nights</div>
+<div class="gallery-box">Messi Goal Records</div>
+<div class="gallery-box">Tiki-Taka Era Dominance</div>
+
+</div>
+
+</section>
+
+<footer>
+
+<p>FC Barcelona Fan Website</p>
+<p>Més que un club</p>
+
+</footer>
+
+<script>
+
+const ctx=document.getElementById('messiChart');
+
+new Chart(ctx,{
+type:'bar',
+data:{
+labels:['Goals','Matches','Trophies','Ballon d\'Or'],
+datasets:[{
+label:'Lionel Messi Barcelona Stats',
+data:[672,778,35,8],
+backgroundColor:['#A50044','#c2185b','#d81b60','#880e4f']
+}]
+}
+});
+
+</script>
+
+</body>
+</html>
