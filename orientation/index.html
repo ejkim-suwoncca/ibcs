@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IB Computer Science — Orientation 2027</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #16161f;
+    --surface2: #1e1e2a;
+    --border: #2a2a3a;
+    --accent: #00e5ff;
+    --accent2: #7c3aed;
+    --accent3: #f59e0b;
+    --text: #e8e8f0;
+    --text2: #9090a8;
+    --text3: #5a5a72;
+    --green: #10b981;
+    --red: #ef4444;
+    --font-head: 'Syne', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 40px 40px; opacity: 0.22; pointer-events: none; z-index: 0;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  /* HEADER */
+  header { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; padding: 80px 0 60px; }
+  .glow1 { position: absolute; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(0,229,255,0.07) 0%, transparent 70%); top: -100px; left: -100px; pointer-events: none; }
+  .glow2 { position: absolute; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(124,58,237,0.07) 0%, transparent 70%); bottom: -50px; right: -50px; pointer-events: none; }
+  .badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; color: var(--accent); border: 1px solid rgba(0,229,255,0.3); padding: 6px 14px; border-radius: 2px; margin-bottom: 28px; letter-spacing: 0.15em; text-transform: uppercase; animation: fsd 0.6s ease both; }
+  .badge::before { content: '●'; font-size: 8px; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
+  h1 { font-family: var(--font-head); font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 800; line-height: 1; letter-spacing: -0.03em; animation: fsd 0.6s 0.1s ease both; }
+  h1 .ib { color: var(--accent); }
+  h1 .cs { display: block; color: transparent; -webkit-text-stroke: 1.5px var(--text3); font-size: clamp(3.5rem, 10vw, 8rem); }
+  .tagline { font-size: clamp(1rem, 2.5vw, 1.2rem); color: var(--text2); font-weight: 300; max-width: 540px; margin-top: 20px; animation: fsd 0.6s 0.2s ease both; }
+  .hstats { display: flex; gap: 40px; margin-top: 48px; flex-wrap: wrap; animation: fsd 0.6s 0.3s ease both; }
+  .stat { display: flex; flex-direction: column; gap: 4px; position: relative; padding-left: 16px; }
+  .stat::before { content: ''; position: absolute; left: 0; top: 4px; bottom: 4px; width: 2px; background: var(--accent); }
+  .stat-num { font-family: var(--font-mono); font-size: 1.6rem; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
+  .stat-label { font-size: 0.78rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; }
+  .scroll-hint { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--text3); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; animation: fsd 0.6s 0.5s ease both; }
+  .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--accent), transparent); animation: sl 1.5s infinite; }
+  @keyframes fsd { from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)} }
+  @keyframes sl { 0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom} }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(10,10,15,0.9); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 14px 0; }
+  nav .container { display: flex; align-items: center; overflow-x: auto; scrollbar-width: none; }
+  nav .container::-webkit-scrollbar { display: none; }
+  .nav-logo { font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--accent); white-space: nowrap; margin-right: 32px; letter-spacing: 0.1em; }
+  .nav-links { display: flex; gap: 4px; }
+  nav a { font-family: var(--font-mono); font-size: 11px; color: var(--text3); text-decoration: none; padding: 6px 12px; border-radius: 2px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; transition: color 0.2s, background 0.2s; }
+  nav a:hover { color: var(--accent); background: rgba(0,229,255,0.06); }
+
+  /* SECTIONS */
+  section { padding: 100px 0; }
+  section + section { border-top: 1px solid var(--border); }
+  .slabel { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+  h2 { font-family: var(--font-head); font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 16px; }
+  .intro { color: var(--text2); font-size: 1.05rem; max-width: 620px; margin-bottom: 52px; font-weight: 300; }
+
+  /* LEVEL CARDS */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .lcard { background: var(--surface); padding: 40px; position: relative; overflow: hidden; transition: background 0.3s; }
+  .lcard:hover { background: var(--surface2); }
+  .lcard::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .sl::after { background: var(--green); }
+  .hl::after { background: var(--accent2); }
+  .level-tag { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 10px; border-radius: 2px; display: inline-block; margin-bottom: 16px; }
+  .sl .level-tag { background: rgba(16,185,129,0.1); color: var(--green); border: 1px solid rgba(16,185,129,0.3); }
+  .hl .level-tag { background: rgba(124,58,237,0.1); color: #a78bfa; border: 1px solid rgba(124,58,237,0.3); }
+  .lcard h3 { font-family: var(--font-head); font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
+  .lcard p { color: var(--text2); font-size: 0.9rem; margin-bottom: 24px; }
+  .specrow { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .specrow:last-child { border-bottom: none; }
+  .sk { color: var(--text3); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; }
+  .sv { color: var(--text); font-weight: 500; font-family: var(--font-mono); font-size: 0.82rem; }
+
+  /* THEME SECTION */
+  .theme-card { background: var(--surface); padding: 36px; border-top: 3px solid transparent; transition: background 0.2s; }
+  .theme-card:hover { background: var(--surface2); }
+  .ta { border-top-color: var(--accent); }
+  .tb { border-top-color: #a78bfa; }
+  .tlabel { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 10px; }
+  .ta .tlabel { color: var(--accent); }
+  .tb .tlabel { color: #a78bfa; }
+  .theme-card h3 { font-family: var(--font-head); font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; }
+  .theme-card > p { font-size: 0.85rem; color: var(--text2); margin-bottom: 20px; }
+  .theme-foot { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 0.78rem; color: var(--text3); font-family: var(--font-mono); }
+
+  .sub { display: flex; align-items: flex-start; gap: 12px; padding: 10px 12px; background: var(--surface2); border: 1px solid var(--border); font-size: 0.83rem; margin-bottom: 6px; transition: background 0.15s; }
+  .sub:hover { background: #25253a; }
+  .sub:last-child { margin-bottom: 0; }
+  .scode { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text3); flex-shrink: 0; padding-top: 2px; min-width: 28px; }
+  .stitle { font-weight: 500; color: var(--text); line-height: 1.3; }
+  .sdesc { font-size: 0.78rem; color: var(--text3); margin-top: 3px; }
+
+  .tag { font-size: 0.69rem; padding: 2px 7px; border-radius: 2px; font-family: var(--font-mono); background: var(--surface2); color: var(--text3); border: 1px solid var(--border); letter-spacing: 0.05em; display: inline-block; margin-left: 6px; }
+  .tag.hl-tag { background: rgba(124,58,237,0.1); color: #a78bfa; border-color: rgba(124,58,237,0.25); }
+  .tag.new-tag { background: rgba(245,158,11,0.1); color: var(--accent3); border-color: rgba(245,158,11,0.3); }
+  .tag.core-tag { background: rgba(16,185,129,0.1); color: var(--green); border-color: rgba(16,185,129,0.25); }
+
+  /* CASE STUDY BANNER */
+  .cs-banner { background: var(--surface); padding: 32px; border-top: 3px solid var(--accent3); margin-top: 2px; }
+  .cs-banner .cs-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; color: var(--accent3); margin-bottom: 10px; text-transform: uppercase; }
+  .cs-banner h3 { font-family: var(--font-head); font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+  .cs-banner p { font-size: 0.86rem; color: var(--text2); max-width: 700px; }
+
+  /* ASSESSMENT */
+  .acol { background: var(--surface); padding: 32px; }
+  .acol-title { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .acol-title span { color: var(--text); }
+  .aitem { display: flex; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+  .aitem:last-child { border-bottom: none; }
+  .apct { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--accent3); line-height: 1; flex-shrink: 0; width: 52px; }
+  .apct.purple { color: #a78bfa; }
+  .ainfo h4 { font-family: var(--font-head); font-size: 0.95rem; font-weight: 700; margin-bottom: 3px; }
+  .ainfo p { font-size: 0.8rem; color: var(--text2); }
+  .ainfo .det { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text3); margin-top: 5px; display: block; }
+  .pbar { height: 2px; background: var(--border); margin-top: 6px; overflow: hidden; }
+  .pfill { height: 100%; background: var(--accent3); transition: width 1s ease; }
+  .pfill.purple { background: #a78bfa; }
+
+  /* IA */
+  .ia-main { background: var(--surface); padding: 40px; }
+  .ia-steps { background: var(--surface); padding: 40px; display: flex; flex-direction: column; }
+  .istep { display: flex; gap: 20px; padding: 18px 0; border-bottom: 1px solid var(--border); }
+  .istep:last-child { border-bottom: none; }
+  .istep-num { font-family: var(--font-mono); font-size: 0.7rem; width: 28px; height: 28px; background: var(--surface2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--accent); margin-top: 2px; }
+  .istep h4 { font-family: var(--font-head); font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+  .istep p { font-size: 0.82rem; color: var(--text2); }
+
+  /* CHANGES TABLE */
+  .twrap { background: var(--surface); overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; }
+  th { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+  td { padding: 13px 16px; font-size: 0.84rem; border-bottom: 1px solid var(--border); color: var(--text2); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface2); }
+  td:first-child { color: var(--text); font-weight: 500; }
+  .old { color: var(--red) !important; text-decoration: line-through; opacity: 0.65; }
+  .new { color: var(--green) !important; }
+
+  /* SKILLS */
+  .skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+  .skcard { background: var(--surface); padding: 28px 24px; text-align: center; transition: background 0.2s; }
+  .skcard:hover { background: var(--surface2); }
+  .skcard .icon { font-size: 2rem; margin-bottom: 12px; }
+  .skcard h4 { font-family: var(--font-head); font-size: 0.9rem; font-weight: 700; margin-bottom: 6px; }
+  .skcard p { font-size: 0.78rem; color: var(--text2); }
+
+  /* TIPS */
+  .tips-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .tipcard { background: var(--surface); padding: 28px; display: flex; gap: 16px; transition: background 0.2s; }
+  .tipcard:hover { background: var(--surface2); }
+  .tipn { font-family: var(--font-mono); font-size: 2rem; font-weight: 700; color: var(--border); line-height: 1; flex-shrink: 0; margin-top: -4px; }
+  .tipcard h4 { font-family: var(--font-head); font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+  .tipcard p { font-size: 0.83rem; color: var(--text2); }
+
+  /* HIGHLIGHT */
+  .hbox { background: rgba(0,229,255,0.04); border: 1px solid rgba(0,229,255,0.15); border-left: 3px solid var(--accent); padding: 20px 24px; margin-top: 24px; }
+  .hbox p { font-size: 0.88rem; color: var(--text2); margin: 0; }
+  .hbox strong { color: var(--text); }
+  .hbox.amber { background: rgba(245,158,11,0.04); border-color: rgba(245,158,11,0.2); border-left-color: var(--accent3); }
+  .hbox.purple { background: rgba(124,58,237,0.04); border-color: rgba(124,58,237,0.2); border-left-color: #a78bfa; }
+
+  footer { border-top: 1px solid var(--border); padding: 40px 0; text-align: center; }
+  footer p { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text3); letter-spacing: 0.1em; }
+  footer p span { color: var(--accent); }
+
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media(max-width:768px){
+    .two-col,.ia-container-grid,.assess-outer { grid-template-columns:1fr; }
+    .skills-grid { grid-template-columns: repeat(2,1fr); }
+    .tips-grid { grid-template-columns:1fr; }
+    section { padding:60px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="glow1"></div>
+  <div class="glow2"></div>
+  <div class="container">
+    <div class="badge">New Syllabus · First Assessment May 2027</div>
+    <h1>
+      <span class="ib">IB</span>
+      <span class="cs">Computer Science</span>
+    </h1>
+    <p class="tagline">A redesigned two-year course built around two core themes: how computing systems work, and how to solve real problems with them.</p>
+    <div class="hstats">
+      <div class="stat"><span class="stat-num">2</span><span class="stat-label">Core Themes</span></div>
+      <div class="stat"><span class="stat-num">240+</span><span class="stat-label">Hours (HL)</span></div>
+      <div class="stat"><span class="stat-num">35hrs</span><span class="stat-label">IA Allocation</span></div>
+      <div class="stat"><span class="stat-num">May 2027</span><span class="stat-label">First Exams</span></div>
+    </div>
+  </div>
+  <div class="scroll-hint"><span>SCROLL</span><div class="scroll-line"></div></div>
+</header>
+
+<nav>
+  <div class="container">
+    <span class="nav-logo">IB·CS·2027</span>
+    <div class="nav-links">
+      <a href="#overview">Overview</a>
+      <a href="#themes">Themes</a>
+      <a href="#assessment">Assessment</a>
+      <a href="#ia">IA</a>
+      <a href="#changes">What's New</a>
+      <a href="#tips">Tips</a>
+      <a href="#schedule">Schedule</a>
+    </div>
+  </div>
+</nav>
+
+<!-- 01 OVERVIEW -->
+<section id="overview">
+  <div class="container">
+    <div class="slabel">// 01 · Course Overview</div>
+    <h2>Two Levels.<br>One Redesigned Course.</h2>
+    <p class="intro">The 2027 syllabus restructures IB CS into two overarching themes instead of numbered topics. Both levels share the same content — HL goes deeper and requires broader connections across the syllabus.</p>
+    <div class="two-col reveal">
+      <div class="lcard sl">
+        <span class="level-tag">Standard Level</span>
+        <h3>SL — Core Foundations</h3>
+        <p>Theme A + Theme B fully, including OOP, Databases, Machine Learning, and the case study — all now standard for every SL student.</p>
+        <div class="specrow"><span class="sk">Teaching Hours</span><span class="sv">150 hrs</span></div>
+        <div class="specrow"><span class="sk">External Exams</span><span class="sv">Paper 1 + Paper 2</span></div>
+        <div class="specrow"><span class="sk">Internal Assessment</span><span class="sv">35 hrs · 20%</span></div>
+        <div class="specrow"><span class="sk">External Weight</span><span class="sv">80%</span></div>
+        <div class="specrow"><span class="sk">Languages</span><span class="sv">Java or Python</span></div>
+        <div class="specrow"><span class="sk">Case Study</span><span class="sv">Yes — in Paper 1</span></div>
+      </div>
+      <div class="lcard hl">
+        <span class="level-tag">Higher Level</span>
+        <h3>HL — Extended Depth</h3>
+        <p>Everything in SL with deeper HL-extended content in each unit — more hours, greater conceptual breadth, and more complex abstract data structures.</p>
+        <div class="specrow"><span class="sk">Teaching Hours</span><span class="sv">240 hrs</span></div>
+        <div class="specrow"><span class="sk">External Exams</span><span class="sv">Paper 1 + Paper 2</span></div>
+        <div class="specrow"><span class="sk">Internal Assessment</span><span class="sv">35 hrs · 20%</span></div>
+        <div class="specrow"><span class="sk">External Weight</span><span class="sv">80%</span></div>
+        <div class="specrow"><span class="sk">Languages</span><span class="sv">Java or Python</span></div>
+        <div class="specrow"><span class="sk">Case Study</span><span class="sv">Yes — extended in Paper 1</span></div>
+      </div>
+    </div>
+    <div class="hbox reveal">
+      <p><strong>Key shift in philosophy:</strong> The new course moves from information technology toward pure <strong>computer science</strong> — computational thinking, algorithmic problem-solving, and modern technologies like machine learning are now at the core for all students.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 THEMES -->
+<section id="themes">
+  <div class="container">
+    <div class="slabel">// 02 · Course Themes & Content</div>
+    <h2>Theme A + Theme B</h2>
+    <p class="intro">The old numbered topics are replaced by two interlocking themes. Theme A covers how systems work. Theme B covers how to solve problems with them. HL students engage with both at greater depth.</p>
+
+    <div class="two-col reveal">
+      <div class="theme-card ta">
+        <div class="tlabel">Theme A</div>
+        <h3>Concepts of Computer Science</h3>
+        <p>Understanding how computing systems work — from hardware architecture to networking, databases, and machine learning.</p>
+        <div class="sub">
+          <span class="scode">A1</span>
+          <div><div class="stitle">Computer Fundamentals</div><div class="sdesc">CPU & GPU architecture, fetch-decode-execute, memory hierarchy, OS, logic gates, binary & hex, compilers/interpreters</div></div>
+        </div>
+        <div class="sub">
+          <span class="scode">A2</span>
+          <div><div class="stitle">Networks & Security</div><div class="sdesc">Network topologies, protocols, TCP/IP, cybersecurity, encryption, firewalls, cloud computing</div></div>
+        </div>
+        <div class="sub">
+          <span class="scode">A3</span>
+          <div><div class="stitle">Databases <span class="tag core-tag">Now Core — All Students</span></div><div class="sdesc">Relational databases, SQL queries, entity-relationship models, normalization, data storage</div></div>
+        </div>
+        <div class="sub">
+          <span class="scode">A4</span>
+          <div><div class="stitle">Machine Learning <span class="tag new-tag">★ Brand New 2027</span></div><div class="sdesc">Supervised & unsupervised learning, K-NN, decision trees, neural networks (HL), bias & fairness in AI, ethical implications</div></div>
+        </div>
+        <div class="theme-foot">Assessed → Paper 1 (including Case Study)</div>
+      </div>
+
+      <div class="theme-card tb">
+        <div class="tlabel">Theme B</div>
+        <h3>Computational Thinking & Programming</h3>
+        <p>Solving problems algorithmically — designing, coding, testing, and evaluating solutions using Java or Python.</p>
+        <div class="sub">
+          <span class="scode">B1</span>
+          <div><div class="stitle">Computational Thinking</div><div class="sdesc">Decomposition, abstraction, algorithm design, flowcharts, pseudocode, time complexity, trace tables</div></div>
+        </div>
+        <div class="sub">
+          <span class="scode">B2</span>
+          <div><div class="stitle">Programming</div><div class="sdesc">Variables, data types, control structures, functions, recursion, exception handling, testing & debugging (Java or Python)</div></div>
+        </div>
+        <div class="sub">
+          <span class="scode">B3</span>
+          <div><div class="stitle">Object-Oriented Programming <span class="tag core-tag">Now Core — All Students</span></div><div class="sdesc">Classes, objects, constructors, inheritance, polymorphism, encapsulation, UML diagrams</div></div>
+        </div>
+        <div class="sub">
+          <span class="scode">B4</span>
+          <div><div class="stitle">Abstract Data Structures <span class="tag hl-tag">HL Extended</span></div><div class="sdesc">Stacks, queues, linked lists, binary trees, graphs — dynamic structures for complex problem-solving scenarios</div></div>
+        </div>
+        <div class="theme-foot">Assessed → Paper 2 + Internal Assessment</div>
+      </div>
+    </div>
+
+    <div class="cs-banner reveal">
+      <div class="cs-label">Pre-Seen Case Study — Now for Both SL & HL</div>
+      <h3>Emerging Technology Case Study</h3>
+      <p>Released before the exam period, the case study focuses on a real-world emerging technology (e.g. AI, blockchain, quantum computing). Students research it in depth and apply Theme A concepts to analyse it. <strong style="color:var(--text)">Previously only for HL — now every student studies and is assessed on the case study</strong> in Paper 1.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 ASSESSMENT -->
+<section id="assessment">
+  <div class="container">
+    <div class="slabel">// 03 · Assessment Structure</div>
+    <h2>Two Papers.<br>One IA. No Options.</h2>
+    <p class="intro">The 2027 model has been streamlined. Paper 3 is gone. No more option papers. Both SL and HL sit the same two external papers, with HL content built into those papers at higher demand.</p>
+
+    <div class="two-col assess-outer reveal">
+      <div class="acol">
+        <div class="acol-title">Standard Level — <span>100% total</span></div>
+        <div class="aitem">
+          <div class="apct">40%</div>
+          <div class="ainfo">
+            <h4>Paper 1 — Computing Systems</h4>
+            <p>All of Theme A including computer fundamentals, networks, databases, and machine learning. Includes the pre-seen case study section.</p>
+            <span class="det">Multiple choice + short answer + extended response</span>
+            <div class="pbar"><div class="pfill" style="width:40%"></div></div>
+          </div>
+        </div>
+        <div class="aitem">
+          <div class="apct">40%</div>
+          <div class="ainfo">
+            <h4>Paper 2 — Algorithmic Thinking</h4>
+            <p>All of Theme B. Programming questions are mandatory — students must demonstrate knowledge of Java or Python algorithms.</p>
+            <span class="det">Extended response · entirely problem-solving focused</span>
+            <div class="pbar"><div class="pfill" style="width:40%"></div></div>
+          </div>
+        </div>
+        <div class="aitem">
+          <div class="apct">20%</div>
+          <div class="ainfo">
+            <h4>Internal Assessment</h4>
+            <p>Computational solution — a working program for a problem you define and solve using the full computational thinking process.</p>
+            <span class="det">~35 hrs · single document + 5-min video</span>
+            <div class="pbar"><div class="pfill" style="width:20%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acol" style="border-top:3px solid #a78bfa; padding-top:29px;">
+        <div class="acol-title">Higher Level — <span>100% total</span></div>
+        <div class="aitem">
+          <div class="apct purple">40%</div>
+          <div class="ainfo">
+            <h4>Paper 1 — Computing Systems</h4>
+            <p>Same themes as SL with extended HL questions requiring deeper synthesis and connections across the full syllabus.</p>
+            <span class="det">Includes extended HL case study analysis</span>
+            <div class="pbar"><div class="pfill purple" style="width:40%"></div></div>
+          </div>
+        </div>
+        <div class="aitem">
+          <div class="apct purple">40%</div>
+          <div class="ainfo">
+            <h4>Paper 2 — Algorithmic Thinking</h4>
+            <p>Theme B with B4 HL extension (abstract data structures). Higher complexity required — trees, graphs, linked lists in context.</p>
+            <span class="det">Extended response · greater complexity expected</span>
+            <div class="pbar"><div class="pfill purple" style="width:40%"></div></div>
+          </div>
+        </div>
+        <div class="aitem">
+          <div class="apct purple">20%</div>
+          <div class="ainfo">
+            <h4>Internal Assessment</h4>
+            <p>Same structure as SL. HL solutions are expected to demonstrate greater technical sophistication and complexity.</p>
+            <span class="det">~35 hrs · single document + 5-min video</span>
+            <div class="pbar"><div class="pfill purple" style="width:20%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hbox amber reveal">
+      <p><strong>Paper 3 has been removed entirely.</strong> The old HL-only Paper 3 (covering Topics 5, 6, 7) no longer exists. HL extension content is now embedded within Paper 1 and Paper 2 as higher-demand questions within the same papers that SL students sit.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 IA -->
+<section id="ia">
+  <div class="container">
+    <div class="slabel">// 04 · Internal Assessment</div>
+    <h2>The Computational<br>Solution</h2>
+    <p class="intro">The IA is now called the <em>Computational Solution</em>. Major update for 2027: <strong>no client is required</strong> — you choose the problem yourself. The focus is the full computational thinking process from definition to ethical evaluation.</p>
+    <div class="two-col ia-container-grid reveal">
+      <div class="ia-main">
+        <h3 style="font-family:var(--font-head);font-size:1.3rem;font-weight:700;margin-bottom:16px;">IA At a Glance</h3>
+        <p style="font-size:0.88rem;color:var(--text2);line-height:1.7;margin-bottom:20px;">Develop a <strong style="color:var(--text)">working software product</strong> for a problem you are genuinely interested in solving. Document every stage from initial specification through to evaluation. Bring together both Theme A and Theme B in your solution.</p>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;">
+          <div style="background:var(--surface2);padding:16px;border:1px solid var(--border);">
+            <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent);letter-spacing:0.1em;margin-bottom:6px;">HOURS</div>
+            <div style="font-family:var(--font-mono);font-size:1.5rem;font-weight:700;">35</div>
+            <div style="font-size:0.75rem;color:var(--text3);">teaching hours allocated</div>
+          </div>
+          <div style="background:var(--surface2);padding:16px;border:1px solid var(--border);">
+            <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent);letter-spacing:0.1em;margin-bottom:6px;">WEIGHT</div>
+            <div style="font-family:var(--font-mono);font-size:1.5rem;font-weight:700;">20%</div>
+            <div style="font-size:0.75rem;color:var(--text3);">both SL and HL</div>
+          </div>
+        </div>
+
+        <div style="font-family:var(--font-head);font-size:0.85rem;font-weight:700;margin-bottom:12px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;">5 Assessment Criteria</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;justify-content:space-between;padding:9px 12px;background:var(--surface2);font-size:0.82rem;border:1px solid var(--border);">
+            <span>A — Planning & Problem Definition</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:9px 12px;background:var(--surface2);font-size:0.82rem;border:1px solid var(--border);">
+            <span>B — Design of Solution</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:9px 12px;background:var(--surface2);font-size:0.82rem;border:1px solid var(--border);">
+            <span>C — Development</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:9px 12px;background:var(--surface2);font-size:0.82rem;border:1px solid var(--border);">
+            <span>D — Functionality & Testing (+ Video)</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:9px 12px;background:var(--surface2);font-size:0.82rem;border:1px solid var(--border);">
+            <span>E — Evaluation <span style="color:var(--accent3)">+ Mandatory Ethical Review ★</span></span>
+          </div>
+        </div>
+        <div class="hbox amber" style="margin-top:20px;">
+          <p><strong>★ New in 2027:</strong> Criterion E requires a mandatory <strong>ethical review</strong> — connect your solution's design and data use to privacy, bias, and societal impact as explored in Theme A4.</p>
+        </div>
+      </div>
+
+      <div class="ia-steps">
+        <h3 style="font-family:var(--font-head);font-size:1.1rem;font-weight:700;padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:0;">The Process (2027)</h3>
+        <div class="istep">
+          <div class="istep-num">01</div>
+          <div><h4>Choose Your Own Problem</h4><p>No client required. Pick a problem you genuinely want to solve with a software solution. Confirm it has sufficient complexity to demonstrate your skills.</p></div>
+        </div>
+        <div class="istep">
+          <div class="istep-num">02</div>
+          <div><h4>Define & Specify</h4><p>Articulate the problem clearly. Set measurable success criteria. Explain how you will apply the computational thinking process to solve it.</p></div>
+        </div>
+        <div class="istep">
+          <div class="istep-num">03</div>
+          <div><h4>Design the Solution</h4><p>Produce wireframes, data structure designs, UML class diagrams, flowcharts, and algorithm outlines before writing any code.</p></div>
+        </div>
+        <div class="istep">
+          <div class="istep-num">04</div>
+          <div><h4>Develop & Document</h4><p>Write code in Java or Python. Use OOP, appropriate data structures, and algorithms. Comment meaningfully. Document every key design decision.</p></div>
+        </div>
+        <div class="istep">
+          <div class="istep-num">05</div>
+          <div><h4>Test & Record Video</h4><p>Create a testing plan. Test with normal, extreme, and erroneous inputs. Record a video (max 5 minutes) showing functionality and your testing strategy.</p></div>
+        </div>
+        <div class="istep">
+          <div class="istep-num">06</div>
+          <div><h4>Evaluate + Ethical Review</h4><p>Evaluate against success criteria. Discuss limitations honestly. Write your ethical review — privacy, bias, data security, and social impact of your solution.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 WHAT'S NEW -->
+<section id="changes">
+  <div class="container">
+    <div class="slabel">// 05 · What Changed in 2027</div>
+    <h2>Old Syllabus vs.<br>New Syllabus</h2>
+    <p class="intro">If you've seen the previous IB CS curriculum, here's exactly what has changed for the first assessment in May 2027.</p>
+    <div class="twrap reveal">
+      <table>
+        <thead>
+          <tr><th>Area</th><th>Old Curriculum (last exam 2026)</th><th>New Curriculum (first exam 2027)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Course Structure</td><td class="old">7 numbered topics</td><td class="new">2 themes: A (Concepts) + B (Computational Thinking)</td></tr>
+          <tr><td>Option Papers</td><td class="old">Options A, B, C, D — choose one</td><td class="new">Removed — all content is now in the core</td></tr>
+          <tr><td>OOP</td><td class="old">Option D only (student/school choice)</td><td class="new">Core for every student — B3</td></tr>
+          <tr><td>Databases</td><td class="old">Option A only</td><td class="new">Core for every student — A3</td></tr>
+          <tr><td>Machine Learning & AI</td><td class="old">Not in syllabus</td><td class="new">New core topic A4 — all students at SL and HL</td></tr>
+          <tr><td>GPU Architecture</td><td class="old">Not covered</td><td class="new">Now in A1 computer fundamentals (HL extended)</td></tr>
+          <tr><td>Case Study</td><td class="old">HL students only — old Paper 2</td><td class="new">Both SL and HL — now part of Paper 1</td></tr>
+          <tr><td>Paper 3 (HL)</td><td class="old">Existed — covered Topics 5, 6, 7</td><td class="new">Removed entirely</td></tr>
+          <tr><td>IA Hours</td><td class="old">30 teaching hours</td><td class="new">35 teaching hours</td></tr>
+          <tr><td>IA Client</td><td class="old">Mandatory real client required</td><td class="new">No client needed — student chooses their own problem</td></tr>
+          <tr><td>IA Video</td><td class="old">Not required</td><td class="new">Required — max 5 minutes, shows functionality & testing</td></tr>
+          <tr><td>IA Ethical Review</td><td class="old">Not required</td><td class="new">Mandatory — built into Criterion E evaluation</td></tr>
+          <tr><td>Programming Language</td><td>Java (primary)</td><td class="new">Java or Python — student's and teacher's choice</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 06 TIPS -->
+<section id="tips">
+  <div class="container">
+    <div class="slabel">// 06 · How to Succeed</div>
+    <h2>Tips for the<br>Two Years Ahead</h2>
+    <p class="intro">The 2027 syllabus rewards computational thinkers who engage with real-world technology, write clean code, and start their IA with genuine curiosity.</p>
+    <div class="tips-grid">
+      <div class="tipcard reveal">
+        <div class="tipn">01</div>
+        <div><h4>Commit to One Language Early</h4><p>Java or Python — choose one and become fluent in it. The exams test algorithmic thinking in code. Practice writing and tracing algorithms from day one.</p></div>
+      </div>
+      <div class="tipcard reveal">
+        <div class="tipn">02</div>
+        <div><h4>Start the IA in Year 1</h4><p>35 hours of teaching time sounds like a lot. It isn't. Defining a meaningful problem, designing a solution, and building something non-trivial takes far longer than you expect.</p></div>
+      </div>
+      <div class="tipcard reveal">
+        <div class="tipn">03</div>
+        <div><h4>Research the Case Study Deeply</h4><p>It's now in Paper 1 for everyone. When it's released, read everything about it. Connect the technology to every sub-topic in Theme A. This is where easy marks are won or lost.</p></div>
+      </div>
+      <div class="tipcard reveal">
+        <div class="tipn">04</div>
+        <div><h4>Understand ML Conceptually</h4><p>Machine learning (A4) is brand new. You don't need to implement it — but you must understand how supervised and unsupervised learning work, what bias means, and why it matters.</p></div>
+      </div>
+      <div class="tipcard reveal">
+        <div class="tipn">05</div>
+        <div><h4>Master OOP Thoroughly</h4><p>OOP is now core for everyone in B3, and it appears in Paper 2 and the IA. Classes, inheritance, polymorphism, and UML diagrams must become second nature in Year 1.</p></div>
+      </div>
+      <div class="tipcard reveal">
+        <div class="tipn">06</div>
+        <div><h4>Think Ethically in Every Topic</h4><p>Ethics is embedded everywhere — from AI bias in A4 to the mandatory ethical review in your IA. Every new concept: ask yourself what the societal and privacy implications are.</p></div>
+      </div>
+    </div>
+    <div class="hbox reveal" style="margin-top:32px;">
+      <p><strong>The IB Learner Profile still matters:</strong> IB CS 2027 is built for students who are <strong>inquirers</strong>, <strong>thinkers</strong>, <strong>risk-takers</strong>, and <strong>principled</strong>. The ethical dimension is no longer optional — it is built directly into how you are assessed.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 07 SEMESTER SCHEDULE -->
+<section id="schedule">
+  <div class="container">
+    <div class="slabel">// 07 · Semester Schedule & Assessments</div>
+    <h2>Your First<br>Semester Roadmap</h2>
+    <p class="intro">Three sections. Each one builds directly on the last — from hardware understanding, to algorithmic thinking, to coding a real prototype, to beginning your IA.</p>
+
+    <!-- SECTION 1 -->
+    <div style="margin-bottom:2px;" class="reveal">
+      <div style="background:var(--surface);border-top:3px solid var(--accent);padding:36px;">
+        <div style="display:flex;align-items:flex-start;gap:32px;flex-wrap:wrap;">
+          <div style="flex-shrink:0;min-width:140px;">
+            <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:6px;">Weeks 1–7</div>
+            <div style="font-family:var(--font-head);font-size:2rem;font-weight:800;line-height:1;color:var(--text);">Section<br>01</div>
+          </div>
+          <div style="flex:1;min-width:260px;">
+            <h3 style="font-family:var(--font-head);font-size:1.3rem;font-weight:700;margin-bottom:6px;">Computing Fundamentals & AI</h3>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+              <span class="tag" style="background:rgba(0,229,255,0.08);color:var(--accent);border-color:rgba(0,229,255,0.25);">A1 · Computer Fundamentals</span>
+              <span class="tag" style="background:rgba(0,229,255,0.08);color:var(--accent);border-color:rgba(0,229,255,0.25);">B1 · Computational Thinking</span>
+            </div>
+            <p style="font-size:0.88rem;color:var(--text2);margin-bottom:20px;line-height:1.7;">We begin by understanding what hardware modern AI actually runs on — CPU, NPU, HBM memory, bus speeds — then zoom out to the logic that underlies all computing: logic gates, truth tables, and the Von Neumann architecture. We close the section by connecting it all to real-world ethical questions.</p>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <!-- FORMATIVE -->
+              <div style="background:var(--surface2);border:1px solid var(--border);padding:20px;">
+                <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text3);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:8px;">📋 Formative Task</div>
+                <div style="font-family:var(--font-head);font-size:0.95rem;font-weight:700;margin-bottom:8px;">AI Infrastructure Portfolio</div>
+                <p style="font-size:0.8rem;color:var(--text2);line-height:1.6;">Research report documenting the hardware stack for modern AI — CPU/NPU architecture, HBM memory, bus speeds, logic gates & truth tables. Includes a Social & Ethical Issues section (A1.12) covering energy consumption and the Digital Divide.</p>
+              </div>
+              <!-- SUMMATIVE -->
+              <div style="background:var(--surface2);border:1px solid var(--accent);border-left-width:3px;padding:20px;">
+                <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--accent3);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:8px;">⚡ Summative Assessment 1</div>
+                <div style="font-family:var(--font-head);font-size:0.95rem;font-weight:700;margin-bottom:8px;">The "AI Architect" Written Task</div>
+                <p style="font-size:0.8rem;color:var(--text2);line-height:1.6;margin-bottom:10px;"><strong style="color:var(--text)">Scenario:</strong> A hospital needs to implement a local AI diagnostics model with a limited budget and strict privacy laws.</p>
+                <p style="font-size:0.8rem;color:var(--text2);line-height:1.6;"><strong style="color:var(--text)">Task:</strong> Identify the necessary hardware, explain data flow using Von Neumann principles, and justify all choices based on technical and ethical constraints.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div style="margin-bottom:2px;" class="reveal">
+      <div style="background:var(--surface);border-top:3px solid #a78bfa;padding:36px;">
+        <div style="display:flex;align-items:flex-start;gap:32px;flex-wrap:wrap;">
+          <div style="flex-shrink:0;min-width:140px;">
+            <div style="font-family:var(--font-mono);font-size:0.7rem;color:#a78bfa;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:6px;">Weeks 8–14</div>
+            <div style="font-family:var(--font-head);font-size:2rem;font-weight:800;line-height:1;color:var(--text);">Section<br>02</div>
+          </div>
+          <div style="flex:1;min-width:260px;">
+            <h3 style="font-family:var(--font-head);font-size:1.3rem;font-weight:700;margin-bottom:6px;">Computational Logic & Python Prototype</h3>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+              <span class="tag" style="background:rgba(124,58,237,0.1);color:#a78bfa;border-color:rgba(124,58,237,0.3);">B1 · Computational Thinking</span>
+              <span class="tag" style="background:rgba(124,58,237,0.1);color:#a78bfa;border-color:rgba(124,58,237,0.3);">B2 · Programming</span>
+            </div>
+            <p style="font-size:0.88rem;color:var(--text2);margin-bottom:14px;line-height:1.7;">The philosophy here is <em style="color:var(--text)">Dissection Before Coding</em>. Before you touch a keyboard, you must break the problem apart. Decompose it into modules. Use Abstraction to decide which variables actually matter. Only then do you write code.</p>
+
+            <div style="background:var(--surface2);border:1px solid var(--border);padding:16px;margin-bottom:14px;">
+              <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text3);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:10px;">📋 Formative — Weekly Coding Labs</div>
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <div style="display:flex;align-items:center;gap:12px;font-size:0.82rem;padding:7px 10px;background:var(--surface);border:1px solid var(--border);">
+                  <span style="font-family:var(--font-mono);font-size:0.7rem;color:#a78bfa;min-width:60px;">Lab 1</span>
+                  <span>Calculator — applying <strong style="color:var(--text)">Selection</strong> (if/elif/else)</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;font-size:0.82rem;padding:7px 10px;background:var(--surface);border:1px solid var(--border);">
+                  <span style="font-family:var(--font-mono);font-size:0.7rem;color:#a78bfa;min-width:60px;">Lab 2</span>
+                  <span>Password Validator — applying <strong style="color:var(--text)">Iteration</strong> (loops)</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;font-size:0.82rem;padding:7px 10px;background:var(--surface);border:1px solid var(--border);">
+                  <span style="font-family:var(--font-mono);font-size:0.7rem;color:#a78bfa;min-width:60px;">Lab 3</span>
+                  <span>Simple Database — using <strong style="color:var(--text)">Lists & Arrays</strong></span>
+                </div>
+              </div>
+            </div>
+
+            <div style="background:var(--surface2);border:1px solid #a78bfa;border-left-width:3px;padding:20px;">
+              <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--accent3);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:8px;">⚡ Summative Assessment 2</div>
+              <div style="font-family:var(--font-head);font-size:0.95rem;font-weight:700;margin-bottom:8px;">The Python Prototype</div>
+              <p style="font-size:0.8rem;color:var(--text2);line-height:1.6;margin-bottom:10px;">Build a functional prototype that solves a real utility problem — examples include a <strong style="color:var(--text)">System Resource Simulator</strong> or a <strong style="color:var(--text)">Project Management Tool</strong>.</p>
+              <p style="font-size:0.8rem;color:var(--text2);line-height:1.6;"><strong style="color:var(--text)">Required submission:</strong> Your working <code style="background:var(--surface);padding:1px 5px;border-radius:2px;font-size:0.78rem;">.py</code> file <em>plus</em> your <strong style="color:var(--text)">Dissection Map</strong> (Flowchart + Pseudocode) — proving you applied Decomposition and Abstraction before coding.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="reveal">
+      <div style="background:var(--surface);border-top:3px solid var(--green);padding:36px;">
+        <div style="display:flex;align-items:flex-start;gap:32px;flex-wrap:wrap;">
+          <div style="flex-shrink:0;min-width:140px;">
+            <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--green);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:6px;">Weeks 17–18</div>
+            <div style="font-family:var(--font-head);font-size:2rem;font-weight:800;line-height:1;color:var(--text);">Section<br>03</div>
+          </div>
+          <div style="flex:1;min-width:260px;">
+            <h3 style="font-family:var(--font-head);font-size:1.3rem;font-weight:700;margin-bottom:6px;">IA Pre-Discovery</h3>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+              <span class="tag" style="background:rgba(16,185,129,0.1);color:var(--green);border-color:rgba(16,185,129,0.3);">Internal Assessment</span>
+              <span class="tag" style="background:rgba(16,185,129,0.1);color:var(--green);border-color:rgba(16,185,129,0.3);">Criterion A</span>
+            </div>
+            <p style="font-size:0.88rem;color:var(--text2);margin-bottom:20px;line-height:1.7;">You've completed a technical written analysis and built a working program. You now have the foundation to approach the IA with real confidence. These final weeks are dedicated to finding your problem and beginning Criterion A — the most important part of the IA process.</p>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <div style="background:var(--surface2);border:1px solid var(--border);padding:18px;">
+                <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px;">What you bring in</div>
+                <div style="display:flex;flex-direction:column;gap:6px;font-size:0.82rem;color:var(--text2);">
+                  <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--green);margin-top:3px;">✓</span><span>A written analysis of hardware & ethics (Assessment 1)</span></div>
+                  <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--green);margin-top:3px;">✓</span><span>A working Python prototype + Dissection Map (Assessment 2)</span></div>
+                  <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--green);margin-top:3px;">✓</span><span>Practiced Decomposition, Abstraction, OOP foundations</span></div>
+                </div>
+              </div>
+              <div style="background:var(--surface2);border:1px solid var(--green);border-left-width:3px;padding:18px;">
+                <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--green);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px;">What you start here</div>
+                <div style="display:flex;flex-direction:column;gap:6px;font-size:0.82rem;color:var(--text2);">
+                  <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--accent);margin-top:3px;">→</span><span>Find a real-world problem worth solving</span></div>
+                  <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--accent);margin-top:3px;">→</span><span>Draft your <strong style="color:var(--text)">Criterion A</strong> — Problem Identification & Success Criteria</span></div>
+                  <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--accent);margin-top:3px;">→</span><span>Begin scoping the complexity of your solution</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ASSESSMENT SUMMARY -->
+    <div class="hbox reveal" style="margin-top:32px;">
+      <p><strong>How it all connects:</strong> Assessment 1 trains your analytical writing. Assessment 2 trains your computational design and coding. By Week 17, you won't be starting the IA cold — you'll already know how to break down a problem, design a solution, and explain it clearly. That's exactly what Criteria A, B, and C demand.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>IB Computer Science · <span>First Assessment May 2027</span> · Orientation — Year 1 Students</p>
+    <p style="margin-top:8px;font-size:0.65rem;">Based on the IB CS Subject Guide released February 2025 (first teaching August 2025). Verify all details at ibo.org.</p>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // Progress bars
+  const pobs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.pfill').forEach(b => {
+          const w = b.style.width; b.style.width = '0%';
+          setTimeout(() => b.style.width = w, 200);
+        });
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.aitem').forEach(el => pobs.observe(el));
+</script>
+</body>
+</html>
