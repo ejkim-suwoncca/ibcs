@@ -1,414 +1,875 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ko">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>FC Barcelona | Més que un club</title>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+<title>IB CS SL I — 수행평가 안내</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #16161f;
+    --surface2: #1e1e2a;
+    --border: #2a2a3a;
+    --accent: #00e5ff;
+    --accent2: #7c3aed;
+    --accent3: #f59e0b;
+    --green: #10b981;
+    --red: #ef4444;
+    --text: #e8e8f0;
+    --text2: #9090a8;
+    --text3: #5a5a72;
+  }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-scroll-behavior:smooth;
-font-family:Segoe UI, Arial;
-}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    word-break: keep-all;
+  }
 
-body{
-background:#f7f2f4;
-color:#222;
-}
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 48px 48px;
+    opacity: 0.18;
+    pointer-events: none;
+    z-index: 0;
+  }
 
-/* NAVBAR */
+  /* SLIDES CONTAINER */
+  .slides-wrapper {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+  }
 
-nav{
-background:#A50044;
-color:white;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px 40px;
-position:sticky;
-top:0;
-}
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 80px;
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none;
+  }
 
-nav ul{
-list-style:none;
-display:flex;
-gap:20px;
-}
+  .slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: all;
+  }
 
-nav a{
-color:white;
-text-decoration:none;
-font-weight:600;
-transition:0.3s;
-}
+  .slide.exit {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
 
-nav a:hover{
-opacity:0.7;
-}
+  /* SLIDE LABEL */
+  .slide-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    align-self: flex-start;
+  }
 
-/* HERO */
+  /* TITLES */
+  .slide-title {
+    font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    align-self: flex-start;
+  }
 
-.hero{
-height:85vh;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-background:linear-gradient(135deg,#A50044,#d90452);
-color:white;
-}
+  .slide-subtitle {
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-weight: 300;
+    color: var(--text2);
+    margin-bottom: 40px;
+    align-self: flex-start;
+    line-height: 1.6;
+  }
 
-.hero h1{
-font-size:4rem;
-letter-spacing:2px;
-}
+  /* ACCENT COLORS */
+  .c-cyan { color: var(--accent); }
+  .c-purple { color: #a78bfa; }
+  .c-amber { color: var(--accent3); }
+  .c-green { color: var(--green); }
 
-.hero p{
-margin-top:15px;
-font-size:1.4rem;
-}
+  /* CONTENT GRID */
+  .content-grid {
+    display: grid;
+    gap: 16px;
+    width: 100%;
+  }
 
-/* SECTIONS */
+  .grid-2 { grid-template-columns: 1fr 1fr; }
+  .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
 
-section{
-padding:80px 12%;
-}
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 28px 32px;
+    position: relative;
+    overflow: hidden;
+  }
 
-h2{
-color:#A50044;
-margin-bottom:20px;
-font-size:2rem;
-}
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
 
-/* HISTORY */
+  .card.cyan::before { background: var(--accent); }
+  .card.purple::before { background: #a78bfa; }
+  .card.amber::before { background: var(--accent3); }
+  .card.green::before { background: var(--green); }
 
-.history{
-background:white;
-border-radius:10px;
-padding:30px;
-box-shadow:0 3px 10px rgba(0,0,0,0.1);
-}
+  .card-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 10px;
+  }
 
-/* PLAYER CARDS */
+  .card-title {
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
 
-.players{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-gap:25px;
-}
+  .card-body {
+    font-size: clamp(0.95rem, 1.5vw, 1.2rem);
+    color: var(--text2);
+    line-height: 1.7;
+    font-weight: 300;
+  }
 
-.card{
-background:white;
-padding:25px;
-border-radius:10px;
-box-shadow:0 5px 12px rgba(0,0,0,0.15);
-transition:0.3s;
-border-top:5px solid #A50044;
-}
+  .card-num {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 8px;
+    opacity: 0.9;
+  }
 
-.card:hover{
-transform:translateY(-10px);
-}
+  /* RUBRIC TABLE */
+  .rubric {
+    width: 100%;
+    border-collapse: collapse;
+  }
 
-.card h3{
-color:#A50044;
-margin-bottom:10px;
-}
+  .rubric th {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(0.75rem, 1.2vw, 1rem);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text3);
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
 
-/* MESSI */
+  .rubric td {
+    padding: 14px 16px;
+    font-size: clamp(0.9rem, 1.4vw, 1.15rem);
+    border-bottom: 1px solid var(--border);
+    color: var(--text2);
+    line-height: 1.55;
+    vertical-align: top;
+    background: var(--surface);
+  }
 
-.messi{
-background:white;
-border-radius:10px;
-padding:30px;
-box-shadow:0 3px 10px rgba(0,0,0,0.1);
-}
+  .rubric tr:last-child td { border-bottom: none; }
+  .rubric tr:hover td { background: var(--surface2); }
+  .rubric td:first-child { font-weight: 700; color: var(--text); min-width: 60px; }
 
-/* RESULTS */
+  .score-badge {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(0.8rem, 1.2vw, 1rem);
+    padding: 3px 10px;
+    border-radius: 2px;
+    font-weight: 700;
+  }
 
-.results{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:20px;
-}
+  .score-7 { background: rgba(16,185,129,0.15); color: var(--green); }
+  .score-5 { background: rgba(0,229,255,0.1); color: var(--accent); }
+  .score-3 { background: rgba(245,158,11,0.1); color: var(--accent3); }
+  .score-6 { background: rgba(124,58,237,0.15); color: #a78bfa; }
+  .score-4 { background: rgba(239,68,68,0.1); color: var(--red); }
 
-.match{
-background:white;
-border-radius:8px;
-padding:20px;
-text-align:center;
-box-shadow:0 3px 8px rgba(0,0,0,0.15);
-transition:0.2s;
-}
+  /* STEP LIST */
+  .step-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
 
-.match:hover{
-transform:scale(1.05);
-}
+  .step {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 18px 24px;
+  }
 
-.score{
-font-size:2rem;
-color:#A50044;
-margin:10px 0;
-}
+  .step-num {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+    color: var(--accent);
+    flex-shrink: 0;
+    min-width: 32px;
+    font-weight: 700;
+  }
 
-/* GALLERY */
+  .step-text {
+    font-size: clamp(1rem, 1.6vw, 1.3rem);
+    line-height: 1.6;
+    color: var(--text2);
+  }
 
-.gallery{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:20px;
-}
+  .step-text strong { color: var(--text); }
 
-.gallery-box{
-background:white;
-padding:30px;
-border-radius:10px;
-text-align:center;
-box-shadow:0 3px 8px rgba(0,0,0,0.1);
-font-weight:600;
-}
+  /* HBOX */
+  .hbox {
+    width: 100%;
+    padding: 20px 28px;
+    border-left: 4px solid var(--accent);
+    background: rgba(0,229,255,0.04);
+    border-top: 1px solid rgba(0,229,255,0.1);
+    border-right: 1px solid rgba(0,229,255,0.1);
+    border-bottom: 1px solid rgba(0,229,255,0.1);
+    margin-top: 16px;
+  }
 
-/* FOOTER */
+  .hbox.amber {
+    border-left-color: var(--accent3);
+    background: rgba(245,158,11,0.04);
+    border-top-color: rgba(245,158,11,0.1);
+    border-right-color: rgba(245,158,11,0.1);
+    border-bottom-color: rgba(245,158,11,0.1);
+  }
 
-footer{
-background:#A50044;
-color:white;
-text-align:center;
-padding:30px;
-margin-top:40px;
-}
+  .hbox p {
+    font-size: clamp(0.95rem, 1.5vw, 1.2rem);
+    color: var(--text2);
+    line-height: 1.65;
+  }
 
-/* MOBILE */
+  .hbox strong { color: var(--text); }
 
-@media(max-width:768px){
+  /* TAG */
+  .tag {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
 
-.hero h1{
-font-size:2.5rem;
-}
+  .tag.new { background: rgba(245,158,11,0.12); color: var(--accent3); border: 1px solid rgba(245,158,11,0.3); }
+  .tag.ai-ok { background: rgba(16,185,129,0.1); color: var(--green); border: 1px solid rgba(16,185,129,0.25); }
+  .tag.no-ai { background: rgba(239,68,68,0.1); color: var(--red); border: 1px solid rgba(239,68,68,0.25); }
 
-nav{
-flex-direction:column;
-gap:10px;
-}
+  /* GLOW */
+  .glow {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
 
-}
+  /* NAV */
+  .nav {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 100;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    padding: 14px 28px;
+    border-radius: 2px;
+  }
 
+  .nav-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text2);
+    background: none;
+    border: 1px solid var(--border);
+    padding: 8px 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .nav-btn:hover { color: var(--accent); border-color: var(--accent); background: rgba(0,229,255,0.05); }
+  .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .nav-counter {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: var(--text3);
+    min-width: 60px;
+    text-align: center;
+  }
+
+  .dots {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .dot.active { background: var(--accent); transform: scale(1.4); }
+
+  /* SLIDE-SPECIFIC LAYOUTS */
+  .hero-slide {
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .full-content {
+    width: 100%;
+    max-width: 1200px;
+  }
+
+  /* OVERVIEW BARS */
+  .overview-item {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 20px 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    margin-bottom: 12px;
+    transition: background 0.2s;
+  }
+
+  .overview-item:hover { background: var(--surface2); }
+
+  .ov-num {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 700;
+    flex-shrink: 0;
+    width: 50px;
+  }
+
+  .ov-info { flex: 1; }
+
+  .ov-title {
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .ov-desc {
+    font-size: clamp(0.9rem, 1.4vw, 1.15rem);
+    color: var(--text2);
+    font-weight: 300;
+  }
+
+  .ov-score {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(1.3rem, 2.5vw, 2rem);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .progress-bar {
+    height: 3px;
+    background: var(--border);
+    margin-top: 8px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    transition: width 1s ease 0.3s;
+  }
 </style>
-
 </head>
-
 <body>
 
-<nav>
+<div class="slides-wrapper" id="slidesWrapper">
 
-<h2>FC Barcelona</h2>
+  <!-- SLIDE 1: TITLE -->
+  <div class="slide active" id="slide-0">
+    <div class="glow" style="width:700px;height:700px;background:radial-gradient(circle,rgba(0,229,255,0.06) 0%,transparent 70%);top:-200px;left:-150px;"></div>
+    <div class="glow" style="width:500px;height:500px;background:radial-gradient(circle,rgba(124,58,237,0.06) 0%,transparent 70%);bottom:-100px;right:-100px;"></div>
+    <div class="full-content">
+      <div class="slide-label">// IB Computer Science SL Ⅰ · 2025</div>
+      <h1 class="slide-title" style="font-size:clamp(3rem,7vw,6rem);margin-bottom:20px;">
+        <span class="c-cyan">수행평가</span><br>안내
+      </h1>
+      <p class="slide-subtitle" style="font-size:clamp(1.1rem,2vw,1.6rem);max-width:620px;">
+        세 가지 평가를 통해 컴퓨팅 사고력을 기르고,<br>실제 문제를 설계하고 해결하는 능력을 키웁니다.
+      </p>
+      <div style="display:flex;gap:40px;margin-top:16px;flex-wrap:wrap;">
+        <div style="display:flex;flex-direction:column;gap:4px;padding-left:16px;border-left:2px solid var(--accent);">
+          <span style="font-family:'Space Mono',monospace;font-size:clamp(1.4rem,2.5vw,2rem);font-weight:700;">3</span>
+          <span style="font-size:clamp(0.8rem,1.2vw,1rem);color:var(--text3);">수행평가</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;padding-left:16px;border-left:2px solid #a78bfa;">
+          <span style="font-family:'Space Mono',monospace;font-size:clamp(1.4rem,2.5vw,2rem);font-weight:700;">100점</span>
+          <span style="font-size:clamp(0.8rem,1.2vw,1rem);color:var(--text3);">총점</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;padding-left:16px;border-left:2px solid var(--accent3);">
+          <span style="font-family:'Space Mono',monospace;font-size:clamp(1.4rem,2.5vw,2rem);font-weight:700;">100%</span>
+          <span style="font-size:clamp(0.8rem,1.2vw,1rem);color:var(--text3);">수행평가</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<ul>
-<li><a href="#home">Home</a></li>
-<li><a href="#history">History</a></li>
-<li><a href="#players">Legends</a></li>
-<li><a href="#messi">Messi</a></li>
-<li><a href="#results">Results</a></li>
-<li><a href="#gallery">Moments</a></li>
-</ul>
+  <!-- SLIDE 2: OVERVIEW -->
+  <div class="slide" id="slide-1">
+    <div class="full-content">
+      <div class="slide-label">// 00 · 전체 개요</div>
+      <h2 class="slide-title">세 번의 평가.<br>하나의 흐름.</h2>
+      <div style="margin-top:8px;">
+        <div class="overview-item">
+          <div class="ov-num c-cyan">01</div>
+          <div class="ov-info">
+            <div class="ov-title">AI 인프라 보고서 및 서술 응답</div>
+            <div class="ov-desc">하드웨어 분석 보고서 + 시나리오 기반 설계 논술 · 4월 2주</div>
+            <div class="progress-bar"><div class="progress-fill" style="width:40%;background:var(--accent);"></div></div>
+          </div>
+          <div class="ov-score c-cyan">40점</div>
+        </div>
+        <div class="overview-item">
+          <div class="ov-num c-purple">02</div>
+          <div class="ov-info">
+            <div class="ov-title">알고리즘 이해 및 문제 상황 적용</div>
+            <div class="ov-desc">알고리즘 완성 + 논술 · 5월 4주 · 수기 평가</div>
+            <div class="progress-bar"><div class="progress-fill" style="width:30%;background:#a78bfa;"></div></div>
+          </div>
+          <div class="ov-score c-purple">30점</div>
+        </div>
+        <div class="overview-item">
+          <div class="ov-num c-amber">03</div>
+          <div class="ov-info">
+            <div class="ov-title">웹사이트 구현 및 프로그래밍 설계 보고서</div>
+            <div class="ov-desc">웹사이트 제작 + 개발 보고서 · 6월 3주</div>
+            <div class="progress-bar"><div class="progress-fill" style="width:30%;background:var(--accent3);"></div></div>
+          </div>
+          <div class="ov-score c-amber">30점</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-</nav>
+  <!-- SLIDE 3: 평가1 개요 -->
+  <div class="slide" id="slide-2">
+    <div class="full-content">
+      <div class="slide-label">// 01 · 수행평가 1</div>
+      <h2 class="slide-title"><span class="c-cyan">AI 인프라</span> 보고서<br>및 서술 응답</h2>
+      <p class="slide-subtitle">40점 · 4월 2주 · Part 1.1 (20점) + Part 1.2 (20점)</p>
+      <div class="content-grid grid-2">
+        <div class="card cyan">
+          <div class="card-label">Part 1.1 — 보고서 (20점)</div>
+          <div class="card-title">AI 하드웨어 기술 분석</div>
+          <div class="card-body">CPU, GPU, NPU, HBM/RAM, 저장 장치 중 <strong style="color:var(--text)">하나를 배정</strong>받아 AI 연산 관점에서 기술적으로 분석합니다. 다이어그램 필수 포함.</div>
+        </div>
+        <div class="card cyan">
+          <div class="card-label">Part 1.2 — 논술 (20점)</div>
+          <div class="card-title">시나리오 기반 설계</div>
+          <div class="card-body">주어진 시나리오의 <strong style="color:var(--text)">제약 조건(예산, 전력)</strong>을 반영하여 최적의 인프라를 설계하고, 윤리적 문제를 탐구하여 대응 방안을 논술합니다.</div>
+        </div>
+      </div>
+      <div class="hbox" style="margin-top:16px;">
+        <p><strong>AI 활용:</strong> 자료 조사에 AI 사용 가능 (출처 표기 필수) <span class="tag ai-ok">조사 허용</span> · 논술 및 분석은 본인 작성 <span class="tag no-ai">논술 불가</span></p>
+      </div>
+    </div>
+  </div>
 
-<!-- HERO -->
+  <!-- SLIDE 4: 평가1 루브릭 1.1 -->
+  <div class="slide" id="slide-3">
+    <div class="full-content">
+      <div class="slide-label">// 01 · 수행평가 1 · Part 1.1 채점 기준</div>
+      <h2 class="slide-title" style="font-size:clamp(1.8rem,3.5vw,3rem);margin-bottom:20px;">보고서 채점 기준 <span style="font-family:'Space Mono',monospace;font-size:0.5em;color:var(--text3);">20점</span></h2>
+      <table class="rubric">
+        <thead>
+          <tr>
+            <th>평가 요소</th>
+            <th>수행 수준</th>
+            <th style="text-align:center;">점수</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="3" style="border-right:1px solid var(--border);">하드웨어<br>메커니즘 분석<br><span style="font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--accent);">/7점</span></td>
+            <td>동작 원리를 AI 연산 최적화 관점에서 정밀하게 분석하고, 다른 구성 요소와의 관계를 완성도 높게 설명함</td>
+            <td style="text-align:center;"><span class="score-badge score-7">7</span></td>
+          </tr>
+          <tr>
+            <td>AI 연산과의 관계를 설명하였으나 분석의 깊이가 제한적임</td>
+            <td style="text-align:center;"><span class="score-badge score-5">5</span></td>
+          </tr>
+          <tr>
+            <td>명칭과 기본 역할만 나열함</td>
+            <td style="text-align:center;"><span class="score-badge score-3">3</span></td>
+          </tr>
+          <tr>
+            <td rowspan="3" style="border-right:1px solid var(--border);">기술적<br>타당성<br><span style="font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--accent);">/7점</span></td>
+            <td>TFLOPS, 전송 속도 등 구체적인 기술 지표를 정확하게 인용하여 신뢰도가 높음</td>
+            <td style="text-align:center;"><span class="score-badge score-7">7</span></td>
+          </tr>
+          <tr>
+            <td>기술적 근거를 제시하였으나 수치 분석이 일부 부족함</td>
+            <td style="text-align:center;"><span class="score-badge score-5">5</span></td>
+          </tr>
+          <tr>
+            <td>기술적 근거 없이 일반적 설명에 그침</td>
+            <td style="text-align:center;"><span class="score-badge score-3">3</span></td>
+          </tr>
+          <tr>
+            <td rowspan="4" style="border-right:1px solid var(--border);">문서화 및<br>가독성<br><span style="font-family:'Space Mono',monospace;font-size:0.8rem;color:#a78bfa);">/6점</span></td>
+            <td>서론·본론·결론 구조 완비, 기술 용어 정확, 다이어그램 완성도 높음</td>
+            <td style="text-align:center;"><span class="score-badge score-6">6</span></td>
+          </tr>
+          <tr>
+            <td>보고서 형식을 갖추고 다이어그램 포함, 완성도 보통</td>
+            <td style="text-align:center;"><span class="score-badge score-4">4.5</span></td>
+          </tr>
+          <tr>
+            <td>형식 미흡, 다이어그램 없음</td>
+            <td style="text-align:center;"><span class="score-badge score-3">3</span></td>
+          </tr>
+          <tr>
+            <td>최소한의 내용만 제출</td>
+            <td style="text-align:center;"><span class="score-badge score-3">1.5</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-<section class="hero" id="home">
+  <!-- SLIDE 5: 평가1 루브릭 1.2 -->
+  <div class="slide" id="slide-4">
+    <div class="full-content">
+      <div class="slide-label">// 01 · 수행평가 1 · Part 1.2 채점 기준</div>
+      <h2 class="slide-title" style="font-size:clamp(1.8rem,3.5vw,3rem);margin-bottom:20px;">서술형 채점 기준 <span style="font-family:'Space Mono',monospace;font-size:0.5em;color:var(--text3);">20점</span></h2>
+      <table class="rubric">
+        <thead>
+          <tr>
+            <th>평가 요소</th>
+            <th>수행 수준</th>
+            <th style="text-align:center;">점수</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="5" style="border-right:1px solid var(--border);">인프라<br>설계 전략<br><span style="font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--accent);">/7점</span></td>
+            <td>모든 제약 조건 반영, 구체적 기술 근거 포함, 시스템 전체 일관성 명확</td>
+            <td style="text-align:center;"><span class="score-badge score-7">7</span></td>
+          </tr>
+          <tr><td>대부분 반영, 일부 근거 부족</td><td style="text-align:center;"><span class="score-badge score-7">6</span></td></tr>
+          <tr><td>제약 조건 인식, 근거 단편적</td><td style="text-align:center;"><span class="score-badge score-5">5</span></td></tr>
+          <tr><td>일부만 반영, 부품명만 나열</td><td style="text-align:center;"><span class="score-badge score-4">4</span></td></tr>
+          <tr><td>제약 조건 미반영, 일반적 구성 나열</td><td style="text-align:center;"><span class="score-badge score-3">3</span></td></tr>
+          <tr>
+            <td rowspan="5" style="border-right:1px solid var(--border);">사회적·<br>윤리적 탐구<br><span style="font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--accent);">/7점</span></td>
+            <td>복수의 윤리 문제 식별, 실행 가능한 대응 방안, 기술 설계와 유기적 연결</td>
+            <td style="text-align:center;"><span class="score-badge score-7">7</span></td>
+          </tr>
+          <tr><td>2가지 이상 언급, 대응 방안 일부 부족</td><td style="text-align:center;"><span class="score-badge score-7">6</span></td></tr>
+          <tr><td>2가지 언급, 중요성 설명, 방안 미흡</td><td style="text-align:center;"><span class="score-badge score-5">5</span></td></tr>
+          <tr><td>1가지만 언급 또는 피상적 설명</td><td style="text-align:center;"><span class="score-badge score-4">4</span></td></tr>
+          <tr><td>일반적 사례 나열 수준</td><td style="text-align:center;"><span class="score-badge score-3">3</span></td></tr>
+          <tr>
+            <td rowspan="4" style="border-right:1px solid var(--border);">창의성 및<br>통합성<br><span style="font-family:'Space Mono',monospace;font-size:0.8rem;color:#a78bfa);">/6점</span></td>
+            <td>기술·윤리 통합, 트레이드오프 명시, 논리 흐름 일관</td>
+            <td style="text-align:center;"><span class="score-badge score-6">6</span></td>
+          </tr>
+          <tr><td>두 요소 포함, 연결 약함, 트레이드오프 제한적</td><td style="text-align:center;"><span class="score-badge score-4">4.5</span></td></tr>
+          <tr><td>한 가지만 다루거나 피상적 수준</td><td style="text-align:center;"><span class="score-badge score-3">3</span></td></tr>
+          <tr><td>최소한의 시도만 포함</td><td style="text-align:center;"><span class="score-badge score-3">1.5</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-<div>
-<h1>FC Barcelona</h1>
-<p>Més que un club</p>
+  <!-- SLIDE 6: 평가2 개요 -->
+  <div class="slide" id="slide-5">
+    <div class="full-content">
+      <div class="slide-label">// 02 · 수행평가 2</div>
+      <h2 class="slide-title"><span class="c-purple">알고리즘</span> 이해<br>및 문제 상황 적용</h2>
+      <p class="slide-subtitle">30점 · 5월 4주 · Part 2.1 (15점) + Part 2.2 (15점) · <strong style="color:var(--red);">수기 평가 · AI 사용 전면 금지</strong></p>
+      <div class="content-grid grid-2">
+        <div class="card purple">
+          <div class="card-label">Part 2.1 — 알고리즘 완성 (15점)</div>
+          <div class="card-title">순서도 · 의사코드 · 코드</div>
+          <div class="card-body">제시된 알고리즘의 <strong style="color:var(--text)">순서도, 의사코드, Python 코드</strong>를 완성하고, 알고리즘의 명칭과 사용 상황을 설명합니다.</div>
+        </div>
+        <div class="card purple">
+          <div class="card-label">Part 2.2 — 논술 (15점)</div>
+          <div class="card-title">문제 상황 적용</div>
+          <div class="card-body">실제 문제 상황이 주어지면, <strong style="color:var(--text)">적합한 알고리즘을 선정</strong>하고 근거·설명·연결 구조로 논증합니다.</div>
+        </div>
+      </div>
+      <div class="hbox amber" style="margin-top:16px;">
+        <p><strong>⚠️ 주의:</strong> 본 평가는 <strong>수기(손글씨)로만 작성</strong>합니다. AI 도구 사용은 조사·작성·완성 모든 과정에서 <strong>전면 금지</strong>됩니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: 평가2 루브릭 -->
+  <div class="slide" id="slide-6">
+    <div class="full-content">
+      <div class="slide-label">// 02 · 수행평가 2 · 채점 기준</div>
+      <h2 class="slide-title" style="font-size:clamp(1.8rem,3.5vw,3rem);margin-bottom:20px;">채점 기준 <span style="font-family:'Space Mono',monospace;font-size:0.5em;color:var(--text3);">30점</span></h2>
+      <table class="rubric">
+        <thead>
+          <tr><th>파트</th><th>평가 요소</th><th>수행 수준</th><th style="text-align:center;">점수</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="4" style="border-right:1px solid var(--border);">2.1<br><span style="font-size:0.8em;color:#a78bfa;">/15점</span></td>
+            <td style="border-right:1px solid var(--border);">순서도 완성</td>
+            <td>모든 기호와 흐름을 정확하게 완성 / 일부 부정확 / 일부만 완성 / 미완성</td>
+            <td style="text-align:center;"><span class="score-badge score-7">4</span> <span class="score-badge score-5">3</span> <span class="score-badge score-3">2</span> <span class="score-badge score-4">1</span></td>
+          </tr>
+          <tr>
+            <td style="border-right:1px solid var(--border);">의사코드 완성</td>
+            <td>제어 구조와 변수 처리 포함 정확히 완성 / 일부 부정확 / 일부만 / 미완성</td>
+            <td style="text-align:center;"><span class="score-badge score-7">4</span> <span class="score-badge score-5">3</span> <span class="score-badge score-3">2</span> <span class="score-badge score-4">1</span></td>
+          </tr>
+          <tr>
+            <td style="border-right:1px solid var(--border);">코드 완성</td>
+            <td>문법에 맞게 완성, 실행 가능 / 오류 일부 포함 / 실행 불가 / 미완성</td>
+            <td style="text-align:center;"><span class="score-badge score-7">4</span> <span class="score-badge score-5">3</span> <span class="score-badge score-3">2</span> <span class="score-badge score-4">1</span></td>
+          </tr>
+          <tr>
+            <td style="border-right:1px solid var(--border);">알고리즘 식별</td>
+            <td>명칭·원리·사용 상황 구체적 설명 / 원리 설명, 상황 미흡 / 명칭만 식별</td>
+            <td style="text-align:center;"><span class="score-badge score-7">3</span> <span class="score-badge score-5">2</span> <span class="score-badge score-3">1</span></td>
+          </tr>
+          <tr>
+            <td rowspan="2" style="border-right:1px solid var(--border);">2.2<br><span style="font-size:0.8em;color:#a78bfa;">/15점</span></td>
+            <td style="border-right:1px solid var(--border);">알고리즘 선정<br>근거 및 설명</td>
+            <td>시나리오 파악, 비교 근거 제시, 동작 원리 구체적 설명 / 근거 다소 부족 / 연결 미흡 / 단편적</td>
+            <td style="text-align:center;"><span class="score-badge score-7">10</span> <span class="score-badge score-5">8</span> <span class="score-badge score-3">6</span> <span class="score-badge score-4">4</span></td>
+          </tr>
+          <tr>
+            <td style="border-right:1px solid var(--border);">글의 논리<br>(주장-근거-설명-연결)</td>
+            <td>네 요소 모두 명확, 매끄러운 글 / 대체로 갖춤, 일부 어색 / 두 요소 이하</td>
+            <td style="text-align:center;"><span class="score-badge score-7">5</span> <span class="score-badge score-5">4</span> <span class="score-badge score-3">3</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: 평가3 개요 -->
+  <div class="slide" id="slide-7">
+    <div class="full-content">
+      <div class="slide-label">// 03 · 수행평가 3</div>
+      <h2 class="slide-title"><span class="c-amber">웹사이트 구현</span><br>및 프로그래밍 설계 보고서</h2>
+      <p class="slide-subtitle">30점 · 6월 3주 · 웹사이트 (10점) + 개발 보고서 (20점)</p>
+      <div class="content-grid grid-2">
+        <div class="card amber">
+          <div class="card-label">Part 3.1 — 웹사이트 (10점)</div>
+          <div class="card-title">직접 구현</div>
+          <div class="card-body">네비게이션과 페이지 레이아웃을 갖춘 웹사이트를 제작합니다. 프론트엔드·백엔드 연결 및 <strong style="color:var(--text)">영역별 의사코드 주석</strong> 필수.</div>
+        </div>
+        <div class="card amber">
+          <div class="card-label">Part 3.2 — 개발 보고서 (20점)</div>
+          <div class="card-title">5가지 항목 작성</div>
+          <div class="card-body">① 개요 &nbsp;② 계획 &nbsp;③ 프로그래밍 설계 &nbsp;④ 오류 및 해결 과정 &nbsp;⑤ 결론 및 개선점. 교사 피드백 <strong style="color:var(--text)">최소 3회</strong> 필수.</div>
+        </div>
+      </div>
+      <div class="hbox" style="margin-top:16px;">
+        <p><strong>AI 활용:</strong> 코딩에 AI 사용 가능 (출처 표기 필수) <span class="tag ai-ok">코딩 허용</span> · 보고서 작성은 본인 작성 <span class="tag no-ai">보고서 불가</span> · 교사가 지정한 코드를 구두로 설명해야 함</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: 평가3 루브릭 -->
+  <div class="slide" id="slide-8">
+    <div class="full-content">
+      <div class="slide-label">// 03 · 수행평가 3 · 채점 기준</div>
+      <h2 class="slide-title" style="font-size:clamp(1.8rem,3.5vw,3rem);margin-bottom:20px;">채점 기준 <span style="font-family:'Space Mono',monospace;font-size:0.5em;color:var(--text3);">30점</span></h2>
+      <table class="rubric">
+        <thead>
+          <tr><th>파트</th><th>평가 요소</th><th>수행 수준 (상위)</th><th style="text-align:center;">점수</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="3" style="border-right:1px solid var(--border);">3.1<br>웹사이트<br><span style="font-size:0.8em;color:var(--accent3);">/10점</span></td>
+            <td style="border-right:1px solid var(--border);">필수 요소 구현</td>
+            <td>네비게이션·레이아웃 완전 구현, 기능 정상 작동</td>
+            <td style="text-align:center;"><span class="score-badge score-7">4</span></td>
+          </tr>
+          <tr>
+            <td style="border-right:1px solid var(--border);">프론트엔드·백엔드</td>
+            <td>유기적으로 연결, 데이터 흐름 논리적</td>
+            <td style="text-align:center;"><span class="score-badge score-7">4</span></td>
+          </tr>
+          <tr>
+            <td style="border-right:1px solid var(--border);">의사코드 주석</td>
+            <td>각 영역별 정확하게 작성 / 일부만 작성</td>
+            <td style="text-align:center;"><span class="score-badge score-7">2</span> <span class="score-badge score-3">1</span></td>
+          </tr>
+          <tr>
+            <td rowspan="5" style="border-right:1px solid var(--border);">3.2<br>보고서<br><span style="font-size:0.8em;color:var(--accent3);">/20점</span></td>
+            <td style="border-right:1px solid var(--border);">개요</td>
+            <td>목적·내용·결과를 간결하고 명확하게 요약</td>
+            <td style="text-align:center;"><span class="score-badge score-7">2</span> <span class="score-badge score-3">1</span></td>
+          </tr>
+          <tr>
+            <td style="border-right:1px solid var(--border);">계획</td>
+            <td>문제 명확히 정의, 초기 해결 방향 논리적 서술</td>
+            <td style="text-align:center;"><span class="score-badge score-7">3</span> <span class="score-badge score-5">2</span> <span class="score-badge score-3">1</span></td>
+          </tr>
+          <tr>
+            <td style="border-right:1px solid var(--border);">프로그래밍 설계</td>
+            <td>알고리즘·자료구조·의사코드·코드 설명 모두 포함</td>
+            <td style="text-align:center;"><span class="score-badge score-7">6</span> <span class="score-badge score-5">4</span> <span class="score-badge score-3">2</span> <span class="score-badge score-4">1</span></td>
+          </tr>
+          <tr>
+            <td style="border-right:1px solid var(--border);">오류 및 해결 과정</td>
+            <td>피드백 3회 이상 포함, 오류 원인 분석·해결 논리적 서술</td>
+            <td style="text-align:center;"><span class="score-badge score-7">6</span> <span class="score-badge score-5">4</span> <span class="score-badge score-3">2</span> <span class="score-badge score-4">1</span></td>
+          </tr>
+          <tr>
+            <td style="border-right:1px solid var(--border);">결론 및 개선점</td>
+            <td>성과 평가, 한계와 개선 방향 논리적 서술</td>
+            <td style="text-align:center;"><span class="score-badge score-7">3</span> <span class="score-badge score-5">2</span> <span class="score-badge score-3">1</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: AI 활용 방침 -->
+  <div class="slide" id="slide-9">
+    <div class="full-content">
+      <div class="slide-label">// AI 활용 방침</div>
+      <h2 class="slide-title">AI와 함께,<br><span class="c-cyan">내 사고로.</span></h2>
+      <p class="slide-subtitle">AI를 잘 쓰는 것도 실력입니다. 하지만 그 바탕은 내 컴퓨팅 사고력이어야 합니다.</p>
+      <div class="step-list">
+        <div class="step">
+          <div class="step-num">✅</div>
+          <div class="step-text"><strong>자료 조사 · 코딩 보조</strong> — AI 도구(Gemini, ChatGPT 등) 활용 가능. 반드시 출처 표기 필수.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">❌</div>
+          <div class="step-text"><strong>분석 · 결론 · 설계 근거 · 보고서 · 논술</strong> — 학생 본인이 직접 작성. AI 생성 텍스트 제출 불가.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">✏️</div>
+          <div class="step-text"><strong>수행평가 2 전 과정</strong> — 수기(손글씨)로만 작성. AI 사용 전면 금지.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">⚠️</div>
+          <div class="step-text"><strong>AI 활용 은폐</strong> — 학문적 진정성 위반으로 처리됩니다. 사용 시 반드시 명시하세요.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
-</section>
-
-<!-- HISTORY -->
-
-<section id="history">
-
-<h2>Club History</h2>
-
-<div class="history">
-
-<p>
-FC Barcelona was founded in 1899 and is one of the most successful football clubs in the world.
-The club represents Catalan pride and is famous for its beautiful attacking football style.
-</p>
-
-<br>
-
-<p>
-Barcelona has won numerous trophies including La Liga titles,
-Copa del Rey trophies, and multiple UEFA Champions League championships.
-</p>
-
-<br>
-
-<p>
-Their legendary stadium Camp Nou is one of the most iconic football stadiums in the world.
-</p>
-
+<!-- NAV -->
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>← PREV</button>
+  <div class="dots" id="dots"></div>
+  <div class="nav-counter" id="counter">1 / 10</div>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">NEXT →</button>
 </div>
-
-</section>
-
-<!-- PLAYERS -->
-
-<section id="players">
-
-<h2>Legendary Players</h2>
-
-<div class="players">
-
-<div class="card">
-<h3>Lionel Messi</h3>
-<p>Position: Forward</p>
-<p>Years: 2004–2021</p>
-<p>Barcelona's greatest player and record goalscorer.</p>
-</div>
-
-<div class="card">
-<h3>Johan Cruyff</h3>
-<p>Position: Forward</p>
-<p>Years: 1973–1978</p>
-<p>Introduced Total Football philosophy.</p>
-</div>
-
-<div class="card">
-<h3>Ronaldinho</h3>
-<p>Position: Attacking Midfielder</p>
-<p>Years: 2003–2008</p>
-<p>Brought magic and creativity to the team.</p>
-</div>
-
-<div class="card">
-<h3>Xavi</h3>
-<p>Position: Midfielder</p>
-<p>Years: 1998–2015</p>
-<p>Tiki-taka mastermind.</p>
-</div>
-
-<div class="card">
-<h3>Andrés Iniesta</h3>
-<p>Position: Midfielder</p>
-<p>Years: 2002–2018</p>
-<p>Elegant playmaker and club legend.</p>
-</div>
-
-<div class="card">
-<h3>Carles Puyol</h3>
-<p>Position: Defender</p>
-<p>Years: 1999–2014</p>
-<p>Legendary captain and defensive leader.</p>
-</div>
-
-</div>
-
-</section>
-
-<!-- MESSI -->
-
-<section id="messi">
-
-<h2>Lionel Messi Career</h2>
-
-<div class="messi">
-
-<p>
-Matches Played: <b>778</b><br>
-Goals Scored: <b>672</b><br>
-Ballon d'Or Awards: <b>8</b><br>
-Barcelona Trophies: <b>35</b>
-</p>
-
-<br>
-
-<canvas id="messiChart"></canvas>
-
-</div>
-
-</section>
-
-<!-- RESULTS -->
-
-<section id="results">
-
-<h2>Recent Results</h2>
-
-<div class="results">
-
-<div class="match">
-Barcelona vs Villarreal
-<div class="score">4 - 1</div>
-</div>
-
-<div class="match">
-Barcelona vs Levante
-<div class="score">3 - 0</div>
-</div>
-
-<div class="match">
-Girona vs Barcelona
-<div class="score">2 - 1</div>
-</div>
-
-</div>
-
-</section>
-
-<!-- MOMENTS -->
-
-<section id="gallery">
-
-<h2>Famous Moments</h2>
-
-<div class="gallery">
-
-<div class="gallery-box">Champions League Victories</div>
-<div class="gallery-box">Historic Camp Nou Nights</div>
-<div class="gallery-box">Messi Goal Records</div>
-<div class="gallery-box">Tiki-Taka Era Dominance</div>
-
-</div>
-
-</section>
-
-<footer>
-
-<p>FC Barcelona Fan Website</p>
-<p>Més que un club</p>
-
-</footer>
 
 <script>
+  let current = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const dotsEl = document.getElementById('dots');
+  const counter = document.getElementById('counter');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
 
-const ctx=document.getElementById('messiChart');
+  // Create dots
+  for (let i = 0; i < total; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => goTo(i);
+    dotsEl.appendChild(dot);
+  }
 
-new Chart(ctx,{
-type:'bar',
-data:{
-labels:['Goals','Matches','Trophies','Ballon d\'Or'],
-datasets:[{
-label:'Lionel Messi Barcelona Stats',
-data:[672,778,35,8],
-backgroundColor:['#A50044','#c2185b','#d81b60','#880e4f']
-}]
-}
-});
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    slides[current].classList.add('exit');
+    setTimeout(() => slides[current].classList.remove('exit'), 500);
+    current = n;
+    slides[current].classList.add('active');
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+    counter.textContent = `${current + 1} / ${total}`;
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === total - 1;
+  }
 
+  function changeSlide(dir) {
+    const next = current + dir;
+    if (next >= 0 && next < total) goTo(next);
+  }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') changeSlide(-1);
+  });
+
+  // Animate progress bars when overview slide appears
+  const observer = new MutationObserver(() => {
+    document.querySelectorAll('.progress-fill').forEach(b => {
+      const w = b.style.width;
+      b.style.width = '0%';
+      setTimeout(() => b.style.width = w, 100);
+    });
+  });
+  observer.observe(slides[1], { attributes: true, attributeFilter: ['class'] });
 </script>
-
 </body>
 </html>
