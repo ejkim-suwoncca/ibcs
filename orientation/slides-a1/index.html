@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IB CS: Hardware & Logic</title>
+    <style>
+        :root {
+            --ib-blue: #1a436d;
+            --accent: #f39c12;
+            --text-dark: #2c3e50;
+            --bg-light: #f4f7f6;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            height: 100%; width: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-light);
+            overflow: hidden; /* Prevent scrolling, use slide navigation */
+        }
+
+        .slide {
+            display: none;
+            height: 100vh;
+            width: 100vw;
+            padding: 60px;
+            box-sizing: border-box;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slide.active { display: flex; }
+
+        h1 { font-size: 4rem; color: var(--ib-blue); margin-bottom: 20px; }
+        h2 { font-size: 3rem; color: var(--accent); }
+        p, li { font-size: 2rem; color: var(--text-dark); max-width: 900px; text-align: left; }
+        ul { display: inline-block; text-align: left; }
+
+        .image-container {
+            margin: 20px 0;
+            border: 5px solid white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background: #ddd;
+            width: 600px;
+            height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #666;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            background: var(--ib-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover { background: var(--accent); transform: scale(1.05); }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+
+        .progress {
+            position: fixed;
+            bottom: 0; left: 0;
+            height: 8px; background: var(--accent);
+            width: 0%; transition: 0.3s;
+        }
+
+        .note-box {
+            border-left: 10px solid var(--accent);
+            background: #fff3cd;
+            padding: 20px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="progress" id="progressBar"></div>
+
+    <div class="slide active">
+        <h1>IB Computer Science</h1>
+        <h2>A1.1: Hardware & Operation</h2>
+        <p>Grab your <strong>notebooks</strong> or <strong>devices</strong>. This is the foundation of everything we will build.</p>
+    </div>
+
+    <div class="slide">
+        <h2>Think About This...</h2>
+        <h1>"Can a machine be 'smart' if it only does exactly what it is told?"</h1>
+        <p><em>Christian Worldview:</em> Order from Chaos. Just as God used speech to bring order, we use instructions to bring silicon to life.</p>
+    </div>
+
+    <div class="slide">
+        <h2>Phase 1: The Spark</h2>
+        <p>What happens when you press <strong>Power</strong>?</p>
+        <div class="image-container">
+            
+        </div>
+        <ul>
+            <li>1. BIOS (ROM) wakes up.</li>
+            <li>2. CPU looks at the Hard Drive (C-Drive).</li>
+            <li>3. The "Fetch" begins.</li>
+        </ul>
+    </div>
+
+    <div class="slide">
+        <h2>Phase 2: The Fetch</h2>
+        <p>The CPU fetches the Operating System from <strong>Secondary Storage</strong>.</p>
+        <div class="image-container">
+            
+        </div>
+        <div class="note-box">Note: Storage is NON-VOLATILE (data stays when power is off).</div>
+    </div>
+
+    <div class="slide">
+        <h2>Phase 3: The Load (RAM)</h2>
+        <div class="image-container">
+            
+        </div>
+        <p>The CPU moves active programs into **RAM**. RAM is fast, but it is <strong>VOLATILE</strong>. If power cuts, data vanishes!</p>
+    </div>
+
+    <div class="slide">
+        <h2>The CPU Components</h2>
+        <div class="image-container">
+            
+        </div>
+        <ul>
+            <li><strong>Control Unit (CU):</strong> The Manager. Fetch, Decode, Execute.</li>
+            <li><strong>ALU:</strong> The Calculator. Math and Logic.</li>
+        </ul>
+    </div>
+
+    <div class="slide">
+        <h2>Why is some tech faster?</h2>
+        <p><strong>Clock Speed:</strong> How many cycles per second? (measured in GHz).</p>
+        <p><strong>Cores:</strong> How many "brains" working at once?</p>
+        <div class="note-box">AI Architect Tip: NVIDIA GPUs have thousands of cores to process AI math simultaneously.</div>
+    </div>
+
+    <div class="slide">
+        <h1>90 Minute Lab: The Surgery</h1>
+        <h2>Rule #1: Static Safety</h2>
+        <p>Always touch the metal chassis of the case before touching the components to discharge static electricity.</p>
+    </div>
+
+    <div class="slide">
+        <h2>Task 1: The Audit</h2>
+        <ul>
+            <li>1. Open your desktop.</li>
+            <li>2. Identify the Motherboard.</li>
+            <li>3. Find the RAM Sticks.</li>
+            <li>4. Locate the C-Drive (Storage).</li>
+        </ul>
+    </div>
+
+    <div class="slide">
+        <h2>Task 2: Spec Search</h2>
+        <p>Look closely at your hardware. Record in your portfolio:</p>
+        <ul>
+            <li>RAM Size (GB?)</li>
+            <li>CPU Speed (GHz?)</li>
+            <li>Storage Type (HDD or SSD?)</li>
+        </ul>
+    </div>
+
+    <div class="controls">
+        <button id="prevBtn" onclick="changeSlide(-1)" disabled>Previous</button>
+        <button id="nextBtn" onclick="changeSlide(1)">Next</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const progressBar = document.getElementById('progressBar');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function changeSlide(direction) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide += direction;
+            slides[currentSlide].classList.add('active');
+
+            // Update Buttons
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+
+            // Update Progress
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        // Keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "ArrowRight" && currentSlide < slides.length - 1) changeSlide(1);
+            if (e.key === "ArrowLeft" && currentSlide > 0) changeSlide(-1);
+        });
+    </script>
+</body>
+</html>
