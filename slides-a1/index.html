@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IB CS: The Architecture of Logic</title>
+    <style>
+        :root {
+            --primary: #1a436d;
+            --accent: #f39c12;
+            --text: #ffffff;
+            --bg: #050a14;
+        }
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); overflow: hidden; }
+        
+        /* Slide Container */
+        .presentation-container { position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
+        .slide { display: none; width: 80%; text-align: center; animation: fadeIn 0.5s ease; }
+        .slide.active { display: block; }
+
+        /* Text Sizes for Presentation */
+        h1 { font-size: 4rem; color: var(--accent); margin-bottom: 20px; }
+        h2 { font-size: 3rem; margin-bottom: 20px; }
+        p, li { font-size: 1.8rem; line-height: 1.6; list-style-position: inside; }
+        .sub-text { font-size: 1.2rem; color: #aaa; margin-top: 20px; }
+
+        /* Images */
+        .image-container { margin: 30px auto; max-width: 600px; height: 350px; background: #111; border: 2px solid var(--accent); border-radius: 15px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+        /* Navigation Buttons */
+        .nav-buttons { position: fixed; bottom: 30px; width: 100%; display: flex; justify-content: space-between; padding: 0 50px; box-sizing: border-box; }
+        button { background: var(--accent); border: none; padding: 15px 40px; font-size: 1.2rem; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #e67e22; transform: scale(1.1); }
+        button:disabled { background: #555; cursor: not-allowed; }
+
+        /* Progress Bar */
+        .progress-bar { position: fixed; top: 0; left: 0; height: 8px; background: var(--accent); transition: 0.3s; width: 0%; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="presentation-container">
+    
+    <div class="slide active">
+        <h1>IB Computer Science</h1>
+        <h2>A1.1: The Architecture of Logic</h2>
+        <p>First Assessment 2027</p>
+        <p class="sub-text">Prepare your notebooks or devices for note-taking.</p>
+    </div>
+
+    <div class="slide">
+        <h2>Course Roadmap</h2>
+        <ul style="text-align: left; display: inline-block;">
+            <li><strong>External Assessment (70%):</strong> Two Final Papers</li>
+            <li><strong>Internal Assessment (30%):</strong> The "Solution"</li>
+            <li><strong>The Big Goal:</strong> Becoming an AI Infrastructure Architect.</li>
+        </ul>
+    </div>
+
+    <div class="slide">
+        <h1>TOK Inquiry</h1>
+        <h2>"Can a machine be 'smart' if it only does exactly what it is told?"</h2>
+    </div>
+
+    <div class="slide">
+        <h2>The Ghost in the Machine</h2>
+        <p>How does a "silent box of silicon" wake up?</p>
+        <div class="image-container">
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1000" alt="Microchip circuit">
+        </div>
+        <p>Sequence: <strong>Power → Storage → CPU → RAM</strong></p>
+    </div>
+
+    <div class="slide">
+        <h2>Step 1: Secondary Storage</h2>
+        <p>This is the "Long-Term Memory." It holds the OS (C-Drive).</p>
+        <div class="image-container">
+            <img src="https://images.unsplash.com/photo-1591405351990-4726e331f141?auto=format&fit=crop&q=80&w=1000" alt="Hard Drive Interior">
+        </div>
+        <p>Characteristics: Non-volatile (Data stays when power is off).</p>
+    </div>
+
+    <div class="slide">
+        <h2>Step 2: The CPU</h2>
+        <p>The Central Processing Unit "fetches" instructions from storage.</p>
+        <div class="image-container">
+            <img src="https://images.unsplash.com/photo-1591405351093-470852199b22?auto=format&fit=crop&q=80&w=1000" alt="CPU Processor">
+        </div>
+        <p>Key Parts: <strong>CU</strong> (Control Unit) & <strong>ALU</strong> (Math).</p>
+    </div>
+
+    <div class="slide">
+        <h2>Step 3: Primary Memory (RAM)</h2>
+        <p>The "Short-Term Workspace" where active programs live.</p>
+        <div class="image-container">
+            <img src="https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&q=80&w=1000" alt="RAM Memory Sticks">
+        </div>
+        <p>Characteristics: <strong>Volatile</strong> (Data disappears without power).</p>
+    </div>
+
+    <div class="slide">
+        <h2>The Von Neumann Architecture</h2>
+        <p>Data and Instructions live together in the same memory.</p>
+        <p style="color: var(--accent);">Hodder Textbook p. 8-9</p>
+        <ul style="text-align: left; display: inline-block;">
+            <li><strong>MAR:</strong> Memory Address Register (The Location)</li>
+            <li><strong>MDR:</strong> Memory Data Register (The Content)</li>
+        </ul>
+    </div>
+
+    <div class="slide">
+        <h2>Why is one PC faster?</h2>
+        <ul style="text-align: left; display: inline-block;">
+            <li><strong>Clock Speed:</strong> How many cycles per second (GHz).</li>
+            <li><strong>Cores:</strong> Multiple "brains" working at once.</li>
+            <li><strong>Cache:</strong> Ultra-fast memory inside the CPU.</li>
+        </ul>
+    </div>
+
+    <div class="slide" style="color: #ff4d4d;">
+        <h1>Lab Rules: PC Surgery</h1>
+        <p>1. Never open a PC while it is plugged in.</p>
+        <p>2. Discharge static by touching the metal case frame.</p>
+        <p>3. Do not force a component into a slot.</p>
+    </div>
+
+    <div class="slide">
+        <h2>Your Mission (90 Mins)</h2>
+        <ol style="text-align: left; display: inline-block;">
+            <li>Open your desktop and locate the 4 pillars.</li>
+            <li>Complete the "Hardware Scavenger Hunt."</li>
+            <li>Compare your specs to "AI Standards" (Oxford p. 11).</li>
+        </ol>
+        <p class="sub-text">Turn on your PC and reach the BIOS screen to pass.</p>
+    </div>
+
+</div>
+
+<div class="nav-buttons">
+    <button id="prevBtn" onclick="changeSlide(-1)" disabled>Previous</button>
+    <button id="nextBtn" onclick="changeSlide(1)">Next</button>
+</div>
+
+<script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const progressBar = document.getElementById('progressBar');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function changeSlide(direction) {
+        slides[currentSlide].classList.remove('active');
+        currentSlide += direction;
+        slides[currentSlide].classList.add('active');
+
+        // Update progress bar
+        const progress = ((currentSlide + 1) / slides.length) * 100;
+        progressBar.style.width = progress + '%';
+
+        // Update buttons
+        prevBtn.disabled = currentSlide === 0;
+        nextBtn.disabled = currentSlide === slides.length - 1;
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' && currentSlide < slides.length - 1) changeSlide(1);
+        if (e.key === 'ArrowLeft' && currentSlide > 0) changeSlide(-1);
+    });
+</script>
+
+</body>
+</html>
