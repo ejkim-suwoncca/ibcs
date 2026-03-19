@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A1.1 — Computer Boot Sequence & Hardware Systems</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&family=DM+Mono:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<title>A1.1 — Computer Hardware & Operation Review</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Serif+Display&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #07090f;
@@ -18,9 +18,10 @@
   --green: #3dd68c;
   --red: #ff6b6b;
   --purple: #9b8afb;
+  --cyan: #22d3ee;
   --text: #dde4f0;
-  --text2: #7a8ba8;
-  --text3: #3d4f6a;
+  --text2: #92a4c0;
+  --text3: #627696;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { width: 100%; height: 100%; overflow: hidden; }
@@ -29,10 +30,10 @@ body::before {
   content: '';
   position: fixed; inset: 0;
   background-image:
-    linear-gradient(rgba(74,158,255,0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(74,158,255,0.035) 1px, transparent 1px),
-    linear-gradient(rgba(74,158,255,0.012) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(74,158,255,0.012) 1px, transparent 1px);
+    linear-gradient(rgba(74,158,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74,158,255,0.03) 1px, transparent 1px),
+    linear-gradient(rgba(74,158,255,0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74,158,255,0.01) 1px, transparent 1px);
   background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
   pointer-events: none; z-index: 0;
 }
@@ -40,491 +41,1037 @@ body::before {
 .slide {
   position: absolute; inset: 0;
   display: flex; flex-direction: column; justify-content: center; align-items: center;
-  padding: 52px 80px 96px;
+  padding: 50px 72px 92px;
   opacity: 0; pointer-events: none;
-  transition: opacity 0.4s ease, transform 0.4s ease;
-  transform: translateY(14px);
+  transition: opacity 0.38s ease, transform 0.38s ease;
+  transform: translateY(12px);
 }
 .slide.active { opacity: 1; pointer-events: all; transform: translateY(0); }
-.slide.exit { opacity: 0; transform: translateY(-14px); }
-
-/* PROGRESS + SLIDE NUM */
-.progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--gold), var(--blue)); transition: width 0.4s ease; z-index: 100; }
-.slide-num { position: fixed; top: 18px; right: 26px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
-
-/* TIMER BADGE */
-.timer-fixed {
-  position: fixed; top: 14px; left: 50%; transform: translateX(-50%);
-  font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.14em;
-  color: var(--text3); border: 1px solid var(--border2);
-  background: rgba(7,9,15,0.85); padding: 5px 14px;
-  z-index: 100; display: none;
+.slide.exit { opacity: 0; transform: translateY(-12px); }
+.slide.scroll-slide {
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-top: 64px;
+  padding-bottom: 132px;
 }
-.timer-fixed.show { display: block; }
-
-/* CONTENT */
-.content { width: 100%; max-width: 1100px; }
-
-/* LABEL */
-.label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
-.label.blue { color: var(--blue); } .label.green { color: var(--green); } .label.red { color: var(--red); } .label.purple { color: var(--purple); }
-
-/* TYPOGRAPHY */
-h1 { font-family: 'DM Serif Display', serif; font-size: clamp(3rem,6vw,5rem); font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 16px; }
-h2 { font-family: 'DM Serif Display', serif; font-size: clamp(2rem,4.5vw,3.5rem); font-weight: 400; line-height: 1.1; margin-bottom: 14px; }
-.lead { font-size: clamp(1rem,1.8vw,1.4rem); color: var(--text2); font-weight: 300; line-height: 1.65; max-width: 700px; margin-bottom: 28px; }
-.hl-gold { color: var(--gold2); } .hl-blue { color: var(--blue); } .hl-green { color: var(--green); } .hl-red { color: var(--red); } .hl-purple { color: var(--purple); }
-
-/* ACTIVITY BADGE */
-.activity-badge {
-  display: inline-flex; align-items: center; gap: 10px;
-  background: var(--surface); border: 1px solid var(--border2);
-  padding: 7px 16px; margin-bottom: 20px;
-}
-.activity-badge .act-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--gold); letter-spacing: 0.14em; }
-.activity-badge .act-name { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase; }
-.activity-badge .act-time { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--blue); letter-spacing: 0.1em; border-left: 1px solid var(--border2); padding-left: 10px; }
-
-/* GRID */
+.slide.scroll-slide::-webkit-scrollbar { width: 10px; }
+.slide.scroll-slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
+.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(14,17,23,0.3); }
+.progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--gold), var(--blue)); transition: width 0.38s ease; z-index: 100; }
+.slide-num { position: fixed; top: 17px; right: 24px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
+.content { width: 100%; max-width: 1120px; }
+.label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+.label.blue { color: var(--blue); } .label.green { color: var(--green); } .label.purple { color: var(--purple); } .label.cyan { color: var(--cyan); }
+h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.8rem,5.5vw,4.8rem); font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
+h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem); font-weight: 400; line-height: 1.1; margin-bottom: 12px; }
+.lead { font-size: clamp(1rem,1.75vw,1.35rem); color: var(--text2); font-weight: 300; line-height: 1.65; margin-bottom: 24px; }
+.hl-gold { color: var(--gold2); } .hl-blue { color: var(--blue); } .hl-green { color: var(--green); } .hl-purple { color: var(--purple); } .hl-cyan { color: var(--cyan); } .hl-red { color: var(--red); }
 .grid { display: grid; gap: 2px; width: 100%; }
 .g2 { grid-template-columns: 1fr 1fr; } .g3 { grid-template-columns: 1fr 1fr 1fr; } .g4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
-
-/* CARDS */
-.card { background: var(--surface); border: 1px solid var(--border); padding: 20px 24px; position: relative; overflow: hidden; }
+.card { background: var(--surface); border: 1px solid var(--border); padding: 18px 22px; position: relative; overflow: hidden; }
 .card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
 .card.gold::after { background: var(--gold); } .card.blue::after { background: var(--blue); }
 .card.green::after { background: var(--green); } .card.red::after { background: var(--red); }
-.card.purple::after { background: var(--purple); }
-.card-title { font-family: 'DM Mono', monospace; font-size: clamp(0.72rem,1.15vw,0.92rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 9px; }
-.card-body { font-size: clamp(0.88rem,1.35vw,1.1rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
+.card.purple::after { background: var(--purple); } .card.cyan::after { background: var(--cyan); }
+.card-title { font-family: 'DM Mono', monospace; font-size: clamp(0.7rem,1.1vw,0.9rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.card-body { font-size: clamp(0.85rem,1.3vw,1.05rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
 .card-body strong { color: var(--text); font-weight: 500; }
-.card-icon { font-size: 1.5rem; margin-bottom: 10px; display: block; }
-
-/* STEP LIST */
-.steps { display: flex; flex-direction: column; gap: 9px; width: 100%; }
-.step-row { display: flex; gap: 18px; align-items: flex-start; background: var(--surface); border: 1px solid var(--border); padding: 14px 20px; }
-.step-n { font-family: 'DM Mono', monospace; font-size: clamp(0.75rem,1.15vw,0.92rem); color: var(--gold); flex-shrink: 0; min-width: 26px; padding-top: 2px; }
-.step-text { font-size: clamp(0.95rem,1.5vw,1.2rem); color: var(--text2); line-height: 1.6; font-weight: 300; }
-.step-text strong { color: var(--text); font-weight: 500; }
-
-/* FLOW */
-.flow { display: flex; align-items: stretch; gap: 0; width: 100%; margin: 16px 0; }
-.flow-box { flex: 1; background: var(--surface); border: 1px solid var(--border); padding: 16px 12px; text-align: center; }
-.flow-num { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.15em; color: var(--text3); margin-bottom: 6px; }
-.flow-label { font-family: 'DM Mono', monospace; font-size: clamp(0.68rem,1.05vw,0.88rem); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 5px; font-weight: 500; }
-.flow-desc { font-size: clamp(0.7rem,1vw,0.84rem); color: var(--text2); line-height: 1.5; font-weight: 300; }
-.flow-arrow { font-family: 'DM Mono', monospace; color: var(--gold); font-size: 1.2rem; flex-shrink: 0; padding: 0 5px; display: flex; align-items: center; }
-
-/* QUOTE BOX */
-.quote-box { border-left: 3px solid var(--gold); padding: 16px 22px; background: rgba(201,168,76,0.04); border-top: 1px solid rgba(201,168,76,0.1); border-right: 1px solid rgba(201,168,76,0.1); border-bottom: 1px solid rgba(201,168,76,0.1); margin-top: 18px; }
-.quote-box p { font-family: 'DM Serif Display', serif; font-size: clamp(1rem,1.8vw,1.4rem); line-height: 1.6; font-style: italic; color: var(--gold2); }
-.quote-box .source { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--text3); margin-top: 8px; letter-spacing: 0.1em; font-style: normal; }
-
-/* WARN BOX */
-.info-box { border-left: 3px solid var(--blue); padding: 14px 20px; background: rgba(74,158,255,0.04); border-top: 1px solid rgba(74,158,255,0.08); border-right: 1px solid rgba(74,158,255,0.08); border-bottom: 1px solid rgba(74,158,255,0.08); margin-top: 16px; }
-.info-box p { font-size: clamp(0.9rem,1.4vw,1.12rem); color: var(--text2); line-height: 1.6; }
+.info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(74,158,255,0.04); border-top: 1px solid rgba(74,158,255,0.08); border-right: 1px solid rgba(74,158,255,0.08); border-bottom: 1px solid rgba(74,158,255,0.08); margin-top: 14px; }
+.info-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
 .info-box strong { color: var(--blue); }
+.gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(201,168,76,0.04); border-top: 1px solid rgba(201,168,76,0.08); border-right: 1px solid rgba(201,168,76,0.08); border-bottom: 1px solid rgba(201,168,76,0.08); margin-top: 14px; }
+.gold-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.gold-box strong { color: var(--gold2); }
+.divider { width: 100%; height: 1px; background: var(--border); margin: 14px 0; }
 
-.warn-box { border-left: 3px solid var(--red); padding: 14px 20px; background: rgba(255,107,107,0.04); border-top: 1px solid rgba(255,107,107,0.08); border-right: 1px solid rgba(255,107,107,0.08); border-bottom: 1px solid rgba(255,107,107,0.08); margin-top: 16px; }
-.warn-box p { font-size: clamp(0.9rem,1.4vw,1.12rem); color: var(--text2); line-height: 1.6; }
-.warn-box strong { color: var(--red); }
+/* ── INLINE SVG DIAGRAM STYLES ── */
+svg text { font-family: 'DM Mono', monospace; }
 
-/* ROLE CARDS for acting activity */
-.role-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; width: 100%; }
-.role-card { background: var(--surface); border: 1px solid var(--border); padding: 18px 20px; position: relative; }
-.role-card::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3px; }
-.role-card.r1::before { background: var(--gold); }
-.role-card.r2::before { background: var(--purple); }
-.role-card.r3::before { background: var(--red); }
-.role-card.r4::before { background: var(--blue); }
-.role-card.r5::before { background: var(--green); }
-.role-card.r6::before { background: var(--gold2); }
-.role-name { font-family: 'DM Mono', monospace; font-size: clamp(0.72rem,1.1vw,0.9rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 7px; }
-.role-action { font-size: clamp(0.85rem,1.3vw,1.05rem); color: var(--text2); line-height: 1.6; font-weight: 300; }
-.role-action strong { color: var(--text); font-weight: 500; }
+/* CPU DIAGRAM */
+.cpu-diagram {
+  width: 100%; display: flex; align-items: center; justify-content: center;
+  background: var(--surface); border: 1px solid var(--border); padding: 20px;
+}
+.cpu-scroll-content { max-width: 940px; margin: 0 auto; }
+.cpu-hero { min-height: calc(100vh - 210px); display: flex; align-items: flex-start; }
+.cpu-text-stack { width: 100%; max-width: 620px; }
+.cpu-diagram-section { margin-top: 24px; }
+.cpu-diagram-frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: clamp(18px, 2.4vw, 32px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cpu-diagram-frame svg {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+}
+.stack-slide-content { max-width: 980px; margin: 0 auto; }
+.stack-slide-hero { min-height: calc(100vh - 210px); display: flex; align-items: flex-start; }
+.stack-text { width: 100%; max-width: 680px; }
+.diagram-section { margin-top: 24px; }
+.diagram-frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: clamp(18px, 2.4vw, 32px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.diagram-frame svg {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+}
 
-/* DIAGRAM BOX */
-.diagram-box { background: var(--surface); border: 1px solid var(--border); padding: 28px; width: 100%; display: flex; flex-direction: column; gap: 0; }
-.diag-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
-.diag-row:last-child { border-bottom: none; }
-.diag-label { font-family: 'DM Mono', monospace; font-size: clamp(0.7rem,1.1vw,0.88rem); min-width: 150px; color: var(--text2); letter-spacing: 0.04em; }
-.diag-bar { flex: 1; height: 32px; display: flex; align-items: center; padding: 0 12px; font-size: clamp(0.72rem,1.05vw,0.88rem); color: var(--text); font-weight: 300; }
+/* REGISTER TABLE */
+.reg-table { width: 100%; border-collapse: collapse; }
+.reg-table th { font-family: 'DM Mono', monospace; font-size: clamp(0.65rem,1vw,0.82rem); letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); padding: 9px 14px; text-align: left; border-bottom: 1px solid var(--border2); background: var(--surface); }
+.reg-table td { padding: 11px 14px; font-size: clamp(0.82rem,1.3vw,1.02rem); border-bottom: 1px solid var(--border); color: var(--text2); background: var(--surface); line-height: 1.5; vertical-align: top; }
+.reg-table tr:last-child td { border-bottom: none; }
+.reg-table tr:hover td { background: var(--surface2); }
+.reg-table td:first-child { font-family: 'DM Mono', monospace; font-size: 0.88em; color: var(--gold2); font-weight: 500; min-width: 56px; }
 
-/* DIVIDER */
-.divider { width: 100%; height: 1px; background: var(--border); margin: 16px 0; }
+/* FLOW STEPS */
+.boot-flow { display: flex; flex-direction: column; gap: 2px; width: 100%; }
+.boot-step { display: flex; align-items: center; gap: 16px; background: var(--surface); border: 1px solid var(--border); padding: 13px 20px; }
+.boot-step-num { font-family: 'DM Mono', monospace; font-size: clamp(0.85rem,1.3vw,1rem); min-width: 28px; flex-shrink: 0; }
+.boot-step-text { font-size: clamp(0.92rem,1.45vw,1.15rem); font-weight: 300; line-height: 1.5; }
+.boot-step-text strong { font-weight: 500; }
+/* FDE PHASES */
+.fde { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; width: 100%; }
+.fde-box { background: var(--surface); border: 1px solid var(--border); padding: 20px 16px; text-align: center; }
+.fde-num { font-family: 'DM Mono', monospace; font-size: clamp(1.6rem,3.5vw,2.8rem); font-weight: 500; line-height: 1; margin-bottom: 6px; }
+.fde-title { font-family: 'DM Mono', monospace; font-size: clamp(0.7rem,1.1vw,0.88rem); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+.fde-detail { font-size: clamp(0.78rem,1.2vw,0.95rem); color: var(--text2); line-height: 1.6; font-weight: 300; }
+.fde-detail .reg { font-family: 'DM Mono', monospace; color: var(--gold2); font-size: 0.9em; }
+
+/* TAG */
+.tag { display: inline-block; font-family: 'DM Mono', monospace; font-size: 9px; padding: 2px 7px; border-radius: 2px; letter-spacing: 0.06em; vertical-align: middle; margin-left: 4px; }
+.tag.volatile { background: rgba(255,107,107,0.1); color: var(--red); border: 1px solid rgba(255,107,107,0.25); }
+.tag.perm { background: rgba(61,214,140,0.1); color: var(--green); border: 1px solid rgba(61,214,140,0.25); }
+.tag.fast { background: rgba(74,158,255,0.1); color: var(--blue); border: 1px solid rgba(74,158,255,0.2); }
 
 /* NAV */
-.nav { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 14px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 11px 22px; }
-.nav-btn { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 7px 16px; cursor: pointer; transition: all 0.2s; }
+.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; }
+.nav-btn { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; }
 .nav-btn:hover { color: var(--gold); border-color: var(--gold); background: rgba(201,168,76,0.05); }
 .nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
-.nav-dots { display: flex; gap: 5px; }
+.nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 180px; justify-content: center; }
 .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); cursor: pointer; transition: all 0.2s; }
 .dot.active { background: var(--gold); transform: scale(1.4); }
 .nav-sep { width: 1px; height: 18px; background: var(--border2); }
 </style>
 </head>
 <body>
-
 <div class="progress" id="progress"></div>
-<div class="slide-num" id="slideNum">01 / 11</div>
-
+<div class="slide-num" id="slideNum">01 / 14</div>
 <div class="deck">
 
-  <!-- S1: TITLE -->
-  <div class="slide active">
-    <div class="content">
-      <div class="label">// A1.1 · Boot Sequence & Hardware Systems · 90 min</div>
-      <h1>Computer Boot<br>Sequence &<br><span class="hl-gold">Hardware Systems</span></h1>
-      <p class="lead">How does a computer come to life? Today we don't just learn it — we act it out, take it apart, and draw it.</p>
-      <div style="display:flex;gap:28px;flex-wrap:wrap;margin-top:4px;">
-        <div style="padding-left:12px;border-left:2px solid var(--gold);">
-          <div style="font-family:'DM Mono',monospace;font-size:1rem;">90 min</div>
-          <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">TOTAL</div>
+<!-- ═══════════════════════════════════════════════ S1: TITLE -->
+<div class="slide active">
+  <div class="content">
+    <div class="label">// A1.1 · Computer Hardware & Operation</div>
+    <h1>Computer Hardware<br>& <span class="hl-gold">Operation</span></h1>
+    <p style="font-size:clamp(0.9rem,1.5vw,1.2rem);color:var(--text3);font-family:'DM Mono',monospace;letter-spacing:0.05em;margin-bottom:24px;">Review Lesson</p>
+    <div class="gold-box">
+      <p><strong>👉 Guiding Question:</strong> How do computer components work together to start a computer?</p>
+    </div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:24px;">
+      <div style="padding-left:12px;border-left:2px solid var(--gold);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">CPU</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">PROCESSOR</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--blue);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Registers</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">CPU STORAGE</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--purple);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Buses</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">DATA TRANSFER</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--green);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">RAM / Storage</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">MEMORY</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--cyan);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Boot + FDE</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">PROCESSES</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S2: CPU -->
+<div class="slide scroll-slide">
+  <div class="content cpu-scroll-content">
+    <div class="cpu-hero">
+      <div class="cpu-text-stack">
+        <div class="label">// Slide 2 · The Processor</div>
+        <h2>CPU — Central<br><span class="hl-gold">Processing Unit</span></h2>
+        <div class="card gold" style="margin-bottom:2px;">
+          <div class="card-title">What it does</div>
+          <div class="card-body">
+            · <strong>Main processor</strong> of the computer<br>
+            · <strong>Executes instructions</strong> from programs<br>
+            · <strong>Controls system operations</strong> — coordinates every component
+          </div>
         </div>
-        <div style="padding-left:12px;border-left:2px solid var(--blue);">
-          <div style="font-family:'DM Mono',monospace;font-size:1rem;">6 Activities</div>
-          <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">INTERACTIVE</div>
+        <div class="grid g2" style="gap:2px;margin-top:2px;">
+          <div class="card blue">
+            <div class="card-title">Control Unit (CU)</div>
+            <div class="card-body">Directs all operations. Tells other parts what to do and when.</div>
+          </div>
+          <div class="card purple">
+            <div class="card-title">ALU</div>
+            <div class="card-body">Performs all <strong>arithmetic</strong> and <strong>logical</strong> operations (+, −, AND, OR…).</div>
+          </div>
         </div>
-        <div style="padding-left:12px;border-left:2px solid var(--green);">
-          <div style="font-family:'DM Mono',monospace;font-size:1rem;">Google Form</div>
-          <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">EXIT TICKET</div>
+        <div class="info-box">
+          <p><strong>Think of it as:</strong> CU = the manager. ALU = the calculator. Together they process everything.</p>
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- S2: TOK + CW -->
-  <div class="slide">
-    <div class="content" style="max-width:860px;margin:0 auto;">
-      <div class="label" style="text-align:center;display:block;">// Theory of Knowledge</div>
-      <h2 style="text-align:center;font-size:clamp(1.6rem,3.5vw,2.8rem);">"Can a machine be <span class="hl-gold">'smart'</span> if it only does exactly what it is told?"</h2>
-      <div class="divider"></div>
-      <div class="grid g2" style="gap:2px;margin-top:0;">
-        <div class="card gold">
-          <div class="card-title">Second TOK Question</div>
-          <div class="card-body">"Does hardware <strong>possess knowledge</strong>, or does it only <strong>facilitate</strong> knowledge?"<br><br>Keep this in mind as you open the machine today.</div>
-        </div>
-        <div class="card purple">
-          <div class="card-title">Christian Worldview</div>
-          <div class="card-body">Just as God brought <strong>order and structure</strong> into creation through intentional sequence (Genesis 1:1–3), a computer comes to life through a precise, ordered process where each part performs its role at exactly the right time.</div>
-        </div>
+    <div class="cpu-diagram-section">
+      <div class="label blue">// CPU Diagram</div>
+      <!-- Original layout pseudocode: two-column grid; left=text cards, right=CPU diagram card; same SVG content rendered at smaller fixed height. -->
+      <div class="cpu-diagram-frame">
+        <svg viewBox="0 0 360 340" width="100%">
+          <!-- outer CPU box -->
+          <rect x="10" y="10" width="340" height="320" rx="4" fill="none" stroke="#c9a84c" stroke-width="1.5"/>
+          <text x="180" y="34" text-anchor="middle" fill="#c9a84c" font-size="11" letter-spacing="2">CPU</text>
+          <!-- CU box -->
+          <rect x="30" y="52" width="132" height="112" rx="3" fill="#151923" stroke="#4a9eff" stroke-width="1"/>
+          <text x="96" y="74" text-anchor="middle" fill="#4a9eff" font-size="10" letter-spacing="1">CONTROL UNIT</text>
+          <text x="96" y="94" text-anchor="middle" fill="#7a8ba8" font-size="8.5">Directs operations</text>
+          <text x="96" y="110" text-anchor="middle" fill="#7a8ba8" font-size="8.5">Fetch / Decode</text>
+          <text x="96" y="126" text-anchor="middle" fill="#7a8ba8" font-size="8.5">Execute cycle</text>
+          <text x="96" y="150" text-anchor="middle" fill="#3d4f6a" font-size="8">CU</text>
+          <!-- ALU box -->
+          <rect x="198" y="52" width="132" height="112" rx="3" fill="#151923" stroke="#9b8afb" stroke-width="1"/>
+          <text x="264" y="74" text-anchor="middle" fill="#9b8afb" font-size="10" letter-spacing="1">ALU</text>
+          <text x="264" y="94" text-anchor="middle" fill="#7a8ba8" font-size="8.5">Arithmetic ops</text>
+          <text x="264" y="110" text-anchor="middle" fill="#7a8ba8" font-size="8.5">Logical ops</text>
+          <text x="264" y="126" text-anchor="middle" fill="#7a8ba8" font-size="8.5">+  −  ×  ÷</text>
+          <text x="264" y="142" text-anchor="middle" fill="#7a8ba8" font-size="8.5">AND  OR  NOT</text>
+          <!-- Registers box -->
+          <rect x="30" y="184" width="300" height="74" rx="3" fill="#151923" stroke="#c9a84c" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="180" y="204" text-anchor="middle" fill="#c9a84c" font-size="9" letter-spacing="1">REGISTERS</text>
+          <text x="180" y="220" text-anchor="middle" fill="#7a8ba8" font-size="8">PC · MAR · MDR · IR · ACC</text>
+          <text x="180" y="240" text-anchor="middle" fill="#3d4f6a" font-size="7.5">Ultra-fast temporary storage inside the CPU</text>
+          <!-- arrows CU ↔ ALU -->
+          <line x1="162" y1="108" x2="198" y2="108" stroke="#2a3448" stroke-width="1" marker-end="url(#arr)"/>
+          <!-- arrows to registers -->
+          <line x1="96" y1="164" x2="96" y2="184" stroke="#2a3448" stroke-width="1"/>
+          <line x1="264" y1="164" x2="264" y2="184" stroke="#2a3448" stroke-width="1"/>
+          <!-- cache hint -->
+          <rect x="30" y="274" width="300" height="34" rx="3" fill="none" stroke="#3d4f6a" stroke-width="1" stroke-dasharray="3,3"/>
+          <text x="180" y="295" text-anchor="middle" fill="#3d4f6a" font-size="8.5">Cache (L1 / L2 / L3) — fast buffer between CPU and RAM</text>
+          <defs><marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#2a3448"/></marker></defs>
+        </svg>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- S3: SWBAT -->
-  <div class="slide">
-    <div class="content">
-      <div class="label">// Learning Objectives</div>
-      <h2>By the end of today…</h2>
-      <div class="steps" style="margin-top:10px;">
-        <div class="step-row">
-          <div class="step-n">01</div>
-          <div class="step-text"><strong>Trace the path of data</strong> from storage to RAM during the boot process.</div>
-        </div>
-        <div class="step-row">
-          <div class="step-n">02</div>
-          <div class="step-text"><strong>Identify key internal hardware components</strong> — by name and by physically locating them.</div>
-        </div>
-        <div class="step-row">
-          <div class="step-n">03</div>
-          <div class="step-text"><strong>Explain the role</strong> of each component during system startup.</div>
-        </div>
-        <div class="step-row">
-          <div class="step-n">04</div>
-          <div class="step-text"><strong>Represent the boot process visually</strong> with a labeled systems diagram showing data flow.</div>
+<!-- ═══════════════════════════════════════════════ S3: REGISTERS -->
+<div class="slide scroll-slide">
+  <div class="content stack-slide-content">
+    <div class="stack-slide-hero">
+      <div class="stack-text">
+        <div class="label">// Slide 3 · Inside the CPU</div>
+        <h2><span class="hl-gold">Registers</span> — Fast<br>CPU Storage</h2>
+        <table class="reg-table">
+          <thead><tr><th>Register</th><th>Full Name</th><th>Role</th></tr></thead>
+          <tbody>
+            <tr><td>PC</td><td>Program Counter</td><td>Holds the <strong style="color:var(--text);">address of the next instruction</strong> to fetch</td></tr>
+            <tr><td>MAR</td><td>Memory Address Register</td><td>Holds the <strong style="color:var(--text);">memory address</strong> being accessed</td></tr>
+            <tr><td>MDR</td><td>Memory Data Register</td><td>Holds the <strong style="color:var(--text);">data</strong> being read from / written to memory</td></tr>
+            <tr><td>IR</td><td>Instruction Register</td><td>Holds the <strong style="color:var(--text);">current instruction</strong> being executed</td></tr>
+            <tr><td>ACC</td><td>Accumulator</td><td>Stores <strong style="color:var(--text);">intermediate results</strong> from the ALU</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box">
+          <p><strong>👉</strong> Registers are used during the <strong>Fetch–Decode–Execute cycle</strong>. They are the fastest storage in the entire system.</p>
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- S4: WARM UP -->
-  <div class="slide">
-    <div class="content">
-      <div class="activity-badge">
-        <span class="act-num">Activity 01</span>
-        <span class="act-name">Warm-Up</span>
-        <span class="act-time">10 min</span>
-      </div>
-      <h2>What happens when<br>you press <span class="hl-gold">power?</span></h2>
-      <div class="info-box" style="margin-bottom:20px;">
-        <p><strong>Prompt:</strong> "What happens between pressing the power button and seeing the login screen?"</p>
-      </div>
-      <div class="grid g3" style="gap:2px;">
-        <div class="card blue">
-          <div class="card-title">Step 1 — Individual</div>
-          <div class="card-body">Write <strong>3–4 guessed steps</strong> in your notebook. What do you think actually happens?</div>
-        </div>
-        <div class="card gold">
-          <div class="card-title">Step 2 — Pair Share</div>
-          <div class="card-body">Compare your steps with the person next to you. What did they think happens that you missed?</div>
-        </div>
-        <div class="card green">
-          <div class="card-title">Step 3 — Class Discussion</div>
-          <div class="card-body">Share ideas with the class. We'll build a list on the board together before we reveal the real sequence.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- S5: THE BOOT SEQUENCE (TEACHER REFERENCE) -->
-  <div class="slide">
-    <div class="content">
-      <div class="label">// The Boot Sequence — Revealed</div>
-      <h2>Order from <span class="hl-gold">Chaos</span></h2>
-      <p class="lead" style="margin-bottom:14px;">The real sequence. Compare it to what you guessed.</p>
-      <div class="flow" style="flex-wrap:wrap;gap:2px;">
-        <div class="flow-box" style="border-top:2px solid var(--gold);min-width:120px;">
-          <div class="flow-num">01</div>
-          <div class="flow-label" style="color:var(--gold);">Power Button</div>
-          <div class="flow-desc">PSU activates the system.</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-box" style="border-top:2px solid var(--purple);min-width:120px;">
-          <div class="flow-num">02</div>
-          <div class="flow-label" style="color:var(--purple);">BIOS / UEFI</div>
-          <div class="flow-desc">CPU reads firmware from ROM chip.</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-box" style="border-top:2px solid var(--red);min-width:120px;">
-          <div class="flow-num">03</div>
-          <div class="flow-label" style="color:var(--red);">POST</div>
-          <div class="flow-desc">Hardware self-check. Verifies all components.</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-box" style="border-top:2px solid var(--blue);min-width:120px;">
-          <div class="flow-num">04</div>
-          <div class="flow-label" style="color:var(--blue);">Bootloader</div>
-          <div class="flow-desc">Found on storage (SSD/HDD). Hands control to OS.</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-box" style="border-top:2px solid var(--green);min-width:120px;">
-          <div class="flow-num">05</div>
-          <div class="flow-label" style="color:var(--green);">OS → RAM</div>
-          <div class="flow-desc">Operating system loaded into RAM. Ready to run.</div>
-        </div>
-      </div>
-      <div class="quote-box">
-        <p>Each step <em>depends</em> on the one before it. Remove any one piece — the system halts. This is what makes it a <em>system</em>.</p>
-        <div class="source">// Connects to Concepts: Systems & Decomposition</div>
+    <div class="diagram-section">
+      <div class="label blue">// Register Flow Diagram</div>
+      <div class="diagram-frame">
+        <svg viewBox="0 0 320 360" width="100%">
+          <text x="160" y="20" text-anchor="middle" fill="#3d4f6a" font-size="9" letter-spacing="2">REGISTER FLOW IN FDE CYCLE</text>
+          <!-- PC -->
+          <rect x="82" y="32" width="156" height="36" rx="2" fill="#151923" stroke="#c9a84c" stroke-width="1"/>
+          <text x="160" y="54" text-anchor="middle" fill="#c9a84c" font-size="9.5" font-weight="500">PC — Program Counter</text>
+          <line x1="160" y1="68" x2="160" y2="84" stroke="#2a3448" stroke-width="1"/>
+          <!-- MAR -->
+          <rect x="82" y="84" width="156" height="40" rx="2" fill="#151923" stroke="#4a9eff" stroke-width="1"/>
+          <text x="160" y="102" text-anchor="middle" fill="#4a9eff" font-size="9.5" font-weight="500">MAR</text>
+          <text x="160" y="116" text-anchor="middle" fill="#7a8ba8" font-size="7.8">Memory Address Register</text>
+          <line x1="160" y1="124" x2="160" y2="142" stroke="#2a3448" stroke-width="1"/>
+          <!-- MDR -->
+          <rect x="82" y="142" width="156" height="40" rx="2" fill="#151923" stroke="#4a9eff" stroke-width="1"/>
+          <text x="160" y="160" text-anchor="middle" fill="#4a9eff" font-size="9.5" font-weight="500">MDR</text>
+          <text x="160" y="174" text-anchor="middle" fill="#7a8ba8" font-size="7.8">Memory Data Register</text>
+          <line x1="160" y1="182" x2="160" y2="200" stroke="#2a3448" stroke-width="1"/>
+          <!-- IR -->
+          <rect x="82" y="200" width="156" height="36" rx="2" fill="#151923" stroke="#3dd68c" stroke-width="1"/>
+          <text x="160" y="222" text-anchor="middle" fill="#3dd68c" font-size="9.2" font-weight="500">IR — Instruction Register</text>
+          <line x1="160" y1="236" x2="160" y2="252" stroke="#2a3448" stroke-width="1"/>
+          <!-- ACC -->
+          <rect x="82" y="252" width="156" height="36" rx="2" fill="#151923" stroke="#9b8afb" stroke-width="1"/>
+          <text x="160" y="274" text-anchor="middle" fill="#9b8afb" font-size="9.5" font-weight="500">ACC — Accumulator</text>
+          <!-- labels -->
+          <text x="250" y="54" fill="#3d4f6a" font-size="7.5">next address</text>
+          <text x="250" y="108" fill="#3d4f6a" font-size="7.5">address bus</text>
+          <text x="250" y="166" fill="#3d4f6a" font-size="7.5">data bus</text>
+          <text x="250" y="222" fill="#3d4f6a" font-size="7.5">decode here</text>
+          <text x="250" y="276" fill="#3d4f6a" font-size="7.5">ALU result</text>
+          <!-- Memory box -->
+          <rect x="14" y="116" width="60" height="60" rx="2" fill="#151923" stroke="#2a3448" stroke-width="1"/>
+          <text x="44" y="144" text-anchor="middle" fill="#7a8ba8" font-size="8.5">Memory</text>
+          <text x="44" y="157" text-anchor="middle" fill="#3d4f6a" font-size="7.5">(RAM)</text>
+          <line x1="74" y1="146" x2="82" y2="146" stroke="#2a3448" stroke-width="1" stroke-dasharray="3,2"/>
+          <!-- ALU box -->
+          <rect x="14" y="248" width="60" height="40" rx="2" fill="#151923" stroke="#9b8afb" stroke-width="1"/>
+          <text x="44" y="272" text-anchor="middle" fill="#9b8afb" font-size="8.5">ALU</text>
+          <line x1="74" y1="268" x2="82" y2="270" stroke="#2a3448" stroke-width="1" stroke-dasharray="3,2"/>
+        </svg>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- S6: ACTING IT OUT -->
-  <div class="slide">
-    <div class="content">
-      <div class="activity-badge">
-        <span class="act-num">Activity 02</span>
-        <span class="act-name">Acting Out the Boot Sequence</span>
-        <span class="act-time">15 min</span>
-      </div>
-      <h2>You <span class="hl-blue">are</span> the hardware.</h2>
-      <p class="lead" style="margin-bottom:14px;">Each of you gets a role. We'll run the boot sequence as a class — step by step.</p>
-      <div class="role-grid">
-        <div class="role-card r1">
-          <div class="role-name">⚡ Power Supply</div>
-          <div class="role-action">You <strong>wake up first.</strong> Send the signal to the motherboard. Without you, nothing moves.</div>
+<!-- ═══════════════════════════════════════════════ S4: BUSES -->
+<div class="slide scroll-slide">
+  <div class="content stack-slide-content">
+    <div class="stack-slide-hero">
+      <div class="stack-text">
+        <div class="label">// Slide 4 · Data Transfer</div>
+        <h2><span class="hl-blue">Buses</span> — How Components<br>Communicate</h2>
+        <div class="grid" style="gap:2px;">
+          <div class="card blue">
+            <div class="card-title">📦 Data Bus</div>
+            <div class="card-body">Transfers the <strong>actual data</strong> between components (CPU ↔ RAM ↔ Storage). Bidirectional.</div>
+          </div>
+          <div class="card gold">
+            <div class="card-title">📍 Address Bus</div>
+            <div class="card-body">Carries <strong>memory addresses</strong> — tells the system <em>where</em> data is located. Unidirectional (CPU → memory).</div>
+          </div>
+          <div class="card purple">
+            <div class="card-title">🎛️ Control Bus</div>
+            <div class="card-body">Carries <strong>control signals</strong> — read/write commands, interrupts, clock signals. Manages timing.</div>
+          </div>
         </div>
-        <div class="role-card r2">
-          <div class="role-name">🧠 CPU</div>
-          <div class="role-action">You <strong>run the BIOS.</strong> Then you run the POST. Then you load the OS. You are always in charge.</div>
-        </div>
-        <div class="role-card r3">
-          <div class="role-name">💾 Storage (SSD/HDD)</div>
-          <div class="role-action">You <strong>hold the OS.</strong> Wait for the CPU to call on you, then hand over the bootloader.</div>
-        </div>
-        <div class="role-card r4">
-          <div class="role-name">⚡ RAM</div>
-          <div class="role-action">You <strong>receive the OS</strong> once it's loaded. You are empty at first — volatile, waiting.</div>
-        </div>
-        <div class="role-card r5">
-          <div class="role-name">🔧 BIOS / UEFI</div>
-          <div class="role-action">You <strong>run the POST.</strong> Check that all the other roles are present. Announce: "All clear."</div>
-        </div>
-        <div class="role-card r6">
-          <div class="role-name">🖥️ Operating System</div>
-          <div class="role-action">You <strong>go last.</strong> Only appear once RAM is ready. You are what the user sees.</div>
+        <div class="info-box">
+          <p><strong>👉</strong> Buses allow the CPU, memory, and storage to <strong>communicate</strong>. Without buses, components are isolated islands.</p>
         </div>
       </div>
     </div>
-  </div>
+    <div class="diagram-section">
+      <div class="label blue">// Bus Diagram</div>
+      <div class="diagram-frame">
+        <svg viewBox="0 0 300 280" width="100%">
+          <!-- CPU -->
+          <rect x="10" y="100" width="70" height="60" rx="3" fill="#151923" stroke="#c9a84c" stroke-width="1.5"/>
+          <text x="45" y="128" text-anchor="middle" fill="#c9a84c" font-size="10" letter-spacing="1">CPU</text>
+          <text x="45" y="143" text-anchor="middle" fill="#3d4f6a" font-size="7.5">CU + ALU</text>
+          <!-- RAM -->
+          <rect x="115" y="40" width="70" height="50" rx="3" fill="#151923" stroke="#ff6b6b" stroke-width="1.5"/>
+          <text x="150" y="63" text-anchor="middle" fill="#ff6b6b" font-size="10" letter-spacing="1">RAM</text>
+          <text x="150" y="78" text-anchor="middle" fill="#3d4f6a" font-size="7.5">Volatile</text>
+          <!-- Storage -->
+          <rect x="115" y="190" width="70" height="50" rx="3" fill="#151923" stroke="#3dd68c" stroke-width="1.5"/>
+          <text x="150" y="213" text-anchor="middle" fill="#3dd68c" font-size="10" letter-spacing="1">Storage</text>
+          <text x="150" y="228" text-anchor="middle" fill="#3d4f6a" font-size="7.5">SSD / HDD</text>
+          <!-- I/O -->
+          <rect x="220" y="100" width="70" height="60" rx="3" fill="#151923" stroke="#7a8ba8" stroke-width="1"/>
+          <text x="255" y="128" text-anchor="middle" fill="#7a8ba8" font-size="10" letter-spacing="1">I/O</text>
+          <text x="255" y="143" text-anchor="middle" fill="#3d4f6a" font-size="7.5">Peripherals</text>
 
-  <!-- S7: DISASSEMBLY -->
-  <div class="slide">
-    <div class="content">
-      <div class="activity-badge">
-        <span class="act-num">Activity 03</span>
-        <span class="act-name">Desktop Disassembly</span>
-        <span class="act-time">10 min</span>
+          <!-- BUS LINES -->
+          <!-- Data bus (blue) — horizontal center -->
+          <line x1="80" y1="130" x2="220" y2="130" stroke="#4a9eff" stroke-width="2.5"/>
+          <!-- Address bus (gold) — above -->
+          <line x1="80" y1="122" x2="220" y2="122" stroke="#c9a84c" stroke-width="2"/>
+          <!-- Control bus (purple) — below -->
+          <line x1="80" y1="138" x2="220" y2="138" stroke="#9b8afb" stroke-width="1.5"/>
+
+          <!-- verticals to RAM -->
+          <line x1="150" y1="90" x2="150" y2="122" stroke="#4a9eff" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <!-- verticals to Storage -->
+          <line x1="150" y1="138" x2="150" y2="190" stroke="#4a9eff" stroke-width="1.5" stroke-dasharray="3,2"/>
+
+          <!-- LEGEND -->
+          <rect x="10" y="255" width="10" height="6" fill="#4a9eff"/>
+          <text x="25" y="262" fill="#4a9eff" font-size="8">Data Bus</text>
+          <rect x="80" y="255" width="10" height="6" fill="#c9a84c"/>
+          <text x="95" y="262" fill="#c9a84c" font-size="8">Address Bus</text>
+          <rect x="168" y="255" width="10" height="6" fill="#9b8afb"/>
+          <text x="183" y="262" fill="#9b8afb" font-size="8">Control Bus</text>
+        </svg>
       </div>
-      <h2>Open it up. <span class="hl-blue">Find the parts.</span></h2>
-      <div class="warn-box" style="margin-bottom:18px;">
-        <p><strong>Safety first:</strong> Unplug the computer. Handle components carefully. Keep screws organized.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S5: CORES -->
+<div class="slide scroll-slide">
+  <div class="content stack-slide-content">
+    <div class="stack-slide-hero">
+      <div class="stack-text">
+        <div class="label">// Slide 5 · CPU Performance</div>
+        <h2>Cores — <span class="hl-green">Processing Power</span></h2>
+        <div class="card green" style="margin-bottom:2px;">
+          <div class="card-title">What is a Core?</div>
+          <div class="card-body">A core is an <strong>independent processing unit</strong> inside the CPU. Each core can handle its own tasks simultaneously.</div>
+        </div>
+        <div class="grid g2" style="gap:2px;margin-top:2px;">
+          <div class="card blue">
+            <div class="card-title">Single-Core</div>
+            <div class="card-body"><strong>One task at a time.</strong> Tasks must wait in a queue. Older CPUs.</div>
+          </div>
+          <div class="card purple">
+            <div class="card-title">Multi-Core</div>
+            <div class="card-body"><strong>Multiple simultaneous tasks.</strong> Dual (2), Quad (4), Octa (8), and beyond.</div>
+          </div>
+        </div>
+        <div class="info-box">
+          <p><strong>👉 More cores = better multitasking.</strong> AI training, video editing, and gaming all benefit enormously from more cores.</p>
+        </div>
       </div>
-      <div class="grid g3" style="gap:2px;">
-        <div class="card gold">
-          <span class="card-icon">🔌</span>
-          <div class="card-title">Motherboard</div>
-          <div class="card-body">The main circuit board. Everything connects here. Find the CPU socket, RAM slots, PCIe slots.</div>
+    </div>
+    <div class="diagram-section">
+      <div class="label green">// Core Diagram</div>
+      <div class="diagram-frame">
+        <svg viewBox="0 0 320 300" width="100%">
+          <!-- Single core -->
+          <text x="82" y="18" text-anchor="middle" fill="#3d4f6a" font-size="8.5" letter-spacing="2">SINGLE-CORE</text>
+          <rect x="20" y="26" width="124" height="88" rx="3" fill="#151923" stroke="#4a9eff" stroke-width="1.5"/>
+          <rect x="36" y="40" width="92" height="58" rx="2" fill="#0e1117" stroke="#4a9eff" stroke-width="1"/>
+          <text x="82" y="72" text-anchor="middle" fill="#4a9eff" font-size="10">Core 1</text>
+          <text x="82" y="88" text-anchor="middle" fill="#3d4f6a" font-size="7.5">one task at a time</text>
+          <!-- tasks queued for single -->
+          <rect x="160" y="46" width="22" height="16" rx="1" fill="#151923" stroke="#2a3448"/>
+          <rect x="160" y="68" width="22" height="16" rx="1" fill="#151923" stroke="#2a3448"/>
+          <rect x="160" y="90" width="22" height="16" rx="1" fill="#151923" stroke="#2a3448"/>
+          <text x="171" y="57" text-anchor="middle" fill="#3d4f6a" font-size="7">T1</text>
+          <text x="171" y="79" text-anchor="middle" fill="#3d4f6a" font-size="7">T2</text>
+          <text x="171" y="101" text-anchor="middle" fill="#3d4f6a" font-size="7">T3</text>
+          <text x="171" y="122" text-anchor="middle" fill="#3d4f6a" font-size="7">queue</text>
+
+          <!-- Multi core quad -->
+          <text x="120" y="156" text-anchor="middle" fill="#3d4f6a" font-size="8.5" letter-spacing="2">QUAD-CORE</text>
+          <rect x="20" y="164" width="236" height="112" rx="3" fill="#151923" stroke="#9b8afb" stroke-width="1.5"/>
+          <rect x="32" y="178" width="98" height="42" rx="2" fill="#0e1117" stroke="#9b8afb" stroke-width="1"/>
+          <text x="81" y="203" text-anchor="middle" fill="#9b8afb" font-size="9.5">Core 1</text>
+          <rect x="146" y="178" width="98" height="42" rx="2" fill="#0e1117" stroke="#9b8afb" stroke-width="1"/>
+          <text x="195" y="203" text-anchor="middle" fill="#9b8afb" font-size="9.5">Core 2</text>
+          <rect x="32" y="226" width="98" height="42" rx="2" fill="#0e1117" stroke="#9b8afb" stroke-width="1"/>
+          <text x="81" y="251" text-anchor="middle" fill="#9b8afb" font-size="9.5">Core 3</text>
+          <rect x="146" y="226" width="98" height="42" rx="2" fill="#0e1117" stroke="#9b8afb" stroke-width="1"/>
+          <text x="195" y="251" text-anchor="middle" fill="#9b8afb" font-size="9.5">Core 4</text>
+          <!-- task labels -->
+          <text x="81" y="216" text-anchor="middle" fill="#3d4f6a" font-size="7">Task 1</text>
+          <text x="195" y="216" text-anchor="middle" fill="#3d4f6a" font-size="7">Task 2</text>
+          <text x="81" y="264" text-anchor="middle" fill="#3d4f6a" font-size="7">Task 3</text>
+          <text x="195" y="264" text-anchor="middle" fill="#3d4f6a" font-size="7">Task 4</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S6: GPU -->
+<div class="slide scroll-slide">
+  <div class="content stack-slide-content">
+    <div class="stack-slide-hero">
+      <div class="stack-text">
+        <div class="label">// Slide 6 · Graphics Processing</div>
+        <h2>GPU — <span class="hl-purple">Graphics Processing</span><br>Unit</h2>
+        <div class="card purple" style="margin-bottom:2px;">
+          <div class="card-title">What it does</div>
+          <div class="card-body">
+            · Processes <strong>graphics, images, and video</strong><br>
+            · Designed for <strong>parallel processing</strong> — thousands of small cores<br>
+            · Originally for graphics; now critical for <strong>AI training</strong>
+          </div>
         </div>
-        <div class="card purple">
-          <span class="card-icon">🧠</span>
-          <div class="card-title">CPU</div>
-          <div class="card-body">Under the heatsink/fan. <strong>Do not remove.</strong> Locate the model label on the heatsink.</div>
+        <div class="grid g2" style="gap:2px;margin-top:2px;">
+          <div class="card gold">
+            <div class="card-title">CPU</div>
+            <div class="card-body"><strong>Few powerful cores</strong> (4–16). Great at complex, sequential tasks. General purpose.</div>
+          </div>
+          <div class="card purple">
+            <div class="card-title">GPU</div>
+            <div class="card-body"><strong>Thousands of small cores</strong> (1000s). Great at many simple tasks at once. Specialized.</div>
+          </div>
         </div>
+        <div class="info-box">
+          <p><strong>AI connection:</strong> Training neural networks requires billions of parallel multiplications — exactly what a GPU is built for.</p>
+        </div>
+      </div>
+    </div>
+    <div class="diagram-section">
+      <div class="label purple">// CPU vs GPU Diagram</div>
+      <div class="diagram-frame">
+        <svg viewBox="0 0 280 240" width="100%">
+          <!-- CPU side -->
+          <text x="70" y="16" text-anchor="middle" fill="#c9a84c" font-size="9" letter-spacing="1.5">CPU</text>
+          <rect x="10" y="24" width="120" height="100" rx="3" fill="#151923" stroke="#c9a84c" stroke-width="1.5"/>
+          <!-- 4 big cores -->
+          <rect x="18" y="32" width="48" height="40" rx="2" fill="#0e1117" stroke="#c9a84c" stroke-width="1"/>
+          <text x="42" y="56" text-anchor="middle" fill="#c9a84c" font-size="8">Core</text>
+          <rect x="74" y="32" width="48" height="40" rx="2" fill="#0e1117" stroke="#c9a84c" stroke-width="1"/>
+          <text x="98" y="56" text-anchor="middle" fill="#c9a84c" font-size="8">Core</text>
+          <rect x="18" y="76" width="48" height="40" rx="2" fill="#0e1117" stroke="#c9a84c" stroke-width="1"/>
+          <text x="42" y="100" text-anchor="middle" fill="#c9a84c" font-size="8">Core</text>
+          <rect x="74" y="76" width="48" height="40" rx="2" fill="#0e1117" stroke="#c9a84c" stroke-width="1"/>
+          <text x="98" y="100" text-anchor="middle" fill="#c9a84c" font-size="8">Core</text>
+          <text x="70" y="135" text-anchor="middle" fill="#3d4f6a" font-size="7.5">4 large cores</text>
+
+          <!-- GPU side -->
+          <text x="210" y="16" text-anchor="middle" fill="#9b8afb" font-size="9" letter-spacing="1.5">GPU</text>
+          <rect x="150" y="24" width="120" height="100" rx="3" fill="#151923" stroke="#9b8afb" stroke-width="1.5"/>
+          <!-- many tiny cores -->
+          <g fill="#0e1117" stroke="#9b8afb" stroke-width="0.5">
+            <!-- 8x6 grid of tiny cores -->
+            <rect x="156" y="30" width="11" height="10" rx="1"/>  <rect x="170" y="30" width="11" height="10" rx="1"/>
+            <rect x="184" y="30" width="11" height="10" rx="1"/>  <rect x="198" y="30" width="11" height="10" rx="1"/>
+            <rect x="212" y="30" width="11" height="10" rx="1"/>  <rect x="226" y="30" width="11" height="10" rx="1"/>
+            <rect x="240" y="30" width="11" height="10" rx="1"/>  <rect x="254" y="30" width="11" height="10" rx="1"/>
+            <rect x="156" y="43" width="11" height="10" rx="1"/>  <rect x="170" y="43" width="11" height="10" rx="1"/>
+            <rect x="184" y="43" width="11" height="10" rx="1"/>  <rect x="198" y="43" width="11" height="10" rx="1"/>
+            <rect x="212" y="43" width="11" height="10" rx="1"/>  <rect x="226" y="43" width="11" height="10" rx="1"/>
+            <rect x="240" y="43" width="11" height="10" rx="1"/>  <rect x="254" y="43" width="11" height="10" rx="1"/>
+            <rect x="156" y="56" width="11" height="10" rx="1"/>  <rect x="170" y="56" width="11" height="10" rx="1"/>
+            <rect x="184" y="56" width="11" height="10" rx="1"/>  <rect x="198" y="56" width="11" height="10" rx="1"/>
+            <rect x="212" y="56" width="11" height="10" rx="1"/>  <rect x="226" y="56" width="11" height="10" rx="1"/>
+            <rect x="240" y="56" width="11" height="10" rx="1"/>  <rect x="254" y="56" width="11" height="10" rx="1"/>
+            <rect x="156" y="69" width="11" height="10" rx="1"/>  <rect x="170" y="69" width="11" height="10" rx="1"/>
+            <rect x="184" y="69" width="11" height="10" rx="1"/>  <rect x="198" y="69" width="11" height="10" rx="1"/>
+            <rect x="212" y="69" width="11" height="10" rx="1"/>  <rect x="226" y="69" width="11" height="10" rx="1"/>
+            <rect x="240" y="69" width="11" height="10" rx="1"/>  <rect x="254" y="69" width="11" height="10" rx="1"/>
+            <rect x="156" y="82" width="11" height="10" rx="1"/>  <rect x="170" y="82" width="11" height="10" rx="1"/>
+            <rect x="184" y="82" width="11" height="10" rx="1"/>  <rect x="198" y="82" width="11" height="10" rx="1"/>
+            <rect x="212" y="82" width="11" height="10" rx="1"/>  <rect x="226" y="82" width="11" height="10" rx="1"/>
+            <rect x="240" y="82" width="11" height="10" rx="1"/>  <rect x="254" y="82" width="11" height="10" rx="1"/>
+            <rect x="156" y="95" width="11" height="10" rx="1"/>  <rect x="170" y="95" width="11" height="10" rx="1"/>
+            <rect x="184" y="95" width="11" height="10" rx="1"/>  <rect x="198" y="95" width="11" height="10" rx="1"/>
+            <rect x="212" y="95" width="11" height="10" rx="1"/>  <rect x="226" y="95" width="11" height="10" rx="1"/>
+            <rect x="240" y="95" width="11" height="10" rx="1"/>  <rect x="254" y="95" width="11" height="10" rx="1"/>
+          </g>
+          <text x="210" y="135" text-anchor="middle" fill="#3d4f6a" font-size="7.5">thousands of small cores</text>
+
+          <!-- VS label -->
+          <text x="140" y="80" text-anchor="middle" fill="#2a3448" font-size="14" font-weight="bold">vs</text>
+
+          <!-- summary row -->
+          <rect x="10" y="150" width="120" height="38" rx="2" fill="#151923" stroke="#2a3448"/>
+          <text x="70" y="167" text-anchor="middle" fill="#7a8ba8" font-size="8.5">General tasks</text>
+          <text x="70" y="180" text-anchor="middle" fill="#7a8ba8" font-size="8.5">Complex sequential ops</text>
+          <rect x="150" y="150" width="120" height="38" rx="2" fill="#151923" stroke="#2a3448"/>
+          <text x="210" y="167" text-anchor="middle" fill="#7a8ba8" font-size="8.5">Graphics / AI / parallel</text>
+          <text x="210" y="180" text-anchor="middle" fill="#7a8ba8" font-size="8.5">Many simple ops at once</text>
+
+          <!-- arrow indicators -->
+          <text x="70" y="205" text-anchor="middle" fill="#c9a84c" font-size="8">CPU → think deeply</text>
+          <text x="210" y="205" text-anchor="middle" fill="#9b8afb" font-size="8">GPU → think broadly</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S7: RAM -->
+<div class="slide scroll-slide">
+  <div class="content stack-slide-content">
+    <div class="stack-slide-hero">
+      <div class="stack-text">
+        <div class="label">// Slide 7 · Primary Memory</div>
+        <h2>RAM — <span class="hl-red">Random Access</span><br>Memory</h2>
         <div class="card red">
-          <span class="card-icon">⚡</span>
-          <div class="card-title">RAM</div>
-          <div class="card-body">Long sticks in the slots. Read the tiny label — note capacity (GB) and type (DDR3/4).</div>
-        </div>
-        <div class="card blue">
-          <span class="card-icon">💾</span>
-          <div class="card-title">Storage</div>
-          <div class="card-body">HDD (spinning) or SSD. Find the capacity label. Trace the cable to the motherboard.</div>
-        </div>
-        <div class="card green">
-          <span class="card-icon">⚡</span>
-          <div class="card-title">Power Supply</div>
-          <div class="card-body">The metal box with the fan. Find the wattage rating on the label. Count how many cables come out.</div>
-        </div>
-        <div class="card gold" style="border-style:dashed;">
-          <span class="card-icon">🎮</span>
-          <div class="card-title">GPU (if present)</div>
-          <div class="card-body">Plugged into a PCIe slot. Not all desktops have a dedicated GPU — some use the CPU's built-in graphics.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- S8: JIGSAW RESEARCH -->
-  <div class="slide">
-    <div class="content">
-      <div class="activity-badge">
-        <span class="act-num">Activity 04</span>
-        <span class="act-name">Component Research — Jigsaw</span>
-        <span class="act-time">10 min</span>
-      </div>
-      <h2>Your group owns <span class="hl-gold">one component.</span></h2>
-      <p class="lead" style="margin-bottom:14px;">Use your textbook. Answer these three questions about your assigned component.</p>
-      <div class="steps">
-        <div class="step-row">
-          <div class="step-n" style="color:var(--blue);">Q1</div>
-          <div class="step-text"><strong>What does this component do?</strong> Describe its core function in one or two sentences.</div>
-        </div>
-        <div class="step-row">
-          <div class="step-n" style="color:var(--blue);">Q2</div>
-          <div class="step-text"><strong>What role does it play during startup?</strong> When in the boot sequence does it become active?</div>
-        </div>
-        <div class="step-row">
-          <div class="step-n" style="color:var(--blue);">Q3</div>
-          <div class="step-text"><strong>Why is it necessary?</strong> What would fail if this component were missing or broken?</div>
-        </div>
-      </div>
-      <div class="info-box">
-        <p><strong>Assigned components:</strong> CPU · RAM · Storage · Motherboard · Power Supply · GPU</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- S9: PEER TEACHING -->
-  <div class="slide">
-    <div class="content">
-      <div class="activity-badge">
-        <span class="act-num">Activity 05</span>
-        <span class="act-name">Peer Teaching — Jigsaw Share</span>
-        <span class="act-time">10 min</span>
-      </div>
-      <h2>Now teach it to <span class="hl-green">someone else.</span></h2>
-      <p class="lead" style="margin-bottom:16px;">If you can explain it clearly, you understand it. If you can't, you know what to review.</p>
-      <div class="grid g3" style="gap:2px;">
-        <div class="card green">
-          <div class="card-title">Explain the Function</div>
-          <div class="card-body">What does your component <strong>do?</strong> No jargon — explain it like your partner has never seen a computer before.</div>
-        </div>
-        <div class="card blue">
-          <div class="card-title">Show Its Location</div>
-          <div class="card-body">Point to it <strong>on the open desktop.</strong> "This is it. This is where it lives. This is what it connects to."</div>
-        </div>
-        <div class="card gold">
-          <div class="card-title">Its Role in Boot</div>
-          <div class="card-body">When does your component <strong>activate?</strong> Before POST? After? Does it receive data or send it?</div>
-        </div>
-      </div>
-      <div class="info-box" style="margin-top:16px;">
-        <p><strong>Listening:</strong> As others present, write down one thing you didn't know about their component.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- S10: SYSTEMS DIAGRAM -->
-  <div class="slide">
-    <div class="content">
-      <div class="activity-badge">
-        <span class="act-num">Activity 06</span>
-        <span class="act-name">Systems Diagram Creation</span>
-        <span class="act-time">10 min</span>
-      </div>
-      <h2>Draw the <span class="hl-purple">whole system.</span></h2>
-      <p class="lead" style="margin-bottom:14px;">Paper, pencil, arrows. Your diagram must show all three layers.</p>
-      <div class="grid g3" style="gap:2px;">
-        <div class="card gold">
-          <div class="card-title">Layer 1 — Hardware</div>
+          <div class="card-title">What RAM is</div>
           <div class="card-body">
-            Draw and label:<br>
-            · Power Supply<br>
-            · Motherboard<br>
-            · Storage (SSD/HDD)<br>
-            · CPU<br>
-            · RAM
+            · Stores <strong>data currently in use</strong> by the CPU<br>
+            · <strong>Temporary (volatile)</strong> — data is lost when power is off<br>
+            · Much <strong>faster</strong> to access than secondary storage<br>
+            · The CPU reads from and writes to RAM constantly
           </div>
         </div>
-        <div class="card blue">
-          <div class="card-title">Layer 2 — Boot Sequence</div>
-          <div class="card-body">
-            Add <strong>numbered arrows</strong> showing the order data flows between components during startup.
-          </div>
+        <div class="info-box" style="margin-top:2px;">
+          <p>The more RAM a computer has, the more programs it can run at the same time without slowing down.</p>
         </div>
-        <div class="card purple">
-          <div class="card-title">Layer 3 — CPU Micro-Level</div>
-          <div class="card-body">
-            Zoom into the CPU and show:<br>
-            · ALU<br>
-            · Control Unit<br>
-            · Registers (extension)<br><br>
-            <span style="color:var(--text3);font-size:0.85em;">Label what each part does.</span>
+        <div class="grid g2" style="gap:2px;margin-top:2px;">
+          <div class="card blue" style="padding:14px 18px;">
+            <div class="card-title">Volatile <span class="tag volatile">VOLATILE</span></div>
+            <div class="card-body">Contents <strong>disappear</strong> when power is removed. This is why you must save files.</div>
+          </div>
+          <div class="card gold" style="padding:14px 18px;">
+            <div class="card-title">Fast Access</div>
+            <div class="card-body">Much faster than SSD/HDD. The CPU can read it billions of times per second.</div>
           </div>
         </div>
       </div>
-      <div class="info-box" style="margin-top:14px;">
-        <p><strong>Arrows matter:</strong> Each arrow should show the direction data travels, not just that two components are connected.</p>
+    </div>
+    <div class="diagram-section">
+      <div class="label red">// RAM Diagram</div>
+      <div class="diagram-frame">
+        <svg viewBox="0 0 240 260" width="100%">
+          <text x="120" y="16" text-anchor="middle" fill="#3d4f6a" font-size="8.5" letter-spacing="2">RAM IN THE SYSTEM</text>
+          <!-- CPU -->
+          <rect x="80" y="26" width="80" height="44" rx="3" fill="#151923" stroke="#c9a84c" stroke-width="1.5"/>
+          <text x="120" y="52" text-anchor="middle" fill="#c9a84c" font-size="10">CPU</text>
+          <!-- arrows CPU <-> RAM -->
+          <line x1="120" y1="70" x2="120" y2="92" stroke="#4a9eff" stroke-width="2"/>
+          <text x="132" y="84" fill="#4a9eff" font-size="7.5">read/write</text>
+          <!-- RAM sticks -->
+          <rect x="30" y="92" width="180" height="56" rx="3" fill="#151923" stroke="#ff6b6b" stroke-width="2"/>
+          <text x="120" y="114" text-anchor="middle" fill="#ff6b6b" font-size="10.5" letter-spacing="1">RAM</text>
+          <text x="120" y="130" text-anchor="middle" fill="#7a8ba8" font-size="8.5">Temporary · Volatile · Fast</text>
+          <text x="120" y="142" text-anchor="middle" fill="#3d4f6a" font-size="7.5">cleared when power off</text>
+          <!-- arrow RAM -> Storage -->
+          <line x1="120" y1="148" x2="120" y2="170" stroke="#2a3448" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <text x="132" y="162" fill="#3d4f6a" font-size="7.5">loads OS</text>
+          <!-- Storage -->
+          <rect x="60" y="170" width="120" height="44" rx="3" fill="#151923" stroke="#3dd68c" stroke-width="1.5"/>
+          <text x="120" y="196" text-anchor="middle" fill="#3dd68c" font-size="10">Storage</text>
+          <text x="120" y="208" text-anchor="middle" fill="#3d4f6a" font-size="7.5">SSD / HDD · Permanent</text>
+          <!-- volatile label -->
+          <rect x="174" y="94" width="64" height="24" rx="2" fill="rgba(255,107,107,0.1)" stroke="rgba(255,107,107,0.3)"/>
+          <text x="206" y="110" text-anchor="middle" fill="#ff6b6b" font-size="8">VOLATILE</text>
+          <!-- permanent label -->
+          <rect x="170" y="172" width="72" height="24" rx="2" fill="rgba(61,214,140,0.1)" stroke="rgba(61,214,140,0.3)"/>
+          <text x="206" y="188" text-anchor="middle" fill="#3dd68c" font-size="8">PERMANENT</text>
+        </svg>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- S11: EXIT TICKET -->
-  <div class="slide">
-    <div class="content" style="max-width:820px;margin:0 auto;text-align:center;">
-      <div class="label" style="display:block;text-align:center;">// Exit Ticket · Google Form · 5 min</div>
-      <h2>Before you leave —<br><span class="hl-green">submit the form.</span></h2>
-      <div class="divider"></div>
-      <div class="grid g2" style="gap:2px;text-align:left;margin-top:0;">
+<!-- ═══════════════════════════════════════════════ S8: SECONDARY STORAGE -->
+<div class="slide scroll-slide">
+  <div class="content stack-slide-content">
+    <div class="stack-slide-hero">
+      <div class="stack-text">
+        <div class="label">// Slide 8 · Long-Term Storage</div>
+        <h2><span class="hl-green">Secondary Storage</span><br>— Permanent Memory</h2>
         <div class="card green">
-          <div class="card-title">Question 1</div>
-          <div class="card-body" style="font-size:clamp(1rem,1.6vw,1.25rem);">Write the order of how a computer boots up <strong>in your own words.</strong></div>
+          <div class="card-title">What it is <span class="tag perm">NON-VOLATILE</span></div>
+          <div class="card-body">
+            · Stores data <strong>permanently</strong> — survives power off<br>
+            · Holds the <strong>operating system</strong>, programs, and user files<br>
+            · Slower than RAM but <strong>far larger capacity</strong>
+          </div>
         </div>
-        <div class="card blue">
-          <div class="card-title">Question 2</div>
-          <div class="card-body" style="font-size:clamp(1rem,1.6vw,1.25rem);">Which hardware component <strong>stores the operating system</strong> before the computer starts?</div>
+        <div class="grid g2" style="gap:2px;margin-top:2px;">
+          <div class="card blue">
+            <div class="card-title">💿 HDD</div>
+            <div class="card-body"><strong>Hard Disk Drive.</strong> Spinning magnetic platters. Cheaper, larger capacity, slower, fragile.</div>
+          </div>
+          <div class="card gold">
+            <div class="card-title">⚡ SSD</div>
+            <div class="card-body"><strong>Solid State Drive.</strong> Flash memory chips. Faster, lighter, more durable, more expensive.</div>
+          </div>
+        </div>
+        <div class="info-box">
+          <p>Everything <strong>you care about persisting</strong> lives here — OS, apps, documents, photos. RAM forgets; storage remembers.</p>
         </div>
       </div>
-      <div class="quote-box" style="text-align:left;margin-top:20px;">
-        <p>"Does hardware possess knowledge, or does it only facilitate knowledge?"</p>
-        <div class="source">// Reflect on this TOK question as you write your answers</div>
+    </div>
+    <div class="diagram-section">
+      <div class="label green">// Storage Diagram</div>
+      <div class="diagram-frame">
+        <svg viewBox="0 0 260 240" width="100%">
+          <!-- HDD -->
+          <text x="65" y="18" text-anchor="middle" fill="#4a9eff" font-size="9" letter-spacing="1.5">HDD</text>
+          <rect x="10" y="26" width="110" height="100" rx="3" fill="#151923" stroke="#4a9eff" stroke-width="1.5"/>
+          <!-- spinning disk circles -->
+          <circle cx="65" cy="76" r="36" fill="none" stroke="#2a3448" stroke-width="1"/>
+          <circle cx="65" cy="76" r="24" fill="none" stroke="#2a3448" stroke-width="1"/>
+          <circle cx="65" cy="76" r="12" fill="none" stroke="#2a3448" stroke-width="1"/>
+          <circle cx="65" cy="76" r="4" fill="#2a3448"/>
+          <!-- arm -->
+          <line x1="65" y1="76" x2="94" y2="52" stroke="#4a9eff" stroke-width="1.5"/>
+          <circle cx="94" cy="52" r="3" fill="#4a9eff"/>
+          <text x="65" y="138" text-anchor="middle" fill="#7a8ba8" font-size="7.5">Spinning platters</text>
+          <text x="65" y="150" text-anchor="middle" fill="#7a8ba8" font-size="7.5">Read/write head</text>
+
+          <!-- SSD -->
+          <text x="195" y="18" text-anchor="middle" fill="#c9a84c" font-size="9" letter-spacing="1.5">SSD</text>
+          <rect x="140" y="26" width="110" height="100" rx="3" fill="#151923" stroke="#c9a84c" stroke-width="1.5"/>
+          <!-- NAND chips grid -->
+          <rect x="152" y="38" width="36" height="24" rx="2" fill="#0e1117" stroke="#c9a84c" stroke-width="0.8"/>
+          <text x="170" y="53" text-anchor="middle" fill="#c9a84c" font-size="7">NAND</text>
+          <rect x="196" y="38" width="36" height="24" rx="2" fill="#0e1117" stroke="#c9a84c" stroke-width="0.8"/>
+          <text x="214" y="53" text-anchor="middle" fill="#c9a84c" font-size="7">NAND</text>
+          <rect x="152" y="68" width="36" height="24" rx="2" fill="#0e1117" stroke="#c9a84c" stroke-width="0.8"/>
+          <text x="170" y="83" text-anchor="middle" fill="#c9a84c" font-size="7">NAND</text>
+          <rect x="196" y="68" width="36" height="24" rx="2" fill="#0e1117" stroke="#c9a84c" stroke-width="0.8"/>
+          <text x="214" y="83" text-anchor="middle" fill="#c9a84c" font-size="7">NAND</text>
+          <rect x="152" y="98" width="80" height="18" rx="2" fill="#0e1117" stroke="#2a3448" stroke-width="0.8"/>
+          <text x="192" y="110" text-anchor="middle" fill="#3d4f6a" font-size="7">Controller chip</text>
+          <text x="195" y="138" text-anchor="middle" fill="#7a8ba8" font-size="7.5">Flash memory chips</text>
+          <text x="195" y="150" text-anchor="middle" fill="#7a8ba8" font-size="7.5">No moving parts</text>
+
+          <!-- Comparison -->
+          <rect x="10" y="162" width="110" height="64" rx="2" fill="#151923" stroke="#2a3448"/>
+          <text x="65" y="178" text-anchor="middle" fill="#4a9eff" font-size="8">Slower · Cheaper</text>
+          <text x="65" y="192" text-anchor="middle" fill="#3d4f6a" font-size="7.5">More capacity / $</text>
+          <text x="65" y="206" text-anchor="middle" fill="#3d4f6a" font-size="7.5">Moving parts → fragile</text>
+          <text x="65" y="220" text-anchor="middle" fill="#3d4f6a" font-size="7.5">~50–200 MB/s</text>
+
+          <rect x="140" y="162" width="110" height="64" rx="2" fill="#151923" stroke="#2a3448"/>
+          <text x="195" y="178" text-anchor="middle" fill="#c9a84c" font-size="8">Faster · Pricier</text>
+          <text x="195" y="192" text-anchor="middle" fill="#3d4f6a" font-size="7.5">Less capacity / $</text>
+          <text x="195" y="206" text-anchor="middle" fill="#3d4f6a" font-size="7.5">Solid state → durable</text>
+          <text x="195" y="220" text-anchor="middle" fill="#3d4f6a" font-size="7.5">~500–7000 MB/s</text>
+        </svg>
       </div>
     </div>
   </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S9: INTERNAL vs EXTERNAL -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// Slide 9 · Storage Locations</div>
+    <h2>Internal vs. <span class="hl-gold">External</span> Storage</h2>
+    <div class="grid g2" style="gap:12px;align-items:start;">
+      <div class="card blue">
+        <div class="card-title">🖥️ Internal Storage</div>
+        <div class="card-body">
+          · <strong>Inside the computer case</strong><br>
+          · Connected directly to the motherboard<br>
+          · Stores the OS, installed programs, personal files<br>
+          · Examples: <strong>Internal SSD, Internal HDD</strong><br><br>
+          Fast access. Not portable. The computer's primary drive.
+        </div>
+      </div>
+      <div class="card gold">
+        <div class="card-title">🔌 External Storage</div>
+        <div class="card-body">
+          · <strong>Outside the computer</strong><br>
+          · Connected via USB, Thunderbolt, or wirelessly<br>
+          · Used for backups, file transfer, extra space<br>
+          · Examples: <strong>USB flash drive, external HDD/SSD</strong><br><br>
+          Portable. Slower connection than internal. Plug and play.
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:2px;">
+      <div class="card cyan" style="padding:14px 20px;">
+        <div class="card-title">☁️ Cloud Storage — a third option</div>
+        <div class="card-body">Data stored on remote servers accessed via the internet. Examples: <strong>Google Drive, iCloud, OneDrive</strong>. No physical media needed — data accessible from anywhere.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S10: CLOUD COMPUTING -->
+<div class="slide">
+  <div class="content">
+    <div class="label cyan">// Slide 10 · Cloud Services</div>
+    <h2><span class="hl-cyan">Cloud</span> Computing</h2>
+    <p class="lead" style="margin-bottom:16px;">Three service models — each gives you a different layer of the computing stack.</p>
+    <div class="grid g3" style="gap:2px;">
+      <div class="card cyan">
+        <div style="font-family:'DM Mono',monospace;font-size:1.8rem;font-weight:500;color:var(--cyan);margin-bottom:8px;">SaaS</div>
+        <div class="card-title">Software as a Service</div>
+        <div class="card-body">
+          Software accessed <strong>completely online.</strong> No installation needed.<br><br>
+          Examples:<br>
+          · Google Docs<br>
+          · Gmail<br>
+          · Microsoft 365 online
+        </div>
+      </div>
+      <div class="card blue">
+        <div style="font-family:'DM Mono',monospace;font-size:1.8rem;font-weight:500;color:var(--blue);margin-bottom:8px;">PaaS</div>
+        <div class="card-title">Platform as a Service</div>
+        <div class="card-body">
+          A platform to <strong>develop and deploy applications</strong> without managing infrastructure.<br><br>
+          Examples:<br>
+          · Google App Engine<br>
+          · Heroku<br>
+          · AWS Elastic Beanstalk
+        </div>
+      </div>
+      <div class="card purple">
+        <div style="font-family:'DM Mono',monospace;font-size:1.8rem;font-weight:500;color:var(--purple);margin-bottom:8px;">IaaS</div>
+        <div class="card-title">Infrastructure as a Service</div>
+        <div class="card-body">
+          <strong>Virtual hardware</strong> — servers, storage, networks — rented on demand.<br><br>
+          Examples:<br>
+          · AWS EC2<br>
+          · Google Compute Engine<br>
+          · Microsoft Azure VMs
+        </div>
+      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>SaaS</strong> = use the app &nbsp;·&nbsp; <strong>PaaS</strong> = build on the platform &nbsp;·&nbsp; <strong>IaaS</strong> = rent the hardware</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S11: COMPRESSION -->
+<div class="slide scroll-slide">
+  <div class="content stack-slide-content">
+    <div class="stack-slide-hero">
+      <div class="stack-text">
+        <div class="label">// Slide 11 · File Size</div>
+        <h2>Compression — <span class="hl-gold">Reducing</span> File Size</h2>
+        <div class="card red">
+          <div class="card-title">❌ Lossy Compression</div>
+          <div class="card-body">
+            · <strong>Some data is permanently removed</strong><br>
+            · Smaller file size<br>
+            · <strong>Cannot</strong> restore the original exactly<br>
+            · Acceptable when small quality loss is OK<br><br>
+            Examples: <strong>JPEG, MP3, MP4</strong>
+          </div>
+        </div>
+        <div class="card green" style="margin-top:2px;">
+          <div class="card-title">✅ Lossless Compression</div>
+          <div class="card-body">
+            · <strong>No data is lost</strong><br>
+            · Can restore original file exactly<br>
+            · Larger file than lossy (but smaller than original)<br><br>
+            Examples: <strong>PNG, ZIP, FLAC, GIF</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="diagram-section">
+      <div class="label gold">// Compression Diagram</div>
+      <div class="diagram-frame">
+        <svg viewBox="0 0 340 320" width="100%">
+          <!-- Original file -->
+          <rect x="100" y="16" width="140" height="48" rx="3" fill="#151923" stroke="#7a8ba8" stroke-width="1.5"/>
+          <text x="170" y="45" text-anchor="middle" fill="#dde4f0" font-size="12">Original File</text>
+          <!-- size bar -->
+          <rect x="70" y="76" width="200" height="14" rx="2" fill="#2a3448"/>
+          <text x="170" y="88" text-anchor="middle" fill="#7a8ba8" font-size="9">100% size</text>
+
+          <!-- two arrows -->
+          <line x1="95" y1="98" x2="68" y2="134" stroke="#ff6b6b" stroke-width="2"/>
+          <line x1="245" y1="98" x2="276" y2="136" stroke="#3dd68c" stroke-width="2"/>
+          <text x="36" y="120" fill="#ff6b6b" font-size="11">Lossy</text>
+          <text x="262" y="120" fill="#3dd68c" font-size="11">Lossless</text>
+
+          <!-- Lossy result -->
+          <rect x="18" y="136" width="128" height="50" rx="3" fill="#151923" stroke="#ff6b6b" stroke-width="1.5"/>
+          <text x="82" y="166" text-anchor="middle" fill="#ff6b6b" font-size="12">Compressed</text>
+          <rect x="28" y="194" width="108" height="16" rx="2" fill="rgba(255,107,107,0.16)"/>
+          <text x="82" y="206" text-anchor="middle" fill="#7a8ba8" font-size="9">~10–20% size</text>
+
+          <!-- Lossless result -->
+          <rect x="194" y="136" width="128" height="50" rx="3" fill="#151923" stroke="#3dd68c" stroke-width="1.5"/>
+          <text x="258" y="166" text-anchor="middle" fill="#3dd68c" font-size="12">Compressed</text>
+          <rect x="204" y="194" width="108" height="16" rx="2" fill="rgba(61,214,140,0.14)"/>
+          <text x="258" y="206" text-anchor="middle" fill="#7a8ba8" font-size="9">~40–60% size</text>
+
+          <!-- restoration arrow -->
+          <line x1="82" y1="218" x2="106" y2="246" stroke="#ff6b6b" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <line x1="258" y1="218" x2="234" y2="246" stroke="#3dd68c" stroke-width="2"/>
+          <!-- restored boxes -->
+          <rect x="18" y="246" width="128" height="48" rx="3" fill="#151923" stroke="#3d4f6a" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="82" y="274" text-anchor="middle" fill="#3d4f6a" font-size="11">Approximate</text>
+          <text x="82" y="288" text-anchor="middle" fill="#3d4f6a" font-size="9">data lost forever</text>
+          <rect x="194" y="246" width="128" height="48" rx="3" fill="#151923" stroke="#3dd68c" stroke-width="1.5"/>
+          <text x="258" y="274" text-anchor="middle" fill="#3dd68c" font-size="11">Exact Original</text>
+          <text x="258" y="288" text-anchor="middle" fill="#3d4f6a" font-size="9">fully restored</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- ═══════════════════════════════════════════════ S12: BOOT PROCESS -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// Slide 12 · System Startup</div>
+    <h2>The Boot <span class="hl-gold">Sequence</span></h2>
+    <div style="display:flex;justify-content:center;margin-top:14px;">
+      <div style="width:min(100%, 640px);background:var(--surface);border:1px solid var(--border);padding:18px;min-height:440px;display:flex;align-items:center;justify-content:center;">
+        <svg viewBox="0 0 320 620" width="84%">
+          <text x="160" y="32" text-anchor="middle" fill="#c9a84c" font-size="14" letter-spacing="3">BOOT SEQUENCE</text>
+          <text x="160" y="56" text-anchor="middle" fill="#627696" font-size="10">Each stage leads to the next</text>
+
+          <rect x="40" y="78" width="240" height="52" rx="4" fill="#151923" stroke="#c9a84c" stroke-width="1.5"/>
+          <text x="160" y="100" text-anchor="middle" fill="#c9a84c" font-size="12">01 Power Button</text>
+          <text x="160" y="118" text-anchor="middle" fill="#92a4c0" font-size="10.5">startup begins</text>
+          <line x1="160" y1="130" x2="160" y2="150" stroke="#2a3448" stroke-width="2"/>
+
+          <rect x="40" y="150" width="240" height="52" rx="4" fill="#151923" stroke="#c9a84c" stroke-width="1.5"/>
+          <text x="160" y="172" text-anchor="middle" fill="#c9a84c" font-size="12">02 Power Supply (PSU)</text>
+          <text x="160" y="190" text-anchor="middle" fill="#92a4c0" font-size="10.5">components receive power</text>
+          <line x1="160" y1="202" x2="160" y2="222" stroke="#2a3448" stroke-width="2"/>
+
+          <rect x="40" y="222" width="240" height="52" rx="4" fill="#151923" stroke="#9b8afb" stroke-width="1.5"/>
+          <text x="160" y="244" text-anchor="middle" fill="#9b8afb" font-size="12">03 CPU → BIOS / UEFI</text>
+          <text x="160" y="262" text-anchor="middle" fill="#92a4c0" font-size="10.5">firmware takes control</text>
+          <line x1="160" y1="274" x2="160" y2="294" stroke="#2a3448" stroke-width="2"/>
+
+          <rect x="40" y="294" width="240" height="52" rx="4" fill="#151923" stroke="#ff6b6b" stroke-width="1.5"/>
+          <text x="160" y="316" text-anchor="middle" fill="#ff6b6b" font-size="12">04 POST — Hardware Check</text>
+          <text x="160" y="334" text-anchor="middle" fill="#92a4c0" font-size="10.5">tests key components</text>
+          <line x1="160" y1="346" x2="160" y2="366" stroke="#2a3448" stroke-width="2"/>
+
+          <rect x="40" y="366" width="240" height="52" rx="4" fill="#151923" stroke="#4a9eff" stroke-width="1.5"/>
+          <text x="160" y="388" text-anchor="middle" fill="#4a9eff" font-size="12">05 Bootloader (Storage)</text>
+          <text x="160" y="406" text-anchor="middle" fill="#92a4c0" font-size="10.5">OS loader is found</text>
+          <line x1="160" y1="418" x2="160" y2="438" stroke="#2a3448" stroke-width="2"/>
+
+          <rect x="40" y="438" width="240" height="52" rx="4" fill="#151923" stroke="#3dd68c" stroke-width="1.5"/>
+          <text x="160" y="460" text-anchor="middle" fill="#3dd68c" font-size="12">06 OS → RAM</text>
+          <text x="160" y="478" text-anchor="middle" fill="#92a4c0" font-size="10.5">system files load into memory</text>
+          <line x1="160" y1="490" x2="160" y2="510" stroke="#2a3448" stroke-width="2"/>
+
+          <rect x="40" y="510" width="240" height="52" rx="4" fill="#151923" stroke="#3dd68c" stroke-width="2"/>
+          <text x="160" y="532" text-anchor="middle" fill="#3dd68c" font-size="12">07 OS Starts</text>
+          <text x="160" y="550" text-anchor="middle" fill="#92a4c0" font-size="10.5">computer is ready to use</text>
+
+          <rect x="54" y="578" width="212" height="24" rx="3" fill="rgba(201,168,76,0.05)" stroke="rgba(201,168,76,0.18)"/>
+          <text x="160" y="594" text-anchor="middle" fill="#e8c97a" font-size="9.5" letter-spacing="1.2">ORDER IS ESSENTIAL</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<!-- ═══════════════════════════════════════════════ S13: FDE CYCLE -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Slide 13 · CPU Operation</div>
+    <h2>Fetch–Decode–<span class="hl-purple">Execute</span></h2>
+    <p class="lead" style="margin-bottom:12px;">The CPU repeats this cycle billions of times per second. Every program instruction goes through it.</p>
+    <div class="fde">
+      <div class="fde-box" style="border-top:2px solid var(--blue);">
+        <div class="fde-num" style="color:var(--blue);">01</div>
+        <div class="fde-title" style="color:var(--blue);">Fetch</div>
+        <div class="fde-detail">
+          Get the next instruction from memory.<br><br>
+          <span class="reg">PC</span> → address of next instruction<br>
+          <span class="reg">PC</span> → <span class="reg">MAR</span> → memory<br>
+          Data returned to <span class="reg">MDR</span><br>
+          Instruction copied to <span class="reg">IR</span><br>
+          <span class="reg">PC</span> increments (+1)
+        </div>
+      </div>
+      <div class="fde-box" style="border-top:2px solid var(--gold);">
+        <div class="fde-num" style="color:var(--gold);">02</div>
+        <div class="fde-title" style="color:var(--gold);">Decode</div>
+        <div class="fde-detail">
+          The Control Unit interprets the instruction in <span class="reg">IR</span>.<br><br>
+          What operation is this?<br>
+          Add? Compare? Move? Jump?<br><br>
+          CU sends signals to the correct parts of the CPU to prepare for execution.
+        </div>
+      </div>
+      <div class="fde-box" style="border-top:2px solid var(--green);">
+        <div class="fde-num" style="color:var(--green);">03</div>
+        <div class="fde-title" style="color:var(--green);">Execute</div>
+        <div class="fde-detail">
+          The ALU performs the operation.<br><br>
+          Result stored in <span class="reg">ACC</span><br>
+          or written back to memory via <span class="reg">MDR</span>.<br><br>
+          Then: return to Fetch.<br>
+          The cycle never stops.
+        </div>
+      </div>
+    </div>
+    <!-- cycle arrow -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-top:10px;">
+      <span style="font-family:'DM Mono',monospace;font-size:0.9rem;color:var(--blue);">FETCH</span>
+      <span style="color:var(--gold);font-size:1.2rem;">→</span>
+      <span style="font-family:'DM Mono',monospace;font-size:0.9rem;color:var(--gold);">DECODE</span>
+      <span style="color:var(--gold);font-size:1.2rem;">→</span>
+      <span style="font-family:'DM Mono',monospace;font-size:0.9rem;color:var(--green);">EXECUTE</span>
+      <span style="color:var(--gold);font-size:1.2rem;">→</span>
+      <span style="font-family:'DM Mono',monospace;font-size:0.9rem;color:var(--blue);">FETCH</span>
+      <span style="color:var(--text3);font-size:0.8rem;font-family:'DM Mono',monospace;">× billions/sec</span>
+    </div>
+  </div>
+</div>
+ 
+<!-- ═══════════════════════════════════════════════ S14: BIG PICTURE -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Slide 14 · The Big Idea</div>
+    <h2>A Computer is a <span class="hl-gold">System</span></h2>
+    <div class="grid g2" style="gap:12px;align-items:start;">
+      <div>
+        <div class="grid" style="gap:2px;">
+          <div class="card green" style="padding:14px 20px;">
+            <div class="card-title">💾 Storage</div>
+            <div class="card-body">Holds data permanently. The OS lives here before boot. <strong>Non-volatile.</strong></div>
+          </div>
+          <div class="card red" style="padding:14px 20px;">
+            <div class="card-title">⚡ RAM</div>
+            <div class="card-body">Holds <strong>active data</strong>. The CPU's working space. Fast but volatile.</div>
+          </div>
+          <div class="card gold" style="padding:14px 20px;">
+            <div class="card-title">🧠 CPU</div>
+            <div class="card-body"><strong>Processes instructions</strong> via Fetch–Decode–Execute. Controls everything.</div>
+          </div>
+          <div class="card blue" style="padding:14px 20px;">
+            <div class="card-title">🔗 Buses</div>
+            <div class="card-body"><strong>Connect everything.</strong> Data, Address, and Control buses carry information between components.</div>
+          </div>
+        </div>
+        <div class="gold-box">
+          <p><strong>👉 Everything must work in sequence.</strong> One missing component and the system fails to start.</p>
+        </div>
+      </div>
+      <!-- System overview SVG -->
+      <div style="background:var(--surface);border:1px solid var(--border);padding:20px;display:flex;align-items:center;justify-content:center;">
+        <svg viewBox="0 0 260 280" width="100%" style="max-height:260px;">
+          <!-- CPU top -->
+          <rect x="80" y="10" width="100" height="50" rx="3" fill="#151923" stroke="#c9a84c" stroke-width="2"/>
+          <text x="130" y="33" text-anchor="middle" fill="#c9a84c" font-size="10" letter-spacing="1">CPU</text>
+          <text x="130" y="48" text-anchor="middle" fill="#3d4f6a" font-size="8">CU · ALU · Registers</text>
+ 
+          <!-- BUS bar -->
+          <rect x="20" y="78" width="220" height="16" rx="2" fill="#1e2535"/>
+          <text x="62" y="90" fill="#4a9eff" font-size="7.5">Data Bus</text>
+          <text x="118" y="90" fill="#c9a84c" font-size="7.5">Address Bus</text>
+          <text x="181" y="90" fill="#9b8afb" font-size="7.5">Control Bus</text>
+          <!-- CPU to bus -->
+          <line x1="130" y1="60" x2="130" y2="78" stroke="#2a3448" stroke-width="1.5"/>
+ 
+          <!-- RAM -->
+          <rect x="10" y="110" width="100" height="50" rx="3" fill="#151923" stroke="#ff6b6b" stroke-width="1.5"/>
+          <text x="60" y="133" text-anchor="middle" fill="#ff6b6b" font-size="10">RAM</text>
+          <text x="60" y="148" text-anchor="middle" fill="#3d4f6a" font-size="8">Volatile · Fast</text>
+          <line x1="60" y1="94" x2="60" y2="110" stroke="#2a3448" stroke-width="1.5"/>
+ 
+          <!-- Storage -->
+          <rect x="150" y="110" width="100" height="50" rx="3" fill="#151923" stroke="#3dd68c" stroke-width="1.5"/>
+          <text x="200" y="133" text-anchor="middle" fill="#3dd68c" font-size="10">Storage</text>
+          <text x="200" y="148" text-anchor="middle" fill="#3d4f6a" font-size="8">SSD / HDD</text>
+          <line x1="200" y1="94" x2="200" y2="110" stroke="#2a3448" stroke-width="1.5"/>
+ 
+          <!-- GPU -->
+          <rect x="10" y="178" width="100" height="44" rx="3" fill="#151923" stroke="#9b8afb" stroke-width="1.5"/>
+          <text x="60" y="204" text-anchor="middle" fill="#9b8afb" font-size="10">GPU</text>
+          <line x1="60" y1="160" x2="60" y2="178" stroke="#2a3448" stroke-width="1" stroke-dasharray="3,2"/>
+ 
+          <!-- I/O -->
+          <rect x="150" y="178" width="100" height="44" rx="3" fill="#151923" stroke="#7a8ba8" stroke-width="1"/>
+          <text x="200" y="204" text-anchor="middle" fill="#7a8ba8" font-size="10">I/O</text>
+          <line x1="200" y1="160" x2="200" y2="178" stroke="#2a3448" stroke-width="1" stroke-dasharray="3,2"/>
+ 
+          <!-- Boot sequence reminder -->
+          <text x="130" y="244" text-anchor="middle" fill="#3d4f6a" font-size="8" letter-spacing="1.5">BOOT SEQUENCE</text>
+          <text x="130" y="258" text-anchor="middle" fill="#3d4f6a" font-size="8">PSU → BIOS → POST → OS → RAM → Run</text>
+          <text x="130" y="272" text-anchor="middle" fill="#c9a84c" font-size="7.5">Each step depends on the last</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
 
 </div><!-- /deck -->
 
@@ -545,20 +1092,20 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(2rem,4.5vw,3.5rem)
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
   const dotsEl = document.getElementById('navDots');
-
   for (let i = 0; i < total; i++) {
     const d = document.createElement('div');
     d.className = 'dot' + (i === 0 ? ' active' : '');
     d.onclick = () => goTo(i);
     dotsEl.appendChild(d);
   }
-
   function goTo(n) {
     slides[cur].classList.remove('active');
     slides[cur].classList.add('exit');
     const old = cur;
-    setTimeout(() => slides[old].classList.remove('exit'), 400);
+    slides[old].scrollTop = 0;
+    setTimeout(() => slides[old].classList.remove('exit'), 380);
     cur = n;
+    slides[cur].scrollTop = 0;
     slides[cur].classList.add('active');
     document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
     prog.style.width = ((cur + 1) / total * 100) + '%';
@@ -566,7 +1113,6 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(2rem,4.5vw,3.5rem)
     prevBtn.disabled = cur === 0;
     nextBtn.disabled = cur === total - 1;
   }
-
   function changeSlide(d) { const n = cur + d; if (n >= 0 && n < total) goTo(n); }
   document.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight') changeSlide(1);
