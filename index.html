@@ -263,6 +263,75 @@
     margin-top: 4px;
   }
 
+  .link-card-group {
+    padding: 32px;
+    gap: 18px;
+    cursor: default;
+  }
+
+  .link-card-group:hover .card-arrow {
+    transform: none;
+    color: var(--text3);
+  }
+
+  .lesson-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .lesson-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 14px 16px;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  }
+
+  .lesson-link:hover {
+    background: #242436;
+    border-color: rgba(167,139,250,0.35);
+    transform: translateX(2px);
+  }
+
+  .lesson-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .lesson-kicker {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text3);
+  }
+
+  .lesson-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .lesson-arrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.95rem;
+    color: var(--text3);
+    flex-shrink: 0;
+    transition: transform 0.2s, color 0.2s;
+  }
+
+  .lesson-link:hover .lesson-arrow {
+    color: var(--purple);
+    transform: translateX(4px);
+  }
+
   /* COLOR VARIANTS */
   .v-cyan .link-card::before { background: var(--accent); }
   .v-cyan .card-tag { background: rgba(0,229,255,0.1); color: var(--accent); border: 1px solid rgba(0,229,255,0.2); }
@@ -446,16 +515,33 @@
     <div class="card-title">컴퓨팅 시스템 기초</div>
   </a>
 </div>
-  <div class="v-purple">
-  <a class="link-card" href="./slides-a1/A1.2.2.html">
-    <div class="card-top">
-      <div class="card-icon">💻</div>
-      <span class="card-arrow">→</span>
-    </div>
-    <span class="card-tag">Theme A1_2</span>
-    <div class="card-title">Binary + Hexademical</div>
-  </a>
-</div>
+      <div class="v-purple">
+        <div class="link-card link-card-group">
+          <div class="card-top">
+            <div class="card-icon">💻</div>
+            <span class="card-arrow">→</span>
+          </div>
+          <span class="card-tag">Theme A1_2</span>
+          <div class="card-title">Number Systems and Data</div>
+          <div class="card-desc">Theme A1_2 now includes both the number-system foundations and the follow-up lesson on data representation.</div>
+          <div class="lesson-stack">
+            <a class="lesson-link" href="./slides-a1/A1.2.1.html">
+              <div class="lesson-copy">
+                <span class="lesson-kicker">Lesson 1</span>
+                <span class="lesson-title">Binary + Hexadecimal</span>
+              </div>
+              <span class="lesson-arrow">→</span>
+            </a>
+            <a class="lesson-link" href="./slides-a1/A1.2.2.html">
+              <div class="lesson-copy">
+                <span class="lesson-kicker">Lesson 2</span>
+                <span class="lesson-title">Data Representation</span>
+              </div>
+              <span class="lesson-arrow">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
 </section>
 
 <!-- FOOTER -->
@@ -468,4 +554,3 @@
 
 </body>
 </html>
-
