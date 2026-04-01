@@ -150,18 +150,25 @@ h2{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3.8vw,3rem);font-
 
 <!-- ═══ S2 BIG IDEA ═══ -->
 <div class="slide">
-  <div class="content" style="max-width:840px;margin:0 auto;text-align:center;">
-    <div class="label" style="display:block;text-align:center;">// The Core Idea</div>
-    <h2 style="font-size:clamp(1.8rem,4.5vw,3.8rem);">Computers store<br><span class="hl-green">everything</span> as binary.</h2>
-    <div class="divider" style="margin:18px 0;"></div>
-    <p style="font-size:clamp(.95rem,1.7vw,1.3rem);color:var(--text2);margin-bottom:18px;font-weight:300;">But how do we turn <em>real-world things</em> into 0s and 1s?</p>
-    <div class="grid g4" style="gap:2px;text-align:left;">
-      <div class="card cyan" style="padding:16px;text-align:center;"><div style="font-size:2rem;margin-bottom:8px;">Aa</div><div class="card-title">Text</div><div class="card-body" style="font-size:.82rem;">Letters → codes</div></div>
-      <div class="card purple" style="padding:16px;text-align:center;"><div style="font-size:2rem;margin-bottom:8px;">🖼</div><div class="card-title">Images</div><div class="card-body" style="font-size:.82rem;">Pixels → colours</div></div>
-      <div class="card pink" style="padding:16px;text-align:center;"><div style="font-size:2rem;margin-bottom:8px;">🎵</div><div class="card-title">Sound</div><div class="card-body" style="font-size:.82rem;">Waves → samples</div></div>
-      <div class="card teal" style="padding:16px;text-align:center;"><div style="font-size:2rem;margin-bottom:8px;">🎬</div><div class="card-title">Video</div><div class="card-body" style="font-size:.82rem;">Frames + audio</div></div>
+  <div class="content" style="max-width:960px;margin:0 auto;">
+    <div class="label" style="display:block;text-align:center;">// Slide 2 · Guiding Question</div>
+    <h2 style="font-size:clamp(2rem,4.8vw,4rem);text-align:center;">How can <span class="hl-green">binary</span> represent<br>numbers, text, and images?</h2>
+    <p style="font-size:clamp(.95rem,1.65vw,1.22rem);color:var(--text2);margin:18px auto 0;font-weight:300;line-height:1.7;text-align:center;max-width:760px;">This lesson follows one big pattern: take something meaningful, turn it into a numerical code, then store that code using only <strong style="color:var(--text);">0s and 1s</strong>.</p>
+    <div class="grid g3" style="gap:2px;margin-top:22px;">
+      <div class="card cyan">
+        <div class="card-title">Numbers</div>
+        <div class="card-body"><strong>Place value in base 2</strong><br>Each bit position has a value such as 1, 2, 4, 8, and 16.</div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">Text</div>
+        <div class="card-body"><strong>Characters become codes</strong><br>Letters and symbols are assigned numbers, then stored in binary.</div>
+      </div>
+      <div class="card gold">
+        <div class="card-title">Images</div>
+        <div class="card-body"><strong>Pixels become data</strong><br>Each pixel stores a colour value, and those values are written in binary.</div>
+      </div>
     </div>
-    <div class="gold-box" style="text-align:left;margin-top:12px;"><p><strong>👉 Same idea every time:</strong> convert to a number, store that number as binary.</p></div>
+    <div class="gold-box" style="margin-top:14px;"><p><strong>Guiding idea:</strong> binary is not just for counting. It is a universal way to encode different kinds of information.</p></div>
   </div>
 </div>
 
@@ -917,6 +924,28 @@ h2{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3.8vw,3rem);font-
   </div>
 </div>
 
+<!-- ═══ S17 TOK QUESTIONS ═══ -->
+<div class="slide">
+  <div class="content" style="max-width:920px;margin:0 auto;">
+    <div class="label purple" style="display:block;text-align:center;">// TOK · Theory of Knowledge</div>
+    <h2 style="font-size:clamp(1.9rem,4.4vw,3.6rem);text-align:center;">TOK <span class="hl-purple">Questions</span></h2>
+    <p class="lead" style="text-align:center;max-width:720px;margin:0 auto 20px;">Use these to move from technical representation to deeper thinking about what may be lost when we simplify the world into data.</p>
+    <div class="steps" style="max-width:820px;margin:0 auto;">
+      <div class="step-row" style="padding:18px 20px;border-left:3px solid var(--purple);">
+        <div class="step-n" style="color:var(--purple);font-size:clamp(.9rem,1.4vw,1.05rem);">01</div>
+        <div class="step-text" style="font-size:clamp(1rem,1.65vw,1.22rem);color:var(--text);">Can everything be represented as <strong style="color:var(--purple);">0 and 1</strong>?</div>
+      </div>
+      <div class="step-row" style="padding:18px 20px;border-left:3px solid var(--gold);">
+        <div class="step-n" style="color:var(--gold);font-size:clamp(.9rem,1.4vw,1.05rem);">02</div>
+        <div class="step-text" style="font-size:clamp(1rem,1.65vw,1.22rem);color:var(--text);">What problems arise when we reduce complex situations to <strong style="color:var(--gold2);">TRUE/FALSE</strong>?</div>
+      </div>
+    </div>
+    <div class="purple-box" style="max-width:820px;margin:16px auto 0;">
+      <p><strong>Discussion link:</strong> computers need precise binary values, but human knowledge and real-life decisions are often uncertain, contextual, and open to interpretation.</p>
+    </div>
+  </div>
+</div>
+
 </div><!-- /deck -->
 
 <div class="nav">
@@ -936,6 +965,7 @@ h2{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3.8vw,3rem);font-
   const prevBtn=document.getElementById('prevBtn');
   const nextBtn=document.getElementById('nextBtn');
   const dotsEl=document.getElementById('navDots');
+  slideNum.textContent=String(cur+1).padStart(2,'0')+' / '+String(total).padStart(2,'0');
   for(let i=0;i<total;i++){
     const d=document.createElement('div');
     d.className='dot'+(i===0?' active':'');
