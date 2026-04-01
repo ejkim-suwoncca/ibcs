@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A1.2.1 — Binary & Hexadecimal</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Serif+Display&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07090f;
+  --surface: #0e1117;
+  --surface2: #151923;
+  --border: #1e2535;
+  --border2: #2a3448;
+  --gold: #c9a84c;
+  --gold2: #e8c97a;
+  --blue: #4a9eff;
+  --green: #3dd68c;
+  --red: #ff6b6b;
+  --purple: #9b8afb;
+  --cyan: #22d3ee;
+  --orange: #fb923c;
+  --text: #dde4f0;
+  --text2: #7a8ba8;
+  --text3: #3d4f6a;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; }
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(74,158,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74,158,255,0.03) 1px, transparent 1px),
+    linear-gradient(rgba(74,158,255,0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74,158,255,0.01) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+  pointer-events: none; z-index: 0;
+}
+.deck { position: relative; width: 100vw; height: 100vh; z-index: 1; }
+.slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 48px 72px 90px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.38s ease, transform 0.38s ease;
+  transform: translateY(12px);
+}
+.slide.active { opacity: 1; pointer-events: all; transform: translateY(0); }
+.slide.exit { opacity: 0; transform: translateY(-12px); }
+.progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--gold), var(--cyan)); transition: width 0.38s ease; z-index: 100; }
+.slide-num { position: fixed; top: 17px; right: 24px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
+.content { width: 100%; max-width: 1120px; }
+.label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+.label.blue { color: var(--blue); } .label.green { color: var(--green); } .label.cyan { color: var(--cyan); }
+h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.8rem,5.5vw,4.8rem); font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
+h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem); font-weight: 400; line-height: 1.1; margin-bottom: 12px; }
+.lead { font-size: clamp(1rem,1.75vw,1.35rem); color: var(--text2); font-weight: 300; line-height: 1.65; margin-bottom: 20px; }
+.hl-gold { color: var(--gold2); } .hl-blue { color: var(--blue); } .hl-green { color: var(--green); }
+.hl-cyan { color: var(--cyan); } .hl-red { color: var(--red); } .hl-orange { color: var(--orange); }
+
+/* ── GRID LAYOUT */
+.grid { display: grid; gap: 2px; width: 100%; }
+.g2 { grid-template-columns: 1fr 1fr; } .g3 { grid-template-columns: 1fr 1fr 1fr; }
+.g4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+/* ── CARDS */
+.card { background: var(--surface); border: 1px solid var(--border); padding: 18px 22px; position: relative; }
+.card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.card.gold::after { background: var(--gold); } .card.blue::after { background: var(--blue); }
+.card.green::after { background: var(--green); } .card.red::after { background: var(--red); }
+.card.purple::after { background: var(--purple); } .card.cyan::after { background: var(--cyan); }
+.card.orange::after { background: var(--orange); }
+.card-title { font-family: 'DM Mono', monospace; font-size: clamp(0.7rem,1.1vw,0.9rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.card-body { font-size: clamp(0.85rem,1.3vw,1.05rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
+.card-body strong { color: var(--text); font-weight: 500; }
+
+/* ── INFO / GOLD BOXES */
+.info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(74,158,255,0.04); border-top: 1px solid rgba(74,158,255,0.08); border-right: 1px solid rgba(74,158,255,0.08); border-bottom: 1px solid rgba(74,158,255,0.08); margin-top: 14px; }
+.info-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.info-box strong { color: var(--blue); }
+.gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(201,168,76,0.04); border-top: 1px solid rgba(201,168,76,0.08); border-right: 1px solid rgba(201,168,76,0.08); border-bottom: 1px solid rgba(201,168,76,0.08); margin-top: 14px; }
+.gold-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.gold-box strong { color: var(--gold2); }
+.cyan-box { border-left: 3px solid var(--cyan); padding: 13px 20px; background: rgba(34,211,238,0.04); border-top: 1px solid rgba(34,211,238,0.08); border-right: 1px solid rgba(34,211,238,0.08); border-bottom: 1px solid rgba(34,211,238,0.08); margin-top: 14px; }
+.cyan-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.cyan-box strong { color: var(--cyan); }
+
+/* ── STEPS */
+.steps { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+.step-row { display: flex; gap: 16px; align-items: flex-start; background: var(--surface); border: 1px solid var(--border); padding: 13px 18px; }
+.step-n { font-family: 'DM Mono', monospace; font-size: clamp(0.75rem,1.15vw,0.9rem); color: var(--gold); flex-shrink: 0; min-width: 24px; padding-top: 1px; }
+.step-text { font-size: clamp(0.92rem,1.45vw,1.15rem); color: var(--text2); line-height: 1.6; font-weight: 300; }
+.step-text strong { color: var(--text); font-weight: 500; }
+
+/* ── BIT TABLES — the star of this deck */
+.bit-table-wrap { width: 100%; overflow-x: auto; margin: 12px 0; }
+
+/* Powers row + value row table */
+.bit-table {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+}
+.bit-table th {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  padding: 10px 8px;
+  text-align: center;
+  font-family: 'DM Mono', monospace;
+  font-size: clamp(0.75rem,1.3vw,1rem);
+  color: var(--text3);
+  letter-spacing: 0.05em;
+  font-weight: 400;
+}
+.bit-table td {
+  border: 1px solid var(--border2);
+  padding: 12px 8px;
+  text-align: center;
+  font-family: 'DM Mono', monospace;
+  font-size: clamp(1rem,2vw,1.6rem);
+  font-weight: 500;
+}
+.bit-table td.bit-1 { background: rgba(61,214,140,0.12); color: var(--green); }
+.bit-table td.bit-0 { background: rgba(255,107,107,0.06); color: var(--text3); }
+.bit-table td.power { background: var(--surface); color: var(--gold); font-size: clamp(0.75rem,1.2vw,0.95rem); font-weight: 400; }
+.bit-table td.value { background: var(--surface); color: var(--blue); font-size: clamp(1.1rem,2.2vw,1.8rem); font-weight: 700; }
+.bit-table td.value-dim { background: var(--surface); color: var(--text3); font-size: clamp(1.1rem,2.2vw,1.8rem); font-weight: 400; }
+.bit-table td.header-cell { background: var(--surface2); color: var(--text3); font-size: clamp(0.65rem,1vw,0.82rem); letter-spacing: 0.08em; }
+.bit-table td.result { background: rgba(201,168,76,0.1); color: var(--gold2); font-size: clamp(1.1rem,2.2vw,1.8rem); font-weight: 700; border: 1px solid rgba(201,168,76,0.3); }
+.bit-table td.hex { background: rgba(34,211,238,0.1); color: var(--cyan); font-size: clamp(1.1rem,2.2vw,1.8rem); font-weight: 700; border: 1px solid rgba(34,211,238,0.2); }
+.bit-table td.hex-dim { background: var(--surface); color: var(--text3); font-size: clamp(1rem,1.8vw,1.5rem); font-weight: 400; }
+.bit-table td.spacer { background: transparent; border: none; width: 16px; }
+
+/* row label cell */
+.bit-table td.row-label {
+  background: var(--bg);
+  color: var(--text3);
+  font-size: clamp(0.65rem,1vw,0.82rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  width: 80px;
+  border-color: var(--border);
+}
+
+/* active bit highlight — used with JS */
+.bit-table td.active-bit { outline: 2px solid var(--gold); outline-offset: -2px; }
+
+/* ── DENARY TABLE (base 10) */
+.denary-table { border-collapse: collapse; table-layout: fixed; }
+.denary-table th, .denary-table td { border: 1px solid var(--border2); padding: 10px 14px; text-align: center; font-family: 'DM Mono', monospace; }
+.denary-table th { background: var(--surface2); color: var(--text3); font-size: clamp(0.7rem,1.1vw,0.88rem); font-weight: 400; }
+.denary-table td { background: var(--surface); font-size: clamp(1rem,1.8vw,1.5rem); font-weight: 500; color: var(--text); }
+.denary-table td.pow { font-size: clamp(0.72rem,1.1vw,0.9rem); color: var(--gold); background: var(--surface); font-weight: 400; }
+.denary-table td.dig { color: var(--blue); font-size: clamp(1.1rem,2vw,1.7rem); font-weight: 700; }
+
+/* ── HEX TABLE */
+.hex-ref { border-collapse: collapse; }
+.hex-ref th { background: var(--surface2); border: 1px solid var(--border2); padding: 8px 10px; font-family: 'DM Mono', monospace; font-size: clamp(0.68rem,1.05vw,0.85rem); color: var(--text3); font-weight: 400; text-align: center; }
+.hex-ref td { border: 1px solid var(--border); padding: 9px 10px; text-align: center; font-family: 'DM Mono', monospace; font-size: clamp(0.85rem,1.4vw,1.1rem); }
+.hex-ref td.dec-val { background: var(--surface); color: var(--text2); }
+.hex-ref td.hex-val { background: rgba(34,211,238,0.07); color: var(--cyan); font-weight: 700; }
+.hex-ref td.bin-val { background: var(--surface); color: var(--green); font-size: clamp(0.72rem,1.1vw,0.88rem); }
+
+/* ── CONVERSION STEP CHAIN */
+.chain { display: flex; align-items: center; gap: 0; flex-wrap: wrap; margin: 14px 0; }
+.chain-box { background: var(--surface); border: 1px solid var(--border2); padding: 12px 18px; text-align: center; }
+.chain-box .c-top { font-family: 'DM Mono', monospace; font-size: clamp(0.65rem,1vw,0.82rem); color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+.chain-box .c-val { font-family: 'DM Mono', monospace; font-size: clamp(1.1rem,2.2vw,1.8rem); font-weight: 700; }
+.chain-arrow { font-family: 'DM Mono', monospace; color: var(--gold); font-size: 1.4rem; padding: 0 10px; display: flex; align-items: center; flex-shrink: 0; }
+.chain-op { font-family: 'DM Mono', monospace; font-size: clamp(0.68rem,1.05vw,0.85rem); color: var(--text3); padding: 0 6px; text-align: center; line-height: 1.4; display: flex; align-items: center; }
+
+/* ── DIVISION TABLE */
+.div-table { border-collapse: collapse; }
+.div-table td { border: 1px solid var(--border2); padding: 10px 14px; font-family: 'DM Mono', monospace; font-size: clamp(0.88rem,1.4vw,1.1rem); text-align: center; background: var(--surface); color: var(--text2); }
+.div-table td.div-num { color: var(--text); font-weight: 500; }
+.div-table td.div-rem-1 { background: rgba(61,214,140,0.1); color: var(--green); font-weight: 700; }
+.div-table td.div-rem-0 { background: rgba(255,107,107,0.06); color: var(--text3); }
+.div-table th { border: 1px solid var(--border2); padding: 8px 14px; font-family: 'DM Mono', monospace; font-size: clamp(0.65rem,1vw,0.82rem); color: var(--text3); background: var(--surface2); text-align: center; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; }
+
+/* ── DIVIDER */
+.divider { width: 100%; height: 1px; background: var(--border); margin: 14px 0; }
+
+/* ── NAV */
+.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; }
+.nav-btn { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; }
+.nav-btn:hover { color: var(--gold); border-color: var(--gold); background: rgba(201,168,76,0.05); }
+.nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+.nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 220px; justify-content: center; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); cursor: pointer; transition: all 0.2s; }
+.dot.active { background: var(--gold); transform: scale(1.4); }
+.nav-sep { width: 1px; height: 18px; background: var(--border2); }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="slide-num" id="slideNum">01 / 20</div>
+<div class="deck">
+
+<!-- ═══ S1: TITLE ═══ -->
+<div class="slide active">
+  <div class="content">
+    <div class="label">// A1.2.1 · Number Systems</div>
+    <h1>Binary &<br><span class="hl-cyan">Hexadecimal</span></h1>
+    <p style="font-family:'DM Mono',monospace;font-size:clamp(0.85rem,1.4vw,1.1rem);color:var(--text3);margin-bottom:20px;">Review Lesson</p>
+    <div class="gold-box">
+      <p><strong>👉 Guiding Question:</strong> How does a computer represent numbers using only 0 and 1?</p>
+    </div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:20px;">
+      <div style="padding-left:12px;border-left:2px solid var(--green);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Base 2</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">BINARY</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--cyan);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Base 16</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">HEXADECIMAL</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--gold);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Base 10</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">DENARY / DECIMAL</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--blue);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">0 and 1</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">ONLY DIGITS</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S2: IB REQUIREMENT ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// IB Specification · A1.2.1</div>
+    <h2>What IB Requires</h2>
+    <p class="lead" style="margin-bottom:14px;">Command term: <strong style="color:var(--gold2);">Describe</strong></p>
+    <div class="steps">
+      <div class="step-row">
+        <div class="step-n">01</div>
+        <div class="step-text"><strong>Describe</strong> how integers are represented in <strong>binary</strong> and <strong>hexadecimal</strong></div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">02</div>
+        <div class="step-text">Convert <strong>binary ↔ decimal</strong></div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">03</div>
+        <div class="step-text">Convert <strong>hexadecimal ↔ decimal</strong></div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">04</div>
+        <div class="step-text">Convert <strong>binary ↔ hexadecimal</strong></div>
+      </div>
+    </div>
+    <div class="gold-box">
+      <p><strong>"Describe"</strong> = state the key features clearly. Not just memorise — understand why each system works the way it does.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S3: BIG IDEA ═══ -->
+<div class="slide">
+  <div class="content" style="max-width:800px;margin:0 auto;text-align:center;">
+    <div class="label" style="display:block;text-align:center;">// The Foundation</div>
+    <h2 style="font-size:clamp(2rem,5vw,4rem);">Computers only<br>understand <span class="hl-green">binary</span></h2>
+    <div class="divider" style="margin:28px 0;"></div>
+    <div class="grid g2" style="gap:2px;text-align:left;">
+      <div class="card green" style="padding:24px 28px;">
+        <div style="font-family:'DM Mono',monospace;font-size:clamp(3rem,6vw,5rem);font-weight:500;color:var(--green);line-height:1;margin-bottom:8px;">1</div>
+        <div style="font-family:'DM Mono',monospace;font-size:clamp(0.85rem,1.4vw,1.1rem);color:var(--text2);">ON · TRUE · HIGH voltage</div>
+      </div>
+      <div class="card red" style="padding:24px 28px;">
+        <div style="font-family:'DM Mono',monospace;font-size:clamp(3rem,6vw,5rem);font-weight:500;color:var(--text3);line-height:1;margin-bottom:8px;">0</div>
+        <div style="font-family:'DM Mono',monospace;font-size:clamp(0.85rem,1.4vw,1.1rem);color:var(--text2);">OFF · FALSE · LOW voltage</div>
+      </div>
+    </div>
+    <div class="info-box" style="text-align:left;margin-top:14px;">
+      <p>Every image, video, text message, and program on your computer is ultimately stored as billions of 0s and 1s.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S4: WHY BINARY ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A1.2.1 · Motivation</div>
+    <h2>Why <span class="hl-green">Binary?</span></h2>
+    <div class="grid g2" style="gap:12px;align-items:start;">
+      <div>
+        <div class="card green">
+          <div class="card-title">⚡ Matches Electrical Signals</div>
+          <div class="card-body">
+            Transistors have two states:<br><br>
+            <strong>ON (1)</strong> = high voltage (~3–5V)<br>
+            <strong>OFF (0)</strong> = low voltage (~0V)<br><br>
+            Binary maps perfectly to physics.
+          </div>
+        </div>
+        <div class="card blue" style="margin-top:2px;">
+          <div class="card-title">🛡️ Robust in Noisy Environments</div>
+          <div class="card-body">Only 2 states to distinguish — even with electrical interference, it's easy to tell 0 from 1. More states = more room for error.</div>
+        </div>
+      </div>
+      <div>
+        <div class="card gold">
+          <div class="card-title">🧮 Represents Everything</div>
+          <div class="card-body" style="font-size:clamp(1rem,1.6vw,1.25rem);">
+            Binary can encode:<br><br>
+            &nbsp;&nbsp;TRUE / FALSE<br>
+            &nbsp;&nbsp;YES / NO<br>
+            &nbsp;&nbsp;Numbers<br>
+            &nbsp;&nbsp;Text (ASCII / Unicode)<br>
+            &nbsp;&nbsp;Images, Sound, Video
+          </div>
+        </div>
+        <div class="info-box">
+          <p><strong>👉</strong> With enough bits, any information can be represented as 0s and 1s.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S5: BASE 10 ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Base 10 · Denary</div>
+    <h2>Base 10 — <span class="hl-gold">Denary</span></h2>
+    <p class="lead" style="margin-bottom:14px;">Each column is a <strong>power of 10</strong>. The digit tells you how many of that power you have.</p>
+    <div class="bit-table-wrap">
+      <table class="denary-table" style="width:100%;">
+        <thead>
+          <tr>
+            <th>10⁴</th>
+            <th>10³</th>
+            <th>10²</th>
+            <th>10¹</th>
+            <th>10⁰</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="pow">10,000</td>
+            <td class="pow">1,000</td>
+            <td class="pow">100</td>
+            <td class="pow">10</td>
+            <td class="pow">1</td>
+          </tr>
+          <tr>
+            <td class="dig" style="color:var(--text3);">0</td>
+            <td class="dig" style="color:var(--text3);">0</td>
+            <td class="dig">1</td>
+            <td class="dig" style="color:var(--text3);">0</td>
+            <td class="dig" style="color:var(--text3);">0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="gold-box">
+      <p><strong>1</strong> × 100 &nbsp;+&nbsp; <strong>0</strong> × 10 &nbsp;+&nbsp; <strong>0</strong> × 1 &nbsp;=&nbsp; <strong style="font-size:1.2em;">100</strong></p>
+    </div>
+    <div class="divider"></div>
+    <p style="font-size:clamp(0.88rem,1.4vw,1.1rem);color:var(--text2);">Example: &nbsp;<strong style="color:var(--text);">1024</strong></p>
+    <div class="bit-table-wrap" style="margin-top:8px;">
+      <table class="denary-table" style="width:100%;">
+        <thead>
+          <tr><th>10³</th><th>10²</th><th>10¹</th><th>10⁰</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="pow">1000</td><td class="pow">100</td><td class="pow">10</td><td class="pow">1</td>
+          </tr>
+          <tr>
+            <td class="dig">1</td><td class="dig" style="color:var(--text3);">0</td><td class="dig">2</td><td class="dig">4</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="info-box" style="margin-top:10px;">
+      <p>1×1000 + 0×100 + 2×10 + 4×1 = <strong>1024</strong> &nbsp;👉 Each column = power of 10</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S6: BASE 2 ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Base 2 · Binary</div>
+    <h2>Base 2 — <span class="hl-green">Binary</span></h2>
+    <p class="lead" style="margin-bottom:14px;">Each column is a <strong>power of 2</strong>. Each digit can only be 0 or 1.</p>
+    <div class="bit-table-wrap">
+      <table class="bit-table" style="width:100%;">
+        <thead>
+          <tr>
+            <td class="row-label">Power</td>
+            <th>2³</th><th>2²</th><th>2¹</th><th>2⁰</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label">Value</td>
+            <td class="power">8</td><td class="power">4</td><td class="power">2</td><td class="power">1</td>
+          </tr>
+          <tr>
+            <td class="row-label">Bit</td>
+            <td class="bit-1">1</td><td class="bit-0">0</td><td class="bit-1">1</td><td class="bit-0">0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="gold-box">
+      <p>Bits that are <strong style="color:var(--green);">1</strong>: &nbsp;8 + 2 = <strong style="font-size:1.2em;color:var(--gold2);">10</strong> (in decimal)</p>
+    </div>
+    <div class="info-box">
+      <p><strong>👉</strong> 1010₂ = 10₁₀ &nbsp;·&nbsp; Each column = power of 2 &nbsp;·&nbsp; Only add values where bit = 1</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S7: POWERS OF 2 ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Reference Table</div>
+    <h2>Powers of <span class="hl-gold">2</span></h2>
+    <p class="lead" style="margin-bottom:14px;">Memorise these. They are the building blocks of every binary conversion.</p>
+    <div class="bit-table-wrap">
+      <table class="bit-table" style="width:100%;">
+        <thead>
+          <tr>
+            <td class="row-label">Power</td>
+            <th>2⁷</th><th>2⁶</th><th>2⁵</th><th>2⁴</th><th>2³</th><th>2²</th><th>2¹</th><th>2⁰</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label">Value</td>
+            <td class="value">128</td><td class="value">64</td><td class="value">32</td><td class="value">16</td>
+            <td class="value">8</td><td class="value">4</td><td class="value">2</td><td class="value">1</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="divider"></div>
+    <div class="grid g4" style="gap:2px;margin-top:4px;">
+      <div class="card gold" style="padding:14px;text-align:center;">
+        <div style="font-family:'DM Mono',monospace;font-size:1.4rem;font-weight:700;color:var(--gold);">2⁰ = 1</div>
+        <div style="font-size:0.8rem;color:var(--text3);margin-top:4px;">any number⁰ = 1</div>
+      </div>
+      <div class="card gold" style="padding:14px;text-align:center;">
+        <div style="font-family:'DM Mono',monospace;font-size:1.4rem;font-weight:700;color:var(--gold);">2¹ = 2</div>
+        <div style="font-size:0.8rem;color:var(--text3);margin-top:4px;">double each time</div>
+      </div>
+      <div class="card gold" style="padding:14px;text-align:center;">
+        <div style="font-family:'DM Mono',monospace;font-size:1.4rem;font-weight:700;color:var(--gold);">2⁴ = 16</div>
+        <div style="font-size:0.8rem;color:var(--text3);margin-top:4px;">= 1 hex digit</div>
+      </div>
+      <div class="card gold" style="padding:14px;text-align:center;">
+        <div style="font-family:'DM Mono',monospace;font-size:1.4rem;font-weight:700;color:var(--gold);">2⁸ = 256</div>
+        <div style="font-size:0.8rem;color:var(--text3);margin-top:4px;">= 1 byte range</div>
+      </div>
+    </div>
+    <div class="info-box" style="margin-top:10px;">
+      <p>Pattern: each power is exactly <strong>double</strong> the previous one. 1 → 2 → 4 → 8 → 16 → 32 → 64 → 128</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S8: 1 BYTE ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// 1 Byte = 8 Bits</div>
+    <h2>A <span class="hl-blue">Byte</span> — 8 Bit Positions</h2>
+    <p class="lead" style="margin-bottom:14px;">Each position has a fixed value. The bit (0 or 1) tells you whether to include it.</p>
+    <div class="bit-table-wrap">
+      <table class="bit-table" style="width:100%;">
+        <thead>
+          <tr>
+            <td class="row-label">Position</td>
+            <th>Bit 7</th><th>Bit 6</th><th>Bit 5</th><th>Bit 4</th>
+            <th>Bit 3</th><th>Bit 2</th><th>Bit 1</th><th>Bit 0</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label">Power</td>
+            <td class="power">2⁷</td><td class="power">2⁶</td><td class="power">2⁵</td><td class="power">2⁴</td>
+            <td class="power">2³</td><td class="power">2²</td><td class="power">2¹</td><td class="power">2⁰</td>
+          </tr>
+          <tr>
+            <td class="row-label">Value</td>
+            <td class="value">128</td><td class="value">64</td><td class="value">32</td><td class="value">16</td>
+            <td class="value">8</td><td class="value">4</td><td class="value">2</td><td class="value">1</td>
+          </tr>
+          <tr>
+            <td class="row-label">Bit</td>
+            <td class="bit-0">0</td><td class="bit-0">0</td><td class="bit-0">0</td><td class="bit-0">0</td>
+            <td class="bit-0">0</td><td class="bit-0">0</td><td class="bit-0">0</td><td class="bit-0">0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid g2" style="gap:2px;margin-top:10px;">
+      <div class="gold-box" style="margin-top:0;">
+        <p><strong>👉 1 byte = 8 bits</strong> &nbsp;·&nbsp; Positions run from 2⁷ (MSB) → 2⁰ (LSB)</p>
+      </div>
+      <div class="info-box" style="margin-top:0;">
+        <p>MSB = <strong>Most Significant Bit</strong> (leftmost, highest value)<br>LSB = <strong>Least Significant Bit</strong> (rightmost, value = 1)</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S9: MAXIMUM VALUE ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Maximum Value of 1 Byte</div>
+    <h2>All bits = <span class="hl-green">1</span></h2>
+    <p class="lead" style="margin-bottom:14px;">When every bit position is turned ON, you get the maximum value a single byte can hold.</p>
+    <div class="bit-table-wrap">
+      <table class="bit-table" style="width:100%;">
+        <thead>
+          <tr>
+            <td class="row-label">Value</td>
+            <th>128</th><th>64</th><th>32</th><th>16</th>
+            <th>8</th><th>4</th><th>2</th><th>1</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label">Bit</td>
+            <td class="bit-1">1</td><td class="bit-1">1</td><td class="bit-1">1</td><td class="bit-1">1</td>
+            <td class="bit-1">1</td><td class="bit-1">1</td><td class="bit-1">1</td><td class="bit-1">1</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:14px;background:var(--surface);border:1px solid var(--border2);padding:18px 24px;">
+      <div style="font-family:'DM Mono',monospace;font-size:clamp(0.88rem,1.5vw,1.1rem);color:var(--text2);line-height:1.8;">
+        128 + 64 + 32 + 16 + 8 + 4 + 2 + 1 =
+        <span style="font-size:clamp(1.5rem,3vw,2.5rem);font-weight:700;color:var(--gold2);margin-left:12px;">255</span>
+      </div>
+    </div>
+    <div class="grid g2" style="gap:2px;margin-top:10px;">
+      <div class="gold-box" style="margin-top:0;"><p><strong>1 byte stores values from 0 to 255</strong> = 256 possible values (2⁸ = 256)</p></div>
+      <div class="info-box" style="margin-top:0;"><p>All zeros = 0 (minimum) &nbsp;·&nbsp; All ones = 255 (maximum)</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S10: BITS vs BYTES ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Terminology</div>
+    <h2>Bits vs. <span class="hl-blue">Bytes</span></h2>
+    <div class="bit-table-wrap" style="margin-bottom:14px;">
+      <table class="bit-table" style="width:100%;">
+        <thead>
+          <tr>
+            <th style="text-align:left;padding-left:16px;">Term</th>
+            <th>Size</th>
+            <th style="text-align:left;padding-left:16px;">Meaning</th>
+            <th>Range</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="text-align:left;padding-left:16px;color:var(--green);font-weight:700;font-size:clamp(1rem,1.8vw,1.4rem);">Bit</td>
+            <td class="power">1 digit</td>
+            <td style="text-align:left;padding-left:16px;color:var(--text2);font-size:clamp(0.85rem,1.3vw,1.05rem);">Single binary digit</td>
+            <td class="power">0 or 1</td>
+          </tr>
+          <tr>
+            <td style="text-align:left;padding-left:16px;color:var(--blue);font-weight:700;font-size:clamp(1rem,1.8vw,1.4rem);">Byte</td>
+            <td class="power">8 bits</td>
+            <td style="text-align:left;padding-left:16px;color:var(--text2);font-size:clamp(0.85rem,1.3vw,1.05rem);">Group of 8 binary digits</td>
+            <td class="power">0 – 255</td>
+          </tr>
+          <tr>
+            <td style="text-align:left;padding-left:16px;color:var(--gold);font-weight:700;font-size:clamp(1rem,1.8vw,1.4rem);">Kilobyte</td>
+            <td class="power">1,024 B</td>
+            <td style="text-align:left;padding-left:16px;color:var(--text2);font-size:clamp(0.85rem,1.3vw,1.05rem);">1,024 bytes</td>
+            <td class="power">≈ 1,000 B</td>
+          </tr>
+          <tr>
+            <td style="text-align:left;padding-left:16px;color:var(--purple);font-weight:700;font-size:clamp(1rem,1.8vw,1.4rem);">Megabyte</td>
+            <td class="power">1,024 KB</td>
+            <td style="text-align:left;padding-left:16px;color:var(--text2);font-size:clamp(0.85rem,1.3vw,1.05rem);">1,024 kilobytes</td>
+            <td class="power">≈ 1,000,000 B</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="gold-box"><p><strong>👉 1 byte = values from 0–255.</strong> All text, numbers, and colours in a computer are stored using bytes.</p></div>
+  </div>
+</div>
+
+<!-- ═══ S11: BINARY → DECIMAL (POSITIONAL) ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Conversion Method 1</div>
+    <h2>Binary → Decimal<br><span class="hl-gold">Positional Method</span></h2>
+    <p class="lead" style="margin-bottom:14px;">Write the bit under each column value. Add only the columns with a <strong style="color:var(--green);">1</strong>.</p>
+    <div class="bit-table-wrap">
+      <table class="bit-table" style="width:100%;">
+        <thead>
+          <tr>
+            <td class="row-label">Power</td>
+            <th>2⁷</th><th>2⁶</th><th>2⁵</th><th>2⁴</th>
+            <th>2³</th><th>2²</th><th>2¹</th><th>2⁰</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label">Value</td>
+            <td class="value-dim">128</td><td class="value-dim">64</td><td class="value-dim">32</td><td class="value-dim">16</td>
+            <td class="value">8</td><td class="value-dim">4</td><td class="value">2</td><td class="value-dim">1</td>
+          </tr>
+          <tr>
+            <td class="row-label">Bit</td>
+            <td class="bit-0">0</td><td class="bit-0">0</td><td class="bit-0">0</td><td class="bit-0">0</td>
+            <td class="bit-1">1</td><td class="bit-0">0</td><td class="bit-1">1</td><td class="bit-0">0</td>
+          </tr>
+          <tr>
+            <td class="row-label">Include?</td>
+            <td class="bit-table" style="background:transparent;border:none;"></td>
+            <td class="bit-table" style="background:transparent;border:none;"></td>
+            <td class="bit-table" style="background:transparent;border:none;"></td>
+            <td class="bit-table" style="background:transparent;border:none;"></td>
+            <td style="background:rgba(61,214,140,0.1);color:var(--green);font-size:clamp(0.8rem,1.3vw,1rem);">✓ +8</td>
+            <td class="bit-0" style="font-size:clamp(0.8rem,1.3vw,1rem);color:var(--text3);">✗</td>
+            <td style="background:rgba(61,214,140,0.1);color:var(--green);font-size:clamp(0.8rem,1.3vw,1rem);">✓ +2</td>
+            <td class="bit-0" style="font-size:clamp(0.8rem,1.3vw,1rem);color:var(--text3);">✗</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="gold-box">
+      <p>1010₂ &nbsp;=&nbsp; 8 + 2 &nbsp;=&nbsp; <strong style="font-size:1.3em;color:var(--gold2);">10₁₀</strong></p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S12: DOUBLING METHOD ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Conversion Method 2</div>
+    <h2>Binary → Decimal<br><span class="hl-blue">Doubling Method (MSB)</span></h2>
+    <p class="lead" style="margin-bottom:12px;"><strong style="color:var(--blue);">MSB</strong> = Most Significant Bit (leftmost). Start there and work right.</p>
+    <div class="steps" style="margin-bottom:14px;">
+      <div class="step-row"><div class="step-n">01</div><div class="step-text">Start with the leftmost bit (MSB)</div></div>
+      <div class="step-row"><div class="step-n">02</div><div class="step-text">Running total × 2, then add the next bit</div></div>
+      <div class="step-row"><div class="step-n">03</div><div class="step-text">Repeat until you reach the last bit (LSB)</div></div>
+    </div>
+    <p style="font-size:clamp(0.85rem,1.3vw,1rem);color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:8px;">Example: &nbsp;1 0 1 0</p>
+    <div class="chain">
+      <div class="chain-box"><div class="c-top">Start</div><div class="c-val" style="color:var(--green);">1</div></div>
+      <div class="chain-op">×2 +0</div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-box"><div class="c-top">After bit 2</div><div class="c-val" style="color:var(--blue);">2</div></div>
+      <div class="chain-op">×2 +1</div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-box"><div class="c-top">After bit 3</div><div class="c-val" style="color:var(--blue);">5</div></div>
+      <div class="chain-op">×2 +0</div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-box" style="border:1px solid var(--gold);"><div class="c-top">Result</div><div class="c-val" style="color:var(--gold2);">10</div></div>
+    </div>
+    <div class="info-box">
+      <p>1→ (1×2)+0=<strong>2</strong> → (2×2)+1=<strong>5</strong> → (5×2)+0=<strong>10</strong> &nbsp;✓</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S13: DECIMAL → BINARY (DIVISION) ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Conversion Method 3</div>
+    <h2>Decimal → Binary<br><span class="hl-green">Division Method</span></h2>
+    <p class="lead" style="margin-bottom:12px;"><strong style="color:var(--green);">LSB</strong> = Least Significant Bit (rightmost). Divide by 2, record remainders, read bottom to top.</p>
+    <div class="grid g2" style="gap:16px;align-items:start;">
+      <div>
+        <div class="steps" style="margin-bottom:10px;">
+          <div class="step-row"><div class="step-n">01</div><div class="step-text">Divide the number by 2</div></div>
+          <div class="step-row"><div class="step-n">02</div><div class="step-text">Record the remainder (0 or 1)</div></div>
+          <div class="step-row"><div class="step-n">03</div><div class="step-text">Use the quotient as the new number</div></div>
+          <div class="step-row"><div class="step-n">04</div><div class="step-text">Repeat until quotient = 0</div></div>
+          <div class="step-row"><div class="step-n">05</div><div class="step-text"><strong>Read remainders from BOTTOM to TOP</strong> → that's your binary</div></div>
+        </div>
+      </div>
+      <div>
+        <p style="font-family:'DM Mono',monospace;font-size:0.85rem;color:var(--text3);margin-bottom:8px;letter-spacing:0.1em;">EXAMPLE: 10 → binary</p>
+        <table class="div-table" style="width:100%;">
+          <thead>
+            <tr><th>Divide</th><th>Quotient</th><th>Remainder</th><th>Bit</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="div-num">10 ÷ 2</td><td>5</td><td class="div-rem-0">0</td><td style="color:var(--text3);font-family:'DM Mono',monospace;">LSB</td></tr>
+            <tr><td class="div-num">5 ÷ 2</td><td>2</td><td class="div-rem-1">1</td><td></td></tr>
+            <tr><td class="div-num">2 ÷ 2</td><td>1</td><td class="div-rem-0">0</td><td></td></tr>
+            <tr><td class="div-num">1 ÷ 2</td><td>0</td><td class="div-rem-1">1</td><td style="color:var(--green);font-family:'DM Mono',monospace;">MSB ↑</td></tr>
+          </tbody>
+        </table>
+        <div class="gold-box" style="margin-top:8px;">
+          <p>Read bottom to top: &nbsp;<strong style="font-size:1.2em;">1 0 1 0</strong> &nbsp;✓</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S14: SUBTRACTION METHOD ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Conversion Method 4</div>
+    <h2>Decimal → Binary<br><span class="hl-gold">Subtraction Method</span></h2>
+    <p class="lead" style="margin-bottom:12px;">Use the powers of 2 table. Work left to right — subtract the largest power that fits.</p>
+    <div class="bit-table-wrap" style="margin-bottom:14px;">
+      <table class="bit-table" style="width:100%;">
+        <thead>
+          <tr>
+            <td class="row-label">Value</td>
+            <th>128</th><th>64</th><th>32</th><th>16</th><th>8</th><th>4</th><th>2</th><th>1</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="row-label">Bit</td>
+            <td class="bit-0">0</td><td class="bit-0">0</td><td class="bit-0">0</td><td class="bit-0">0</td>
+            <td class="bit-1">1</td><td class="bit-0">0</td><td class="bit-1">1</td><td class="bit-0">0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="steps">
+      <div class="step-row"><div class="step-n" style="color:var(--green);">✓</div><div class="step-text">10 ≥ 8 &nbsp;→&nbsp; <strong>write 1</strong>, &nbsp; 10 − 8 = <strong>2</strong> remaining</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--text3);">✗</div><div class="step-text">2 &lt; 4 &nbsp;→&nbsp; <strong>write 0</strong>, &nbsp; move on</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--green);">✓</div><div class="step-text">2 ≥ 2 &nbsp;→&nbsp; <strong>write 1</strong>, &nbsp; 2 − 2 = <strong>0</strong> remaining</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--text3);">✗</div><div class="step-text">0 &lt; 1 &nbsp;→&nbsp; <strong>write 0</strong></div></div>
+    </div>
+    <div class="gold-box"><p>Result: &nbsp;<strong style="font-size:1.2em;">1010₂</strong> &nbsp;=&nbsp; 10₁₀ &nbsp;✓</p></div>
+  </div>
+</div>
+
+<!-- ═══ S15: HEXADECIMAL ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Base 16</div>
+    <h2><span class="hl-cyan">Hexadecimal</span> — Base 16</h2>
+    <p class="lead" style="margin-bottom:14px;">Hex uses 16 symbols. When we run out of digits after 9, we use letters.</p>
+    <div class="bit-table-wrap">
+      <table class="hex-ref" style="width:100%;">
+        <thead>
+          <tr>
+            <th>Decimal</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th>
+            <th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th style="background:var(--surface2);border:1px solid var(--border2);padding:8px 10px;font-family:'DM Mono',monospace;font-size:clamp(0.68rem,1.05vw,0.85rem);color:var(--text3);font-weight:400;">Hex</th>
+            <td class="hex-val">0</td><td class="hex-val">1</td><td class="hex-val">2</td><td class="hex-val">3</td>
+            <td class="hex-val">4</td><td class="hex-val">5</td><td class="hex-val">6</td><td class="hex-val">7</td>
+            <td class="hex-val">8</td><td class="hex-val">9</td>
+            <td class="hex-val" style="background:rgba(34,211,238,0.18);">A</td>
+            <td class="hex-val" style="background:rgba(34,211,238,0.18);">B</td>
+            <td class="hex-val" style="background:rgba(34,211,238,0.18);">C</td>
+            <td class="hex-val" style="background:rgba(34,211,238,0.18);">D</td>
+            <td class="hex-val" style="background:rgba(34,211,238,0.18);">E</td>
+            <td class="hex-val" style="background:rgba(34,211,238,0.18);">F</td>
+          </tr>
+          <tr>
+            <th style="background:var(--surface2);border:1px solid var(--border2);padding:8px 10px;font-family:'DM Mono',monospace;font-size:clamp(0.68rem,1.05vw,0.85rem);color:var(--text3);font-weight:400;">Binary</th>
+            <td class="bin-val">0000</td><td class="bin-val">0001</td><td class="bin-val">0010</td><td class="bin-val">0011</td>
+            <td class="bin-val">0100</td><td class="bin-val">0101</td><td class="bin-val">0110</td><td class="bin-val">0111</td>
+            <td class="bin-val">1000</td><td class="bin-val">1001</td><td class="bin-val">1010</td><td class="bin-val">1011</td>
+            <td class="bin-val">1100</td><td class="bin-val">1101</td><td class="bin-val">1110</td><td class="bin-val">1111</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid g2" style="gap:2px;margin-top:10px;">
+      <div class="cyan-box" style="margin-top:0;"><p><strong>👉 Each hex digit = exactly 4 bits</strong> &nbsp;·&nbsp; 0–9 then A–F</p></div>
+      <div class="info-box" style="margin-top:0;"><p>A=10, B=11, C=12, D=13, E=14, F=15 — letters continue after 9</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S16: WHY HEX ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Why We Use Hex</div>
+    <h2>Why <span class="hl-cyan">Hexadecimal?</span></h2>
+    <p class="lead" style="margin-bottom:14px;">Binary is exact but hard to read. Hex is a compact shorthand.</p>
+    <div class="grid g2" style="gap:12px;align-items:start;">
+      <div>
+        <div class="card red" style="margin-bottom:2px;">
+          <div class="card-title">Binary — Precise but long</div>
+          <div style="font-family:'DM Mono',monospace;font-size:clamp(1.4rem,3vw,2.5rem);font-weight:500;color:var(--green);letter-spacing:0.1em;padding:10px 0;">1101 1010</div>
+          <div class="card-body">8 characters. Hard to read, easy to mistype.</div>
+        </div>
+        <div class="card cyan" style="margin-top:2px;">
+          <div class="card-title">Hex — Compact shorthand</div>
+          <div style="font-family:'DM Mono',monospace;font-size:clamp(2rem,4vw,3.5rem);font-weight:700;color:var(--cyan);letter-spacing:0.2em;padding:10px 0;">D A</div>
+          <div class="card-body">2 characters. Same value — much easier to read.</div>
+        </div>
+        <div class="info-box"><p><strong>👉 Shorter and easier to read</strong> — used in memory addresses, colour codes, error codes, MAC addresses</p></div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);padding:24px;">
+        <div style="font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--text3);letter-spacing:0.15em;margin-bottom:14px;">REAL-WORLD HEX EXAMPLES</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="background:var(--surface2);padding:12px 16px;border-left:3px solid var(--cyan);">
+            <div style="font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--text3);margin-bottom:4px;">COLOUR CODE</div>
+            <div style="font-family:'DM Mono',monospace;font-size:clamp(1rem,1.8vw,1.4rem);color:var(--cyan);">#FF5733</div>
+          </div>
+          <div style="background:var(--surface2);padding:12px 16px;border-left:3px solid var(--gold);">
+            <div style="font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--text3);margin-bottom:4px;">MEMORY ADDRESS</div>
+            <div style="font-family:'DM Mono',monospace;font-size:clamp(1rem,1.8vw,1.4rem);color:var(--gold);">0x00FF0A2C</div>
+          </div>
+          <div style="background:var(--surface2);padding:12px 16px;border-left:3px solid var(--purple);">
+            <div style="font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--text3);margin-bottom:4px;">MAC ADDRESS</div>
+            <div style="font-family:'DM Mono',monospace;font-size:clamp(1rem,1.8vw,1.4rem);color:var(--purple);">00:1A:2B:3C:4D:5E</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S17: BINARY ↔ HEX ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label cyan">// IB Requirement · Binary ↔ Hex</div>
+    <h2>Binary ↔ <span class="hl-cyan">Hex</span> Conversion</h2>
+    <p class="lead" style="margin-bottom:12px;">Group binary into <strong>blocks of 4 bits</strong>. Each group = exactly one hex digit.</p>
+    <div class="bit-table-wrap">
+      <table class="bit-table" style="width:100%;">
+        <thead>
+          <tr>
+            <td class="row-label"></td>
+            <th colspan="4" style="background:rgba(61,214,140,0.08);color:var(--green);border:1px solid rgba(61,214,140,0.2);">Left group</th>
+            <td class="spacer"></td>
+            <th colspan="4" style="background:rgba(34,211,238,0.08);color:var(--cyan);border:1px solid rgba(34,211,238,0.2);">Right group</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label">Value</td>
+            <td class="power">8</td><td class="power">4</td><td class="power">2</td><td class="power">1</td>
+            <td class="spacer"></td>
+            <td class="power">8</td><td class="power">4</td><td class="power">2</td><td class="power">1</td>
+          </tr>
+          <tr>
+            <td class="row-label">Bit</td>
+            <td class="bit-1">1</td><td class="bit-1">1</td><td class="bit-0">0</td><td class="bit-1">1</td>
+            <td class="spacer"></td>
+            <td class="bit-1">1</td><td class="bit-0">0</td><td class="bit-1">1</td><td class="bit-0">0</td>
+          </tr>
+          <tr>
+            <td class="row-label">Sum</td>
+            <td colspan="4" style="background:rgba(61,214,140,0.1);color:var(--green);font-size:clamp(0.88rem,1.5vw,1.1rem);">8+4+1 = 13</td>
+            <td class="spacer"></td>
+            <td colspan="4" style="background:rgba(34,211,238,0.1);color:var(--cyan);font-size:clamp(0.88rem,1.5vw,1.1rem);">8+2 = 10</td>
+          </tr>
+          <tr>
+            <td class="row-label">Hex</td>
+            <td colspan="4" class="hex">D</td>
+            <td class="spacer"></td>
+            <td colspan="4" class="hex">A</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid g2" style="gap:2px;margin-top:10px;">
+      <div class="gold-box" style="margin-top:0;"><p>1101 1010₂ &nbsp;=&nbsp; <strong style="font-size:1.2em;color:var(--cyan);">DA₁₆</strong></p></div>
+      <div class="cyan-box" style="margin-top:0;"><p><strong>👉 IB requirement:</strong> Binary ↔ Hex via 4-bit grouping. Always pad to full groups of 4.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S18: BRUTE FORCE ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Strategy</div>
+    <h2>Brute Force <span class="hl-gold">Strategy</span></h2>
+    <p class="lead" style="margin-bottom:14px;">Not sure how to convert directly? There's always a safe path.</p>
+    <div class="grid g2" style="gap:12px;align-items:start;">
+      <div>
+        <div class="card gold">
+          <div class="card-title">The Brute Force Path</div>
+          <div class="card-body">
+            When in doubt — convert via decimal.<br><br>
+            <strong>Any format → Binary → Decimal</strong><br>
+            or<br>
+            <strong>Decimal → Binary → Any format</strong><br><br>
+            Takes longer but always works.
+          </div>
+        </div>
+        <div class="info-box"><p>IB exams test <strong>accuracy</strong>, not speed. Brute force is 100% valid — show your working clearly.</p></div>
+      </div>
+      <div>
+        <div style="background:var(--surface);border:1px solid var(--border);padding:20px;">
+          <div style="font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--text3);letter-spacing:0.15em;margin-bottom:14px;">CONVERSION MAP</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div style="background:rgba(61,214,140,0.1);border:1px solid rgba(61,214,140,0.2);padding:8px 14px;font-family:'DM Mono',monospace;color:var(--green);font-size:0.9rem;">Binary</div>
+              <div style="color:var(--gold);font-family:'DM Mono',monospace;">⟷</div>
+              <div style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);padding:8px 14px;font-family:'DM Mono',monospace;color:var(--gold);font-size:0.9rem;">Decimal</div>
+              <div style="color:var(--text3);font-family:'DM Mono',monospace;font-size:0.75rem;">Positional / Division</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div style="background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.2);padding:8px 14px;font-family:'DM Mono',monospace;color:var(--cyan);font-size:0.9rem;">Hex</div>
+              <div style="color:var(--gold);font-family:'DM Mono',monospace;">⟷</div>
+              <div style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);padding:8px 14px;font-family:'DM Mono',monospace;color:var(--gold);font-size:0.9rem;">Decimal</div>
+              <div style="color:var(--text3);font-family:'DM Mono',monospace;font-size:0.75rem;">× 16 / ÷ 16</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div style="background:rgba(61,214,140,0.1);border:1px solid rgba(61,214,140,0.2);padding:8px 14px;font-family:'DM Mono',monospace;color:var(--green);font-size:0.9rem;">Binary</div>
+              <div style="color:var(--gold);font-family:'DM Mono',monospace;">⟷</div>
+              <div style="background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.2);padding:8px 14px;font-family:'DM Mono',monospace;color:var(--cyan);font-size:0.9rem;">Hex</div>
+              <div style="color:var(--text3);font-family:'DM Mono',monospace;font-size:0.75rem;">Group by 4 bits</div>
+            </div>
+          </div>
+          <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:14px;">
+            <div style="font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--text3);">BRUTE FORCE SHORTCUT</div>
+            <div style="font-family:'DM Mono',monospace;font-size:0.85rem;color:var(--gold2);margin-top:6px;">Hex ↔ Binary ↔ Decimal</div>
+            <div style="font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--text3);margin-top:4px;">Convert to binary first, then to target</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S19: BIG IDEA ═══ -->
+<div class="slide">
+  <div class="content" style="max-width:900px;margin:0 auto;text-align:center;">
+    <div class="label" style="display:block;text-align:center;">// The Big Idea</div>
+    <h2 style="font-size:clamp(1.8rem,4vw,3.5rem);">Binary = Foundation<br><span class="hl-cyan">Hex = Shortcut</span></h2>
+    <div class="divider" style="margin:24px 0;"></div>
+    <div class="grid g3" style="gap:2px;text-align:left;margin-bottom:14px;">
+      <div class="card green" style="padding:20px 22px;">
+        <div class="card-title">Binary</div>
+        <div style="font-family:'DM Mono',monospace;font-size:clamp(1.4rem,2.5vw,2rem);color:var(--green);margin:8px 0;">0  1</div>
+        <div class="card-body">How hardware actually works. Every transistor, every signal.</div>
+      </div>
+      <div class="card cyan" style="padding:20px 22px;">
+        <div class="card-title">Hexadecimal</div>
+        <div style="font-family:'DM Mono',monospace;font-size:clamp(1.4rem,2.5vw,2rem);color:var(--cyan);margin:8px 0;">0–9  A–F</div>
+        <div class="card-body">Human-readable shorthand for binary. Each digit = 4 bits.</div>
+      </div>
+      <div class="card gold" style="padding:20px 22px;">
+        <div class="card-title">Decimal</div>
+        <div style="font-family:'DM Mono',monospace;font-size:clamp(1.4rem,2.5vw,2rem);color:var(--gold);margin:8px 0;">0–9</div>
+        <div class="card-body">How humans think. The bridge between binary and real-world values.</div>
+      </div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border2);padding:18px 28px;">
+      <p style="font-family:'DM Mono',monospace;font-size:clamp(1rem,1.8vw,1.4rem);color:var(--text2);line-height:1.7;">
+        👉 Computers store <strong style="color:var(--text);">all data</strong> as 0 and 1 &nbsp;·&nbsp;
+        Every number, image, and program is ultimately <strong style="color:var(--green);">binary</strong>
+      </p>
+    </div>
+    <div class="bit-table-wrap" style="margin-top:14px;">
+      <table class="bit-table" style="width:100%;">
+        <thead>
+          <tr>
+            <th colspan="8" style="background:rgba(61,214,140,0.06);color:var(--green);border:1px solid rgba(61,214,140,0.15);letter-spacing:0.1em;">1 1 0 1 1 0 1 0</th>
+            <th style="background:transparent;border:none;color:var(--text3);font-size:0.8rem;">= </th>
+            <th style="background:rgba(34,211,238,0.06);color:var(--cyan);border:1px solid rgba(34,211,238,0.15);">D A</th>
+            <th style="background:transparent;border:none;color:var(--text3);font-size:0.8rem;">= </th>
+            <th style="background:rgba(201,168,76,0.06);color:var(--gold2);border:1px solid rgba(201,168,76,0.15);">218</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="bit-1">1</td><td class="bit-1">1</td><td class="bit-0">0</td><td class="bit-1">1</td>
+            <td class="bit-1">1</td><td class="bit-0">0</td><td class="bit-1">1</td><td class="bit-0">0</td>
+            <td style="background:transparent;border:none;"></td>
+            <td class="hex">DA</td>
+            <td style="background:transparent;border:none;"></td>
+            <td class="result">218</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S20: PRACTICE ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label gold">// Practice</div>
+    <h2>Conversion <span class="hl-gold">Questions</span></h2>
+    <p class="lead" style="margin-bottom:14px;">Complete all 5 conversions. Show your working clearly.</p>
+    <div class="grid g2" style="gap:12px;align-items:start;">
+      <div class="card green" style="padding:22px 24px;">
+        <div class="card-title">Binary → Decimal</div>
+        <div class="card-body" style="display:flex;flex-direction:column;gap:12px;">
+          <div><strong>1.</strong> Convert <span class="hl-green" style="font-family:'DM Mono',monospace;">10110101₂</span> to decimal.</div>
+          <div><strong>2.</strong> Convert <span class="hl-green" style="font-family:'DM Mono',monospace;">11001110₂</span> to decimal.</div>
+        </div>
+      </div>
+      <div class="card blue" style="padding:22px 24px;">
+        <div class="card-title">Decimal → Binary</div>
+        <div class="card-body" style="display:flex;flex-direction:column;gap:12px;">
+          <div><strong>3.</strong> Convert <span class="hl-blue" style="font-family:'DM Mono',monospace;">73₁₀</span> to binary.</div>
+          <div><strong>4.</strong> Convert <span class="hl-blue" style="font-family:'DM Mono',monospace;">156₁₀</span> to binary.</div>
+        </div>
+      </div>
+    </div>
+    <div class="card cyan" style="padding:22px 24px;margin-top:12px;">
+      <div class="card-title">Decimal → Binary and Hex</div>
+      <div class="card-body">
+        <strong>5.</strong> Convert <span class="hl-gold" style="font-family:'DM Mono',monospace;">94₁₀</span> to
+        <span class="hl-green" style="font-family:'DM Mono',monospace;">binary</span> and
+        <span class="hl-cyan" style="font-family:'DM Mono',monospace;">hexadecimal</span>.
+      </div>
+    </div>
+    <div class="gold-box">
+      <p><strong>Tip:</strong> For question 5, convert to binary first, then group the bits in 4s to get hexadecimal.</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>← Prev</button>
+  <div class="nav-sep"></div>
+  <div class="nav-dots" id="navDots"></div>
+  <div class="nav-sep"></div>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+</div>
+
+<script>
+  let cur = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const prog = document.getElementById('progress');
+  const slideNum = document.getElementById('slideNum');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const dotsEl = document.getElementById('navDots');
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  }
+  function goTo(n) {
+    slides[cur].classList.remove('active');
+    slides[cur].classList.add('exit');
+    const old = cur;
+    setTimeout(() => slides[old].classList.remove('exit'), 380);
+    cur = n;
+    slides[cur].classList.add('active');
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+    prog.style.width = ((cur + 1) / total * 100) + '%';
+    slideNum.textContent = String(cur + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+    prevBtn.disabled = cur === 0;
+    nextBtn.disabled = cur === total - 1;
+  }
+  function changeSlide(d) { const n = cur + d; if (n >= 0 && n < total) goTo(n); }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') changeSlide(1);
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+  });
+  prog.style.width = (1 / total * 100) + '%';
+</script>
+</body>
+</html>
