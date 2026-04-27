@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Hardware — CPU · GPU · RAM · Storage</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Serif+Display&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07090f; --surface: #0e1117; --surface2: #151923;
+  --border: #1e2535; --border2: #2a3448;
+  --gold: #c9a84c; --gold2: #e8c97a;
+  --blue: #4a9eff; --green: #3dd68c; --red: #ff6b6b;
+  --purple: #9b8afb; --cyan: #22d3ee; --orange: #fb923c;
+  --text: #dde4f0; --text2: #92a4c0; --text3: #627696;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; }
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(74,158,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74,158,255,0.03) 1px, transparent 1px),
+    linear-gradient(rgba(74,158,255,0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74,158,255,0.01) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+  pointer-events: none; z-index: 0;
+}
+.deck { position: relative; width: 100vw; height: 100vh; z-index: 1; }
+.slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: flex-start; align-items: center;
+  padding: 50px 72px 92px;
+  overflow-y: auto; overscroll-behavior: contain;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  transform: translateY(12px);
+}
+.slide.active { opacity: 1; pointer-events: all; transform: translateY(0); }
+.slide.exit   { opacity: 0; transform: translateY(-12px); }
+.slide.scroll-slide {
+  padding-top: 56px; padding-bottom: 120px;
+}
+.slide::-webkit-scrollbar { width: 8px; }
+.slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
+.progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--gold), var(--blue)); transition: width 0.35s ease; z-index: 100; }
+.slide-num { position: fixed; top: 17px; right: 24px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
+.content { width: 100%; max-width: 1100px; }
+.label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+.label.blue{color:var(--blue);} .label.green{color:var(--green);} .label.purple{color:var(--purple);} .label.cyan{color:var(--cyan);} .label.orange{color:var(--orange);}
+h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.6rem,5.2vw,4.6rem); font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
+h2 { font-family: 'DM Serif Display', serif; font-size: clamp(2rem,4vw,3.4rem); font-weight: 400; line-height: 1.1; margin-bottom: 14px; }
+.lead { font-size: clamp(1.1rem,1.9vw,1.45rem); color: var(--text2); font-weight: 300; line-height: 1.6; margin-bottom: 20px; }
+.ko { color: var(--text3); font-size: 0.9em; font-style: italic; margin-top: 6px; }
+.hl-gold{color:var(--gold2);} .hl-blue{color:var(--blue);} .hl-green{color:var(--green);}
+.hl-purple{color:var(--purple);} .hl-cyan{color:var(--cyan);} .hl-orange{color:var(--orange);}
+.grid { display: grid; gap: 2px; width: 100%; }
+.g2 { grid-template-columns: 1fr 1fr; }
+.g3 { grid-template-columns: 1fr 1fr 1fr; }
+.card { background: var(--surface); border: 1px solid var(--border); padding: 18px 20px; position: relative; overflow: hidden; }
+.card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.card.gold::after{background:var(--gold);} .card.blue::after{background:var(--blue);}
+.card.green::after{background:var(--green);} .card.red::after{background:var(--red);}
+.card.purple::after{background:var(--purple);} .card.cyan::after{background:var(--cyan);}
+.card.orange::after{background:var(--orange);}
+.card-title { font-family: 'DM Mono', monospace; font-size: clamp(0.78rem,1.2vw,1rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 9px; }
+.card-body { font-size: clamp(1rem,1.55vw,1.2rem); color: var(--text2); line-height: 1.6; font-weight: 300; }
+.card-body strong { color: var(--text); font-weight: 500; }
+.card-body code { font-family: 'DM Mono', monospace; font-size: 0.88em; color: var(--gold2); }
+.info-box  { border-left:3px solid var(--blue);   padding:12px 18px; background:rgba(74,158,255,0.04);  border-top:1px solid rgba(74,158,255,0.1);  border-right:1px solid rgba(74,158,255,0.1);  border-bottom:1px solid rgba(74,158,255,0.1);  margin-top:12px; }
+.gold-box  { border-left:3px solid var(--gold);   padding:12px 18px; background:rgba(201,168,76,0.04); border-top:1px solid rgba(201,168,76,0.1);  border-right:1px solid rgba(201,168,76,0.1);  border-bottom:1px solid rgba(201,168,76,0.1);  margin-top:12px; }
+.green-box { border-left:3px solid var(--green);  padding:12px 18px; background:rgba(61,214,140,0.04); border-top:1px solid rgba(61,214,140,0.1);  border-right:1px solid rgba(61,214,140,0.1);  border-bottom:1px solid rgba(61,214,140,0.1);  margin-top:12px; }
+.red-box   { border-left:3px solid var(--red);    padding:12px 18px; background:rgba(255,107,107,0.04);border-top:1px solid rgba(255,107,107,0.1); border-right:1px solid rgba(255,107,107,0.1); border-bottom:1px solid rgba(255,107,107,0.1); margin-top:12px; }
+.info-box p,.gold-box p,.green-box p,.red-box p { font-size:clamp(1rem,1.55vw,1.2rem); color:var(--text2); line-height:1.6; }
+.info-box strong{color:var(--blue);} .gold-box strong{color:var(--gold2);} .green-box strong{color:var(--green);} .red-box strong{color:var(--red);}
+.tag { display:inline-block; font-family:'DM Mono',monospace; font-size:9px; padding:2px 7px; border-radius:2px; letter-spacing:0.06em; vertical-align:middle; margin-left:5px; }
+.tag.volatile { background:rgba(255,107,107,0.12); color:var(--red);   border:1px solid rgba(255,107,107,0.3); }
+.tag.perm     { background:rgba(61,214,140,0.12);  color:var(--green); border:1px solid rgba(61,214,140,0.3); }
+.tag.fast     { background:rgba(74,158,255,0.12);  color:var(--blue);  border:1px solid rgba(74,158,255,0.25); }
+.tag.slow     { background:rgba(251,146,60,0.12);  color:var(--orange);border:1px solid rgba(251,146,60,0.25); }
+.flow { display:flex; flex-direction:column; gap:2px; }
+.step { display:flex; align-items:flex-start; gap:14px; background:var(--surface); border:1px solid var(--border); padding:11px 16px; }
+.step-num { font-family:'DM Mono',monospace; font-size:clamp(0.8rem,1.2vw,1rem); min-width:24px; flex-shrink:0; }
+.step-body { font-size:clamp(1rem,1.55vw,1.2rem); font-weight:300; line-height:1.5; }
+.step-body strong { font-weight:500; }
+.data-table { width:100%; border-collapse:collapse; margin-top:12px; }
+.data-table th { font-family:'DM Mono',monospace; font-size:clamp(0.7rem,1.05vw,0.88rem); letter-spacing:0.12em; text-transform:uppercase; color:var(--text3); padding:9px 14px; text-align:left; border-bottom:1px solid var(--border2); background:var(--surface); }
+.data-table td { padding:10px 14px; font-size:clamp(0.92rem,1.4vw,1.1rem); border-bottom:1px solid var(--border); color:var(--text2); background:var(--surface); line-height:1.45; }
+.data-table tr:last-child td { border-bottom:none; }
+.data-table tr:hover td { background:var(--surface2); }
+.data-table td:first-child { font-family:'DM Mono',monospace; font-size:0.88em; color:var(--gold2); font-weight:500; }
+.data-table td.good{color:var(--green);} .data-table td.bad{color:var(--red);} .data-table td.mid{color:var(--orange);}
+.divider { width:100%; height:1px; background:var(--border); margin:12px 0; }
+
+/* Binary bit display */
+.bits { display:flex; gap:4px; flex-wrap:wrap; margin:12px 0; }
+.bit { font-family:'DM Mono',monospace; font-size:clamp(1.2rem,2vw,1.8rem); font-weight:500; padding:6px 10px; background:var(--surface); border:1px solid var(--border); transition:color 0.3s,border-color 0.3s; }
+.bit.one  { color:var(--gold2); border-color:rgba(201,168,76,0.4); }
+.bit.zero { color:var(--text3); }
+
+/* Pixel grid */
+.pixel-grid { display:grid; grid-template-columns:repeat(14,1fr); gap:2px; width:100%; margin-top:8px; }
+.px { aspect-ratio:1; border-radius:1px; }
+
+/* NAV */
+.nav { position:fixed; bottom:26px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:13px; z-index:100; background:rgba(7,9,15,0.92); backdrop-filter:blur(16px); border:1px solid var(--border2); padding:10px 20px; }
+.nav-btn { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text2); background:none; border:1px solid var(--border2); padding:6px 14px; cursor:pointer; transition:all 0.2s; }
+.nav-btn:hover { color:var(--gold); border-color:var(--gold); background:rgba(201,168,76,0.05); }
+.nav-btn:disabled { opacity:0.25; cursor:not-allowed; }
+.nav-dots { display:flex; gap:5px; flex-wrap:wrap; max-width:220px; justify-content:center; }
+.dot { width:5px; height:5px; border-radius:50%; background:var(--border2); cursor:pointer; transition:all 0.2s; }
+.dot.active { background:var(--gold); transform:scale(1.4); }
+.nav-sep { width:1px; height:18px; background:var(--border2); }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="slide-num" id="slideNum">01 / 10</div>
+<div class="deck">
+
+
+<!-- ══ S1: TITLE ══════════════════════════════════════════ -->
+<div class="slide active">
+  <div class="content">
+    <div class="label">// Computer Hardware · IB CS</div>
+    <h1>Inside the<br><span class="hl-gold">Computer</span></h1>
+    <p class="lead">CPU · GPU · RAM · Storage — what they do and why it matters.</p>
+    <div class="gold-box">
+      <p><strong>Key Question:</strong> What does each part do, and how do they work together?<br>
+      <span class="ko">핵심 질문: 각 부품은 무엇을 하며, 어떻게 함께 작동하는가?</span></p>
+    </div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:26px;">
+      <div style="padding-left:12px;border-left:2px solid var(--gold);">
+        <div style="font-family:'DM Mono',monospace;">CPU</div>
+        <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">THE BRAIN</div>
+      </div>
+      <div style="padding-left:12px;border-left:2px solid var(--cyan);">
+        <div style="font-family:'DM Mono',monospace;">Binary & Bus</div>
+        <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">0s AND 1s</div>
+      </div>
+      <div style="padding-left:12px;border-left:2px solid var(--purple);">
+        <div style="font-family:'DM Mono',monospace;">GPU</div>
+        <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">THE ARTIST + AI ENGINE</div>
+      </div>
+      <div style="padding-left:12px;border-left:2px solid var(--blue);">
+        <div style="font-family:'DM Mono',monospace;">RAM</div>
+        <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">WORKING MEMORY</div>
+      </div>
+      <div style="padding-left:12px;border-left:2px solid var(--green);">
+        <div style="font-family:'DM Mono',monospace;">Storage</div>
+        <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">LONG-TERM MEMORY</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ S2: CPU ════════════════════════════════════════════ -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// 01 · CPU</div>
+    <h2>CPU — <span class="hl-gold">The Brain</span></h2>
+    <p class="lead">The CPU runs every instruction. It repeats one loop billions of times per second — <strong style="color:var(--gold2)">Fetch → Decode → Execute</strong>.</p>
+
+    <div class="grid g3">
+      <div class="card gold">
+        <div class="card-title" style="color:var(--gold2);">① Fetch</div>
+        <div class="card-body">Gets the next instruction from RAM.<br><span class="ko">RAM에서 다음 명령어를 가져온다.</span></div>
+      </div>
+      <div class="card blue">
+        <div class="card-title" style="color:var(--blue);">② Decode</div>
+        <div class="card-body">The Control Unit figures out what to do.<br><span class="ko">제어 장치가 무엇을 할지 해석한다.</span></div>
+      </div>
+      <div class="card green">
+        <div class="card-title" style="color:var(--green);">③ Execute</div>
+        <div class="card-body">The ALU performs the calculation.<br><span class="ko">ALU가 연산을 수행한다.</span></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="grid g2">
+      <div class="card blue">
+        <div class="card-title" style="color:var(--blue);">Control Unit (CU)</div>
+        <div class="card-body">Manages all other parts — does not compute itself.<br><span class="ko">모든 부품을 관리. 직접 연산하지는 않음.</span></div>
+      </div>
+      <div class="card cyan">
+        <div class="card-title" style="color:var(--cyan);">Cache</div>
+        <div class="card-body"><strong>Ultra-fast memory inside the CPU chip.</strong> CPU checks cache before reaching RAM — much faster.<br><span class="ko">CPU 칩 내부의 초고속 메모리. RAM보다 훨씬 빠르다.</span></div>
+      </div>
+    </div>
+
+    <div class="gold-box">
+      <p><strong>AI context:</strong> Opening an AI app = the CPU fetching and executing its instructions, one by one, millions of times per second.</p>
+      <p class="ko">AI 앱 실행 = CPU가 명령어를 하나씩 초당 수백만 번 실행하는 것.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ S3: BINARY & THE BUS ═══════════════════════════════ -->
+<div class="slide">
+  <div class="content">
+    <div class="label cyan">// 02 · Binary & The Bus</div>
+    <h2>Binary & The Bus — <span class="hl-cyan">0s and 1s</span></h2>
+    <p class="lead">Computers only understand two states: <strong style="color:var(--gold2)">1</strong> (electricity on) and <strong style="color:var(--cyan)">0</strong> (electricity off). Everything — text, images, instructions — is just a long sequence of 0s and 1s.</p>
+    <p class="ko" style="margin-bottom:18px;">컴퓨터는 두 가지 상태만 이해한다: 1(전기 켜짐)과 0(전기 꺼짐). 모든 것은 0과 1의 나열이다.</p>
+
+    <!-- animated bit display -->
+    <div class="bits" id="bitsDisplay">
+      <div class="bit zero">0</div><div class="bit one">1</div><div class="bit zero">0</div>
+      <div class="bit one">1</div><div class="bit zero">0</div><div class="bit one">1</div>
+      <div class="bit one">1</div><div class="bit zero">0</div>
+    </div>
+    <p style="font-family:'DM Mono',monospace;font-size:0.78rem;color:var(--text3);letter-spacing:0.1em;margin-bottom:18px;">8 bits = 1 byte = one letter, one colour, or part of an instruction / 문자 하나, 색상 하나, 또는 명령어의 일부</p>
+
+    <div class="grid g2">
+      <div class="card cyan">
+        <div class="card-title" style="color:var(--cyan);">Instructions are binary</div>
+        <div class="card-body">When you write code or click a button, it eventually becomes a pattern of 0s and 1s. The CPU reads that pattern and acts on it.<br><span class="ko">코드나 버튼 클릭은 결국 0과 1의 패턴이 된다. CPU가 이를 읽고 행동한다.</span></div>
+      </div>
+      <div class="card gold">
+        <div class="card-title" style="color:var(--gold2);">The Bus — Electrical Cables</div>
+        <div class="card-body">The bus is simply the <strong>wires inside the computer</strong> that carry these 0/1 signals between the CPU, RAM, GPU, and Storage.<br><span class="ko">버스는 CPU, RAM, GPU, 저장장치 사이에서 0/1 신호를 전달하는 전기 케이블이다.</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ S4: GPU ════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="content">
+    <div class="label purple">// 03 · GPU</div>
+    <h2>GPU — <span class="hl-purple">Pixels & AI</span></h2>
+    <p class="lead">The GPU has <strong style="color:var(--purple)">thousands of tiny cores</strong> that all run at the same time — perfect for tasks that need millions of small calculations done at once.</p>
+    <p class="ko" style="margin-bottom:18px;">GPU는 수천 개의 소형 코어가 동시에 작동한다 — 수백만 개의 작은 연산을 한꺼번에 처리하는 데 최적화됨.</p>
+
+    <div class="grid g2">
+      <div class="card purple">
+        <div class="card-title" style="color:var(--purple);">Gaming — Rendering Pixels</div>
+        <div class="card-body">A 1080p screen = <strong>2+ million pixels</strong>, updated up to 144× per second. The GPU calculates every pixel's colour on each frame — simultaneously.<br><span class="ko">1080p = 200만 픽셀, 초당 최대 144번 갱신. GPU가 각 픽셀의 색상을 동시에 계산.</span></div>
+      </div>
+      <div class="card gold">
+        <div class="card-title" style="color:var(--gold2);">AI — Parallel Calculations</div>
+        <div class="card-body">Training AI = billions of tiny maths operations at the same moment. GPUs handle this perfectly. ChatGPT was trained on <strong>thousands of NVIDIA A100 GPUs</strong>.<br><span class="ko">AI 훈련 = 수십억 개의 연산을 동시에. ChatGPT는 수천 개의 NVIDIA A100 GPU로 훈련됨.</span></div>
+      </div>
+    </div>
+
+    <div style="margin-top:14px;">
+      <p style="font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;">GPU — updating pixels every frame</p>
+      <div class="pixel-grid" id="pixelGrid"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ S5: RAM ════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="content">
+    <div class="label blue">// 04 · RAM</div>
+    <h2>RAM — <span class="hl-blue">Working Memory</span></h2>
+    <p class="lead">RAM holds what the computer is using <strong style="color:var(--blue)">right now</strong>. It is fast — but it forgets everything when the power goes off.</p>
+
+    <div class="grid g3">
+      <div class="card red">
+        <div class="card-title" style="color:var(--red);">Volatile <span class="tag volatile">VOLATILE</span></div>
+        <div class="card-body">No power = all data gone instantly.<br><span class="ko">전원 없음 = 모든 데이터 즉시 사라짐.</span></div>
+      </div>
+      <div class="card blue">
+        <div class="card-title" style="color:var(--blue);">Fast <span class="tag fast">FAST</span></div>
+        <div class="card-body">The CPU reads RAM in nanoseconds. Programs must load into RAM to run.<br><span class="ko">CPU는 나노초 단위로 RAM을 읽는다. 프로그램은 실행 전에 RAM에 로드된다.</span></div>
+      </div>
+      <div class="card gold">
+        <div class="card-title" style="color:var(--gold2);">❌ Not Saved / ✓ Saved</div>
+        <div class="card-body">While you type, your work is <strong>only in RAM</strong>. Pressing Save copies it to Storage. Power off before saving = <strong>gone</strong>.<br><span class="ko">입력 중 작업은 RAM에만 있다. 저장하면 저장장치로 복사된다. 저장 전 전원 차단 = 사라짐.</span></div>
+      </div>
+    </div>
+
+    <div class="info-box" style="margin-top:14px;">
+      <p><strong>Why isn't the OS in RAM?</strong> RAM is wiped on every shutdown. Windows and macOS must survive restarts — so they live on the SSD and are <em>loaded into</em> RAM at boot.</p>
+      <p class="ko">운영체제는 재부팅 후에도 살아남아야 한다. 그래서 SSD에 저장되고, 부팅 시 RAM으로 로드된다.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ S6: STORAGE ════════════════════════════════════════ -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label green">// 05 · Storage</div>
+    <h2>Storage — <span class="hl-green">Long-Term Memory</span></h2>
+    <p class="lead"><strong style="color:var(--green)">Non-volatile</strong> — keeps data even with no power. Your OS, documents, and photos all live here permanently.</p>
+    <p class="ko" style="margin-bottom:16px;">비휘발성 — 전원 없이도 데이터를 유지한다. 운영체제, 문서, 사진이 여기에 영구 저장된다.</p>
+
+    <div class="grid g2">
+      <div class="card orange">
+        <div class="card-title" style="color:var(--orange);">HDD — Hard Disk Drive <span class="tag slow">SLOW</span></div>
+        <div class="card-body">
+          <strong>Spinning magnetic disk + moving arm.</strong> Physical movement = slower and fragile.<br>
+          <code>~100 MB/s</code><br>
+          <span class="ko">회전하는 자기 디스크와 움직이는 헤드 → 느리고 충격에 취약.</span>
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title" style="color:var(--green);">NVMe SSD <span class="tag fast">FAST</span></div>
+        <div class="card-body">
+          <strong>Flash memory chips — no moving parts.</strong> Reads data electronically.<br>
+          <code>~3,500–10,000 MB/s</code><br>
+          <span class="ko">플래시 메모리 칩, 움직이는 부품 없음 → 훨씬 빠르고 내구성이 높다.</span>
+        </div>
+      </div>
+    </div>
+
+    <table class="data-table">
+      <thead><tr><th>Feature / 특성</th><th>HDD</th><th>NVMe SSD</th></tr></thead>
+      <tbody>
+        <tr><td>Read Speed</td><td class="bad">~100 MB/s</td><td class="good">~3,500–10,000 MB/s</td></tr>
+        <tr><td>Moving Parts / 움직이는 부품</td><td class="bad">Yes</td><td class="good">No</td></tr>
+        <tr><td>Volatile? / 휘발성?</td><td class="good">Non-volatile ✓</td><td class="good">Non-volatile ✓</td></tr>
+        <tr><td>Good for AI? / AI에 적합?</td><td class="bad">No — too slow</td><td class="good">Yes — fast model loading</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- ══ S7: RAM vs STORAGE ═════════════════════════════════ -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// 06 · RAM vs Storage</div>
+    <h2>The Key <span class="hl-gold">Difference</span></h2>
+    <p class="lead">Think of it as a desk and a filing cabinet.</p>
+
+    <div class="grid g2" style="margin-top:8px;">
+      <div style="background:var(--surface);border:1px solid rgba(74,158,255,0.3);padding:22px;position:relative;">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--blue);"></div>
+        <div style="font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--blue);margin-bottom:10px;">RAM · Your Desk</div>
+        <div style="font-size:2.6rem;margin-bottom:8px;">🗂</div>
+        <div style="font-size:clamp(0.9rem,1.4vw,1.08rem);color:var(--text2);line-height:1.6;font-weight:300;">
+          Fast. Only holds what you're working on <strong style="color:var(--text)">right now</strong>.<br>
+          Leave the office (power off) — desk is cleared.
+        </div>
+        <div class="tag volatile" style="margin-top:10px;font-size:10px;padding:4px 10px;">VOLATILE</div>
+        <div class="ko" style="margin-top:8px;">빠름. 지금 작업 중인 것만 보관. 전원 끄면 지워짐.</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid rgba(61,214,140,0.3);padding:22px;position:relative;">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--green);"></div>
+        <div style="font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--green);margin-bottom:10px;">Storage · Filing Cabinet</div>
+        <div style="font-size:2.6rem;margin-bottom:8px;">🗄</div>
+        <div style="font-size:clamp(0.9rem,1.4vw,1.08rem);color:var(--text2);line-height:1.6;font-weight:300;">
+          Slower. Keeps <strong style="color:var(--text)">everything permanently</strong>.<br>
+          Files stay even when the office is closed.
+        </div>
+        <div class="tag perm" style="margin-top:10px;font-size:10px;padding:4px 10px;">NON-VOLATILE</div>
+        <div class="ko" style="margin-top:8px;">느림. 모든 것을 영구 보관. 전원 꺼도 파일 유지.</div>
+      </div>
+    </div>
+
+    <div class="gold-box">
+      <p><strong>Press Save</strong> → work moves from RAM → Storage.<br>
+      <strong>Reboot</strong> → OS loads from Storage → RAM.</p>
+      <p class="ko">저장 = RAM → 저장장치. &nbsp;재부팅 = 저장장치 → RAM으로 OS 로드.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ S8: COMPRESSION ════════════════════════════════════ -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label orange">// 07 · Compression</div>
+    <h2>Compression — <span class="hl-orange">Why Files Shrink</span></h2>
+    <p class="lead">Compression encodes <strong style="color:var(--orange)">repeated or redundant data</strong> more efficiently. Without it, YouTube streaming would be impossible.</p>
+    <p class="ko" style="margin-bottom:16px;">압축은 반복되거나 중복된 데이터를 효율적으로 인코딩한다. 압축 없이는 유튜브 스트리밍이 불가능하다.</p>
+
+    <div class="grid g2">
+      <div class="card orange">
+        <div class="card-title" style="color:var(--orange);">Without Compression</div>
+        <div class="card-body">1 minute of raw 1080p video ≈ <strong>~10 GB</strong>.<br>Impossible to upload or stream.<br><span class="ko">1분짜리 원본 1080p 영상 ≈ 약 10GB. 업로드·스트리밍 불가능.</span></div>
+      </div>
+      <div class="card green">
+        <div class="card-title" style="color:var(--green);">With Compression (H.264)</div>
+        <div class="card-body">Same 1-minute video ≈ <strong>~150 MB</strong> — 60× smaller.<br>Stores and streams easily.<br><span class="ko">압축 후 동일 영상 ≈ 약 150MB — 60배 작아짐. 저장·스트리밍 가능.</span></div>
+      </div>
+    </div>
+
+    <table class="data-table">
+      <thead><tr><th></th><th>Uncompressed</th><th>Compressed</th></tr></thead>
+      <tbody>
+        <tr><td>Storage / 저장 공간</td><td class="bad">~10 GB / min</td><td class="good">~150 MB / min</td></tr>
+        <tr><td>Bandwidth / 대역폭</td><td class="bad">~1.4 Gbps</td><td class="good">~5 Mbps</td></tr>
+        <tr><td>Streaming / 스트리밍</td><td class="bad">No</td><td class="good">Yes</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-box">
+      <p><strong>How?</strong> A blue sky has thousands of identical blue pixels. Instead of storing each one, compression stores "5,000 blue" as a single instruction — reducing file size drastically.</p>
+      <p class="ko">파란 하늘 = 수천 개의 같은 픽셀. "파란색 5,000개"를 하나의 명령으로 저장 → 파일 크기 대폭 감소.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ S9: BIG PICTURE ════════════════════════════════════ -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// 08 · The Big Picture</div>
+    <h2>How It All <span class="hl-gold">Connects</span></h2>
+    <p class="lead" style="margin-bottom:16px;">Opening a game — all five parts working together.</p>
+    <div class="flow">
+      <div class="step">
+        <div class="step-num" style="color:var(--green);">1</div>
+        <div class="step-body"><strong style="color:var(--green);">Storage (SSD)</strong> — Game files stored permanently here. Press Play → SSD reads the data.<br><span class="ko" style="font-size:0.85em;">게임 파일이 SSD에 영구 저장. Play 누름 → SSD가 데이터를 읽음.</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="color:var(--blue);">2</div>
+        <div class="step-body"><strong style="color:var(--blue);">RAM</strong> — Game data loaded into RAM so the CPU can reach it fast.<br><span class="ko" style="font-size:0.85em;">게임 데이터가 RAM에 로드됨 → CPU가 빠르게 접근.</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="color:var(--cyan);">3</div>
+        <div class="step-body"><strong style="color:var(--cyan);">Bus</strong> — Electrical cables carry 0s and 1s between CPU, RAM, and GPU.<br><span class="ko" style="font-size:0.85em;">전기 케이블이 CPU, RAM, GPU 사이에 0과 1 신호를 전달.</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="color:var(--gold2);">4</div>
+        <div class="step-body"><strong style="color:var(--gold2);">CPU</strong> — Runs game logic (movement, physics, AI enemies) via Fetch-Execute.<br><span class="ko" style="font-size:0.85em;">CPU가 게임 로직(이동, 물리, 적 AI)을 실행.</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="color:var(--purple);">5</div>
+        <div class="step-body"><strong style="color:var(--purple);">GPU</strong> — Receives scene data, calculates every pixel's colour, draws the frame — up to 144× per second.<br><span class="ko" style="font-size:0.85em;">장면 데이터 수신 → 모든 픽셀 색상 계산 → 초당 최대 144번 화면 출력.</span></div>
+      </div>
+    </div>
+    <div class="gold-box">
+      <p><strong>Remove any part and it breaks.</strong> No RAM = can't load. No GPU = no image. No Bus = nothing communicates. No Storage = nothing to load from.</p>
+      <p class="ko">어느 부품을 제거해도 작동하지 않는다. RAM 없음 = 로드 불가. GPU 없음 = 화면 없음. 버스 없음 = 통신 불가. 저장장치 없음 = 로드할 것 없음.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ S10: KEY TERMS ═════════════════════════════════════ -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// 09 · Key Terms</div>
+    <h2>Key Terms <span class="hl-gold">Glossary</span></h2>
+    <p class="lead" style="margin-bottom:14px;">Everything you need for the questions.</p>
+
+    <table class="data-table">
+      <thead><tr><th>Term / 용어</th><th>Definition / 정의</th></tr></thead>
+      <tbody>
+        <tr><td>Bit</td><td>A single 0 or 1 — the smallest unit of data. In hardware: a high or low electrical voltage. / 하나의 0 또는 1. 하드웨어에서는 고전압/저전압.</td></tr>
+        <tr><td>Byte</td><td>8 bits. Can represent 256 different values — a letter, colour, or number. / 8비트. 문자, 색상, 숫자 등 256가지 값 표현 가능.</td></tr>
+        <tr><td>Bus</td><td>Electrical cables connecting all components. Carries 0s and 1s between CPU, RAM, GPU, and Storage. / 모든 부품을 연결하는 전기 케이블. CPU, RAM, GPU, 저장장치 사이에서 0과 1을 전달.</td></tr>
+        <tr><td>Pixel</td><td>The smallest unit on a screen. Each pixel has a colour (R, G, B). The GPU calculates every pixel. / 화면의 최소 단위. 각 픽셀은 색상(R,G,B) 값을 가진다. GPU가 계산.</td></tr>
+        <tr><td>Volatile</td><td>Loses all data when power is removed. RAM is volatile. / 전원 차단 시 데이터 소멸. RAM이 휘발성.</td></tr>
+        <tr><td>Non-volatile</td><td>Keeps data without power. SSD and HDD are non-volatile. / 전원 없이도 데이터 유지. SSD, HDD가 비휘발성.</td></tr>
+        <tr><td>Compression</td><td>Reducing file size by encoding repeated data more efficiently. / 반복 데이터를 효율적으로 인코딩해 파일 크기를 줄이는 것.</td></tr>
+        <tr><td>Bandwidth</td><td>How much data can be transferred per second (MB/s or Gbps). / 초당 전송 가능한 데이터 양.</td></tr>
+        <tr><td>Cache</td><td>Ultra-fast memory inside the CPU chip — faster than RAM. / CPU 칩 내부의 초고속 메모리 — RAM보다 빠르다.</td></tr>
+        <tr><td>Fetch-Execute Cycle</td><td>The CPU's repeating loop: Fetch → Decode → Execute. / CPU의 반복 동작: 인출 → 해독 → 실행.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="gold-box" style="margin-top:12px;">
+      <p><strong>Exam tip:</strong> Always explain <em>why</em>. Not just "RAM is volatile" — say "RAM is volatile, so if you don't save, a power cut erases your work."</p>
+      <p class="ko">시험 팁: 이유를 설명하시오. "RAM은 휘발성이므로 저장하지 않으면 전원 차단 시 작업 내용이 지워진다."</p>
+    </div>
+  </div>
+</div>
+
+
+</div><!-- /deck -->
+
+<!-- NAV -->
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="move(-1)" disabled>← Prev</button>
+  <div class="nav-sep"></div>
+  <div class="nav-dots" id="dots"></div>
+  <div class="nav-sep"></div>
+  <button class="nav-btn" id="nextBtn" onclick="move(1)">Next →</button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total  = slides.length;
+let cur = 0;
+
+const dotsEl = document.getElementById('dots');
+slides.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+});
+
+function goTo(n) {
+  if (n < 0 || n >= total) return;
+  const prev = cur;
+  slides[prev].classList.remove('active');
+  slides[prev].classList.add('exit');
+  setTimeout(() => slides[prev].classList.remove('exit'), 380);
+  cur = n;
+  slides[cur].classList.add('active');
+  slides[cur].scrollTop = 0;
+  update();
+}
+function move(d) { goTo(cur + d); }
+function update() {
+  document.getElementById('progress').style.width = ((cur+1)/total*100)+'%';
+  document.getElementById('slideNum').textContent = String(cur+1).padStart(2,'0')+' / '+String(total).padStart(2,'0');
+  document.getElementById('prevBtn').disabled = cur === 0;
+  document.getElementById('nextBtn').disabled = cur === total-1;
+  document.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('active', i===cur));
+}
+document.addEventListener('keydown', e => {
+  if (e.key==='ArrowRight'||e.key==='ArrowDown') move(1);
+  if (e.key==='ArrowLeft' ||e.key==='ArrowUp')   move(-1);
+});
+update();
+
+// ── Pixel grid animation (GPU slide) ──
+const grid = document.getElementById('pixelGrid');
+if (grid) {
+  const COLORS = ['#9b8afb','#7c6df5','#4a9eff','#3dd68c','#22d3ee','#c9a84c','#e8c97a','#fb923c','#ff6b6b','#0e1117','#151923','#1e2535'];
+  const N = 70;
+  for (let i = 0; i < N; i++) {
+    const px = document.createElement('div');
+    px.className = 'px';
+    px.style.background = COLORS[Math.floor(Math.random()*COLORS.length)];
+    grid.appendChild(px);
+  }
+  setInterval(() => {
+    const pxs = grid.querySelectorAll('.px');
+    for (let i = 0; i < 8; i++) {
+      pxs[Math.floor(Math.random()*N)].style.background = COLORS[Math.floor(Math.random()*COLORS.length)];
+    }
+  }, 80);
+}
+
+// ── Binary bit animation ──
+const bitsEl = document.getElementById('bitsDisplay');
+if (bitsEl) {
+  setInterval(() => {
+    const bits = bitsEl.querySelectorAll('.bit');
+    bits.forEach(b => {
+      if (Math.random() < 0.25) {
+        const v = Math.random() < 0.5 ? 1 : 0;
+        b.textContent = v;
+        b.className = 'bit ' + (v ? 'one' : 'zero');
+      }
+    });
+  }, 500);
+}
+</script>
+</body>
+</html>
