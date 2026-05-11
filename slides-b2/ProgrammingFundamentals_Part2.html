@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B2 Programming Fundamentals — Part 2</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Serif+Display&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0b12;
+  --surface: #131620;
+  --surface2: #1a2030;
+  --border: #293041;
+  --border2: #3a435b;
+  --teal: #39d0c9;
+  --blue: #63a4ff;
+  --amber: #f3b35b;
+  --green: #52d48e;
+  --red: #ff7d88;
+  --purple: #ae92ff;
+  --text: #e7ecf5;
+  --text2: #a5b0c3;
+  --text3: #69748b;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; }
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(99,164,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99,164,255,0.03) 1px, transparent 1px),
+    radial-gradient(circle at 15% 10%, rgba(82,212,142,0.07), transparent 28%),
+    radial-gradient(circle at 85% 20%, rgba(174,146,255,0.07), transparent 24%);
+  background-size: 80px 80px, 80px 80px, auto, auto;
+  pointer-events: none;
+}
+.deck { position: relative; width: 100vw; height: 100vh; }
+.slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 52px 72px 96px;
+  opacity: 0; pointer-events: none;
+  transform: translateY(12px);
+  transition: opacity 0.38s ease, transform 0.38s ease;
+}
+.slide.active { opacity: 1; pointer-events: all; transform: translateY(0); }
+.slide.exit { opacity: 0; transform: translateY(-12px); }
+.slide.scroll-slide {
+  justify-content: flex-start; align-items: stretch;
+  overflow-y: auto; overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-top: 64px; padding-bottom: 132px;
+}
+.slide.scroll-slide::-webkit-scrollbar { width: 10px; }
+.slide.scroll-slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
+.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(19,22,32,0.35); }
+.progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--teal), var(--blue)); transition: width 0.38s ease; z-index: 100; }
+.slide-num { position: fixed; top: 17px; right: 24px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
+.content { width: 100%; max-width: 1120px; }
+.label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--blue); margin-bottom: 14px; }
+.label.green { color: var(--green); }
+.label.amber { color: var(--amber); }
+.label.purple { color: var(--purple); }
+.label.teal { color: var(--teal); }
+h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.8rem, 5.5vw, 4.8rem); font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
+h2 { font-family: 'DM Serif Display', serif; font-size: clamp(2.1rem, 3.8vw, 3.4rem); font-weight: 400; line-height: 1.08; margin-bottom: 12px; }
+.lead { font-size: clamp(1.1rem, 1.7vw, 1.4rem); color: var(--text2); font-weight: 300; line-height: 1.65; margin-bottom: 18px; }
+.grid { display: grid; gap: 2px; width: 100%; }
+.g2 { grid-template-columns: 1fr 1fr; }
+.g3 { grid-template-columns: 1fr 1fr 1fr; }
+.card { background: var(--surface); border: 1px solid var(--border); padding: 16px 20px; position: relative; overflow: hidden; }
+.card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.card.blue::after { background: var(--blue); }
+.card.green::after { background: var(--green); }
+.card.amber::after { background: var(--amber); }
+.card.red::after { background: var(--red); }
+.card.purple::after { background: var(--purple); }
+.card.teal::after { background: var(--teal); }
+.card-title { font-family: 'DM Mono', monospace; font-size: clamp(0.82rem, 1.1vw, 1rem); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+.card-body { font-size: clamp(1rem, 1.38vw, 1.2rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
+.card-body strong { color: var(--text); font-weight: 500; }
+.info-box, .gold-box, .green-box, .red-box {
+  padding: 12px 18px; margin-top: 12px;
+}
+.info-box { border-left: 3px solid var(--blue); background: rgba(99,164,255,0.05); border-top: 1px solid rgba(99,164,255,0.08); border-right: 1px solid rgba(99,164,255,0.08); border-bottom: 1px solid rgba(99,164,255,0.08); }
+.gold-box { border-left: 3px solid var(--amber); background: rgba(243,179,91,0.05); border-top: 1px solid rgba(243,179,91,0.08); border-right: 1px solid rgba(243,179,91,0.08); border-bottom: 1px solid rgba(243,179,91,0.08); }
+.green-box { border-left: 3px solid var(--green); background: rgba(82,212,142,0.05); border-top: 1px solid rgba(82,212,142,0.08); border-right: 1px solid rgba(82,212,142,0.08); border-bottom: 1px solid rgba(82,212,142,0.08); }
+.red-box { border-left: 3px solid var(--red); background: rgba(255,125,136,0.05); border-top: 1px solid rgba(255,125,136,0.08); border-right: 1px solid rgba(255,125,136,0.08); border-bottom: 1px solid rgba(255,125,136,0.08); }
+.info-box p, .gold-box p, .green-box p, .red-box p { font-size: clamp(1rem, 1.38vw, 1.2rem); color: var(--text2); line-height: 1.6; }
+.info-box strong { color: var(--blue); }
+.gold-box strong { color: var(--amber); }
+.green-box strong { color: var(--green); }
+.red-box strong { color: var(--red); }
+.code-block {
+  background: #0c1018; border: 1px solid var(--border2);
+  padding: 13px 17px; font-family: 'DM Mono', monospace;
+  font-size: clamp(0.9rem, 1.2vw, 1.05rem); line-height: 1.75;
+  color: #dde7ff; white-space: pre-wrap; margin-top: 8px;
+}
+.code-block .cm { color: var(--text3); }
+.code-block .kw { color: var(--purple); }
+.code-block .st { color: var(--amber); }
+.code-block .fn { color: var(--teal); }
+.code-inline { font-family: 'DM Mono', monospace; color: var(--teal); font-size: 0.92em; }
+.lang-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); margin-bottom: 3px; margin-top: 10px; }
+.steps { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+.step-row { display: flex; gap: 16px; align-items: flex-start; background: var(--surface); border: 1px solid var(--border); padding: 12px 16px; }
+.step-n { font-family: 'DM Mono', monospace; font-size: 0.82rem; color: var(--teal); flex-shrink: 0; min-width: 56px; padding-top: 1px; }
+.step-text { font-size: clamp(1.05rem, 1.45vw, 1.25rem); color: var(--text2); line-height: 1.6; font-weight: 300; }
+.step-text strong { color: var(--text); font-weight: 500; }
+.compare-table { width: 100%; border-collapse: collapse; }
+.compare-table th, .compare-table td { border: 1px solid var(--border2); padding: 10px 13px; vertical-align: top; }
+.compare-table th { background: var(--surface2); color: var(--text3); font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 400; text-align: left; }
+.compare-table td { background: var(--surface); color: var(--text2); font-size: clamp(0.95rem, 1.3vw, 1.1rem); line-height: 1.55; }
+.compare-table td strong { color: var(--text); font-weight: 500; }
+.stack-flow { display: flex; flex-direction: column; gap: 2px; }
+.stack-step { background: var(--surface); border: 1px solid var(--border); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px; font-size: clamp(0.95rem, 1.3vw, 1.1rem); }
+.stack-step strong { color: var(--text); font-weight: 500; }
+.tiny { font-family: 'DM Mono', monospace; font-size: 0.76rem; color: var(--text3); letter-spacing: 0.08em; }
+.pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.pill { border: 1px solid var(--border2); background: rgba(26,32,48,0.92); padding: 7px 11px; font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--text2); letter-spacing: 0.08em; text-transform: uppercase; }
+.tag { display: inline-block; font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; padding: 2px 7px; border-radius: 2px; text-transform: uppercase; font-weight: 500; }
+.tag.must { background: rgba(82,212,142,0.12); color: var(--green); border: 1px solid rgba(82,212,142,0.3); }
+.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(10,11,18,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; }
+.nav-btn { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; }
+.nav-btn:hover { color: var(--teal); border-color: var(--teal); background: rgba(57,208,201,0.05); }
+.nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+.nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 240px; justify-content: center; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); cursor: pointer; transition: all 0.2s; }
+.dot.active { background: var(--teal); transform: scale(1.4); }
+.nav-sep { width: 1px; height: 18px; background: var(--border2); }
+@media (max-width: 900px) {
+  .slide { padding: 40px 28px 96px; }
+  .g2, .g3 { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="slide-num" id="slideNum">01 / 12</div>
+<div class="deck">
+
+<!-- ═══ S1  TITLE ═══ -->
+<div class="slide active">
+  <div class="content">
+    <div class="label">// IB CS SL · B2 Programming · Part 2</div>
+    <h1>Data<br><span style="color:var(--teal);">Structures</span></h1>
+    <p class="lead">Covers <strong style="color:var(--text);">B2.2 Data structures</strong> — how to store, organise, and process <em>collections</em> of values. Built on top of B2.1 fundamentals from Part 1.</p>
+    <div class="gold-box">
+      <p><strong>Guiding question:</strong> Once a program can store a single value, how should it store, organise, and process <em>many</em> values — and which structure fits which problem?</p>
+    </div>
+    <div class="pill-row">
+      <div class="pill">static vs dynamic</div>
+      <div class="pill">1D arrays / lists</div>
+      <div class="pill">2D arrays / lists</div>
+      <div class="pill">add · remove · traverse</div>
+      <div class="pill">stack — LIFO</div>
+      <div class="pill">queue — FIFO</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S2  LESSON MAP ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label green">// Syllabus Map · B2.2</div>
+    <h2>What the IB Requires You to Do</h2>
+    <div class="steps">
+      <div class="step-row">
+        <div class="step-n">B2.2.1</div>
+        <div class="step-text"><strong>Compare</strong> static and dynamic data structures — including how memory is allocated, how structures resize, and their speed, memory and flexibility trade-offs.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">B2.2.2</div>
+        <div class="step-text"><strong>Construct</strong> programs using <strong>1D and 2D arrays</strong> (Java) and <strong>1D and 2D lists</strong> (Python), including ArrayLists (Java). Must be able to <strong>add, remove and traverse</strong> elements.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">B2.2.3</div>
+        <div class="step-text"><strong>Explain</strong> a <strong>stack</strong> as LIFO. Must include: <strong>push, pop, peek, isEmpty</strong>. Also explain performance and memory impact, and choose an appropriate stack for a problem.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">B2.2.4</div>
+        <div class="step-text"><strong>Explain</strong> a <strong>queue</strong> as FIFO. Must include: <strong>enqueue, dequeue, front, isEmpty</strong>. Also explain performance and memory impact, and choose an appropriate queue for a problem.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S3  STATIC VS DYNAMIC ═══ -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label amber">// B2.2.1 · Static vs Dynamic Data Structures</div>
+    <h2>How Memory Is Allocated and Resized</h2>
+    <p class="lead">The key difference is <strong>whether the size is fixed at creation or can change during execution</strong>. This affects speed, memory use, and flexibility.</p>
+    <table class="compare-table" style="margin-bottom:10px;">
+      <thead>
+        <tr><th>Characteristic</th><th>Static</th><th>Dynamic</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Size</strong></td><td>Fixed when the structure is created. Cannot grow or shrink.</td><td>Can grow or shrink during execution.</td></tr>
+        <tr><td><strong>Memory allocation</strong></td><td>Allocated once, in a contiguous block. Simple and predictable.</td><td>Memory is allocated on demand. May use extra memory for pointers or metadata.</td></tr>
+        <tr><td><strong>Resizing</strong></td><td>Not possible — you must know the maximum size in advance.</td><td>Possible — elements can be added or removed at any time.</td></tr>
+        <tr><td><strong>Speed</strong></td><td>Fast direct access by index (O(1) for random access).</td><td>Varies — depends on the operation and structure type.</td></tr>
+        <tr><td><strong>Best for</strong></td><td>Data sets of a <strong>known, stable size</strong> — e.g. days of the week.</td><td>Data sets whose size is <strong>unknown or changes</strong> — e.g. student enrolment.</td></tr>
+      </tbody>
+    </table>
+    <div class="grid g2">
+      <div class="card amber">
+        <div class="card-title">Static example — Java array</div>
+        <div class="card-body">
+          <span class="code-inline">int[] scores = new int[5];</span><br><br>
+          Size is <strong>5</strong> from creation. Cannot add a 6th element without creating a new array.
+        </div>
+      </div>
+      <div class="card teal">
+        <div class="card-title">Dynamic example — Python list / Java ArrayList</div>
+        <div class="card-body">
+          <span class="code-inline">scores = []</span>  (Python)<br>
+          <span class="code-inline">ArrayList&lt;Integer&gt; scores = new ArrayList&lt;&gt;();</span>  (Java)<br><br>
+          Size grows automatically as elements are added.
+        </div>
+      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>Exam tip:</strong> When comparing, always address <em>three</em> factors: memory, speed, and flexibility. A one-sentence answer ("dynamic is more flexible") will not earn full marks.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S4  1D ARRAYS / LISTS ═══ -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label teal">// B2.2.2 · 1D Arrays and Lists</div>
+    <h2>Storing a Sequence of Related Values</h2>
+    <p class="lead">A 1D array (Java) or 1D list (Python) stores many values under one name, each accessible by its <strong>index</strong> (starting at 0).</p>
+    <div class="grid g2" style="margin-bottom:10px;">
+      <div>
+        <div class="lang-label">Python — dynamic list</div>
+        <div class="code-block">scores = [72, 81, 90]    <span class="cm"># create</span>
+
+scores.append(88)        <span class="cm"># add to end</span>
+scores.remove(81)        <span class="cm"># remove by value</span>
+first = scores[0]        <span class="cm"># index: 72</span>
+size  = len(scores)      <span class="cm"># 3</span>
+
+<span class="cm"># traverse</span>
+<span class="kw">for</span> s <span class="kw">in</span> scores:
+    print(s)</div>
+      </div>
+      <div>
+        <div class="lang-label">Java — static array + ArrayList</div>
+        <div class="code-block"><span class="cm">// static array (fixed size)</span>
+int[] scores = {72, 81, 90};
+int first = scores[0];   <span class="cm">// 72</span>
+
+<span class="cm">// ArrayList (dynamic)</span>
+ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();
+list.add(72);
+list.add(81);
+list.remove(Integer.valueOf(81));  <span class="cm">// removes 81</span>
+int size = list.size();
+
+<span class="cm">// traverse</span>
+<span class="kw">for</span> (int s : list) System.out.println(s);</div>
+      </div>
+    </div>
+    <table class="compare-table">
+      <thead><tr><th>Operation</th><th>Python list</th><th>Java ArrayList</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Add to end</strong></td><td><span class="code-inline">list.append(x)</span></td><td><span class="code-inline">list.add(x)</span></td></tr>
+        <tr><td><strong>Remove by value</strong></td><td><span class="code-inline">list.remove(x)</span></td><td><span class="code-inline">list.remove(Integer.valueOf(x))</span></td></tr>
+        <tr><td><strong>Access by index</strong></td><td><span class="code-inline">list[i]</span></td><td><span class="code-inline">list.get(i)</span></td></tr>
+        <tr><td><strong>Size</strong></td><td><span class="code-inline">len(list)</span></td><td><span class="code-inline">list.size()</span></td></tr>
+        <tr><td><strong>Insert at position</strong></td><td><span class="code-inline">list.insert(i, x)</span></td><td><span class="code-inline">list.add(i, x)</span></td></tr>
+      </tbody>
+    </table>
+    <div class="green-box">
+      <p><strong>Initialisation tip:</strong> When looking for a minimum value, initialise your variable to the <strong>first element of the list</strong> — not 0. The list might contain only positive numbers.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S5  2D ARRAYS / LISTS ═══ -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label green">// B2.2.2 · 2D Arrays and Lists</div>
+    <h2>Rows and Columns — Tables and Grids</h2>
+    <p class="lead">A 2D structure is a list of lists (Python) or a 2D array (Java). Use <strong>two indices</strong>: first for the <strong>row</strong>, then for the <strong>column</strong>.</p>
+    <div class="grid g2" style="margin-bottom:10px;">
+      <div>
+        <div class="lang-label">Python — 2D list</div>
+        <div class="code-block">grades = [
+    ["Mina", 87, 91],    <span class="cm"># row 0</span>
+    ["Leo",  78, 84],    <span class="cm"># row 1</span>
+    ["Sara", 92, 95]     <span class="cm"># row 2</span>
+]
+
+print(grades[1][0])   <span class="cm"># "Leo"   (row 1, col 0)</span>
+print(grades[2][2])   <span class="cm"># 95     (row 2, col 2)</span>
+
+<span class="cm"># traverse every cell</span>
+<span class="kw">for</span> row <span class="kw">in</span> grades:
+    <span class="kw">for</span> cell <span class="kw">in</span> row:
+        print(cell, end=<span class="st">" "</span>)</div>
+      </div>
+      <div>
+        <div class="lang-label">Java — 2D array</div>
+        <div class="code-block">int[][] scores = new int[3][3];
+
+<span class="cm">// fill with user input</span>
+<span class="kw">for</span> (int i = 0; i &lt; 3; i++) {
+    <span class="kw">for</span> (int j = 0; j &lt; 3; j++) {
+        scores[i][j] = scanner.nextInt();
+    }
+}
+
+<span class="cm">// display</span>
+<span class="kw">for</span> (int i = 0; i &lt; 3; i++) {
+    <span class="kw">for</span> (int j = 0; j &lt; 3; j++) {
+        System.out.print(scores[i][j] + <span class="st">" "</span>);
+    }
+    System.out.println();
+}</div>
+      </div>
+    </div>
+    <div class="grid g3" style="margin-top:2px;">
+      <div class="card blue">
+        <div class="card-title">Use cases</div>
+        <div class="card-body">Seating plans, game boards, mark sheets, spreadsheets, pixel grids.</div>
+      </div>
+      <div class="card amber">
+        <div class="card-title">Index rule</div>
+        <div class="card-body"><strong>Row first, column second.</strong><br><span class="code-inline">grades[2][1]</span> = row 3, column 2.</div>
+      </div>
+      <div class="card red">
+        <div class="card-title">Common mistake</div>
+        <div class="card-body">Using only one loop for a 2D structure — you need <strong>nested loops</strong> to visit every cell.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S6  STACK CONCEPT ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label purple">// B2.2.3 · Stack — LIFO</div>
+    <h2>Last In, First Out <span class="tag must">must include</span></h2>
+    <p class="lead">A <strong>stack</strong> is a data structure where the most recently added item is always the first to be removed — like a stack of plates.</p>
+    <div class="grid g2">
+      <div>
+        <div class="card purple">
+          <div class="card-title">Four required operations</div>
+          <div class="card-body">
+            <strong>push</strong> — add an item to the top of the stack<br>
+            <strong>pop</strong> — remove and return the top item<br>
+            <strong>peek</strong> — read the top item <em>without removing it</em><br>
+            <strong>isEmpty</strong> — check whether the stack has no items
+          </div>
+        </div>
+        <div class="card teal" style="margin-top:2px;">
+          <div class="card-title">Python model</div>
+          <div class="code-block">stack = []
+
+stack.append(<span class="st">"home"</span>)      <span class="cm"># push</span>
+stack.append(<span class="st">"settings"</span>)   <span class="cm"># push</span>
+top = stack[-1]            <span class="cm"># peek → "settings"</span>
+page = stack.pop()         <span class="cm"># pop  → "settings"</span>
+empty = len(stack) == 0    <span class="cm"># isEmpty → False</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="stack-flow">
+          <div class="stack-step"><span><strong>Start</strong></span><span class="tiny">stack: []</span></div>
+          <div class="stack-step"><span><strong>push "home"</strong></span><span class="tiny">["home"]  ← top</span></div>
+          <div class="stack-step"><span><strong>push "settings"</strong></span><span class="tiny">["home", "settings"]  ← top</span></div>
+          <div class="stack-step"><span><strong>peek</strong> → "settings"</span><span class="tiny">["home", "settings"]  unchanged</span></div>
+          <div class="stack-step"><span><strong>pop</strong> → "settings"</span><span class="tiny">["home"]  ← top</span></div>
+          <div class="stack-step"><span><strong>pop</strong> → "home"</span><span class="tiny">[]  now empty</span></div>
+        </div>
+        <div class="gold-box">
+          <p><strong>Real-world use:</strong> Browser back button, undo in a text editor, the call stack in a running program, expression evaluation.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S7  STACK PERFORMANCE ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label purple">// B2.2.3 · Stack — Performance &amp; Memory</div>
+    <h2>How Stack Operations Affect the Program</h2>
+    <p class="lead">The IB requires you to explain <strong>performance and memory impact</strong>, not just name the operations.</p>
+    <table class="compare-table" style="margin-bottom:10px;">
+      <thead>
+        <tr><th>Operation</th><th>Speed</th><th>Memory note</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>push</strong></td><td>O(1) — constant time. Adding to the top requires no shifting of existing elements.</td><td>Consumes one more memory slot. If the stack is full (fixed-size), overflow occurs.</td></tr>
+        <tr><td><strong>pop</strong></td><td>O(1) — constant time. Removing from the top requires no shifting.</td><td>Frees one memory slot. If the stack is empty, underflow (error) occurs.</td></tr>
+        <tr><td><strong>peek</strong></td><td>O(1) — reads one value with no structural change.</td><td>No memory change — just a read.</td></tr>
+        <tr><td><strong>isEmpty</strong></td><td>O(1) — checks one condition.</td><td>Always check before calling pop to prevent underflow.</td></tr>
+      </tbody>
+    </table>
+    <div class="grid g2">
+      <div class="card purple">
+        <div class="card-title">Choosing a stack — when LIFO fits</div>
+        <div class="card-body">
+          Use a stack when the <strong>most recent</strong> item must always be processed first:<br><br>
+          — Undo/redo in an editor<br>
+          — Navigating back through browser history<br>
+          — Checking matching brackets in code <span class="code-inline">( [ { } ] )</span>
+        </div>
+      </div>
+      <div class="card amber">
+        <div class="card-title">Overflow and underflow</div>
+        <div class="card-body">
+          <strong>Stack overflow:</strong> pushing to a full fixed-size stack.<br><br>
+          <strong>Stack underflow:</strong> popping from an empty stack.<br><br>
+          Always call <span class="code-inline">isEmpty</span> before <span class="code-inline">pop</span> to avoid underflow.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S8  QUEUE CONCEPT ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label blue">// B2.2.4 · Queue — FIFO</div>
+    <h2>First In, First Out <span class="tag must">must include</span></h2>
+    <p class="lead">A <strong>queue</strong> processes items in the order they arrive — like a ticket line. The first item to join is the first to be served.</p>
+    <div class="grid g2">
+      <div>
+        <div class="card blue">
+          <div class="card-title">Four required operations</div>
+          <div class="card-body">
+            <strong>enqueue</strong> — add an item to the rear of the queue<br>
+            <strong>dequeue</strong> — remove and return the item at the front<br>
+            <strong>front</strong> — inspect the front item without removing it<br>
+            <strong>isEmpty</strong> — check whether the queue has no items
+          </div>
+        </div>
+        <div class="card teal" style="margin-top:2px;">
+          <div class="card-title">Python model (using list)</div>
+          <div class="code-block">queue = []
+
+queue.append(<span class="st">"Ali"</span>)    <span class="cm"># enqueue</span>
+queue.append(<span class="st">"Bo"</span>)     <span class="cm"># enqueue</span>
+queue.append(<span class="st">"Cara"</span>)   <span class="cm"># enqueue</span>
+front = queue[0]        <span class="cm"># front → "Ali"</span>
+first = queue.pop(0)    <span class="cm"># dequeue → "Ali"</span>
+empty = len(queue) == 0 <span class="cm"># isEmpty → False</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="stack-flow">
+          <div class="stack-step"><span><strong>Start</strong></span><span class="tiny">queue: []</span></div>
+          <div class="stack-step"><span><strong>enqueue "Ali"</strong></span><span class="tiny">front → ["Ali"] ← rear</span></div>
+          <div class="stack-step"><span><strong>enqueue "Bo"</strong></span><span class="tiny">front → ["Ali", "Bo"] ← rear</span></div>
+          <div class="stack-step"><span><strong>enqueue "Cara"</strong></span><span class="tiny">front → ["Ali", "Bo", "Cara"] ← rear</span></div>
+          <div class="stack-step"><span><strong>front</strong> → "Ali"</span><span class="tiny">unchanged</span></div>
+          <div class="stack-step"><span><strong>dequeue</strong> → "Ali"</span><span class="tiny">front → ["Bo", "Cara"] ← rear</span></div>
+        </div>
+        <div class="gold-box">
+          <p><strong>Real-world use:</strong> Printer job queue, cafeteria line, CPU task scheduling, customer service tickets.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S9  QUEUE PERFORMANCE ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label blue">// B2.2.4 · Queue — Performance &amp; Memory</div>
+    <h2>How Queue Operations Affect the Program</h2>
+    <table class="compare-table" style="margin-bottom:12px;">
+      <thead>
+        <tr><th>Operation</th><th>Speed (Python list)</th><th>Memory note</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>enqueue</strong></td><td>O(1) — appending to the end of a list is fast.</td><td>Grows the queue by one element.</td></tr>
+        <tr><td><strong>dequeue</strong></td><td>O(n) — removing from the <em>front</em> of a Python list shifts all elements left. For large queues, use <span class="code-inline">collections.deque</span> (O(1)).</td><td>Frees one slot. Check isEmpty first to avoid errors on an empty queue.</td></tr>
+        <tr><td><strong>front</strong></td><td>O(1) — reads <span class="code-inline">queue[0]</span> with no structural change.</td><td>No memory change.</td></tr>
+        <tr><td><strong>isEmpty</strong></td><td>O(1) — one condition check.</td><td>No memory change. Check before dequeue.</td></tr>
+      </tbody>
+    </table>
+    <div class="grid g2">
+      <div class="card blue">
+        <div class="card-title">Choosing a queue — when FIFO fits</div>
+        <div class="card-body">
+          Use a queue when fairness matters — the <strong>longest-waiting</strong> item should be handled first:<br><br>
+          — Print jobs sent to a printer<br>
+          — Passengers boarding in order of check-in<br>
+          — Network packets arriving at a router
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">Performance note for the exam</div>
+        <div class="card-body">
+          A standard Python <span class="code-inline">list</span> works as a queue at small scale. For large queues, <span class="code-inline">collections.deque</span> gives O(1) dequeue — because it avoids shifting every element on removal from the front.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S10  STACK vs QUEUE COMPARISON ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label teal">// B2.2.3–4 · Comparison</div>
+    <h2>Stack vs Queue — Choosing the Right Structure</h2>
+    <table class="compare-table" style="margin-bottom:12px;">
+      <thead>
+        <tr><th>Feature</th><th>Stack (LIFO)</th><th>Queue (FIFO)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Order rule</strong></td><td>Last added → first removed</td><td>First added → first removed</td></tr>
+        <tr><td><strong>Add to</strong></td><td>Top (push)</td><td>Rear (enqueue)</td></tr>
+        <tr><td><strong>Remove from</strong></td><td>Top (pop)</td><td>Front (dequeue)</td></tr>
+        <tr><td><strong>Inspect without removing</strong></td><td>peek</td><td>front</td></tr>
+        <tr><td><strong>Check if empty</strong></td><td>isEmpty</td><td>isEmpty</td></tr>
+        <tr><td><strong>Typical scenarios</strong></td><td>Undo, browser back, brackets, call stack</td><td>Print jobs, ticketing, scheduling, routing</td></tr>
+      </tbody>
+    </table>
+    <div class="green-box">
+      <p><strong>Exam technique:</strong> Do not just name the structure. <em>Justify</em> it: "A <strong>stack</strong> is appropriate because the most recently opened page must be returned to first, which matches the LIFO order." Justification earns the marks.</p>
+    </div>
+    <div class="info-box">
+      <p><strong>Also consider lists:</strong> When you need <strong>indexed access</strong> — reading or updating any element by position — use a list or array, not a stack or queue.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S11  TRAVERSAL PATTERNS ═══ -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label amber">// B2.2.2 · Traversal Patterns</div>
+    <h2>Processing Every Element</h2>
+    <p class="lead"><strong>Traversal</strong> means visiting every element in a structure. The IB expects you to construct traversal code and use it for calculations.</p>
+    <div class="grid g2" style="margin-bottom:10px;">
+      <div>
+        <div class="card green">
+          <div class="card-title">1D traversal — calculate average (Python)</div>
+          <div class="code-block">scores = [72, 81, 90, 88]
+total = 0
+
+<span class="kw">for</span> score <span class="kw">in</span> scores:
+    total += score
+
+avg = total / len(scores)
+print(<span class="st">"Average:"</span>, avg)   <span class="cm"># 82.75</span></div>
+        </div>
+        <div class="card amber" style="margin-top:2px;">
+          <div class="card-title">Find max value (Python)</div>
+          <div class="code-block">scores = [72, 81, 90, 88]
+max_score = scores[0]   <span class="cm"># start at first element</span>
+
+<span class="kw">for</span> s <span class="kw">in</span> scores:
+    <span class="kw">if</span> s > max_score:
+        max_score = s
+
+print(<span class="st">"Max:"</span>, max_score)   <span class="cm"># 90</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="card blue">
+          <div class="card-title">2D traversal — sum all values (Python)</div>
+          <div class="code-block">grades = [
+    [87, 91],
+    [78, 84],
+    [92, 95]
+]
+total = 0
+
+<span class="kw">for</span> row <span class="kw">in</span> grades:
+    <span class="kw">for</span> cell <span class="kw">in</span> row:
+        total += cell
+
+print(<span class="st">"Sum:"</span>, total)   <span class="cm"># 527</span></div>
+        </div>
+        <div class="card purple" style="margin-top:2px;">
+          <div class="card-title">2D traversal — Java</div>
+          <div class="code-block">int total = 0;
+<span class="kw">for</span> (int i = 0; i &lt; grades.length; i++) {
+    <span class="kw">for</span> (int j = 0; j &lt; grades[i].length; j++) {
+        total += grades[i][j];
+    }
+}
+System.out.println(total);</div>
+        </div>
+      </div>
+    </div>
+    <div class="red-box">
+      <p><strong>Common mistake:</strong> Initialising a minimum/maximum tracker to <span class="code-inline">0</span> instead of the first element. If all values are positive and large, <span class="code-inline">0</span> will appear to be the minimum — which is wrong.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S12  EXIT TICKET ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Practice · Exit Ticket</div>
+    <h2>Check Your Understanding</h2>
+    <div class="grid g2">
+      <div class="card teal">
+        <div class="card-title">Construct</div>
+        <div class="card-body">
+          <strong>1.</strong> Create a Python list storing five test scores. Append one more and print the average.<br><br>
+          <strong>2.</strong> Create a 2D list with three students, each having a name and two scores. Print the name of the student in row 1.<br><br>
+          <strong>3.</strong> Model a stack using a list. Push three values, peek at the top, then pop twice. Show the stack after each step.
+        </div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">Explain &amp; Compare</div>
+        <div class="card-body">
+          <strong>4.</strong> State one advantage of a dynamic data structure over a static one. Give an example.<br><br>
+          <strong>5.</strong> A hospital processes patients in the order they arrive. Should it use a <strong>stack</strong> or a <strong>queue</strong>? Justify your answer using the order rule.<br><br>
+          <strong>6.</strong> Explain why calling <span class="code-inline">pop()</span> on an empty stack causes a problem, and how to prevent it.
+        </div>
+      </div>
+    </div>
+    <div class="gold-box">
+      <p><strong>Success check:</strong> You can choose between static/dynamic, construct 1D and 2D structures, name and use all four stack and queue operations, justify your choice with the order rule, and explain performance trade-offs.</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>← Prev</button>
+  <div class="nav-sep"></div>
+  <div class="nav-dots" id="navDots"></div>
+  <div class="nav-sep"></div>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+</div>
+
+<script>
+let cur = 0;
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+const prog = document.getElementById('progress');
+const slideNum = document.getElementById('slideNum');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const dotsEl = document.getElementById('navDots');
+
+for (let i = 0; i < total; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+}
+
+function goTo(n) {
+  slides[cur].classList.remove('active');
+  slides[cur].classList.add('exit');
+  const old = cur;
+  setTimeout(() => slides[old].classList.remove('exit'), 380);
+  cur = n;
+  slides[cur].classList.add('active');
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+  prog.style.width = ((cur + 1) / total * 100) + '%';
+  slideNum.textContent = String(cur + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+  prevBtn.disabled = cur === 0;
+  nextBtn.disabled = cur === total - 1;
+}
+
+function changeSlide(d) {
+  const n = cur + d;
+  if (n >= 0 && n < total) goTo(n);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') changeSlide(-1);
+});
+
+prog.style.width = (1 / total * 100) + '%';
+</script>
+</body>
+</html>
