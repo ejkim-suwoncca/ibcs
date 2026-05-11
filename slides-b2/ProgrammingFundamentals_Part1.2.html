@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B2 Programming Fundamentals — Part 1.2</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Serif+Display&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #071018;
+  --surface: #0d1722;
+  --surface2: #132131;
+  --border: #1d3348;
+  --border2: #294763;
+  --cyan: #4fd1ff;
+  --green: #47d18c;
+  --amber: #f6b756;
+  --red: #ff7a7a;
+  --purple: #b392ff;
+  --text: #e4edf7;
+  --text2: #9cb3ca;
+  --text3: #58708b;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; }
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(79,209,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79,209,255,0.03) 1px, transparent 1px),
+    linear-gradient(rgba(79,209,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79,209,255,0.015) 1px, transparent 1px);
+  background-size: 84px 84px, 84px 84px, 18px 18px, 18px 18px;
+  pointer-events: none;
+}
+.deck { position: relative; width: 100vw; height: 100vh; }
+.slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 52px 72px 96px;
+  opacity: 0; pointer-events: none;
+  transform: translateY(12px);
+  transition: opacity 0.38s ease, transform 0.38s ease;
+}
+.slide.active { opacity: 1; pointer-events: all; transform: translateY(0); }
+.slide.exit { opacity: 0; transform: translateY(-12px); }
+.slide.scroll-slide {
+  justify-content: flex-start; align-items: stretch;
+  overflow-y: auto; overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-top: 64px; padding-bottom: 132px;
+}
+.slide.scroll-slide::-webkit-scrollbar { width: 10px; }
+.slide.scroll-slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
+.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(13,23,34,0.35); }
+.progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--green), var(--cyan)); transition: width 0.38s ease; z-index: 100; }
+.slide-num { position: fixed; top: 17px; right: 24px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
+.content { width: 100%; max-width: 1120px; }
+.label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cyan); margin-bottom: 14px; }
+.label.green { color: var(--green); }
+.label.amber { color: var(--amber); }
+.label.purple { color: var(--purple); }
+.label.red { color: var(--red); }
+h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.8rem, 5.5vw, 4.8rem); font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
+h2 { font-family: 'DM Serif Display', serif; font-size: clamp(2.1rem, 3.8vw, 3.4rem); font-weight: 400; line-height: 1.08; margin-bottom: 12px; }
+.lead { font-size: clamp(1.1rem, 1.7vw, 1.4rem); color: var(--text2); font-weight: 300; line-height: 1.65; margin-bottom: 18px; }
+.grid { display: grid; gap: 2px; width: 100%; }
+.g2 { grid-template-columns: 1fr 1fr; }
+.g3 { grid-template-columns: 1fr 1fr 1fr; }
+.g4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+.card { background: var(--surface); border: 1px solid var(--border); padding: 16px 20px; position: relative; overflow: hidden; }
+.card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.card.cyan::after { background: var(--cyan); }
+.card.green::after { background: var(--green); }
+.card.amber::after { background: var(--amber); }
+.card.red::after { background: var(--red); }
+.card.purple::after { background: var(--purple); }
+.card-title { font-family: 'DM Mono', monospace; font-size: clamp(0.82rem, 1.1vw, 1rem); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+.card-body { font-size: clamp(1rem, 1.38vw, 1.2rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
+.card-body strong { color: var(--text); font-weight: 500; }
+.info-box, .gold-box, .green-box, .red-box {
+  padding: 12px 18px; margin-top: 12px;
+  border-top: 1px solid rgba(79,209,255,0.08);
+  border-right: 1px solid rgba(79,209,255,0.08);
+  border-bottom: 1px solid rgba(79,209,255,0.08);
+}
+.info-box { border-left: 3px solid var(--cyan); background: rgba(79,209,255,0.05); }
+.gold-box { border-left: 3px solid var(--amber); background: rgba(246,183,86,0.05); border-top-color: rgba(246,183,86,0.08); border-right-color: rgba(246,183,86,0.08); border-bottom-color: rgba(246,183,86,0.08); }
+.green-box { border-left: 3px solid var(--green); background: rgba(71,209,140,0.05); border-top-color: rgba(71,209,140,0.08); border-right-color: rgba(71,209,140,0.08); border-bottom-color: rgba(71,209,140,0.08); }
+.red-box { border-left: 3px solid var(--red); background: rgba(255,122,122,0.05); border-top-color: rgba(255,122,122,0.08); border-right-color: rgba(255,122,122,0.08); border-bottom-color: rgba(255,122,122,0.08); }
+.info-box p, .gold-box p, .green-box p, .red-box p { font-size: clamp(1rem, 1.38vw, 1.2rem); color: var(--text2); line-height: 1.6; }
+.info-box strong { color: var(--cyan); }
+.gold-box strong { color: var(--amber); }
+.green-box strong { color: var(--green); }
+.red-box strong { color: var(--red); }
+.code-block {
+  background: #08111a; border: 1px solid var(--border2);
+  padding: 14px 18px; font-family: 'DM Mono', monospace;
+  font-size: clamp(0.9rem, 1.2vw, 1.05rem); line-height: 1.75;
+  color: #d9f4ff; white-space: pre-wrap; margin-top: 8px;
+}
+.code-block .cm { color: var(--text3); }
+.code-block .kw { color: var(--purple); }
+.code-block .st { color: var(--amber); }
+.code-block .fn { color: var(--cyan); }
+.code-block .nm { color: var(--green); }
+.lang-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); margin-bottom: 3px; margin-top: 10px; }
+.code-inline { font-family: 'DM Mono', monospace; color: var(--cyan); font-size: 0.92em; }
+.steps { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+.step-row { display: flex; gap: 16px; align-items: flex-start; background: var(--surface); border: 1px solid var(--border); padding: 12px 16px; }
+.step-n { font-family: 'DM Mono', monospace; font-size: 0.82rem; color: var(--green); flex-shrink: 0; min-width: 56px; padding-top: 1px; }
+.step-text { font-size: clamp(1.05rem, 1.45vw, 1.25rem); color: var(--text2); line-height: 1.6; font-weight: 300; }
+.step-text strong { color: var(--text); font-weight: 500; }
+.compare-table { width: 100%; border-collapse: collapse; }
+.compare-table th, .compare-table td { border: 1px solid var(--border2); padding: 10px 13px; vertical-align: top; }
+.compare-table th { background: var(--surface2); color: var(--text3); font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 400; text-align: left; }
+.compare-table td { background: var(--surface); color: var(--text2); font-size: clamp(0.95rem, 1.3vw, 1.1rem); line-height: 1.55; }
+.compare-table td strong { color: var(--text); font-weight: 500; }
+.pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.pill { border: 1px solid var(--border2); background: rgba(19,33,49,0.9); padding: 7px 11px; font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--text2); letter-spacing: 0.08em; text-transform: uppercase; }
+.divider { width: 100%; height: 1px; background: var(--border); margin: 12px 0; }
+.tag { display: inline-block; font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; padding: 2px 7px; border-radius: 2px; text-transform: uppercase; font-weight: 500; }
+.tag.must { background: rgba(71,209,140,0.12); color: var(--green); border: 1px solid rgba(71,209,140,0.3); }
+.tag.exam { background: rgba(246,183,86,0.12); color: var(--amber); border: 1px solid rgba(246,183,86,0.3); }
+.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,16,24,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; }
+.nav-btn { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; }
+.nav-btn:hover { color: var(--green); border-color: var(--green); background: rgba(71,209,140,0.05); }
+.nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+.nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 240px; justify-content: center; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); cursor: pointer; transition: all 0.2s; }
+.dot.active { background: var(--green); transform: scale(1.4); }
+.nav-sep { width: 1px; height: 18px; background: var(--border2); }
+@media (max-width: 900px) {
+  .slide { padding: 40px 28px 96px; }
+  .g2, .g3, .g4 { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="slide-num" id="slideNum">01 / 12</div>
+<div class="deck">
+
+<!-- ═══ S1  TITLE ═══ -->
+<div class="slide active">
+  <div class="content">
+    <div class="label">// IB CS SL · B2 Programming · Part 1.2</div>
+    <h1>Programming<br><span style="color:var(--green);">Fundamentals</span></h1>
+    <p class="lead">Continues <strong style="color:var(--text);">B2.3 Programming constructs</strong> with iteration and functions.<br>Python is the primary language. Java equivalents are shown where the guide requires both.</p>
+    <div class="gold-box">
+      <p><strong>Guiding question:</strong> How can programs repeat useful work and organize instructions into reusable parts?</p>
+    </div>
+    <div class="pill-row">
+      <div class="pill">functions &amp; modularization</div>
+      <div class="pill">counted loops</div>
+      <div class="pill">conditional loops</div>
+      <div class="pill">parameters</div>
+      <div class="pill">return values</div>
+      <div class="pill">local variables</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S2  LESSON MAP ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label green">// Syllabus Map · B2.3</div>
+    <h2>What the IB Requires You to Do</h2>
+    <div class="steps">
+      <div class="step-row">
+        <div class="step-n">B2.3.3</div>
+        <div class="step-text"><strong>Construct</strong> programs using iteration, including counted loops and conditional loops.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">B2.3.4</div>
+        <div class="step-text"><strong>Construct</strong> programs using functions and modularization, including parameters, return values and local variables.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S3  LOOP VOCABULARY ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// B2.3.3 · Iteration</div>
+    <h2>Loops Repeat Instructions</h2>
+    <p class="lead">Iteration means repeating a block of code. Use a loop when the same action should happen more than once.</p>
+    <div class="grid g3" style="gap:2px; margin-bottom:10px;">
+      <div class="card cyan">
+        <div class="card-title" style="color:var(--cyan);">counted loop</div>
+        <div class="card-body">Use when the number of repetitions is known.<br><br><span class="code-inline">for i in range(5)</span></div>
+      </div>
+      <div class="card green">
+        <div class="card-title" style="color:var(--green);">conditional loop</div>
+        <div class="card-body">Use when repetition depends on a condition.<br><br><span class="code-inline">while password != "ib2027"</span></div>
+      </div>
+      <div class="card purple">
+        <div class="card-title" style="color:var(--purple);">loop body</div>
+        <div class="card-body">The indented code that repeats each time the loop runs.</div>
+      </div>
+    </div>
+    <div class="red-box">
+      <p><strong>Common error:</strong> Forgetting to indent the loop body in Python means the code is not part of the loop.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S4  LOOP TRACING ═══ -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// B2.3.3 · Counted Loops</div>
+    <h2>Using <span class="code-inline">range()</span> in Python</h2>
+    <p class="lead">A counted loop repeats a known number of times. In Python, <span class="code-inline">range()</span> creates the numbers the loop will use.</p>
+    <div class="grid g2" style="margin-bottom:10px;">
+      <div class="card cyan">
+        <div class="card-title">Common range patterns</div>
+        <div class="code-block">for i in range(5):
+    print(i)       <span class="cm"># 0, 1, 2, 3, 4</span>
+
+for i in range(1, 6):
+    print(i)       <span class="cm"># 1, 2, 3, 4, 5</span>
+
+for i in range(2, 11, 2):
+    print(i)       <span class="cm"># 2, 4, 6, 8, 10</span></div>
+      </div>
+      <div class="card amber">
+        <div class="card-title">Common errors</div>
+        <div class="card-body">
+          <span class="code-inline">range(5)</span> starts at 0, not 1.<br><br>
+          The stop value is not included, so <span class="code-inline">range(1, 6)</span> stops after 5.<br><br>
+          If you need exactly five repeats, use <span class="code-inline">range(5)</span>. If you need the numbers 1 to 5, use <span class="code-inline">range(1, 6)</span>.
+        </div>
+      </div>
+    </div>
+    <div class="green-box">
+      <p><strong>Practice:</strong> Write a loop that prints the multiples of 3 from 3 to 30.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S5  LOOP TRACING ═══ -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label green">// B2.3.3 · Tracing Iteration</div>
+    <h2>Trace the Value Each Time</h2>
+    <div class="grid g2" style="margin-bottom:10px;">
+      <div>
+        <div class="lang-label">Python</div>
+        <div class="code-block">total = 0
+for mark in [3, 4, 5]:
+    total = total + mark
+    print(total)
+
+print("Final:", total)</div>
+      </div>
+      <div>
+        <table class="compare-table">
+          <thead><tr><th>Loop run</th><th>mark</th><th>total after update</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1</strong></td><td>3</td><td>3</td></tr>
+            <tr><td><strong>2</strong></td><td>4</td><td>7</td></tr>
+            <tr><td><strong>3</strong></td><td>5</td><td>12</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="green-box">
+      <p><strong>Practice:</strong> Change the list to <span class="code-inline">[2, 6, 1]</span> and trace the new values of <span class="code-inline">total</span>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S6  COUNTED LOOP EXAMPLES ═══ -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// B2.3.3 · Counted Loop Examples</div>
+    <h2>Use a Counted Loop When the Amount Is Known</h2>
+    <div class="grid g2" style="margin-bottom:10px;">
+      <div class="card cyan">
+        <div class="card-title">Add five scores</div>
+        <div class="code-block">total = 0
+
+for i in range(5):
+    score = int(input("Score: "))
+    total = total + score
+
+average = total / 5
+print("Average:", average)</div>
+      </div>
+      <div class="card green">
+        <div class="card-title">Build a simple output pattern</div>
+        <div class="code-block">for row in range(1, 6):
+    print("*" * row)
+
+<span class="cm"># output:
+# *
+# **
+# ***
+# ****
+# *****</span></div>
+      </div>
+    </div>
+    <div class="red-box">
+      <p><strong>Common error:</strong> Updating <span class="code-inline">total</span> outside the loop only adds one score. The update line must be indented inside the loop body.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S7  CONDITIONAL LOOP EXAMPLES ═══ -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label green">// B2.3.3 · Conditional Loop Examples</div>
+    <h2>Use a While Loop When the Amount Is Unknown</h2>
+    <p class="lead">A conditional loop keeps running while its condition is True. It is useful when the program does not know how many attempts will be needed.</p>
+    <div class="grid g2" style="margin-bottom:10px;">
+      <div class="card purple">
+        <div class="card-title">Input validation</div>
+        <div class="code-block">age = int(input("Age: "))
+
+while age &lt; 0:
+    print("Age cannot be negative.")
+    age = int(input("Age: "))
+
+print("Age saved:", age)</div>
+      </div>
+      <div class="card amber">
+        <div class="card-title">Sentinel value</div>
+        <div class="code-block">total = 0
+score = int(input("Score (-1 to stop): "))
+
+while score != -1:
+    total = total + score
+    score = int(input("Score (-1 to stop): "))
+
+print("Total:", total)</div>
+      </div>
+    </div>
+    <div class="red-box">
+      <p><strong>Common error:</strong> A <span class="code-inline">while</span> loop must change something used in the condition. If <span class="code-inline">score</span> is never updated, the loop may never stop.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S8  IF INSIDE LOOPS ═══ -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label purple">// B2.3.3 · Selection Within Iteration</div>
+    <h2>Use <span class="code-inline">if</span> Inside a Loop to Filter</h2>
+    <p class="lead">Loops often repeat the same check for every value in a collection or for every user input.</p>
+    <div class="grid g2" style="margin-bottom:10px;">
+      <div class="card green">
+        <div class="card-title">Count passing scores</div>
+        <div class="code-block">scores = [45, 72, 88, 39, 61]
+passes = 0
+
+for score in scores:
+    if score &gt;= 50:
+        passes = passes + 1
+
+print("Passes:", passes)</div>
+      </div>
+      <div class="card cyan">
+        <div class="card-title">Find the largest value</div>
+        <div class="code-block">marks = [64, 91, 78, 85]
+highest = marks[0]
+
+for mark in marks:
+    if mark &gt; highest:
+        highest = mark
+
+print("Highest:", highest)</div>
+      </div>
+    </div>
+    <div class="green-box">
+      <p><strong>Practice:</strong> Change the first example so it counts scores below 50 instead of scores 50 or higher.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S9  LOOP DRY RUN PRACTICE ═══ -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label amber">// B2.3.3 · Dry Run Practice</div>
+    <h2>Predict the Output Before Running</h2>
+    <div class="grid g2" style="margin-bottom:10px;">
+      <div class="card amber">
+        <div class="card-title">Trace this loop</div>
+        <div class="code-block">count = 0
+
+for number in [4, 7, 2, 9]:
+    if number &gt; 5:
+        count = count + 1
+
+print(count)</div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">Trace table</div>
+        <table class="compare-table">
+          <thead><tr><th>number</th><th>number &gt; 5?</th><th>count</th></tr></thead>
+          <tbody>
+            <tr><td>4</td><td>False</td><td>0</td></tr>
+            <tr><td>7</td><td>True</td><td>1</td></tr>
+            <tr><td>2</td><td>False</td><td>1</td></tr>
+            <tr><td>9</td><td>True</td><td>2</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>Teaching move:</strong> Ask students to fill the trace table first, then reveal the final output.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S10  ITERATION ═══ -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// B2.3.3 · Iteration (Loops)</div>
+    <h2>Counted Loops vs Conditional Loops</h2>
+    <p class="lead">Use a <strong>counted loop</strong> (for) when you know in advance how many times to repeat. Use a <strong>conditional loop</strong> (while) when you repeat until a condition changes.</p>
+    <div class="grid g2" style="margin-bottom:10px;">
+      <div>
+        <div class="card cyan">
+          <div class="card-title">Counted loop — for (known repetitions)</div>
+          <div class="code-block"><span class="cm"># Python</span>
+total = 0
+<span class="kw">for</span> i <span class="kw">in</span> range(5):    <span class="cm"># runs exactly 5 times</span>
+    score = int(input("Score: "))
+    total += score
+print("Total:", total)</div>
+          <div class="code-block" style="margin-top:6px;"><span class="cm">// Java</span>
+int total = 0;
+<span class="kw">for</span> (int i = 0; i &lt; 5; i++) {
+    int score = scanner.nextInt();
+    total += score;
+}
+System.out.println(total);</div>
+        </div>
+      </div>
+      <div>
+        <div class="card purple">
+          <div class="card-title">Conditional loop — while (unknown repetitions)</div>
+          <div class="code-block"><span class="cm"># Python</span>
+password = ""
+<span class="kw">while</span> password != "ib2027":
+    password = input("Password: ")
+print("Access granted")</div>
+          <div class="code-block" style="margin-top:6px;"><span class="cm">// Java</span>
+String password = "";
+<span class="kw">while</span> (!password.equals("ib2027")) {
+    password = scanner.next();
+}
+System.out.println("Access granted");</div>
+        </div>
+      </div>
+    </div>
+    <div class="red-box">
+      <p><strong>Avoid infinite loops:</strong> Every <span class="code-inline">while</span> loop needs a variable that changes inside the loop so the condition can eventually become False. If nothing changes, the loop runs forever.</p>
+    </div>
+    <div class="info-box">
+      <p><strong>Conditional statements within loops:</strong> You can use <span class="code-inline">if</span> inside a loop to filter or branch — for example, counting only the positive numbers in a list.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S11  FUNCTIONS ═══ -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label amber">// B2.3.4 · Functions &amp; Modularization</div>
+    <h2>Breaking Programs Into Focused, Reusable Parts</h2>
+    <div class="grid g2" style="margin-bottom:10px;">
+      <div>
+        <div class="lang-label">Python</div>
+        <div class="code-block"><span class="kw">def</span> <span class="fn">letter_grade</span>(score):
+    <span class="cm"># score is a local parameter</span>
+    <span class="kw">if</span> score >= 80:
+        <span class="kw">return</span> <span class="st">"A"</span>
+    <span class="kw">elif</span> score >= 60:
+        <span class="kw">return</span> <span class="st">"B"</span>
+    <span class="kw">else</span>:
+        <span class="kw">return</span> <span class="st">"C"</span>
+
+grade = letter_grade(74)
+print(grade)   <span class="cm"># B</span></div>
+      </div>
+      <div>
+        <div class="lang-label">Java</div>
+        <div class="code-block"><span class="kw">static</span> String letterGrade(int score) {
+    <span class="kw">if</span> (score >= 80) <span class="kw">return</span> <span class="st">"A"</span>;
+    <span class="kw">else if</span> (score >= 60) <span class="kw">return</span> <span class="st">"B"</span>;
+    <span class="kw">else</span> <span class="kw">return</span> <span class="st">"C"</span>;
+}
+
+String grade = letterGrade(74);
+System.out.println(grade);  <span class="cm">// B</span></div>
+      </div>
+    </div>
+    <table class="compare-table">
+      <thead><tr><th>Concept</th><th>Meaning</th><th>Benefit</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Parameter</strong></td><td>Input value supplied to the function</td><td>Makes the function flexible — works for any score</td></tr>
+        <tr><td><strong>Return value</strong></td><td>Output sent back to the caller</td><td>The result can be stored and reused anywhere</td></tr>
+        <tr><td><strong>Local scope</strong></td><td>Variables created inside the function</td><td>Prevents accidental interference with other parts</td></tr>
+        <tr><td><strong>Modularization</strong></td><td>Splitting a program into named, focused functions</td><td>Easier to read, test, debug and maintain</td></tr>
+      </tbody>
+    </table>
+    <div class="green-box">
+      <p><strong>Common error:</strong> Printing a value inside a function is not the same as returning it. Use <span class="code-inline">return</span> when the caller needs to store or reuse the result.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S12  EXIT TICKET ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Practice · Exit Ticket</div>
+    <h2>Check Your Understanding</h2>
+    <div class="grid g2">
+      <div class="card cyan">
+        <div class="card-title">Trace &amp; Construct</div>
+        <div class="card-body">
+          <strong>1.</strong> What does this print?
+          <div class="code-block" style="margin-top:8px;">total = 0
+for n in [2, 4, 6]:
+    total = total + n
+print(total)</div>
+          <br>
+          <strong>2.</strong> Write a <span class="code-inline">while</span> loop that keeps asking for a password until the user enters <span class="code-inline">"ib2027"</span>.
+        </div>
+      </div>
+      <div class="card amber">
+        <div class="card-title">Describe &amp; Explain</div>
+        <div class="card-body">
+          <strong>3.</strong> Explain when a counted loop is better than a conditional loop.<br><br>
+          <strong>4.</strong> Write a function called <span class="code-inline">letter_grade(score)</span> that returns <span class="code-inline">"A"</span>, <span class="code-inline">"B"</span>, or <span class="code-inline">"C"</span>.<br><br>
+          <strong>5.</strong> State one advantage of splitting a program into functions.
+        </div>
+      </div>
+    </div>
+    <div class="gold-box">
+      <p><strong>Success check:</strong> You can choose the right loop type, trace repeated updates, avoid infinite loops, write functions with parameters and return values, and explain modularization.</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>← Prev</button>
+  <div class="nav-sep"></div>
+  <div class="nav-dots" id="navDots"></div>
+  <div class="nav-sep"></div>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+</div>
+
+<script>
+let cur = 0;
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+const prog = document.getElementById('progress');
+const slideNum = document.getElementById('slideNum');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const dotsEl = document.getElementById('navDots');
+
+for (let i = 0; i < total; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+}
+
+function goTo(n) {
+  slides[cur].classList.remove('active');
+  slides[cur].classList.add('exit');
+  const old = cur;
+  setTimeout(() => slides[old].classList.remove('exit'), 380);
+  cur = n;
+  slides[cur].classList.add('active');
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+  prog.style.width = ((cur + 1) / total * 100) + '%';
+  slideNum.textContent = String(cur + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+  prevBtn.disabled = cur === 0;
+  nextBtn.disabled = cur === total - 1;
+}
+
+function changeSlide(d) {
+  const n = cur + d;
+  if (n >= 0 && n < total) goTo(n);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') changeSlide(-1);
+});
+
+prog.style.width = (1 / total * 100) + '%';
+</script>
+</body>
+</html>

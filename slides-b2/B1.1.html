@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B1.1 — Approaches to Computational Thinking</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:        #0f1419;
+  --bg-soft:   #141a22;
+  --surface:   #1a212c;
+  --surface-2: #232b38;
+  --border:    #2a3344;
+  --border-2:  #3a4458;
+  --text:      #e8eaed;
+  --text-2:    #b6bcc8;
+  --text-3:    #7c8595;
+  --blue:      #5b9eff;
+  --amber:     #fbbf24;
+  --green:     #34d399;
+  --coral:     #f87171;
+  --purple:    #a78bfa;
+  --teal:      #2dd4bf;
+  --pad-x: clamp(40px,5vw,88px);
+  --pad-y: clamp(36px,4.5vh,64px);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;height:100%;overflow:hidden;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:clamp(16px,1.25vw,19px);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── DECK ── */
+.deck{position:relative;width:100vw;height:100vh;}
+.slide{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  padding:var(--pad-y) var(--pad-x);
+  opacity:0;pointer-events:none;
+  transition:opacity .25s ease, transform .25s ease;
+  transform:translateY(10px);
+  overflow:hidden;
+}
+.slide.active{opacity:1;pointer-events:all;transform:translateY(0);}
+
+/* ── HEADER STRIP ── */
+.slide-head{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:clamp(16px,2vh,28px);
+  font-size:clamp(13px,.9vw,15px);
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--text-3);font-weight:500;
+}
+.slide-head .section{color:var(--blue);}
+
+/* ── TYPOGRAPHY ── */
+h1{
+  font-size:clamp(36px,4.8vw,62px);
+  font-weight:700;line-height:1.05;letter-spacing:-.02em;
+  margin-bottom:clamp(12px,1.6vh,20px);
+}
+h2{
+  font-size:clamp(24px,2.8vw,38px);
+  font-weight:700;line-height:1.1;letter-spacing:-.015em;
+  margin-bottom:clamp(8px,1.2vh,16px);
+}
+.eyebrow{
+  font-size:clamp(13px,.9vw,15px);
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--blue);font-weight:600;
+  margin-bottom:8px;
+}
+.lead{
+  font-size:clamp(17px,1.4vw,21px);
+  color:var(--text-2);line-height:1.55;font-weight:400;
+  margin-bottom:clamp(14px,2vh,24px);
+  max-width:75ch;
+}
+strong{color:#fff;font-weight:600;}
+
+/* ── GRID ── */
+.grid{display:grid;gap:clamp(10px,1.2vw,16px);width:100%;}
+.g2{grid-template-columns:repeat(2,1fr);}
+.g3{grid-template-columns:repeat(3,1fr);}
+.g4{grid-template-columns:repeat(4,1fr);}
+
+/* ── CARD ── */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:clamp(14px,1.4vw,20px) clamp(16px,1.6vw,22px);
+  position:relative;
+}
+.card .accent{
+  position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:2px;
+}
+.card-title{
+  font-size:clamp(16px,1.25vw,20px);
+  font-weight:600;letter-spacing:-.01em;
+  margin-bottom:6px;
+}
+.card-body{
+  font-size:clamp(15px,1.15vw,18px);
+  color:var(--text-2);line-height:1.5;
+}
+
+.a-blue   .accent{background:var(--blue);}   .a-blue   .card-title{color:var(--blue);}
+.a-amber  .accent{background:var(--amber);}  .a-amber  .card-title{color:var(--amber);}
+.a-green  .accent{background:var(--green);}  .a-green  .card-title{color:var(--green);}
+.a-coral  .accent{background:var(--coral);}  .a-coral  .card-title{color:var(--coral);}
+.a-purple .accent{background:var(--purple);} .a-purple .card-title{color:var(--purple);}
+.a-teal   .accent{background:var(--teal);}   .a-teal   .card-title{color:var(--teal);}
+
+/* ── TABLE ── */
+table.t{
+  width:100%;border-collapse:collapse;
+  font-size:clamp(15px,1.15vw,18px);
+  background:var(--surface);
+  border-radius:10px;overflow:hidden;
+}
+table.t th{
+  background:var(--surface-2);text-align:left;
+  padding:12px 16px;font-weight:600;
+  font-size:clamp(13px,.95vw,15px);
+  letter-spacing:.06em;text-transform:uppercase;
+  color:var(--text-2);border-bottom:1px solid var(--border-2);
+}
+table.t td{
+  padding:11px 16px;border-bottom:1px solid var(--border);
+  vertical-align:top;color:var(--text-2);
+}
+table.t tr:last-child td{border-bottom:none;}
+table.t td.step{font-weight:700;color:var(--blue);width:50px;}
+table.t td.term{font-weight:600;color:var(--text);width:28%;}
+
+/* ── CALLOUT ── */
+.note{
+  margin-top:clamp(12px,1.6vh,18px);
+  padding:12px 16px;
+  border-left:3px solid var(--amber);
+  background:rgba(251,191,36,.07);
+  border-radius:0 8px 8px 0;
+  font-size:clamp(14px,1.1vw,17px);
+  color:var(--text-2);line-height:1.5;
+}
+.note strong{color:var(--amber);}
+.note.blue{border-color:var(--blue);background:rgba(91,158,255,.07);}
+.note.blue strong{color:var(--blue);}
+.note.green{border-color:var(--green);background:rgba(52,211,153,.07);}
+.note.green strong{color:var(--green);}
+.note.coral{border-color:var(--coral);background:rgba(248,113,113,.07);}
+.note.coral strong{color:var(--coral);}
+
+/* ── CODE / PSEUDOCODE ── */
+.code{
+  background:var(--bg-soft);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:14px 18px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:clamp(14px,1.1vw,17px);
+  line-height:1.75;
+  color:var(--text);
+  margin-top:10px;
+  overflow:hidden;
+}
+.code .c{color:var(--text-3);}
+.code .k{color:var(--purple);}
+.code .v{color:var(--teal);}
+.code .s{color:var(--amber);}
+.code .n{color:var(--green);}
+
+/* ── HUB (title slide cards) ── */
+.hub{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(12px,1.4vw,18px);max-width:1000px;}
+.hub-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:clamp(16px,1.8vw,24px);
+}
+.hub-card .id{
+  font-family:'JetBrains Mono',monospace;
+  font-size:clamp(13px,.9vw,15px);
+  color:var(--blue);letter-spacing:.06em;margin-bottom:5px;
+}
+.hub-card .name{
+  font-size:clamp(17px,1.35vw,21px);
+  font-weight:600;color:var(--text);margin-bottom:4px;
+}
+.hub-card .desc{
+  font-size:clamp(14px,1.1vw,17px);
+  color:var(--text-3);line-height:1.45;
+}
+
+/* ── FLOWCHART ── */
+.flow{display:flex;flex-direction:column;align-items:center;gap:5px;}
+.flow .arrow{color:var(--text-3);font-size:20px;line-height:1;}
+.flow .term{
+  border:2px solid var(--blue);color:var(--blue);
+  border-radius:999px;padding:7px 22px;
+  font-family:'JetBrains Mono',monospace;font-size:clamp(13px,1vw,16px);
+  background:var(--surface);
+}
+.flow .io{
+  border:2px solid var(--amber);color:var(--amber);
+  padding:7px 20px;
+  font-family:'JetBrains Mono',monospace;font-size:clamp(13px,1vw,16px);
+  background:var(--surface);transform:skewX(-12deg);
+}
+.flow .io > span{display:inline-block;transform:skewX(12deg);}
+.flow .proc{
+  border:2px solid var(--text-2);color:var(--text);
+  padding:7px 20px;
+  font-family:'JetBrains Mono',monospace;font-size:clamp(13px,1vw,16px);
+  background:var(--surface);border-radius:4px;
+}
+.flow .dec{
+  border:2px solid var(--coral);color:var(--coral);
+  width:150px;height:74px;
+  display:flex;align-items:center;justify-content:center;
+  clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);
+  font-family:'JetBrains Mono',monospace;font-size:clamp(13px,.95vw,15px);
+  background:var(--surface);
+}
+
+/* ── FLOWCHART SYMBOL TABLE ── */
+.sym-row{display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid var(--border);}
+.sym-row:last-child{border-bottom:none;}
+.sym-row .pic{flex:0 0 120px;display:flex;justify-content:center;}
+.sym-row .meta{flex:1;}
+.sym-row .nm{font-weight:600;color:var(--text);font-size:clamp(15px,1.15vw,18px);}
+.sym-row .ds{color:var(--text-2);font-size:clamp(14px,1.05vw,16px);line-height:1.4;}
+
+/* ── SUMMARY RECAP ── */
+.recap{
+  background:var(--bg-soft);border:1px solid var(--border);
+  border-radius:10px;padding:clamp(16px,1.8vw,22px);
+  margin-bottom:clamp(12px,1.6vh,18px);
+}
+.recap-line{
+  display:flex;gap:14px;padding:7px 0;
+  font-size:clamp(15px,1.15vw,18px);color:var(--text-2);
+  border-bottom:1px solid var(--border);
+}
+.recap-line:last-child{border-bottom:none;}
+.recap-line .tag{
+  font-family:'JetBrains Mono',monospace;
+  color:var(--blue);font-weight:600;flex:0 0 72px;
+}
+
+/* ── NAV ── */
+.nav{
+  position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:12px;z-index:100;
+  background:rgba(20,26,34,.92);backdrop-filter:blur(16px);
+  border:1px solid var(--border-2);border-radius:999px;
+  padding:7px 16px;
+}
+.nav-btn{
+  font-family:'Inter',sans-serif;font-size:13px;font-weight:500;letter-spacing:.06em;
+  color:var(--text-2);background:none;border:1px solid transparent;
+  padding:5px 12px;border-radius:999px;cursor:pointer;transition:all .15s;
+}
+.nav-btn:hover{color:var(--text);background:var(--surface-2);}
+.nav-btn:disabled{opacity:.3;cursor:not-allowed;}
+.nav-dots{display:flex;gap:6px;}
+.dot{
+  width:7px;height:7px;border-radius:50%;background:var(--border-2);
+  cursor:pointer;transition:all .15s;border:none;padding:0;
+}
+.dot.active{background:var(--blue);transform:scale(1.3);}
+.nav-sep{width:1px;height:16px;background:var(--border);}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- ══════════════════════════════════════
+     S1  TITLE
+══════════════════════════════════════ -->
+<section class="slide active">
+  <div class="slide-head">
+    <span class="section">IB CS SL · B1.1 · Computational Thinking</span>
+    <span>01 / 11</span>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;max-width:1100px;">
+    <div class="eyebrow">B1.1</div>
+    <h1>Approaches to<br>Computational Thinking</h1>
+    <p class="lead">How do we turn a real-world problem into a working computational solution?</p>
+    <div class="hub" style="margin-top:clamp(8px,1.4vh,18px);">
+      <div class="hub-card">
+        <div class="id">B1.1.1</div>
+        <div class="name">Problem Specification</div>
+        <div class="desc">Defining the problem clearly before writing any code.</div>
+      </div>
+      <div class="hub-card">
+        <div class="id">B1.1.2</div>
+        <div class="name">The CT Process</div>
+        <div class="desc">Four core skills: decomposition, patterns, abstraction, algorithms.</div>
+      </div>
+      <div class="hub-card">
+        <div class="id">B1.1.3</div>
+        <div class="name">CT in Practice</div>
+        <div class="desc">Where these skills appear in real computer science.</div>
+      </div>
+      <div class="hub-card">
+        <div class="id">B1.1.4</div>
+        <div class="name">Flowcharts &amp; Trace Tables</div>
+        <div class="desc">Drawing algorithms and checking they work — both are exam skills.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     S2  WHAT IS PROBLEM SPECIFICATION?
+══════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-head">
+    <span class="section">B1.1.1 · Problem Specification</span>
+    <span>02 / 11</span>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;">
+    <h2>Understand the problem before you solve it.</h2>
+    <p class="lead">A problem specification answers six questions. Miss one, and you risk building the wrong thing.</p>
+    <div class="grid g3">
+      <div class="card a-blue">
+        <span class="accent"></span>
+        <div class="card-title">Problem Statement</div>
+        <div class="card-body">Who has the problem? What is going wrong? What needs to change?</div>
+      </div>
+      <div class="card a-amber">
+        <span class="accent"></span>
+        <div class="card-title">Constraints</div>
+        <div class="card-body">What limits the solution? E.g. budget, time, hardware, laws.</div>
+      </div>
+      <div class="card a-green">
+        <span class="accent"></span>
+        <div class="card-title">Objectives</div>
+        <div class="card-body">What must the solution do? Agreed with the stakeholders.</div>
+      </div>
+      <div class="card a-purple">
+        <span class="accent"></span>
+        <div class="card-title">Inputs &amp; Outputs</div>
+        <div class="card-body">What data goes in? What is produced? In what format?</div>
+      </div>
+      <div class="card a-teal">
+        <span class="accent"></span>
+        <div class="card-title">Success Criteria</div>
+        <div class="card-body">Specific, measurable tests that tell you the solution works.</div>
+      </div>
+      <div class="card a-coral">
+        <span class="accent"></span>
+        <div class="card-title">Stakeholders</div>
+        <div class="card-body">People who use or are affected by the solution. Interview them first.</div>
+      </div>
+    </div>
+    <div class="note"><strong>IA link:</strong> Your success criteria here are reused at the end of your project to evaluate your final product.</div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     S3  INPUTS & OUTPUTS
+══════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-head">
+    <span class="section">B1.1.1 · Inputs &amp; Outputs</span>
+    <span>03 / 11</span>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;">
+    <h2>How data enters and leaves the system.</h2>
+    <p class="lead">You must identify both before you can design an algorithm.</p>
+    <div class="grid g2" style="align-items:start;">
+      <div>
+        <div class="eyebrow">Input methods</div>
+        <div class="grid" style="gap:10px;">
+          <div class="card a-blue">
+            <span class="accent"></span>
+            <div class="card-title">Manual entry</div>
+            <div class="card-body">Keyboard, mouse, touchscreen — typed or clicked by a person. <strong>Simple but error-prone.</strong></div>
+          </div>
+          <div class="card a-purple">
+            <span class="accent"></span>
+            <div class="card-title">Direct entry</div>
+            <div class="card-body">Barcode scanner, OMR, OCR — reads data automatically from a source.</div>
+          </div>
+          <div class="card a-teal">
+            <span class="accent"></span>
+            <div class="card-title">Sensor / automatic</div>
+            <div class="card-body">Temperature, motion, light sensors. No human needed.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="eyebrow" style="color:var(--amber);">Output types</div>
+        <div class="grid" style="gap:10px;">
+          <div class="card a-amber">
+            <span class="accent"></span>
+            <div class="card-title">Temporary (soft copy)</div>
+            <div class="card-body">On a screen. Disappears when the program ends.</div>
+          </div>
+          <div class="card a-coral">
+            <span class="accent"></span>
+            <div class="card-title">Permanent (hard copy)</div>
+            <div class="card-body">Printed on paper. A physical, lasting record.</div>
+          </div>
+          <div class="card a-green">
+            <span class="accent"></span>
+            <div class="card-title">Mechanical / actuator</div>
+            <div class="card-body">Motors or relays that move something in the real world.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note blue"><strong>Exam tip:</strong> Always state <em>both</em> the type and the format of inputs/outputs (e.g. "integer entered via keyboard").</div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     S4  THE CT PROCESS OVERVIEW
+══════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-head">
+    <span class="section">B1.1.2 · The CT Process</span>
+    <span>04 / 11</span>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;">
+    <h2>Seven steps from problem to solution.</h2>
+    <p class="lead">Computational thinking is a <em>process</em>, not a single skill. Each step feeds into the next.</p>
+    <table class="t">
+      <thead>
+        <tr><th style="width:50px;">#</th><th style="width:30%;">Stage</th><th>What you do</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="step">1</td><td class="term">Real-world problem</td><td>Identify a situation that needs a computational solution.</td></tr>
+        <tr><td class="step">2</td><td class="term">Problem specification</td><td>Define inputs, outputs, constraints, objectives and success criteria.</td></tr>
+        <tr><td class="step">3</td><td class="term">Decomposition</td><td>Break the big problem into smaller, manageable sub-problems.</td></tr>
+        <tr><td class="step">4</td><td class="term">Pattern recognition</td><td>Find similarities or repetition across sub-problems.</td></tr>
+        <tr><td class="step">5</td><td class="term">Abstraction</td><td>Keep only the details that matter; ignore the rest.</td></tr>
+        <tr><td class="step">6</td><td class="term">Algorithmic thinking</td><td>Design a clear, ordered set of steps to solve each part.</td></tr>
+        <tr><td class="step">7</td><td class="term">Testing &amp; evaluation</td><td>Check correctness against your success criteria.</td></tr>
+      </tbody>
+    </table>
+    <div class="note green" style="margin-top:12px;"><strong>Key point:</strong> Steps 3–6 are the four pillars of computational thinking. You need to know each one by name and definition for the exam.</div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     S5  DECOMPOSITION
+══════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-head">
+    <span class="section">B1.1.2 · Decomposition</span>
+    <span>05 / 11</span>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;">
+    <h2>Break a big problem into smaller parts.</h2>
+    <p class="lead">Each smaller part is easier to understand, design, and test on its own. Then combine the parts into a full solution.</p>
+    <div class="grid g2" style="align-items:start;">
+      <div>
+        <div class="card a-coral">
+          <span class="accent"></span>
+          <div class="card-title">Why decompose?</div>
+          <div class="card-body">
+            <ul style="padding-left:18px;margin-top:4px;line-height:2;">
+              <li>Easier to understand each part</li>
+              <li>Different people can work on different parts</li>
+              <li>Easier to test one part at a time</li>
+              <li>Easier to find and fix bugs</li>
+            </ul>
+          </div>
+        </div>
+        <div class="note coral" style="margin-top:12px;"><strong>Important:</strong> Decomposition splits the <em>problem</em>, not the code. You do this before writing a single line.</div>
+      </div>
+      <div>
+        <div class="eyebrow">Example — school library system</div>
+        <div class="card a-blue" style="margin-bottom:10px;">
+          <span class="accent"></span>
+          <div class="card-title">Full problem ↓ broken into parts</div>
+          <div class="card-body" style="margin-top:6px;">
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="background:var(--surface-2);border-radius:6px;padding:8px 12px;">📚 Search for a book</div>
+              <div style="background:var(--surface-2);border-radius:6px;padding:8px 12px;">🔐 Log in / log out</div>
+              <div style="background:var(--surface-2);border-radius:6px;padding:8px 12px;">📋 Borrow &amp; return books</div>
+              <div style="background:var(--surface-2);border-radius:6px;padding:8px 12px;">🔔 Send overdue reminders</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     S6  PATTERN RECOGNITION & ABSTRACTION
+══════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-head">
+    <span class="section">B1.1.2 · Pattern Recognition &amp; Abstraction</span>
+    <span>06 / 11</span>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;">
+    <h2>Find what repeats. Remove what doesn't matter.</h2>
+    <div class="grid g2" style="align-items:start;">
+      <div>
+        <div class="card a-teal" style="margin-bottom:10px;">
+          <span class="accent"></span>
+          <div class="card-title">Pattern recognition</div>
+          <div class="card-body">Spot similarities across sub-problems so you can reuse the same solution instead of rewriting it.</div>
+        </div>
+        <div class="note green"><strong>Example:</strong> "Borrow a book" and "Return a book" both need to check the member ID. Write that check once, use it twice.</div>
+        <div style="margin-top:10px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:8px;">
+          <div style="color:var(--text-3);font-size:13px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">Payoff</div>
+          <div style="color:var(--text-2);">Shorter code · fewer bugs · easier to update</div>
+        </div>
+      </div>
+      <div>
+        <div class="card a-blue" style="margin-bottom:10px;">
+          <span class="accent"></span>
+          <div class="card-title">Abstraction</div>
+          <div class="card-body">A simplified model of something complex. Keep only the details needed for the task; hide everything else.</div>
+        </div>
+        <div class="note blue"><strong>Real-world example:</strong> A bus timetable is an abstraction of the full bus system. It shows you departure times — not the engine specs, driver names, or fuel level.</div>
+        <div class="note blue" style="margin-top:8px;"><strong>In code:</strong> A function is an abstraction — you call it without knowing exactly how it works inside.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     S7  ALGORITHMIC THINKING
+══════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-head">
+    <span class="section">B1.1.2 · Algorithmic Thinking</span>
+    <span>07 / 11</span>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;">
+    <h2>Write a precise, step-by-step solution.</h2>
+    <p class="lead">An <strong>algorithm</strong> is a finite, ordered sequence of unambiguous steps that solves a problem. Every step must be clear enough that a computer can follow it exactly.</p>
+    <div class="grid g2" style="align-items:start;">
+      <div>
+        <div class="card a-amber">
+          <span class="accent"></span>
+          <div class="card-title">Three rules for a good algorithm</div>
+          <div class="card-body">
+            <ol style="padding-left:18px;margin-top:4px;line-height:2.2;">
+              <li><strong>Finite</strong> — it must eventually stop.</li>
+              <li><strong>Ordered</strong> — sequence matters; wrong order, wrong result.</li>
+              <li><strong>Unambiguous</strong> — each step has exactly one meaning.</li>
+            </ol>
+          </div>
+        </div>
+        <div class="note" style="margin-top:10px;"><strong>Common mistake:</strong> Writing steps in the wrong order produces the wrong answer even when every individual step is correct.</div>
+      </div>
+      <div>
+        <div class="eyebrow">Pseudocode example — find the larger number</div>
+        <div class="code">
+<span class="k">INPUT</span> a
+<span class="k">INPUT</span> b
+<span class="k">IF</span> a > b <span class="k">THEN</span>
+    <span class="k">OUTPUT</span> <span class="s">"Larger is "</span>, a
+<span class="k">ELSE</span>
+    <span class="k">OUTPUT</span> <span class="s">"Larger is "</span>, b
+<span class="k">END IF</span>
+        </div>
+        <div class="note blue" style="margin-top:10px;"><strong>Pseudocode</strong> is plain-English code used to plan algorithms — the IB uses its own style. Learn the IB keywords: INPUT, OUTPUT, IF/THEN/ELSE, LOOP, etc.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     S8  FLOWCHART SYMBOLS
+══════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-head">
+    <span class="section">B1.1.4 · Flowchart Symbols</span>
+    <span>08 / 11</span>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;">
+    <h2>Five symbols — memorise them all.</h2>
+    <div class="grid g2" style="align-items:start;gap:clamp(18px,2vw,36px);">
+      <div>
+        <div class="sym-row">
+          <div class="pic"><div class="flow"><div class="term">START / END</div></div></div>
+          <div class="meta">
+            <div class="nm" style="color:var(--blue);">Oval / Terminator</div>
+            <div class="ds">Marks the beginning or end of the algorithm.</div>
+          </div>
+        </div>
+        <div class="sym-row">
+          <div class="pic"><div class="flow"><div class="io"><span>INPUT / OUTPUT</span></div></div></div>
+          <div class="meta">
+            <div class="nm" style="color:var(--amber);">Parallelogram</div>
+            <div class="ds">Reading input from the user or displaying output.</div>
+          </div>
+        </div>
+        <div class="sym-row">
+          <div class="pic"><div class="flow"><div class="proc">PROCESS</div></div></div>
+          <div class="meta">
+            <div class="nm">Rectangle</div>
+            <div class="ds">A calculation or variable assignment.</div>
+          </div>
+        </div>
+        <div class="sym-row">
+          <div class="pic"><div class="flow"><div class="dec">DECISION</div></div></div>
+          <div class="meta">
+            <div class="nm" style="color:var(--coral);">Diamond</div>
+            <div class="ds">A yes/no question. <strong>Always label both branches (YES / NO).</strong></div>
+          </div>
+        </div>
+        <div class="sym-row">
+          <div class="pic" style="font-size:26px;color:var(--text-3);">&darr;</div>
+          <div class="meta">
+            <div class="nm">Arrow / Flowline</div>
+            <div class="ds">Shows the direction the algorithm flows.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="eyebrow">Example flowchart — average of two numbers</div>
+        <div class="flow" style="margin-top:8px;">
+          <div class="term">START</div>
+          <div class="arrow">&darr;</div>
+          <div class="io"><span>INPUT a, b</span></div>
+          <div class="arrow">&darr;</div>
+          <div class="proc">total ← a + b</div>
+          <div class="arrow">&darr;</div>
+          <div class="proc">avg ← total ÷ 2</div>
+          <div class="arrow">&darr;</div>
+          <div class="io"><span>OUTPUT avg</span></div>
+          <div class="arrow">&darr;</div>
+          <div class="term">END</div>
+        </div>
+        <div class="note" style="margin-top:12px;"><strong>Exam tip:</strong> A flowchart question will ask you to draw or complete a diagram. Use the correct symbol for each step — wrong symbol = lost marks.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     S9  TRACE TABLES
+══════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-head">
+    <span class="section">B1.1.4 · Trace Tables</span>
+    <span>09 / 11</span>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;">
+    <h2>Check your algorithm, step by step.</h2>
+    <p class="lead">A <strong>trace table</strong> manually tracks every variable through each line of an algorithm. Used to find logic errors before running any code.</p>
+    <div class="grid g2" style="align-items:start;gap:clamp(18px,2vw,36px);">
+      <div>
+        <div class="eyebrow">Algorithm — find the larger number</div>
+        <div class="code">
+<span class="n">1.</span> <span class="k">INPUT</span> a        <span class="c">→ a = 7</span>
+<span class="n">2.</span> <span class="k">INPUT</span> b        <span class="c">→ b = −3</span>
+<span class="n">3.</span> <span class="k">IF</span> a > b <span class="k">THEN</span>
+<span class="n">4.</span>     max ← a
+<span class="n">5.</span> <span class="k">ELSE</span>
+<span class="n">6.</span>     max ← b
+<span class="n">7.</span> <span class="k">END IF</span>
+<span class="n">8.</span> <span class="k">OUTPUT</span> max
+        </div>
+        <div class="note" style="margin-top:12px;">
+          <strong>How to fill a trace table:</strong><br>
+          After <em>every</em> line, write each variable's current value. If a variable didn't change, copy its last value — don't leave it blank.
+        </div>
+      </div>
+      <div>
+        <div class="eyebrow" style="color:var(--amber);">Trace — test values: a = 7, b = −3</div>
+        <table class="t" style="margin-top:8px;">
+          <thead>
+            <tr><th>Line</th><th>a</th><th>b</th><th>a &gt; b?</th><th>max</th><th>Output</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="step">1</td><td>7</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td class="step">2</td><td>7</td><td>−3</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td class="step">3</td><td>7</td><td>−3</td><td style="color:var(--green);">TRUE</td><td>—</td><td>—</td></tr>
+            <tr><td class="step">4</td><td>7</td><td>−3</td><td style="color:var(--green);">TRUE</td><td>7</td><td>—</td></tr>
+            <tr><td class="step">8</td><td>7</td><td>−3</td><td style="color:var(--green);">TRUE</td><td>7</td><td style="color:var(--amber);">7</td></tr>
+          </tbody>
+        </table>
+        <div class="note green" style="margin-top:10px;"><strong>Exam tip:</strong> Trace table questions are common. Always test with at least two different sets of values — including edge cases like negative numbers or equal inputs.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     S10  CT IN PRACTICE (simplified)
+══════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-head">
+    <span class="section">B1.1.3 · CT in Practice</span>
+    <span>10 / 11</span>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;">
+    <h2>The same four skills, everywhere.</h2>
+    <p class="lead">Decomposition, pattern recognition, abstraction, and algorithmic thinking appear across all areas of computer science — the labels just change.</p>
+    <div class="grid g2" style="align-items:start;">
+      <div class="card a-blue">
+        <span class="accent"></span>
+        <div class="card-title">Software development</div>
+        <div class="card-body">Decompose into modules → find patterns → abstract shared code → test algorithms.</div>
+      </div>
+      <div class="card a-amber">
+        <span class="accent"></span>
+        <div class="card-title">Data analysis</div>
+        <div class="card-body">Pattern recognition reveals trends. Abstraction filters noise. Algorithms process the data.</div>
+      </div>
+      <div class="card a-teal">
+        <span class="accent"></span>
+        <div class="card-title">Database design</div>
+        <div class="card-body">Decompose data into tables. Abstract away complexity with queries. Algorithms sort and search.</div>
+      </div>
+      <div class="card a-purple">
+        <span class="accent"></span>
+        <div class="card-title">Machine learning / AI</div>
+        <div class="card-body">Patterns drive the model. Abstraction selects the right features. Testing checks accuracy.</div>
+      </div>
+    </div>
+    <div class="note" style="margin-top:auto;">
+      <strong>Think about it:</strong> Can you identify all four CT skills in your IA project? Examiners reward students who name and apply them explicitly.
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     S11  SUMMARY
+══════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-head">
+    <span class="section">B1.1 · Summary</span>
+    <span>11 / 11</span>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;">
+    <h2>Key takeaways for the exam.</h2>
+    <div class="recap">
+      <div class="recap-line"><span class="tag">B1.1.1</span><span>A problem specification includes: problem statement, constraints, objectives, inputs &amp; outputs, success criteria, stakeholders.</span></div>
+      <div class="recap-line"><span class="tag">B1.1.2</span><span>The CT process has 7 steps. The four core CT skills are: <strong>decomposition, pattern recognition, abstraction, algorithmic thinking</strong>.</span></div>
+      <div class="recap-line"><span class="tag">B1.1.3</span><span>The same CT skills appear in software, databases, data analysis, and AI. Learn to name them in context.</span></div>
+      <div class="recap-line"><span class="tag">B1.1.4</span><span>Flowcharts use 5 symbols (oval, parallelogram, rectangle, diamond, arrow). Trace tables track variables line by line.</span></div>
+    </div>
+    <div class="grid g4">
+      <div class="card a-coral">
+        <span class="accent"></span>
+        <div class="card-title">Decompose</div>
+        <div class="card-body">Split the problem into smaller parts.</div>
+      </div>
+      <div class="card a-teal">
+        <span class="accent"></span>
+        <div class="card-title">Recognise</div>
+        <div class="card-body">Find patterns to reuse solutions.</div>
+      </div>
+      <div class="card a-blue">
+        <span class="accent"></span>
+        <div class="card-title">Abstract</div>
+        <div class="card-body">Keep what matters, ignore the rest.</div>
+      </div>
+      <div class="card a-amber">
+        <span class="accent"></span>
+        <div class="card-title">Algorithm</div>
+        <div class="card-body">Finite, ordered, unambiguous steps.</div>
+      </div>
+    </div>
+    <div class="note green" style="margin-top:auto;">
+      <strong>You should now be able to:</strong> write a problem specification · name all 7 steps of CT · define the 4 CT skills · draw a flowchart using correct symbols · complete a trace table.
+    </div>
+  </div>
+</section>
+
+</div><!-- /deck -->
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="go(-1)" disabled>← Prev</button>
+  <div class="nav-sep"></div>
+  <div class="nav-dots" id="dots"></div>
+  <div class="nav-sep"></div>
+  <button class="nav-btn" id="nextBtn" onclick="go(1)">Next →</button>
+</nav>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let cur = 0;
+
+const dotsEl = document.getElementById('dots');
+slides.forEach((_, i) => {
+  const d = document.createElement('button');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+  d.onclick = () => show(i);
+  dotsEl.appendChild(d);
+});
+
+function show(n) {
+  if (n < 0 || n >= total || n === cur) return;
+  slides[cur].classList.remove('active');
+  cur = n;
+  slides[cur].classList.add('active');
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+  document.getElementById('prevBtn').disabled = cur === 0;
+  document.getElementById('nextBtn').disabled = cur === total - 1;
+}
+
+function go(dir) { show(cur + dir); }
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); go(1); }
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')                    { e.preventDefault(); go(-1); }
+  if (e.key === 'Home') show(0);
+  if (e.key === 'End')  show(total - 1);
+});
+</script>
+</body>
+</html>
