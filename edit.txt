@@ -1,0 +1,75 @@
+Edits for ProgrammingFundamentals_Part1.html
+
+
+
+Slides 
+
+overall include the requirements of the IB in each slide that covers it. Like B2.1.1. 
+
+take out the exam tips. only include the common errors that students usually make. 
+
+1. Change Guiding Question -> What is an efficient way to communicate with computers? 
+
+2. Looks good. 
+
+3. 
+ . Decimal is correct but it should include 'float' as well. 
+ . order them smallest to biggest: boolean, integer, decimal, string. 
+ . char explanation is good. but make it easier. stating that python does not distinguish char and string, but others do.
+
+~ create more slide in between here giving more examples of these variables in coding situations. 
+
+4. take out functions. keep the code simple and just have code errors in printing or adding string and integers or adding float and integers. global and local we will cover another time. seems too early to go deep into it. 
+
+5. use a different email. 
+ . email = "ej.kim@suwoncca.org" 
+ . first = EJ
+ . last = Kim. 
+ . use this. 
+
+6. failure: make this explanation a little easier to understand. 
+
+7. exceptions: looks okay. 
+
+8. finding errors: looks okay. looks okay. but I think we should explain sequence earlier. 
+
+9. sequence
+
+10. making decisions, looks good. 
+
+11. loops looks good. 
+
+12. breaking looks good. 
+
+
+//
+
+I want to make this into a two parts and have more coding examples. 
+
+have coding examples for each variables. so more examples of int, more of float, more of string etc. and more practice. 
+
+
+let's reorder this as 
+1~3 as it is. 
+
+include more example of using variables in code here. one slide for each variable. 
+
+5. use the string example here for explaining strings. 
+
+
+9. sequence explanation.
+7. exceptions
+
+8. finding errors.  
+
+10 making decisions, conditions. 
+
+6. failure
+
+
+//
+and end it here. create another html file called ProgrammingFundamentals_Part1.1.html and explain these in detail
+
+11. loops
+
+4. functions

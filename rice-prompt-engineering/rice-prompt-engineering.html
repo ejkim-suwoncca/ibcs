@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prompt Engineering with RICE</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400&family=Cabinet+Grotesk:wght@300;400;500;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #f7f5f0;
+  --ink: #1c1917;
+  --ink-mid: #57534e;
+  --ink-light: #a8a29e;
+  --accent: #2d6a4f;
+  --accent2: #52b788;
+  --accent-warm: #d4a853;
+  --bar: #1c1917;
+  --border: #e7e5e0;
+  --card: #eeeae2;
+}
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: #1c1917;
+}
+body { display: flex; flex-direction: column; }
+
+/* ── DECK ── */
+.deck {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+}
+.deck.no-part-nav .part-nav { display: none; }
+.deck.no-part-nav .content  { padding-top: 5%; }
+
+/* ── PART NAV ── */
+.part-nav {
+  position: absolute;
+  top: 14px; left: 22px; right: 22px;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  pointer-events: none;
+}
+.part-nav button {
+  pointer-events: auto;
+  border: 1px solid rgba(28,25,23,0.15);
+  border-top: 3px solid var(--accent);
+  border-radius: 6px;
+  background: rgba(247,245,240,0.93);
+  color: var(--ink);
+  cursor: pointer;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(11px, 1vw, 14px);
+  font-weight: 700;
+  line-height: 1.25;
+  padding: 8px 10px;
+  text-align: left;
+  transition: background 0.18s, color 0.18s;
+}
+.part-nav button span {
+  display: block;
+  color: var(--accent);
+  margin-bottom: 2px;
+  font-size: clamp(10px, 0.85vw, 12px);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.part-nav button:hover,
+.part-nav button.active {
+  background: var(--ink);
+  color: #f7f5f0;
+}
+.part-nav button:hover span,
+.part-nav button.active span { color: var(--accent2); }
+.deck.dark-part-nav .part-nav button {
+  border-color: rgba(247,245,240,0.2);
+  border-top-color: var(--accent2);
+  background: rgba(20,20,18,0.92);
+  color: #f7f5f0;
+}
+.deck.dark-part-nav .part-nav button span { color: var(--accent2); }
+.deck.dark-part-nav .part-nav button:hover,
+.deck.dark-part-nav .part-nav button.active {
+  background: var(--accent);
+  color: #f7f5f0;
+}
+
+/* ── SLIDE ── */
+.slide {
+  width: 100%; height: 100%;
+  background: var(--bg);
+  display: none;
+  position: absolute;
+  inset: 0;
+}
+.slide.active { display: grid; grid-template-columns: 8px 1fr; }
+.bar { background: var(--bar); }
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 112px 6% 5%;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
+
+/* ── SECTION SLIDES ── */
+.slide.section-slide .content { background: var(--ink); }
+.slide.section-slide .bar     { background: var(--accent); }
+.slide.section-slide h1.en,
+.slide.section-slide h1.big   { color: #f7f5f0; }
+.slide.section-slide .eyebrow { color: var(--accent2); }
+.slide.section-slide .divider { background: var(--accent2); }
+.slide.section-slide .slide-num { color: rgba(255,255,255,0.06); }
+.slide.section-slide .presenter { color: rgba(255,255,255,0.28); }
+.slide.section-slide .body-en   { color: rgba(255,255,255,0.45); }
+
+/* RICE color slides */
+.slide.rice-R .content  { background: #1a3a2a; }
+.slide.rice-R .bar      { background: #52b788; }
+.slide.rice-I  .content { background: #1c2a3a; }
+.slide.rice-I  .bar     { background: #4a90d9; }
+.slide.rice-C  .content { background: #2a1a3a; }
+.slide.rice-C  .bar     { background: #9b72cf; }
+.slide.rice-E  .content { background: #3a2a1a; }
+.slide.rice-E  .bar     { background: var(--accent-warm); }
+.slide.rice-R .eyebrow,
+.slide.rice-I  .eyebrow,
+.slide.rice-C  .eyebrow,
+.slide.rice-E  .eyebrow { color: #aaa; }
+.slide.rice-R h1.big,
+.slide.rice-I  h1.big,
+.slide.rice-C  h1.big,
+.slide.rice-E  h1.big   { color: #f7f5f0; }
+.slide.rice-R .divider  { background: #52b788; }
+.slide.rice-I  .divider { background: #4a90d9; }
+.slide.rice-C  .divider { background: #9b72cf; }
+.slide.rice-E  .divider { background: var(--accent-warm); }
+.slide.rice-R .slide-num,
+.slide.rice-I  .slide-num,
+.slide.rice-C  .slide-num,
+.slide.rice-E  .slide-num { color: rgba(255,255,255,0.06); }
+.slide.rice-R .presenter,
+.slide.rice-I  .presenter,
+.slide.rice-C  .presenter,
+.slide.rice-E  .presenter { color: rgba(255,255,255,0.28); }
+.slide.rice-R .body-en,
+.slide.rice-I  .body-en,
+.slide.rice-C  .body-en,
+.slide.rice-E  .body-en  { color: rgba(255,255,255,0.55); }
+.slide.rice-R .sub-label,
+.slide.rice-I  .sub-label,
+.slide.rice-C  .sub-label,
+.slide.rice-E  .sub-label { color: rgba(255,255,255,0.5); }
+.slide.rice-R .rice-desc,
+.slide.rice-I  .rice-desc,
+.slide.rice-C  .rice-desc,
+.slide.rice-E  .rice-desc { color: rgba(255,255,255,0.75); }
+.slide.rice-R .deco-letter { color: rgba(82,183,136,0.12); }
+.slide.rice-I  .deco-letter { color: rgba(74,144,217,0.12); }
+.slide.rice-C  .deco-letter { color: rgba(155,114,207,0.12); }
+.slide.rice-E  .deco-letter { color: rgba(212,168,83,0.12); }
+.slide.rice-R .prompt-tag { background: rgba(82,183,136,0.25); color: #a3d9be; border-color: rgba(82,183,136,0.4); }
+.slide.rice-I  .prompt-tag { background: rgba(74,144,217,0.25); color: #a3c8f0; border-color: rgba(74,144,217,0.4); }
+.slide.rice-C  .prompt-tag { background: rgba(155,114,207,0.25); color: #ccb3e8; border-color: rgba(155,114,207,0.4); }
+.slide.rice-E  .prompt-tag { background: rgba(212,168,83,0.25); color: #e8d4a3; border-color: rgba(212,168,83,0.4); }
+
+/* ── TYPE ── */
+.eyebrow {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(11px, 1vw, 14px);
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+h1.big {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(38px, 6.5vw, 76px);
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1.05;
+  margin-bottom: 14px;
+}
+h1.en {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(32px, 5.5vw, 64px);
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+h2.title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(20px, 3vw, 38px);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+.divider {
+  width: 36px; height: 2px;
+  background: var(--ink);
+  margin-bottom: 14px;
+  flex-shrink: 0;
+}
+.accent-divider {
+  width: 36px; height: 2px;
+  background: var(--accent);
+  margin-bottom: 14px;
+  flex-shrink: 0;
+}
+p.body-en {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(14px, 1.4vw, 18px);
+  color: var(--ink-mid);
+  line-height: 1.85;
+  font-weight: 400;
+}
+.sub-label {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(11px, 1vw, 13px);
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: 6px;
+}
+.rice-desc {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(16px, 1.6vw, 22px);
+  color: var(--ink-mid);
+  line-height: 1.7;
+}
+
+/* ── BOTTOM ROW ── */
+.bottom-row {
+  position: absolute;
+  bottom: 4%; left: 6%; right: 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.presenter {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(10px, 0.9vw, 13px);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  font-weight: 700;
+}
+.slide-num {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 900;
+  color: #e8e4dc;
+  line-height: 1;
+}
+
+/* ── DECO CIRCLE ── */
+.deco-circle {
+  position: absolute;
+  right: -5%; top: 50%;
+  transform: translateY(-50%);
+  width: clamp(130px, 20%, 240px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  pointer-events: none;
+}
+.deco-circle::before {
+  content: '';
+  position: absolute;
+  inset: 18%;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+}
+
+/* ── DECO BIG LETTER ── */
+.deco-letter {
+  position: absolute;
+  right: 4%; bottom: 8%;
+  font-family: 'Fraunces', serif;
+  font-size: clamp(120px, 22vw, 260px);
+  font-weight: 900;
+  color: rgba(28,25,23,0.04);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -0.05em;
+}
+
+/* ── TABLE ── */
+table { width: 100%; border-collapse: collapse; margin-top: 4px; }
+th {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-size: clamp(11px, 1vw, 13px);
+  color: var(--accent);
+  padding: 9px 12px;
+  text-align: left;
+  border-bottom: 2px solid var(--ink);
+}
+td {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(13px, 1.3vw, 17px);
+  padding: 9px 12px;
+  color: var(--ink-mid);
+  border-bottom: 1px solid var(--border);
+  line-height: 1.55;
+  vertical-align: top;
+}
+td:first-child {
+  font-weight: 800;
+  color: var(--ink);
+  white-space: nowrap;
+  padding-right: 16px;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  letter-spacing: 0.5px;
+}
+tr:last-child td { border-bottom: none; }
+
+/* ── TWO COL ── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 4%; }
+.col-label {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(11px, 1vw, 13px);
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.col-label.bad  { color: #c0392b; }
+.col-label.good { color: #27ae60; }
+.prompt-box {
+  background: var(--card);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(13px, 1.3vw, 17px);
+  color: var(--ink);
+  line-height: 1.85;
+}
+.prompt-box.bad  { border-left: 3px solid #e74c3c; }
+.prompt-box.good { border-left: 3px solid var(--accent); }
+.prompt-box .key {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(10px, 0.85vw, 12px);
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 1px;
+  margin-top: 8px;
+}
+.prompt-box .key:first-child { margin-top: 0; }
+
+/* ── PROMPT TAG (colored inline) ── */
+.prompt-tag {
+  display: inline-block;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(9px, 0.8vw, 11px);
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid;
+  margin-right: 6px;
+  vertical-align: middle;
+  background: #e0f0e8;
+  color: var(--accent);
+  border-color: rgba(45,106,79,0.3);
+}
+
+/* ── BULLET LIST ── */
+.bullet-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+.bullet-list li {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(13px, 1.4vw, 17px);
+  color: var(--ink-mid);
+  padding-left: 18px;
+  position: relative;
+  line-height: 1.75;
+}
+.bullet-list li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 10px;
+  width: 7px; height: 2px;
+  background: var(--accent);
+}
+.bullet-list li strong { color: var(--ink); font-weight: 800; }
+
+/* ── HIGHLIGHT ── */
+.highlight {
+  background: #e8f4ed;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  padding: 12px 16px;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(13px, 1.25vw, 16px);
+  color: var(--ink);
+  line-height: 1.85;
+  margin-top: 10px;
+}
+.highlight strong { color: var(--accent); }
+
+/* ── RICE OVERVIEW GRID ── */
+.rice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3% 5%;
+  margin-top: 6px;
+}
+.rice-card {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.rice-letter-badge {
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-size: clamp(28px, 3.5vw, 44px);
+  line-height: 1;
+  flex-shrink: 0;
+  width: clamp(44px, 5.5vw, 64px);
+  height: clamp(44px, 5.5vw, 64px);
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 10px;
+  color: #fff;
+}
+.rice-card-R .rice-letter-badge { background: #2d6a4f; }
+.rice-card-I .rice-letter-badge  { background: #2563ab; }
+.rice-card-C .rice-letter-badge { background: #6d3fa8; }
+.rice-card-E .rice-letter-badge { background: #b87c1a; }
+.rice-card-body { flex: 1; }
+.rice-card-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(15px, 1.7vw, 21px);
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+.rice-card-desc {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(12px, 1.15vw, 15px);
+  color: var(--ink-mid);
+  line-height: 1.65;
+}
+
+/* ── COMPARE CARDS ── */
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4%; margin-top: 4px; }
+.compare-card { background: var(--card); border-radius: 10px; padding: 16px; }
+.compare-card-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(15px, 1.6vw, 20px);
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1.5px solid var(--border);
+}
+.compare-card ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.compare-card ul li {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(12px, 1.25vw, 16px);
+  color: var(--ink-mid);
+  padding-left: 14px;
+  position: relative;
+  line-height: 1.65;
+}
+.compare-card ul li::before { content: '·'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+
+/* ── ETHICS LIST ── */
+.ethics-list { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
+.ethics-item { display: flex; align-items: flex-start; gap: 14px; }
+.ethics-icon {
+  width: clamp(32px, 3.5vw, 44px);
+  height: clamp(32px, 3.5vw, 44px);
+  background: var(--card);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: clamp(16px, 1.8vw, 20px);
+  flex-shrink: 0;
+}
+.ethics-text {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(13px, 1.3vw, 16px);
+  color: var(--ink-mid);
+  line-height: 1.8;
+}
+.ethics-text strong {
+  color: var(--ink); display: block; font-weight: 800;
+  font-size: clamp(14px, 1.4vw, 17px);
+}
+
+/* ── SUMMARY GRID ── */
+.summary-index {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin: 0 0 16px;
+}
+.summary-index-title {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 13px; font-weight: 800;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 8px;
+}
+.summary-index-item {
+  background: var(--card); border-radius: 6px;
+  padding: 8px 10px;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(11px, 1vw, 13px); font-weight: 700;
+  color: var(--ink); line-height: 1.4;
+}
+.summary-index-item span {
+  display: block; font-size: clamp(10px, 0.8vw, 11px);
+  font-weight: 800; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 2px;
+}
+.summary-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px 6%;
+}
+.summary-label {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(10px, 0.9vw, 12px); font-weight: 800;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 4px;
+}
+.summary-text {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(12px, 1.2vw, 15px);
+  color: var(--ink-mid); line-height: 1.7;
+}
+
+/* ── LLM TOKEN FLOW ── */
+.token-flow { display: flex; flex-direction: column; gap: 12px; margin-top: 6px; }
+.token-row { display: flex; align-items: center; gap: 12px; }
+.token-chip {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(14px, 1.5vw, 18px);
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--card);
+  padding: 6px 14px;
+  border-radius: 6px;
+  min-width: 80px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.token-bars { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+.token-bar-item { display: flex; align-items: center; gap: 10px; font-size: clamp(12px, 1.1vw, 14px); font-family: 'Cabinet Grotesk', sans-serif; }
+.token-bar { height: 8px; border-radius: 4px; background: var(--accent2); opacity: 0.75; }
+.token-bar.alt { background: var(--ink-light); }
+.token-val { font-weight: 700; color: var(--ink-mid); white-space: nowrap; font-size: clamp(12px, 1vw, 14px); }
+
+/* ── TOC ── */
+.toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 7%; margin-top: 4px; }
+.toc-part-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(16px, 1.7vw, 22px);
+  font-weight: 700; color: var(--ink);
+  margin-bottom: 8px; padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.toc-part-num {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(11px, 1.1vw, 14px);
+  color: var(--accent); font-weight: 800; margin-right: 6px;
+}
+.toc-items { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.toc-items li {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(13px, 1.2vw, 16px); color: var(--ink-mid);
+  padding-left: 14px; position: relative; line-height: 1.6;
+}
+.toc-items li::before { content: '·'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+
+/* ── STEP CARDS ── */
+.steps-row { display: flex; gap: 2.5%; margin-top: 6px; }
+.step-card {
+  flex: 1;
+  background: var(--card);
+  border-radius: 10px;
+  padding: 14px 14px 12px;
+  position: relative;
+  overflow: hidden;
+}
+.step-num {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(32px, 4vw, 50px);
+  font-weight: 900;
+  color: rgba(28,25,23,0.07);
+  position: absolute;
+  top: 4px; right: 10px;
+  line-height: 1;
+}
+.step-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(14px, 1.5vw, 18px);
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.step-text {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(11px, 1.1vw, 14px);
+  color: var(--ink-mid);
+  line-height: 1.7;
+}
+
+/* ── NAV BAR ── */
+.nav {
+  flex-shrink: 0;
+  background: #111;
+  display: flex; align-items: center; gap: 14px;
+  padding: 0 18px;
+  height: 48px;
+}
+.nav button {
+  background: none; border: 1px solid rgba(255,255,255,0.15);
+  color: #f7f5f0; width: 34px; height: 34px;
+  border-radius: 6px; font-size: 15px; cursor: pointer;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  transition: background 0.15s;
+}
+.nav button:hover:not(:disabled) { background: rgba(255,255,255,0.1); }
+.nav button:disabled { opacity: 0.25; cursor: default; }
+.progress { flex: 1; height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; }
+.progress-fill { height: 100%; background: var(--accent2); border-radius: 2px; transition: width 0.3s ease; }
+.counter {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 13px; font-weight: 700;
+  color: rgba(255,255,255,0.4); letter-spacing: 1px;
+}
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+  <!-- PART NAV (shown from slide 3 onwards) -->
+  <div class="part-nav">
+    <button data-target="3"><span>Part 1</span>What is an LLM?</button>
+    <button data-target="8"><span>Part 2</span>Why Prompts Matter</button>
+    <button data-target="11"><span>Part 3</span>The RICE Framework</button>
+    <button data-target="19"><span>Part 4</span>Tips &amp; Ethics</button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 1 — TITLE
+  ════════════════════════════════════════════ -->
+  <div class="slide section-slide active" id="s1">
+    <div class="bar"></div>
+    <div class="content">
+      <div class="eyebrow">Prompt Engineering · Student Guide</div>
+      <div class="divider"></div>
+      <h1 class="big" style="font-size: clamp(42px, 7vw, 88px); color:#f7f5f0;">Talk to AI<br><em style="font-weight:400; font-style:italic;">like a pro.</em></h1>
+      <p class="body-en" style="margin-top:10px; max-width:520px;">How Large Language Models work, and how to write prompts that actually get you what you want — using the <strong style="color:#52b788;">RICE</strong> framework.</p>
+      <div class="bottom-row">
+        <span class="presenter">Prompt Engineering · Student Guide</span>
+        <span class="slide-num">01</span>
+      </div>
+      <div class="deco-circle"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 2 — TABLE OF CONTENTS
+  ════════════════════════════════════════════ -->
+  <div class="slide" id="s2">
+    <div class="bar"></div>
+    <div class="content">
+      <div class="eyebrow">Overview</div>
+      <h2 class="title">What we'll cover</h2>
+      <div class="accent-divider"></div>
+      <div class="toc-grid">
+        <div>
+          <div class="toc-part-title"><span class="toc-part-num">Part 1</span>What is an LLM?</div>
+          <ul class="toc-items">
+            <li>AI vs LLM — what's the difference?</li>
+            <li>How does an LLM generate text?</li>
+            <li>What does it mean to "predict the next word"?</li>
+          </ul>
+        </div>
+        <div>
+          <div class="toc-part-title"><span class="toc-part-num">Part 2</span>Why Prompts Matter</div>
+          <ul class="toc-items">
+            <li>What is a prompt?</li>
+            <li>Weak vs. strong prompts</li>
+            <li>Context changes everything</li>
+          </ul>
+        </div>
+        <div>
+          <div class="toc-part-title"><span class="toc-part-num">Part 3</span>The RICE Framework</div>
+          <ul class="toc-items">
+            <li><strong>R</strong>ole, <strong>I</strong>nstructions, <strong>C</strong>ontext, <strong>E</strong>xamples</li>
+            <li>Each element explained with examples</li>
+            <li>Building a full RICE prompt</li>
+          </ul>
+        </div>
+        <div>
+          <div class="toc-part-title"><span class="toc-part-num">Part 4</span>Tips &amp; Ethics</div>
+          <ul class="toc-items">
+            <li>Iterate — prompt → review → refine</li>
+            <li>Always understand what AI gives you</li>
+            <li>Academic integrity &amp; AI use</li>
+          </ul>
+        </div>
+      </div>
+      <div class="bottom-row">
+        <span class="presenter">Prompt Engineering · Student Guide</span>
+        <span class="slide-num">02</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 3 — SECTION: Part 1
+  ════════════════════════════════════════════ -->
+  <div class="slide section-slide" id="s3">
+    <div class="bar"></div>
+    <div class="content">
+      <div class="eyebrow">Part 1</div>
+      <div class="divider"></div>
+      <h1 class="big">What is<br>an LLM?</h1>
+      <p class="body-en" style="margin-top: 12px;">Before you talk to AI, understand what you're actually talking to.</p>
+      <div class="bottom-row">
+        <span class="presenter">Prompt Engineering · Student Guide</span>
+        <span class="slide-num">03</span>
+      </div>
+      <div class="deco-circle"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 4 — AI vs LLM
+  ════════════════════════════════════════════ -->
+  <div class="slide" id="s4">
+    <div class="bar"></div>
+    <div class="content">
+      <div class="eyebrow">Part 1 · Basics</div>
+      <h2 class="title">AI vs LLM — What's the difference?</h2>
+      <div class="accent-divider"></div>
+      <div class="compare-grid" style="margin-top:6px;">
+        <div class="compare-card">
+          <div class="compare-card-title">🤖 AI (Artificial Intelligence)</div>
+          <ul>
+            <li>A broad term for machines that can perform tasks that normally require human intelligence</li>
+            <li>Includes image recognition, self-driving cars, chess engines, voice assistants</li>
+            <li>AI is the <strong>category</strong></li>
+          </ul>
+        </div>
+        <div class="compare-card">
+          <div class="compare-card-title">💬 LLM (Large Language Model)</div>
+          <ul>
+            <li>A <em>specific type</em> of AI trained on massive amounts of text</li>
+            <li>Designed to understand and generate human language</li>
+            <li>Examples: ChatGPT, Claude, Gemini</li>
+            <li>LLM is a <strong>tool inside AI</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="highlight">📌 Every LLM is AI — but not every AI is an LLM. Think of it like: every square is a rectangle, but not every rectangle is a square.</div>
+      <div class="bottom-row">
+        <span class="presenter">Prompt Engineering · Student Guide</span>
+        <span class="slide-num">04</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 5 — HOW LLM WORKS (Simple)
+  ════════════════════════════════════════════ -->
+  <div class="slide" id="s5">
+    <div class="bar"></div>
+    <div class="content">
+      <div class="eyebrow">Part 1 · How it works</div>
+      <h2 class="title">How does an LLM generate text?</h2>
+      <div class="accent-divider"></div>
+      <p class="body-en" style="margin-bottom:14px;">An LLM doesn't "think" or "know" things the way humans do. It <strong>predicts</strong> — based on patterns it learned from billions of web pages, books, and articles.</p>
+      <div class="token-flow">
+        <div class="token-row">
+          <div class="token-chip">"The sky"</div>
+          <div class="token-bars">
+            <div class="token-bar-item"><div class="token-bar" style="width:72%;"></div><span class="token-val">is → 72%</span></div>
+            <div class="token-bar-item"><div class="token-bar alt" style="width:18%;"></div><span class="token-val">looks → 18%</span></div>
+            <div class="token-bar-item"><div class="token-bar alt" style="width:10%;"></div><span class="token-val">was → 10%</span></div>
+          </div>
+        </div>
+        <div class="token-row">
+          <div class="token-chip">"The sky is"</div>
+          <div class="token-bars">
+            <div class="token-bar-item"><div class="token-bar" style="width:65%;"></div><span class="token-val">blue → 65%</span></div>
+            <div class="token-bar-item"><div class="token-bar alt" style="width:20%;"></div><span class="token-val">clear → 20%</span></div>
+            <div class="token-bar-item"><div class="token-bar alt" style="width:15%;"></div><span class="token-val">the limit → 15%</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="highlight">💡 The model picks the most likely next word — over and over — until it finishes. That's why your prompt is so powerful: it sets the direction of all those predictions.</div>
+      <div class="bottom-row">
+        <span class="presenter">Prompt Engineering · Student Guide</span>
+        <span class="slide-num">05</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 6 — LLM KEY FACTS
+  ════════════════════════════════════════════ -->
+  <div class="slide" id="s6">
+    <div class="bar"></div>
+    <div class="content">
+      <div class="eyebrow">Part 1 · Key Facts</div>
+      <h2 class="title">What LLMs can and can't do</h2>
+      <div class="accent-divider"></div>
+      <table>
+        <thead><tr><th>Capability</th><th>What it means for you</th></tr></thead>
+        <tbody>
+          <tr><td>✅ Pattern matching</td><td>Great at writing, summarising, explaining, translating, coding</td></tr>
+          <tr><td>✅ Follows instructions</td><td>The clearer your prompt, the better it performs</td></tr>
+          <tr><td>⚠️ No real memory</td><td>Each conversation starts fresh — it doesn't remember you</td></tr>
+          <tr><td>⚠️ Can "hallucinate"</td><td>It can confidently produce wrong or made-up information — always verify</td></tr>
+          <tr><td>⚠️ No true understanding</td><td>It predicts text, it doesn't "know" things the way you do</td></tr>
+          <tr><td>❌ Not a search engine</td><td>It doesn't browse the internet unless specifically given that tool</td></tr>
+        </tbody>
+      </table>
+      <div class="bottom-row">
+        <span class="presenter">Prompt Engineering · Student Guide</span>
+        <span class="slide-num">06</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 7 — CONTEXT SHAPES OUTPUT
+  ════════════════════════════════════════════ -->
+  <div class="slide" id="s7">
+    <div class="bar"></div>
+    <div class="content">
+      <div class="eyebrow">Part 1 · Key Insight</div>
+      <h2 class="title">Context shapes everything</h2>
+      <div class="accent-divider"></div>
+      <p class="body-en" style="margin-bottom: 14px;">Because an LLM predicts based on context, the information you give it directly changes the quality of the output.</p>
+      <table>
+        <thead><tr><th>Variable</th><th>What it affects</th><th>Effect</th></tr></thead>
+        <tbody>
+          <tr><td>Training data</td><td>What the model learned</td><td>Sets its base knowledge and style</td></tr>
+          <tr><td>Your prompt</td><td>The context for this conversation</td><td>More detail = better, more relevant output</td></tr>
+          <tr><td>Word choice</td><td>Which patterns are triggered</td><td>One word can completely change the response</td></tr>
+        </tbody>
+      </table>
+      <div class="highlight">📌 More information. More specific context. More precise words. → Better results. This is exactly why prompt engineering matters.</div>
+      <div class="bottom-row">
+        <span class="presenter">Prompt Engineering · Student Guide</span>
+        <span class="slide-num">07</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 8 — SECTION: Part 2
+  ════════════════════════════════════════════ -->
+  <div class="slide section-slide" id="s8">
+    <div class="bar"></div>
+    <div class="content">
+      <div class="eyebrow">Part 2</div>
+      <div class="divider"></div>
+      <h1 class="big">Why Prompts<br>Matter</h1>
+      <p class="body-en" style="margin-top: 12px;">Garbage in, garbage out — or gold in, gold out.</p>
+      <div class="bottom-row">
+        <span class="presenter">Prompt Engineering · Student Guide</span>
+        <span class="slide-num">08</span>
+      </div>
+      <div class="deco-circle"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 9 — WEAK VS STRONG PROMPT
+  ════════════════════════════════════════════ -->
+  <div class="slide" id="s9">
+    <div class="bar"></div>
+    <div class="content">
+      <div class="eyebrow">Part 2 · What is a Prompt?</div>
+      <h2 class="title">Weak vs. Strong Prompts</h2>
+      <div class="accent-divider"></div>
+      <div class="two-col" style="margin-top:6px;">
+        <div>
+          <div class="col-label bad">❌ Weak Prompt</div>
+          <div class="prompt-box bad">
+            "Help me with my website."
+            <div style="margin-top:10px; font-size:clamp(12px, 1.1vw, 15px); color:var(--ink-light);">→ Too vague. What kind of help? What website? What have you tried? The AI can only guess.</div>
+          </div>
+        </div>
+        <div>
+          <div class="col-label good">✅ Strong Prompt</div>
+          <div class="prompt-box good">
+            "I'm a year 11 IB Computer Science student building a to-do list web app. My HTML and CSS are done but the JavaScript to add new tasks isn't working. Can you review my code and explain what's wrong?"
+            <div style="margin-top:10px; font-size:clamp(12px, 1.1vw, 15px); color:var(--ink-light);">→ Specific context → precise, useful answer.</div>
+          </div>
+        </div>
+      </div>
+      <div class="highlight">💡 An LLM doesn't "understand" your situation — it only knows what you tell it. Give it more, and it gives you more.</div>
+      <div class="bottom-row">
+        <span class="presenter">Prompt Engineering · Student Guide</span>
+        <span class="slide-num">09</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 10 — STUDENT ANALOGY
+  ════════════════════════════════════════════ -->
+  <div class="slide" id="s10">
+    <div class="bar"></div>
+    <div class="content">
+      <div class="eyebrow">Part 2 · Analogy</div>
+      <h2 class="title">LLM is like a very well-read intern</h2>
+      <div class="accent-divider"></div>
+      <div class="compare-grid">
+        <div class="compare-card">
+          <div class="compare-card-title">An intern who…</div>
+          <ul>
+            <li>Has read thousands of books and websites</li>
+            <li>Is eager to help</li>
+            <li>Doesn't know your project yet</li>
+            <li>Will do exactly what you ask — even if it's the wrong thing</li>
+            <li style="margin-top:8px; font-weight:700; color:var(--ink);">→ Needs a clear briefing</li>
+          </ul>
+        </div>
+        <div class="compare-card">
+          <div class="compare-card-title">An LLM who…</div>
+          <ul>
+            <li>Has learned from billions of texts</li>
+            <li>Responds to every prompt instantly</li>
+            <li>Has no memory of your previous work</li>
+            <li>Produces what's statistically likely, not necessarily what's right</li>
+            <li style="margin-top:8px; font-weight:700; color:var(--ink);">→ Needs a clear prompt</li>
+          </ul>
+        </div>
+      </div>
+      <div class="highlight">📌 The better your brief, the better your intern's work. The better your prompt, the better the AI's output.</div>
+      <div class="bottom-row">
+        <span class="presenter">Prompt Engineering · Student Guide</span>
+        <span class="slide-num">10</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 11 — SECTION: Part 3 RICE
+  ════════════════════════════════════════════ -->
+  <div class="slide section-slide" id="s11">
+    <div class="bar"></div>
+    <div class="content">
+      <div class="eyebrow">Part 3</div>
+      <div class="divider"></div>
+      <h1 class="big" style="font-size: clamp(52px, 9vw, 110px); letter-spacing:-0.03em;">RICE</h1>
+      <p class="body-en" style="margin-top: 10px; font-size: clamp(16px, 1.6vw, 22px);">Your four-part framework for writing prompts that work.</p>
+      <div style="display:flex; gap:12px; margin-top:20px; flex-wrap:wrap;">
+        <div style="background:rgba(82,183,136,0.2); border:1px solid rgba(82,183,136,0.4); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.4vw,17px); color:#52b788;">R — Role</div>
+        <div style="background:rgba(74,144,217,0.2); border:1px solid rgba(74,144,217,0.4); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.4vw,17px); color:#4a90d9;">I — Instructions</div>
+        <div style="background:rgba(155,114,207,0.2); border:1px solid rgba(155,114,207,0.4); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.4vw,17px); color:#9b72cf;">C — Context</div>
+        <div style="background:rgba(212,168,83,0.2); border:1px solid rgba(212,168,83,0.4); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.4vw,17px); color:#d4a853;">E — Examples</div>
+      </div>
+      <div class="bottom-row">
+        <span class="presenter">Prompt Engineering · Student Guide</span>
+        <span class="slide-num">11</span>
+      </div>
+      <div class="deco-circle"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 12 — RICE OVERVIEW TABLE
+  ════════════════════════════════════════════ -->
+  <div class="slide" id="s12">
+    <div class="bar"></div>
+    <div class="content">
+      <div class="eyebrow">Part 3 · RICE Overview</div>
+      <h2 class="title">The RICE Framework at a glance</h2>
+      <div class="accent-divider"></div>
+      <div class="rice-grid">
+        <div class="rice-card rice-card-R">
+          <div class="rice-letter-badge">R</div>
+          <div class="rice-card-body">
+            <div class="rice-card-title">Role</div>
+            <div class="rice-card-desc">Tell the AI <em>who it should be</em>. Assign a persona, expertise level, or perspective to shape the tone and depth of its answer.</div>
+          </div>
+        </div>
+        <div class="rice-card rice-card-I">
+          <div class="rice-letter-badge">I</div>
+          <div class="rice-card-body">
+            <div class="rice-card-title">Instructions</div>
+            <div class="rice-card-desc">Tell the AI <em>exactly what to do</em>. Be specific about the task, the format, the length, and any constraints.</div>
+          </div>
+        </div>
+        <div class="rice-card rice-card-C">
+          <div class="rice-letter-badge">C</div>
+          <div class="rice-card-body">
+            <div class="rice-card-title">Context</div>
+            <div class="rice-card-desc">Give the AI the <em>background it needs</em>. Who are you? What's the situation? What has already happened? What is this for?</div>
+          </div>
+        </div>
+        <div class="rice-card rice-card-E">
+          <div class="rice-letter-badge">E</div>
+          <div class="rice-card-body">
+            <div class="rice-card-title">Examples</div>
+            <div class="rice-card-desc">Show the AI what <em>good looks like</em>. One example is worth a hundred words of description. Paste in a sample or describe the style you want.</div>
+          </div>
+        </div>
+      </div>
+      <div class="bottom-row">
+        <span class="presenter">Prompt Engineering · Student Guide</span>
+        <span class="slide-num">12</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 13 — R: ROLE
+  ════════════════════════════════════════════ -->
+  <div class="slide rice-R" id="s13">
+    <div class="bar"></div>
+    <div class="content">
+      <div class="eyebrow">Part 3 · RICE</div>
+      <h1 class="big" style="font-size:clamp(28px, 5vw, 60px); color:#f7f5f0; margin-bottom:6px;">R — Role</h1>
+      <div class="divider"></div>
+      <p class="body-en" style="margin-bottom:16px;">Tell the AI <em>who it should be</em>. This sets the persona, expertise, and tone.</p>
+      <div class="two-col">
+        <div>
+          <div class="sub-label">Without Role</div>
+          <div class="prompt-box bad" style="background:rgba(255,255,255,0.07); border-left-color:#e74c3c; color:#e8e0d5;">
+            "Explain object-oriented programming."
+            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:rgba(255,255,255,0.35);">→ Generic answer. Could be for anyone, any level.</div>
+          </div>
+        </div>
+        <div>
+          <div class="sub-label">With Role</div>
+          <div class="prompt-box good" style="background:rgba(255,255,255,0.07); border-left-color:#52b788; color:#e8e0d5;">
+            <span class="prompt-tag">Role</span> You are a patient IB Computer Science teacher explaining to a Year 11 student for the first time.
+            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:rgba(255,255,255,0.35);">→ Approachable tone, right level of depth, relevant vocabulary.</div>
+          </div>
+        </div>
+      </div>
+      <div class="highlight" style="background:rgba(82,183,136,0.15); border-left-color:#52b788; color:#d0ede2; margin-top:12px;">💡 Try roles like: "experienced developer reviewing code", "examiner giving IB-style feedback", "classmate explaining simply"</div>
+      <div class="bottom-row">
+        <span class="presenter">Prompt Engineering · Student Guide</span>
+        <span class="slide-num">13</span>
+      </div>
+      <div class="deco-letter">R</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 14 — I: INSTRUCTIONS
+  ════════════════════════════════════════════ -->
+  <div class="slide rice-I" id="s14">
+    <div class="bar"></div>
+    <div class="content">
+      <div class="eyebrow">Part 3 · RICE</div>
+      <h1 class="big" style="font-size:clamp(28px, 5vw, 60px); color:#f7f5f0; margin-bottom:6px;">I — Instructions</h1>
+      <div class="divider"></div>
+      <p class="body-en" style="margin-bottom:16px;">Tell the AI <em>exactly what you want it to do</em>. Be specific about task, format, length, and constraints.</p>
+      <div class="two-col">
+        <div>
+          <div class="sub-label">Vague Instructions</div>
+          <div class="prompt-box bad" style="background:rgba(255,255,255,0.07); border-left-color:#e74c3c; color:#e8e0d5;">
+            "Write something about my website."
+            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:rgba(255,255,255,0.35);">→ What to write? How long? For who? In what style?</div>
+          </div>
+        </div>
+        <div>
+          <div class="sub-label">Precise Instructions</div>
+          <div class="prompt-box good" style="background:rgba(255,255,255,0.07); border-left-color:#4a90d9; color:#e8e0d5;">
+            <span class="prompt-tag" style="background:rgba(74,144,217,0.25); color:#a3c8f0; border-color:rgba(74,144,217,0.4);">Instructions</span> Write a 3-sentence introduction for my portfolio website. Use a professional but friendly tone. Do not use the word "passionate".
+            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:rgba(255,255,255,0.35);">→ Length ✓ Tone ✓ Specific constraint ✓</div>
+          </div>
+        </div>
+      </div>
+      <div class="highlight" style="background:rgba(74,144,217,0.15); border-left-color:#4a90d9; color:#ccddf5; margin-top:12px;">💡 Include: what to produce, what format (list/table/paragraph/code), what length, what to avoid, what to include.</div>
+      <div class="bottom-row">
+        <span class="presenter">Prompt Engineering · Student Guide</span>
+        <span class="slide-num">14</span>
+      </div>
+      <div class="deco-letter">I</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 15 — C: CONTEXT
+  ════════════════════════════════════════════ -->
+  <div class="slide rice-C" id="s15">
+    <div class="bar"></div>
+    <div class="content">
+      <div class="eyebrow">Part 3 · RICE</div>
+      <h1 class="big" style="font-size:clamp(28px, 5vw, 60px); color:#f7f5f0; margin-bottom:6px;">C — Context</h1>
+      <div class="divider"></div>
+      <p class="body-en" style="margin-bottom:16px;">Give the AI the <em>background it needs</em> to understand your situation. The AI only knows what you tell it.</p>
+      <div class="two-col">
+        <div>
+          <div class="sub-label">No Context</div>
+          <div class="prompt-box bad" style="background:rgba(255,255,255,0.07); border-left-color:#e74c3c; color:#e8e0d5;">
+            "Why isn't my login working?"
+            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:rgba(255,255,255,0.35);">→ The AI has no idea what you've built, what language you're using, or what the error says.</div>
+          </div>
+        </div>
+        <div>
+          <div class="sub-label">Rich Context</div>
+          <div class="prompt-box good" style="background:rgba(255,255,255,0.07); border-left-color:#9b72cf; color:#e8e0d5;">
+            <span class="prompt-tag" style="background:rgba(155,114,207,0.25); color:#ccb3e8; border-color:rgba(155,114,207,0.4);">Context</span> I'm a Year 11 IB CS student. My website uses Node.js + Express for the backend and plain HTML/CSS/JS for the front end. When I click the login button, nothing happens and the console shows "TypeError: Cannot read properties of null."
+            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:rgba(255,255,255,0.35);">→ Stack, symptom, error message all provided. AI can actually help.</div>
+          </div>
+        </div>
+      </div>
+      <div class="highlight" style="background:rgba(155,114,207,0.15); border-left-color:#9b72cf; color:#ddd0f0; margin-top:12px;">💡 Context checklist: Who are you? What's the goal? What have you tried? What went wrong? What tools/languages are you using?</div>
+      <div class="bottom-row">
+        <span class="presenter">Prompt Engineering · Student Guide</span>
+        <span class="slide-num">15</span>
+      </div>
+      <div class="deco-letter">C</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 16 — E: EXAMPLES
+  ════════════════════════════════════════════ -->
+  <div class="slide rice-E" id="s16">
+    <div class="bar"></div>
+    <div class="content">
+      <div class="eyebrow">Part 3 · RICE</div>
+      <h1 class="big" style="font-size:clamp(28px, 5vw, 60px); color:#f7f5f0; margin-bottom:6px;">E — Examples</h1>
+      <div class="divider"></div>
+      <p class="body-en" style="margin-bottom:16px;">Show the AI what <em>good output looks like</em>. One example teaches more than ten sentences of description.</p>
+      <div class="two-col">
+        <div>
+          <div class="sub-label">No Example</div>
+          <div class="prompt-box bad" style="background:rgba(255,255,255,0.07); border-left-color:#e74c3c; color:#e8e0d5;">
+            "Write a comment explaining this function."
+            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:rgba(255,255,255,0.35);">→ The AI doesn't know the style, format, or detail level you want.</div>
+          </div>
+        </div>
+        <div>
+          <div class="sub-label">With Example</div>
+          <div class="prompt-box good" style="background:rgba(255,255,255,0.07); border-left-color:#d4a853; color:#e8e0d5;">
+            <span class="prompt-tag" style="background:rgba(212,168,83,0.25); color:#e8d4a3; border-color:rgba(212,168,83,0.4);">Example</span> Here's the style I want: <em>// Checks if the username already exists in the database. Returns true if found, false otherwise.</em> — Now write one for the function below: [paste code]
+            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:rgba(255,255,255,0.35);">→ AI matches your exact style and detail level.</div>
+          </div>
+        </div>
+      </div>
+      <div class="highlight" style="background:rgba(212,168,83,0.15); border-left-color:#d4a853; color:#f0e0bb; margin-top:12px;">💡 You can show examples of: writing style, code style, layout, tone, answer format, or what you <em>don't</em> want ("avoid responses like this: …")</div>
+      <div class="bottom-row">
+        <span class="presenter">Prompt Engineering · Student Guide</span>
+        <span class="slide-num">16</span>
+      </div>
+      <div class="deco-letter">E</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 17 — BUILDING A FULL RICE PROMPT
+  ════════════════════════════════════════════ -->
+  <div class="slide" id="s17">
+    <div class="bar"></div>
+    <div class="content">
+      <div class="eyebrow">Part 3 · Full Example</div>
+      <h2 class="title">A full RICE prompt — website assessment</h2>
+      <div class="accent-divider"></div>
+      <div class="prompt-box good" style="line-height:2;">
+        <span class="key">Role</span> You are an experienced IB Computer Science teacher who gives constructive, encouraging feedback.
+        <span class="key">Instructions</span> Review my Introduction section of my design report. Identify 2 strengths and 2 specific improvements. Use bullet points. Keep it under 150 words.
+        <span class="key">Context</span> I'm a Year 11 IB CS student working on my Website Implementation report. My introduction explains what my website does (a student task tracker) and why I built it, but I'm not sure if I've explained the background clearly enough.
+        <span class="key">Examples</span> Here's the kind of feedback I want: "✅ Strength: Your problem definition is clear and student-focused. ⚠️ Improve: Add a brief explanation of the technologies you chose and why." — Here is my introduction: [paste text]
+      </div>
+      <div class="bottom-row">
+        <span class="presenter">Prompt Engineering · Student Guide</span>
+        <span class="slide-num">17</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 18 — BEFORE vs AFTER RICE
+  ════════════════════════════════════════════ -->
+  <div class="slide" id="s18">
+    <div class="bar"></div>
+    <div class="content">
+      <div class="eyebrow">Part 3 · Before &amp; After</div>
+      <h2 class="title">Same goal — completely different results</h2>
+      <div class="accent-divider"></div>
+      <div class="two-col" style="margin-top:6px;">
+        <div>
+          <div class="col-label bad">❌ Without RICE</div>
+          <div class="prompt-box bad">
+            "Help me write my reflection."
+            <br><br>
+            <em style="font-size:clamp(12px,1.1vw,14px); color:var(--ink-light);">AI response: Generic, surface-level. Could apply to any student doing any project.</em>
+          </div>
+        </div>
+        <div>
+          <div class="col-label good">✅ With RICE</div>
+          <div class="prompt-box good" style="font-size:clamp(12px,1.15vw,15px);">
+            <span class="key">Role</span> IB CS examiner reviewing a student report.<br>
+            <span class="key">Instructions</span> Help me write a Reflection section (200 words). Focus on what I learned and what I'd do differently.<br>
+            <span class="key">Context</span> I built a to-do list web app. I struggled with connecting the frontend to the backend using fetch(). I fixed it by learning about async/await.<br>
+            <span class="key">Examples</span> "I underestimated the complexity of…" — that kind of honest, reflective tone.
+            <br><br>
+            <em style="font-size:clamp(12px,1.1vw,14px); color:var(--ink-light);">AI response: Specific, personal, on-brief. Sounds like you.</em>
+          </div>
+        </div>
+      </div>
+      <div class="bottom-row">
+        <span class="presenter">Prompt Engineering · Student Guide</span>
+        <span class="slide-num">18</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 19 — SECTION: Part 4
+  ════════════════════════════════════════════ -->
+  <div class="slide section-slide" id="s19">
+    <div class="bar"></div>
+    <div class="content">
+      <div class="eyebrow">Part 4</div>
+      <div class="divider"></div>
+      <h1 class="big">Tips &amp; Ethics</h1>
+      <p class="body-en" style="margin-top: 12px;">Good prompts are just the start — knowing how to use AI responsibly is what matters.</p>
+      <div class="bottom-row">
+        <span class="presenter">Prompt Engineering · Student Guide</span>
+        <span class="slide-num">19</span>
+      </div>
+      <div class="deco-circle"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 20 — ITERATE
+  ════════════════════════════════════════════ -->
+  <div class="slide" id="s20">
+    <div class="bar"></div>
+    <div class="content">
+      <div class="eyebrow">Part 4 · Iteration</div>
+      <h2 class="title">Prompt → Review → Refine</h2>
+      <div class="accent-divider"></div>
+      <p class="body-en" style="margin-bottom:14px;">Your first prompt is rarely your best. Treat it like a first draft.</p>
+      <div class="steps-row">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div class="step-title">Send your RICE prompt</div>
+          <div class="step-text">Use Role, Instructions, Context, and Examples as a starting point.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div class="step-title">Review the output</div>
+          <div class="step-text">Is it the right level? Right tone? Is anything missing or wrong?</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <div class="step-title">Refine your prompt</div>
+          <div class="step-text">Add what was missing: "Make it shorter", "Avoid jargon", "Focus only on X".</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <div class="step-title">Verify &amp; own it</div>
+          <div class="step-text">Test the code. Check the facts. Rewrite it in your own voice. You're responsible for what you submit.</div>
+        </div>
+      </div>
+      <div class="highlight" style="margin-top:10px;">💡 You can also say: <strong>"That's good, but make it 30% shorter"</strong> or <strong>"Rewrite using simpler vocabulary"</strong> — follow-up prompts are powerful.</div>
+      <div class="bottom-row">
+        <span class="presenter">Prompt Engineering · Student Guide</span>
+        <span class="slide-num">20</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 21 — ETHICS & ACADEMIC INTEGRITY
+  ════════════════════════════════════════════ -->
+  <div class="slide" id="s21">
+    <div class="bar"></div>
+    <div class="content">
+      <div class="eyebrow">Part 4 · Academic Integrity</div>
+      <h2 class="title">Using AI responsibly in your assessment</h2>
+      <div class="accent-divider"></div>
+      <div class="ethics-list">
+        <div class="ethics-item">
+          <div class="ethics-icon">✅</div>
+          <div class="ethics-text">
+            <strong>AI is allowed — and must be documented</strong>
+            Keep records of every prompt you used and the output it gave. This is part of your submission evidence.
+          </div>
+        </div>
+        <div class="ethics-item">
+          <div class="ethics-icon">🔍</div>
+          <div class="ethics-text">
+            <strong>You must understand everything you submit</strong>
+            If AI wrote code or text for you and you can't explain it, that's a problem. Use AI to learn, not to skip learning.
+          </div>
+        </div>
+        <div class="ethics-item">
+          <div class="ethics-icon">⚠️</div>
+          <div class="ethics-text">
+            <strong>AI can be wrong (hallucination)</strong>
+            LLMs sometimes produce confident-sounding but incorrect information or code that doesn't work. Always test and verify.
+          </div>
+        </div>
+        <div class="ethics-item">
+          <div class="ethics-icon">✍️</div>
+          <div class="ethics-text">
+            <strong>Your voice, your report</strong>
+            AI can help you structure or improve your writing — but your report should reflect your thinking, your design decisions, your reflection.
+          </div>
+        </div>
+      </div>
+      <div class="bottom-row">
+        <span class="presenter">Prompt Engineering · Student Guide</span>
+        <span class="slide-num">21</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 22 — QUICK REFERENCE TABLE
+  ════════════════════════════════════════════ -->
+  <div class="slide" id="s22">
+    <div class="bar"></div>
+    <div class="content">
+      <div class="eyebrow">Part 4 · Quick Reference</div>
+      <h2 class="title">RICE — Quick Reference Card</h2>
+      <div class="accent-divider"></div>
+      <table>
+        <thead><tr><th>Letter</th><th>Ask yourself</th><th>Example phrase to use</th></tr></thead>
+        <tbody>
+          <tr><td style="color:#2d6a4f;">R — Role</td><td>Who should the AI be?</td><td>"You are a [role] who [expertise]…"</td></tr>
+          <tr><td style="color:#2563ab;">I — Instructions</td><td>What exactly do I want?</td><td>"Write / Review / Explain / Fix / List [X] in [format] of [length]…"</td></tr>
+          <tr><td style="color:#6d3fa8;">C — Context</td><td>What background does AI need?</td><td>"I am a Year 11 student. I am building [X]. The problem is [Y]…"</td></tr>
+          <tr><td style="color:#b87c1a;">E — Examples</td><td>What does good output look like?</td><td>"Here is an example of the style I want: [paste example]…"</td></tr>
+        </tbody>
+      </table>
+      <div class="highlight" style="margin-top:12px;">📌 You don't need all four every time — but the more you include, the better. Start with <strong>Instructions + Context</strong> at minimum.</div>
+      <div class="bottom-row">
+        <span class="presenter">Prompt Engineering · Student Guide</span>
+        <span class="slide-num">22</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 23 — SUMMARY
+  ════════════════════════════════════════════ -->
+  <div class="slide" id="s23">
+    <div class="bar"></div>
+    <div class="content">
+      <div class="eyebrow">Closing · Summary</div>
+      <div class="summary-index-title">Part Index</div>
+      <div class="summary-index">
+        <div class="summary-index-item"><span>Part 1</span>What is an LLM?</div>
+        <div class="summary-index-item"><span>Part 2</span>Why Prompts Matter</div>
+        <div class="summary-index-item"><span>Part 3</span>The RICE Framework</div>
+        <div class="summary-index-item"><span>Part 4</span>Tips &amp; Ethics</div>
+      </div>
+      <h2 class="title" style="margin-bottom:6px;">Key Takeaways</h2>
+      <div class="accent-divider"></div>
+      <div class="summary-grid">
+        <div>
+          <div class="summary-label">Part 1 · LLM</div>
+          <div class="summary-text">An LLM predicts the most likely next word based on patterns. It doesn't "think" — it responds to the context you give it.</div>
+        </div>
+        <div>
+          <div class="summary-label">Part 2 · Prompts</div>
+          <div class="summary-text">Vague prompts produce vague results. Every detail you add steers the model toward a more useful, accurate response.</div>
+        </div>
+        <div>
+          <div class="summary-label">Part 3 · RICE</div>
+          <div class="summary-text"><strong>R</strong>ole tells AI who to be. <strong>I</strong>nstructions tell it what to do. <strong>C</strong>ontext gives it background. <strong>E</strong>xamples show what good looks like.</div>
+        </div>
+        <div>
+          <div class="summary-label">Part 4 · Ethics</div>
+          <div class="summary-text">Document your AI use, verify everything it produces, and make sure you can explain every word and line of code you submit.</div>
+        </div>
+      </div>
+      <div class="bottom-row">
+        <span class="presenter">Prompt Engineering · Student Guide</span>
+        <span class="slide-num">23</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 24 — CLOSING
+  ════════════════════════════════════════════ -->
+  <div class="slide section-slide" id="s24">
+    <div class="bar"></div>
+    <div class="content">
+      <div class="eyebrow">Thank You</div>
+      <div class="divider"></div>
+      <h1 class="big">Now go build<br><em style="font-weight:400;">something great.</em></h1>
+      <p class="body-en" style="margin-top:16px; font-size: clamp(14px, 1.4vw, 18px);">Remember: AI is a tool. You are the designer, the thinker, and the author. Use RICE to communicate clearly — and always own your work.</p>
+      <div style="display:flex; gap:12px; margin-top:22px; flex-wrap:wrap;">
+        <div style="background:rgba(82,183,136,0.2); border:1px solid rgba(82,183,136,0.35); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.3vw,16px); color:#52b788;">R — Role</div>
+        <div style="background:rgba(74,144,217,0.2); border:1px solid rgba(74,144,217,0.35); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.3vw,16px); color:#4a90d9;">I — Instructions</div>
+        <div style="background:rgba(155,114,207,0.2); border:1px solid rgba(155,114,207,0.35); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.3vw,16px); color:#9b72cf;">C — Context</div>
+        <div style="background:rgba(212,168,83,0.2); border:1px solid rgba(212,168,83,0.35); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.3vw,16px); color:#d4a853;">E — Examples</div>
+      </div>
+      <div class="bottom-row">
+        <span class="presenter">Prompt Engineering · Student Guide</span>
+        <span class="slide-num">24</span>
+      </div>
+      <div class="deco-circle"></div>
+    </div>
+  </div>
+
+</div><!-- /deck -->
+
+<!-- NAV -->
+<div class="nav">
+  <button id="prevBtn" onclick="changeSlide(-1)" disabled>←</button>
+  <div class="progress"><div class="progress-fill" id="pf" style="width:4.16%;"></div></div>
+  <span class="counter" id="counter">1 / 24</span>
+  <button id="nextBtn" onclick="changeSlide(1)">→</button>
+</div>
+
+<script>
+const TOTAL = 24;
+let cur = 1;
+
+function changeSlide(d) {
+  document.getElementById('s' + cur).classList.remove('active');
+  cur = Math.max(1, Math.min(TOTAL, cur + d));
+  document.getElementById('s' + cur).classList.add('active');
+  updateControls();
+}
+
+function goToSlide(n) {
+  document.getElementById('s' + cur).classList.remove('active');
+  cur = Math.max(1, Math.min(TOTAL, n));
+  document.getElementById('s' + cur).classList.add('active');
+  updateControls();
+}
+
+function updateControls() {
+  const activeSlide = document.getElementById('s' + cur);
+  const deck = document.getElementById('deck');
+  const pct = (cur / TOTAL * 100) + '%';
+  document.getElementById('counter').textContent = cur + ' / ' + TOTAL;
+  document.getElementById('pf').style.width = pct;
+  document.getElementById('prevBtn').disabled = cur === 1;
+  document.getElementById('nextBtn').disabled = cur === TOTAL;
+
+  const isDark = activeSlide.classList.contains('section-slide') ||
+                 activeSlide.classList.contains('rice-R') ||
+                 activeSlide.classList.contains('rice-I') ||
+                 activeSlide.classList.contains('rice-C') ||
+                 activeSlide.classList.contains('rice-E');
+
+  deck.classList.toggle('no-part-nav', cur < 3 || cur === TOTAL);
+  deck.classList.toggle('dark-part-nav', isDark);
+
+  document.querySelectorAll('.part-nav button').forEach(btn => {
+    const start = Number(btn.dataset.target);
+    const next = btn.nextElementSibling ? Number(btn.nextElementSibling.dataset.target) : TOTAL + 1;
+    btn.classList.toggle('active', cur >= start && cur < next);
+  });
+}
+
+document.querySelectorAll('.part-nav button').forEach(btn => {
+  btn.addEventListener('click', () => goToSlide(Number(btn.dataset.target)));
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   changeSlide(-1);
+});
+
+updateControls();
+</script>
+</body>
+</html>

@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C1 — Case Study Preparation</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Serif+Display&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07090f;
+  --surface: #0e1117;
+  --surface2: #151923;
+  --border: #1e2535;
+  --border2: #2a3448;
+  --gold: #c9a84c;
+  --gold2: #e8c97a;
+  --blue: #4a9eff;
+  --green: #3dd68c;
+  --red: #ff6b6b;
+  --purple: #9b8afb;
+  --cyan: #22d3ee;
+  --orange: #fb923c;
+  --text: #dde4f0;
+  --text2: #7a8ba8;
+  --text3: #3d4f6a;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; }
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(34,211,238,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34,211,238,0.03) 1px, transparent 1px),
+    linear-gradient(rgba(34,211,238,0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34,211,238,0.01) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+  pointer-events: none; z-index: 0;
+}
+.deck { position: relative; width: 100vw; height: 100vh; z-index: 1; }
+.slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 50px 72px 92px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.38s ease, transform 0.38s ease;
+  transform: translateY(12px);
+}
+.slide.active { opacity: 1; pointer-events: all; transform: translateY(0); }
+.slide.exit { opacity: 0; transform: translateY(-12px); }
+.slide.scroll-slide {
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-top: 64px;
+  padding-bottom: 132px;
+}
+.slide.scroll-slide::-webkit-scrollbar { width: 10px; }
+.slide.scroll-slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
+.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(14,17,23,0.3); }
+.progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--cyan), var(--blue)); transition: width 0.38s ease; z-index: 100; }
+.slide-num { position: fixed; top: 17px; right: 24px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
+.content { width: 100%; max-width: 1120px; }
+.label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cyan); margin-bottom: 14px; }
+.label.blue { color: var(--blue); } .label.green { color: var(--green); } .label.gold { color: var(--gold); } .label.purple { color: var(--purple); } .label.orange { color: var(--orange); }
+h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.8rem,5.5vw,4.8rem); font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
+h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem); font-weight: 400; line-height: 1.1; margin-bottom: 12px; }
+.lead { font-size: clamp(1rem,1.75vw,1.35rem); color: var(--text2); font-weight: 300; line-height: 1.65; margin-bottom: 24px; }
+.hl-gold { color: var(--gold2); } .hl-blue { color: var(--blue); } .hl-green { color: var(--green); } .hl-purple { color: var(--purple); } .hl-cyan { color: var(--cyan); } .hl-red { color: var(--red); } .hl-orange { color: var(--orange); }
+.grid { display: grid; gap: 2px; width: 100%; }
+.g2 { grid-template-columns: 1fr 1fr; } .g3 { grid-template-columns: 1fr 1fr 1fr; } .g4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+.card { background: var(--surface); border: 1px solid var(--border); padding: 18px 22px; position: relative; overflow: hidden; }
+.card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.card.gold::after { background: var(--gold); } .card.blue::after { background: var(--blue); }
+.card.green::after { background: var(--green); } .card.red::after { background: var(--red); }
+.card.purple::after { background: var(--purple); } .card.cyan::after { background: var(--cyan); }
+.card.orange::after { background: var(--orange); }
+.card-title { font-family: 'DM Mono', monospace; font-size: clamp(0.7rem,1.1vw,0.9rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.card-body { font-size: clamp(0.85rem,1.3vw,1.05rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
+.card-body strong { color: var(--text); font-weight: 500; }
+.info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(74,158,255,0.04); border-top: 1px solid rgba(74,158,255,0.08); border-right: 1px solid rgba(74,158,255,0.08); border-bottom: 1px solid rgba(74,158,255,0.08); margin-top: 14px; }
+.info-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.info-box strong { color: var(--blue); }
+.gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(201,168,76,0.04); border-top: 1px solid rgba(201,168,76,0.08); border-right: 1px solid rgba(201,168,76,0.08); border-bottom: 1px solid rgba(201,168,76,0.08); margin-top: 14px; }
+.gold-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.gold-box strong { color: var(--gold2); }
+.purple-box { border-left: 3px solid var(--purple); padding: 13px 20px; background: rgba(155,138,251,0.04); border-top: 1px solid rgba(155,138,251,0.08); border-right: 1px solid rgba(155,138,251,0.08); border-bottom: 1px solid rgba(155,138,251,0.08); margin-top: 14px; }
+.purple-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.purple-box strong { color: var(--purple); }
+.cyan-box { border-left: 3px solid var(--cyan); padding: 13px 20px; background: rgba(34,211,238,0.04); border-top: 1px solid rgba(34,211,238,0.08); border-right: 1px solid rgba(34,211,238,0.08); border-bottom: 1px solid rgba(34,211,238,0.08); margin-top: 14px; }
+.cyan-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.cyan-box strong { color: var(--cyan); }
+.green-box { border-left: 3px solid var(--green); padding: 13px 20px; background: rgba(61,214,140,0.04); border-top: 1px solid rgba(61,214,140,0.08); border-right: 1px solid rgba(61,214,140,0.08); border-bottom: 1px solid rgba(61,214,140,0.08); margin-top: 14px; }
+.green-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.green-box strong { color: var(--green); }
+.red-box { border-left: 3px solid var(--red); padding: 13px 20px; background: rgba(255,107,107,0.04); border-top: 1px solid rgba(255,107,107,0.08); border-right: 1px solid rgba(255,107,107,0.08); border-bottom: 1px solid rgba(255,107,107,0.08); margin-top: 14px; }
+.red-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.red-box strong { color: var(--red); }
+.divider { width: 100%; height: 1px; background: var(--border); margin: 14px 0; }
+.steps { display: flex; flex-direction: column; gap: 2px; }
+.step-row { display: flex; align-items: flex-start; gap: 18px; background: var(--surface); border: 1px solid var(--border); padding: 13px 18px; }
+.step-n { font-family: 'DM Mono', monospace; font-size: clamp(0.85rem,1.4vw,1.1rem); color: var(--cyan); min-width: 28px; flex-shrink: 0; font-weight: 500; padding-top: 2px; }
+.step-n.gold { color: var(--gold2); }
+.step-n.green { color: var(--green); }
+.step-n.purple { color: var(--purple); }
+.step-n.orange { color: var(--orange); }
+.step-text { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.5; font-weight: 300; }
+.step-text strong { color: var(--text); font-weight: 500; }
+.tag { display: inline-block; font-family: 'DM Mono', monospace; font-size: 9px; padding: 2px 7px; border-radius: 2px; letter-spacing: 0.06em; vertical-align: middle; margin-left: 4px; }
+.tag.sl { background: rgba(61,214,140,0.1); color: var(--green); border: 1px solid rgba(61,214,140,0.25); }
+.tag.hl { background: rgba(155,138,251,0.1); color: var(--purple); border: 1px solid rgba(155,138,251,0.25); }
+.marks-table { width: 100%; border-collapse: collapse; font-size: clamp(0.78rem,1.2vw,0.95rem); }
+.marks-table th { background: var(--surface2); color: var(--text2); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 10px 14px; border: 1px solid var(--border2); font-weight: 500; text-align: left; }
+.marks-table td { border: 1px solid var(--border); padding: 10px 14px; background: var(--surface); color: var(--text2); line-height: 1.5; }
+.marks-table td strong { color: var(--text); }
+.marks-table tr:hover td { background: var(--surface2); }
+.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; }
+.nav-btn { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; }
+.nav-btn:hover { color: var(--cyan); border-color: var(--cyan); background: rgba(34,211,238,0.05); }
+.nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+.nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 240px; justify-content: center; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); cursor: pointer; transition: all 0.2s; }
+.dot.active { background: var(--cyan); transform: scale(1.4); }
+.nav-sep { width: 1px; height: 18px; background: var(--border2); }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="slide-num" id="slideNum">01 / 13</div>
+<div class="deck">
+
+<!-- ═══════════════════════════ S1: TITLE -->
+<div class="slide active">
+  <div class="content">
+    <div class="label">// C1 · Case Study</div>
+    <h1>Case Study<br><span class="hl-cyan">Preparation</span></h1>
+    <p style="font-family:'DM Mono',monospace;font-size:clamp(0.85rem,1.4vw,1.1rem);color:var(--text3);margin-bottom:20px;">IB Computer Science · Paper 1 Section B</p>
+    <div class="cyan-box">
+      <p><strong>👉 Guiding Question:</strong> How do current developments in computing, emerging technologies, and ethical issues shape the real-world application of computer science?</p>
+    </div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:20px;">
+      <div style="padding-left:12px;border-left:2px solid var(--cyan);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">SL: 12/50</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">MARKS ON PAPER 1</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--blue);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">HL: 24/80</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">MARKS ON PAPER 1</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--green);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">15–30 hrs</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">RECOMMENDED STUDY</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ S2: WHAT IS THE CASE STUDY? -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Overview</div>
+    <h2>What is the <span class="hl-cyan">Case Study</span>?</h2>
+    <p class="lead">A document released by the IB before the exam that presents a real-world scenario involving current developments, emerging technologies and ethical issues in computing.</p>
+    <div class="grid g2" style="gap:2px;">
+      <div class="card cyan">
+        <div class="card-title" style="color:var(--cyan);">What it contains</div>
+        <div class="card-body">
+          A <strong>scenario</strong> set in a real-world context.<br><br>
+          A list of <strong>challenges</strong> to research.<br><br>
+          A <strong>terminology list</strong> of key vocabulary specific to the topic.
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title" style="color:var(--blue);">What the exam tests</div>
+        <div class="card-body">
+          <strong>Short-answer questions</strong> on terminology and key concepts.<br><br>
+          One <strong>essay question</strong> worth half the section marks — requires analysis and independent research beyond the case study text.
+        </div>
+      </div>
+    </div>
+    <div class="gold-box" style="margin-top:14px;">
+      <p><strong>Key Difference SL vs HL:</strong> SL students research <strong>2 challenges</strong>; HL students research <strong>4 challenges</strong>. HL has more exam time and higher essay marks.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ S3: EXAM STRUCTURE -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// Exam Structure</div>
+    <h2>Paper 1 — <span class="hl-cyan">Section B</span></h2>
+    <p class="lead">The case study is assessed in Section B of Paper 1. Short-answer questions use command terms like <em>define, identify, outline, describe</em>.</p>
+    <table class="marks-table">
+      <thead>
+        <tr>
+          <th>Aspect</th>
+          <th>Standard Level (SL)</th>
+          <th>Higher Level (HL)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Teaching time</strong></td>
+          <td>15 hours</td>
+          <td>30 hours</td>
+        </tr>
+        <tr>
+          <td><strong>Marks — Paper 1</strong></td>
+          <td>12 of 50 marks (24%)</td>
+          <td>24 of 80 marks (30%)</td>
+        </tr>
+        <tr>
+          <td><strong>Essay marks</strong></td>
+          <td>6 marks</td>
+          <td>12 marks</td>
+        </tr>
+        <tr>
+          <td><strong>Challenge prompts</strong></td>
+          <td>2 challenges</td>
+          <td>4 challenges</td>
+        </tr>
+        <tr>
+          <td><strong>Essay writing time</strong></td>
+          <td>≈ 18 minutes</td>
+          <td>≈ 36 minutes</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="cyan-box">
+      <p><strong>Essay question:</strong> Based on one or more of the challenges listed in the case study. The essay question is worth <strong>half the total marks</strong> for Section B — invest accordingly in preparation.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ S4: 6-STEP APPROACH (1-3) -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// Research Method</div>
+    <h2>6-Step Approach <span class="hl-cyan">· Steps 1–3</span></h2>
+    <p class="lead">Use this systematic process to research and prepare for the case study exam.</p>
+    <div class="steps">
+      <div class="step-row">
+        <div class="step-n">01</div>
+        <div class="step-text">
+          <strong>Understand the text.</strong> Read the case study carefully. Highlight key points. Prepare definitions for every term in the terminology list. Quiz yourself and peers on terminology and introductory concepts.
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">02</div>
+        <div class="step-text">
+          <strong>Understand the technology.</strong> The case study will feature <em>emerging technology</em> not directly covered in the syllabus. Find video lectures and technical articles to build a solid understanding of how the technologies work. Note: no programming code required in exam responses.
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">03</div>
+        <div class="step-text">
+          <strong>Consider the scenario in context.</strong> With renewed understanding of the technologies, re-read the full scenario. Ask: What is this case study really about? What are the big issues? What is confusing or interesting?
+        </div>
+      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>Tip:</strong> Use generative AI to summarize each challenge — then fact-check every assertion independently. AI can hallucinate; treat its output as a starting point for a literature review, not the final answer.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ S5: 6-STEP APPROACH (4-6) -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// Research Method</div>
+    <h2>6-Step Approach <span class="hl-cyan">· Steps 4–6</span></h2>
+    <div class="steps">
+      <div class="step-row">
+        <div class="step-n">04</div>
+        <div class="step-text">
+          <strong>Research each challenge.</strong> For every challenge: find background information, understand why it is a challenge in the given scenario, identify implications of not solving it, and explore potential solutions. Build a revision document summarizing findings per challenge.
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">05</div>
+        <div class="step-text">
+          <strong>Find real-world connections.</strong> Research and collect real-world examples related to each challenge. Add these to your revision document. This enables you to cite concrete examples in the exam beyond the case study text itself — a key marker of a proficient response.
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">06</div>
+        <div class="step-text">
+          <strong>Review and practise essays.</strong> Brainstorm possible exam questions based on the challenges. Write practice essays for each challenge. Swap with classmates and give feedback using the marking criteria. Prepare revision index cards with bullet-point key points.
+        </div>
+      </div>
+    </div>
+    <div class="green-box">
+      <p><strong>Bonus strategies:</strong> Arrange a field trip or guest speaker. Read journal articles on arXiv.org. Watch lectures from practitioners at companies like Netflix or Spotify. Contact university researchers. The examiners reward students who demonstrate <strong>research beyond the case study document itself</strong>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ S6: ESSAY STRATEGY -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// Exam Technique</div>
+    <h2>Essay Writing <span class="hl-cyan">Strategy</span></h2>
+    <p class="lead">The extended-response essay question is where marks are made or lost. A structured approach is essential.</p>
+    <div class="steps">
+      <div class="step-row">
+        <div class="step-n" style="color:var(--gold2);">Plan</div>
+        <div class="step-text"><strong>Take 5 minutes to plan before writing.</strong> Any extended writing is vastly improved by brief planning. Identify 2–3 key arguments, real-world examples, and your conclusion before you start.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--gold2);">Term</div>
+        <div class="step-text"><strong>Use terminology correctly and consistently.</strong> The examiners can immediately tell when a student is misusing vocabulary. Incorrect terminology implies poor understanding and limits marks significantly.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--gold2);">Analz</div>
+        <div class="step-text"><strong>Analyse, don't just describe.</strong> Low-scoring responses only summarize what the case study says. Examiners already know the document. Show your <em>independent research</em> and use it to evaluate the challenges critically.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--gold2);">Bal</div>
+        <div class="step-text"><strong>Provide balanced analysis.</strong> A top-band response presents <em>multiple perspectives</em> and draws a justified conclusion. One-sided arguments rarely score in the top band.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--gold2);">Cite</div>
+        <div class="step-text"><strong>Reference real sources carefully.</strong> Only cite papers or publications you have actually read. Examiners are broadly familiar with major publications in the field. Do not fabricate references.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ S7: SL MARKING CRITERIA -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// Assessment</div>
+    <h2>Essay Marking Criteria <span class="hl-green">· SL</span></h2>
+    <p class="lead">SL essay is worth 6 marks. Study the descriptors for each band.</p>
+    <table class="marks-table">
+      <thead>
+        <tr>
+          <th>Marks</th>
+          <th>Band</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong style="color:var(--red);">0</strong></td>
+          <td style="color:var(--text3);">—</td>
+          <td>No knowledge or understanding. No use of appropriate terminology.</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--orange);">1–2</strong></td>
+          <td><strong>Basic</strong></td>
+          <td>Minimal knowledge and understanding. Minimal terminology. May be little more than a list. No reference to case study or independent research.</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--gold2);">3–4</strong></td>
+          <td><strong>Adequate</strong></td>
+          <td>Descriptive response with limited understanding. Limited terminology. Some analysis. Some evidence of research.</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--green);">5–6</strong></td>
+          <td><strong>Competent</strong></td>
+          <td>Knowledge and understanding of related issues. Terminology used appropriately. Evidence of analysis. Evidence of research. A conclusion is drawn.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="green-box">
+      <p><strong>To reach 5–6:</strong> Show you have researched beyond the document. Use terminology correctly. Analyse (don't just describe). Include a justified conclusion.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ S8: HL MARKING CRITERIA -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// Assessment</div>
+    <h2>Essay Marking Criteria <span class="hl-purple">· HL</span></h2>
+    <p class="lead">HL essay is worth 12 marks. The higher bands demand depth, balanced analysis, and extensive research.</p>
+    <table class="marks-table">
+      <thead>
+        <tr>
+          <th>Marks</th>
+          <th>Band</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong style="color:var(--orange);">1–3</strong></td>
+          <td><strong>Basic</strong></td>
+          <td>Minimal knowledge. Minimal terminology. Little more than a list. No reference to case study or research.</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--gold2);">4–6</strong></td>
+          <td><strong>Adequate</strong></td>
+          <td>Descriptive with limited understanding. Limited terminology. Limited analysis. Limited research evident.</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--cyan);">7–9</strong></td>
+          <td><strong>Competent</strong></td>
+          <td>Knowledge and understanding of related issues. Terminology used appropriately in places. Some analysis. Evidence of research undertaken.</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--green);">10–12</strong></td>
+          <td><strong>Proficient</strong></td>
+          <td>Detailed knowledge, clear understanding. Terminology used throughout. Competent and <strong>balanced analysis</strong>. Conclusions linked to analysis. Clear evidence of <strong>extensive research</strong>.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="purple-box">
+      <p><strong>HL Top-Band key:</strong> Balanced analysis + conclusions drawn from that analysis + clear evidence of extensive independent research. Generic, unbalanced, or description-only responses will not reach 10–12.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ S9: COMMON MISTAKES -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// Pitfalls</div>
+    <h2>Common <span class="hl-red">Mistakes</span></h2>
+    <p class="lead">These patterns appear repeatedly in examiner reports across multiple years.</p>
+    <div class="steps">
+      <div class="step-row">
+        <div class="step-n" style="color:var(--red);">✕</div>
+        <div class="step-text"><strong>Misusing or inventing terminology.</strong> Examiners can identify when a student is making up vocabulary. Incorrect terminology implies poor understanding and severely limits marks.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--red);">✕</div>
+        <div class="step-text"><strong>Regurgitating the case study text.</strong> Examiners already know what the document says. Low-performing essays only summarize the case study. You must bring in <em>additional insights from your own research</em>.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--red);">✕</div>
+        <div class="step-text"><strong>Lack of balanced analysis.</strong> Top-band responses present multiple perspectives before drawing a nuanced conclusion. One-sided arguments are not sufficient.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--red);">✕</div>
+        <div class="step-text"><strong>Ignoring the command term.</strong> "Discuss" requires balanced argument; "evaluate" requires weighing strengths and limitations. Merely describing everything you know is not an effective strategy.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--red);">✕</div>
+        <div class="step-text"><strong>Fabricating citations.</strong> Only cite publications you have actually read. Examiners are broadly familiar with major papers in each field.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--red);">✕</div>
+        <div class="step-text"><strong>Over-relying on unofficial forums.</strong> Several unofficial online resources provide questionable information. Research broadly and cross-check information found.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ S10: TOP TIPS -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// Top Tips</div>
+    <h2>Top <span class="hl-gold">Tips</span></h2>
+    <div class="grid g2" style="gap:2px;margin-bottom:14px;">
+      <div class="card gold">
+        <div class="card-title" style="color:var(--gold2);">Know the exam structure</div>
+        <div class="card-body">Know exactly what to expect before walking into the exam — structure, command terms, mark allocation. No surprises on exam day.</div>
+      </div>
+      <div class="card cyan">
+        <div class="card-title" style="color:var(--cyan);">Field trips & guest speakers</div>
+        <div class="card-body">A visit to a company or university lab related to the case study topic gives you a primary-source experience you can directly reference in your essay.</div>
+      </div>
+      <div class="card green">
+        <div class="card-title" style="color:var(--green);">Watch practitioner talks</div>
+        <div class="card-body">Search for conference talks and lectures by engineers from companies working with the case study technology. For example, Netflix engineers on recommendation systems, or robotics researchers on rescue robots.</div>
+      </div>
+      <div class="card blue">
+        <div class="card-title" style="color:var(--blue);">Read journal articles</div>
+        <div class="card-body">Use arXiv.org for open-access academic papers. "Students who read journal articles have a broader understanding and can employ references to real-world examples or research." — Chief Examiner, May 2024</div>
+      </div>
+    </div>
+    <div class="gold-box">
+      <p><strong>Peer-teaching:</strong> Arrange with classmates to present on each challenge, then take questions. Your confidence when answering spontaneous questions reveals gaps in your understanding before the exam — not during it.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ S11: PAST CASE STUDIES 1 -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// Past Case Studies</div>
+    <h2>Past Examples <span class="hl-cyan">· 2020–2021</span></h2>
+    <p class="lead">Reviewing past case studies shows the typical style, technology depth, and quality of essay responses expected.</p>
+    <div class="card cyan" style="margin-bottom:2px;">
+      <div class="card-title" style="color:var(--cyan);">Blockchain — May &amp; Nov 2020, May 2021</div>
+      <div class="card-body">
+        <strong>Scenario:</strong> Mayor of Santa Monica wants a local digital currency (MONS) using blockchain.<br><br>
+        <strong>Technologies:</strong> Digital ledgers, digital signatures, proof of work (mining), Merkle trees, blockchain structure, SHA256.<br><br>
+        <strong>Challenges:</strong> Adding new blocks &amp; preventing 51% attacks; scalability; cryptographic techniques; calculating balance from public ledger; disadvantages of distributed confirmation.<br><br>
+        <strong>Sample essay question:</strong> "To what extent do you believe the MONS project will ensure the safety of residents' money?"<br><br>
+        <strong>Chief Examiner note:</strong> Most responses covered immutability and distributed consensus but few explored blockchain's weaknesses or provided balanced analysis. Very few cited academic sources.
+      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>Takeaway:</strong> Even when students understood the technology, top marks required identifying <em>weaknesses</em> of the technology and presenting a balanced argument — not just explaining how it works.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ S12: PAST CASE STUDIES 2 -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// Past Case Studies</div>
+    <h2>Past Examples <span class="hl-cyan">· 2023–2024</span></h2>
+    <div class="card purple" style="margin-bottom:2px;">
+      <div class="card-title" style="color:var(--purple);">Recommendation Systems — May &amp; Nov 2023</div>
+      <div class="card-body">
+        <strong>Scenario:</strong> NextStar — a platform recommending undiscovered artists to users based on ratings.<br><br>
+        <strong>Technologies:</strong> Content-based filtering, collaborative filtering, k-nearest neighbours, matrix factorization, training and evaluation of recommender systems.<br><br>
+        <strong>Chief Examiner:</strong> "Most candidates focused on content-based and collaborative filtering with little evaluation. Few referenced the case study scenario (NextStar) — generic movie-recommendation examples instead. Very few referenced journal articles."
+      </div>
+    </div>
+    <div class="card blue" style="margin-top:2px;">
+      <div class="card-title" style="color:var(--blue);">Rescue Robots — May &amp; Nov 2024</div>
+      <div class="card-body">
+        <strong>Scenario:</strong> BotPro rescue robots using computer vision to assist in disaster-response situations.<br><br>
+        <strong>Technologies:</strong> Computer vision, vSLAM (visual simultaneous localization and mapping), pose estimation.<br><br>
+        <strong>Chief Examiner:</strong> Strong responses connected historical examples (9/11) to current uses (Ukraine), demonstrating how the technology had evolved over 20 years.
+      </div>
+    </div>
+    <div class="green-box">
+      <p><strong>Pattern across all years:</strong> Students who cite real-world examples, reference academic papers, and provide balanced analysis consistently score in the higher bands. Descriptive, case-study-only responses remain in the adequate band.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ S13: SUMMARY -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Summary</div>
+    <h2>Case Study <span class="hl-cyan">Checklist</span></h2>
+    <p class="lead">Before exam day, verify you have completed each of these preparation steps.</p>
+    <div class="grid g2" style="gap:2px;">
+      <div class="card cyan">
+        <div class="card-title" style="color:var(--cyan);">Research &amp; Knowledge</div>
+        <div class="card-body">
+          ☑ Terminology definitions prepared<br>
+          ☑ Technology understood at a technical level<br>
+          ☑ Each challenge researched thoroughly<br>
+          ☑ Real-world examples documented<br>
+          ☑ Academic papers or sources identified
+        </div>
+      </div>
+      <div class="card gold">
+        <div class="card-title" style="color:var(--gold2);">Exam Readiness</div>
+        <div class="card-body">
+          ☑ Practice essays written for each challenge<br>
+          ☑ Peer feedback received and reviewed<br>
+          ☑ Marking criteria understood (SL or HL)<br>
+          ☑ Command terms understood<br>
+          ☑ Revision index cards prepared
+        </div>
+      </div>
+    </div>
+    <div class="cyan-box" style="margin-top:14px;">
+      <p><strong>Next:</strong> When the official case study is released, start with Step 1 (terminology) immediately and build your revision document systematically across the 6-step process. Do not wait until the week before the exam.</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>← Prev</button>
+  <div class="nav-sep"></div>
+  <div class="nav-dots" id="navDots"></div>
+  <div class="nav-sep"></div>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+</div>
+
+<script>
+  let cur = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const prog = document.getElementById('progress');
+  const slideNum = document.getElementById('slideNum');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const dotsEl = document.getElementById('navDots');
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  }
+  function goTo(n) {
+    slides[cur].classList.remove('active');
+    slides[cur].classList.add('exit');
+    const old = cur;
+    slides[old].scrollTop = 0;
+    setTimeout(() => slides[old].classList.remove('exit'), 380);
+    cur = n;
+    slides[cur].scrollTop = 0;
+    slides[cur].classList.add('active');
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+    prog.style.width = ((cur + 1) / total * 100) + '%';
+    slideNum.textContent = String(cur + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+    prevBtn.disabled = cur === 0;
+    nextBtn.disabled = cur === total - 1;
+  }
+  function changeSlide(d) { const n = cur + d; if (n >= 0 && n < total) goTo(n); }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') changeSlide(1);
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+  });
+  prog.style.width = (1 / total * 100) + '%';
+</script>
+</body>
+</html>

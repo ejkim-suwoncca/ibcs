@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A4.3 — Machine Learning Approaches · HL</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Serif+Display&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07090f;
+  --surface: #0e1117;
+  --surface2: #151923;
+  --border: #1e2535;
+  --border2: #2a3448;
+  --gold: #c9a84c;
+  --gold2: #e8c97a;
+  --blue: #4a9eff;
+  --green: #3dd68c;
+  --red: #ff6b6b;
+  --purple: #9b8afb;
+  --cyan: #22d3ee;
+  --orange: #fb923c;
+  --text: #dde4f0;
+  --text2: #7a8ba8;
+  --text3: #3d4f6a;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; }
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(155,138,251,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(155,138,251,0.025) 1px, transparent 1px),
+    linear-gradient(rgba(155,138,251,0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(155,138,251,0.01) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+  pointer-events: none; z-index: 0;
+}
+.deck { position: relative; width: 100vw; height: 100vh; z-index: 1; }
+.slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 50px 72px 92px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.38s ease, transform 0.38s ease;
+  transform: translateY(12px);
+}
+.slide.active { opacity: 1; pointer-events: all; transform: translateY(0); }
+.slide.exit { opacity: 0; transform: translateY(-12px); }
+.slide.scroll-slide {
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-top: 64px;
+  padding-bottom: 132px;
+}
+.slide.scroll-slide::-webkit-scrollbar { width: 10px; }
+.slide.scroll-slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
+.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(14,17,23,0.3); }
+.progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--purple), var(--blue)); transition: width 0.38s ease; z-index: 100; }
+.slide-num { position: fixed; top: 17px; right: 24px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
+.content { width: 100%; max-width: 1120px; }
+.label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--purple); margin-bottom: 14px; }
+.label.blue { color: var(--blue); } .label.green { color: var(--green); } .label.orange { color: var(--orange); } .label.gold { color: var(--gold); } .label.red { color: var(--red); } .label.cyan { color: var(--cyan); }
+h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.8rem,5.5vw,4.8rem); font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
+h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem); font-weight: 400; line-height: 1.1; margin-bottom: 12px; }
+.lead { font-size: clamp(1rem,1.75vw,1.35rem); color: var(--text2); font-weight: 300; line-height: 1.65; margin-bottom: 24px; }
+.hl-gold { color: var(--gold2); } .hl-blue { color: var(--blue); } .hl-green { color: var(--green); } .hl-purple { color: var(--purple); } .hl-cyan { color: var(--cyan); } .hl-red { color: var(--red); } .hl-orange { color: var(--orange); }
+.grid { display: grid; gap: 2px; width: 100%; }
+.g2 { grid-template-columns: 1fr 1fr; } .g3 { grid-template-columns: 1fr 1fr 1fr; } .g4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+.card { background: var(--surface); border: 1px solid var(--border); padding: 18px 22px; position: relative; overflow: hidden; }
+.card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.card.gold::after { background: var(--gold); } .card.blue::after { background: var(--blue); }
+.card.green::after { background: var(--green); } .card.red::after { background: var(--red); }
+.card.purple::after { background: var(--purple); } .card.cyan::after { background: var(--cyan); }
+.card.orange::after { background: var(--orange); }
+.card-title { font-family: 'DM Mono', monospace; font-size: clamp(0.7rem,1.1vw,0.9rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.card-body { font-size: clamp(0.85rem,1.3vw,1.05rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
+.card-body strong { color: var(--text); font-weight: 500; }
+.info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(74,158,255,0.04); border-top: 1px solid rgba(74,158,255,0.08); border-right: 1px solid rgba(74,158,255,0.08); border-bottom: 1px solid rgba(74,158,255,0.08); margin-top: 14px; }
+.info-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.info-box strong { color: var(--blue); }
+.gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(201,168,76,0.04); border-top: 1px solid rgba(201,168,76,0.08); border-right: 1px solid rgba(201,168,76,0.08); border-bottom: 1px solid rgba(201,168,76,0.08); margin-top: 14px; }
+.gold-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.gold-box strong { color: var(--gold2); }
+.purple-box { border-left: 3px solid var(--purple); padding: 13px 20px; background: rgba(155,138,251,0.04); border-top: 1px solid rgba(155,138,251,0.08); border-right: 1px solid rgba(155,138,251,0.08); border-bottom: 1px solid rgba(155,138,251,0.08); margin-top: 14px; }
+.purple-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.purple-box strong { color: var(--purple); }
+.red-box { border-left: 3px solid var(--red); padding: 13px 20px; background: rgba(255,107,107,0.04); border-top: 1px solid rgba(255,107,107,0.08); border-right: 1px solid rgba(255,107,107,0.08); border-bottom: 1px solid rgba(255,107,107,0.08); margin-top: 14px; }
+.red-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.red-box strong { color: var(--red); }
+.green-box { border-left: 3px solid var(--green); padding: 13px 20px; background: rgba(61,214,140,0.04); border-top: 1px solid rgba(61,214,140,0.08); border-right: 1px solid rgba(61,214,140,0.08); border-bottom: 1px solid rgba(61,214,140,0.08); margin-top: 14px; }
+.green-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.green-box strong { color: var(--green); }
+.steps { display: flex; flex-direction: column; gap: 2px; }
+.step-row { display: flex; align-items: flex-start; gap: 18px; background: var(--surface); border: 1px solid var(--border); padding: 13px 18px; }
+.step-n { font-family: 'DM Mono', monospace; font-size: clamp(0.85rem,1.4vw,1.1rem); color: var(--purple); min-width: 40px; flex-shrink: 0; font-weight: 500; padding-top: 2px; }
+.step-text { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.5; font-weight: 300; }
+.step-text strong { color: var(--text); font-weight: 500; }
+.comparison-table { width: 100%; border-collapse: collapse; }
+.comparison-table th { font-family: 'DM Mono', monospace; font-size: clamp(0.65rem,1vw,0.82rem); letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); padding: 9px 14px; text-align: left; border-bottom: 1px solid var(--border2); background: var(--surface); }
+.comparison-table td { padding: 11px 14px; font-size: clamp(0.82rem,1.3vw,1.02rem); border-bottom: 1px solid var(--border); color: var(--text2); background: var(--surface); line-height: 1.5; vertical-align: top; }
+.comparison-table tr:last-child td { border-bottom: none; }
+.comparison-table tr:hover td { background: var(--surface2); }
+.comparison-table td:first-child { font-family: 'DM Mono', monospace; font-size: 0.88em; color: var(--purple); font-weight: 500; }
+.hl-badge { display: inline-block; font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--orange); padding: 2px 8px; background: rgba(251,146,60,0.1); border: 1px solid rgba(251,146,60,0.25); border-radius: 2px; margin-left: 8px; vertical-align: middle; }
+/* ANN diagram */
+.nn-diagram { display: flex; align-items: center; gap: 0; justify-content: center; }
+.nn-layer { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 0 20px; }
+.nn-node { width: 32px; height: 32px; border-radius: 50%; border: 2px solid; display: flex; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 9px; }
+.nn-label { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 8px; text-align: center; }
+.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; }
+.nav-btn { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; }
+.nav-btn:hover { color: var(--purple); border-color: var(--purple); background: rgba(155,138,251,0.05); }
+.nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+.nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 280px; justify-content: center; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); cursor: pointer; transition: all 0.2s; }
+.dot.active { background: var(--purple); transform: scale(1.4); }
+.nav-sep { width: 1px; height: 18px; background: var(--border2); }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="slide-num" id="slideNum">01 / 18</div>
+<div class="deck">
+
+<!-- ═══════════════════════════════════════════════ S1: TITLE -->
+<div class="slide active">
+  <div class="content">
+    <div class="label">// A4.3 · Machine Learning Approaches <span class="hl-badge">HL Only</span></div>
+    <h1>ML<br><span class="hl-purple">Approaches</span></h1>
+    <p style="font-family:'DM Mono',monospace;font-size:clamp(0.85rem,1.4vw,1.1rem);color:var(--text3);margin-bottom:20px;">Theme A4 · IB Computer Science HL</p>
+    <div class="gold-box">
+      <p><strong>👉 This deck covers:</strong> Linear regression · Classification (K-NN, Decision Trees) · Evaluation metrics · Clustering · Association rules · Reinforcement learning · Genetic algorithms · ANNs · CNNs · Model selection</p>
+    </div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:20px;">
+      <div style="padding-left:12px;border-left:2px solid var(--blue);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Regression</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">CONTINUOUS OUTPUT</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--green);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Classify</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">DISCRETE CATEGORIES</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--cyan);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Cluster</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">UNSUPERVISED GROUPS</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--orange);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Neural Nets</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">ANN / CNN</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S2: IB SPEC OVERVIEW -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:1120px;margin:0 auto;">
+    <div class="label">// IB Specification · A4.3</div>
+    <h2>Learning Objectives <span class="hl-badge">HL Only</span></h2>
+    <div class="steps">
+      <div class="step-row"><div class="step-n">4.3.1</div><div class="step-text"><strong>Explain</strong> how linear regression predicts continuous outcomes — relationship between predictor/response variables, slope, intercept, r² goodness-of-fit</div></div>
+      <div class="step-row"><div class="step-n">4.3.2</div><div class="step-text"><strong>Explain</strong> how classification techniques (K-NN, Decision Trees) predict discrete categorical outcomes</div></div>
+      <div class="step-row"><div class="step-n">4.3.3</div><div class="step-text"><strong>Explain</strong> hyperparameter tuning — accuracy, precision, recall, F1 score; overfitting and underfitting</div></div>
+      <div class="step-row"><div class="step-n">4.3.4</div><div class="step-text"><strong>Describe</strong> how clustering (unsupervised) groups data by feature similarity; real-world applications</div></div>
+      <div class="step-row"><div class="step-n">4.3.5</div><div class="step-text"><strong>Describe</strong> how association rules uncover relations between attributes in large datasets</div></div>
+      <div class="step-row"><div class="step-n">4.3.6</div><div class="step-text"><strong>Describe</strong> reinforcement learning — agent, environment, actions, states, rewards, policies; exploration vs exploitation</div></div>
+      <div class="step-row"><div class="step-n">4.3.7</div><div class="step-text"><strong>Describe</strong> genetic algorithms — population, fitness function, selection, crossover, mutation, evaluation, termination</div></div>
+      <div class="step-row"><div class="step-n">4.3.8</div><div class="step-text"><strong>Outline</strong> ANN structure — perceptron, multi-layer perceptron, hidden layers; sketch a perceptron and MLP</div></div>
+      <div class="step-row"><div class="step-n">4.3.9</div><div class="step-text"><strong>Describe</strong> CNN architecture — convolutional layers, activation functions, pooling, fully connected layers; effect of hyperparameters</div></div>
+      <div class="step-row"><div class="step-n">4.3.10</div><div class="step-text"><strong>Explain</strong> model selection and comparison — different algorithms, data characteristics, problem type</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S3: LINEAR REGRESSION -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A4.3.1 · Supervised Learning</div>
+    <h2><span class="hl-blue">Linear Regression</span> — Continuous Predictions</h2>
+    <p class="lead" style="margin-bottom:14px;">Linear regression predicts a <strong style="color:var(--blue);">continuous numeric output</strong> by finding the best-fit line through training data.</p>
+    <div class="grid g2" style="margin-bottom:14px;">
+      <div class="card blue">
+        <div class="card-title">The Regression Line</div>
+        <div class="card-body">
+          Equation: <strong>y = mx + b</strong><br><br>
+          <strong>x</strong> = independent (predictor) variable<br>
+          <strong>y</strong> = dependent (response) variable<br>
+          <strong>m</strong> = slope — how much y changes per unit of x<br>
+          <strong>b</strong> = intercept — value of y when x = 0<br><br>
+          The algorithm finds the m and b that minimise prediction error across all training points.
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">Goodness of Fit — r²</div>
+        <div class="card-body">
+          <strong>r² (coefficient of determination)</strong> measures how well the regression line explains the variation in the data.<br><br>
+          r² = 1.0 → perfect fit (line passes through all points)<br>
+          r² = 0.0 → the line explains nothing<br>
+          r² = 0.85 → 85% of variation is explained by the model<br><br>
+          Higher r² = better model fit.
+        </div>
+      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>Example:</strong> Predicting a house price (y) based on its size in m² (x). Slope might be: every extra m² adds $2,500 to price. Intercept: base price of $50,000 for a 0 m² house (not physically meaningful, but mathematically defined).</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S4: CLASSIFICATION — KNN -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A4.3.2 · Classification</div>
+    <h2>K-Nearest Neighbours <span class="hl-green">(K-NN)</span></h2>
+    <p class="lead" style="margin-bottom:14px;">K-NN classifies a new data point by looking at its <strong style="color:var(--green);">K nearest neighbours</strong> in the training data and choosing the most common class among them.</p>
+    <div class="steps" style="margin-bottom:14px;">
+      <div class="step-row"><div class="step-n">1</div><div class="step-text">Choose K (number of neighbours to consider — a hyperparameter)</div></div>
+      <div class="step-row"><div class="step-n">2</div><div class="step-text">For a new data point, calculate its distance to all training points (commonly Euclidean distance)</div></div>
+      <div class="step-row"><div class="step-n">3</div><div class="step-text">Select the K training points with the smallest distances (the "nearest neighbours")</div></div>
+      <div class="step-row"><div class="step-n">4</div><div class="step-text">The new point is assigned to the <strong>majority class</strong> among those K neighbours</div></div>
+    </div>
+    <div class="grid g2" style="margin-bottom:0;">
+      <div class="card green">
+        <div class="card-title">Advantages</div>
+        <div class="card-body">Simple to understand and implement<br>No training phase — "lazy learner"<br>Works well with small datasets</div>
+      </div>
+      <div class="card red">
+        <div class="card-title">Disadvantages</div>
+        <div class="card-body">Slow at prediction time (compares all training points)<br>Sensitive to irrelevant features and scale<br>Suffers in high dimensions (curse of dimensionality)</div>
+      </div>
+    </div>
+    <div class="gold-box">
+      <p><strong>Real-world application:</strong> Collaborative filtering recommendation systems — "users similar to you also liked X."</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S5: DECISION TREES -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A4.3.2 · Classification</div>
+    <h2><span class="hl-cyan">Decision Trees</span></h2>
+    <p class="lead" style="margin-bottom:14px;">A decision tree classifies data by repeatedly splitting it on the feature that best separates the classes — forming a tree of <strong style="color:var(--cyan);">if-then rules</strong>.</p>
+    <div style="display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;margin-bottom:14px;">
+      <div style="flex:1;min-width:220px;">
+        <div class="card cyan" style="margin-bottom:2px;">
+          <div class="card-title">Structure</div>
+          <div class="card-body">
+            <strong>Root node:</strong> the first split (best feature)<br>
+            <strong>Internal nodes:</strong> subsequent decision splits<br>
+            <strong>Leaf nodes:</strong> final class predictions<br>
+            Each path from root to leaf = one classification rule
+          </div>
+        </div>
+        <div class="card green">
+          <div class="card-title">Advantages</div>
+          <div class="card-body">
+            Highly interpretable — humans can follow the decisions<br>
+            No scaling required<br>
+            Handles both numerical and categorical data<br>
+            Built-in feature importance (embedded feature selection)
+          </div>
+        </div>
+      </div>
+      <div style="flex:1;min-width:220px;">
+        <div style="background:var(--surface);border:1px solid var(--border);padding:18px 22px;">
+          <div style="font-family:'DM Mono',monospace;font-size:0.78rem;color:var(--text3);margin-bottom:12px;letter-spacing:0.1em;">EXAMPLE: MEDICAL DIAGNOSIS</div>
+          <div style="font-family:'DM Mono',monospace;font-size:0.82rem;color:var(--text2);line-height:2;">
+            Fever &gt; 38°C?<br>
+            <span style="color:var(--green);">Yes</span> → Cough present?<br>
+            &nbsp;&nbsp;<span style="color:var(--green);">Yes</span> → <span style="color:var(--red);">→ Flu</span><br>
+            &nbsp;&nbsp;<span style="color:var(--red);">No</span> → <span style="color:var(--orange);">→ Infection</span><br>
+            <span style="color:var(--red);">No</span> → <span style="color:var(--green);">→ Healthy</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>Real-world application:</strong> Medical diagnosis — classify patients based on symptoms into possible conditions. Credit scoring — approve or deny loan based on income, credit history, debt ratio.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S6: EVALUATION METRICS -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A4.3.3 · Evaluation Metrics</div>
+    <h2>Measuring Model <span class="hl-gold">Performance</span></h2>
+    <p class="lead" style="margin-bottom:14px;">Accuracy alone is often misleading — especially with imbalanced datasets. Four key metrics give a complete picture.</p>
+    <table class="comparison-table" style="margin-bottom:14px;">
+      <tr>
+        <th>Metric</th>
+        <th>Formula (conceptual)</th>
+        <th>Meaning</th>
+        <th>When it matters</th>
+      </tr>
+      <tr>
+        <td>Accuracy</td>
+        <td>Correct predictions / All predictions</td>
+        <td>Overall fraction of correct results</td>
+        <td>Balanced datasets with equal class distribution</td>
+      </tr>
+      <tr>
+        <td>Precision</td>
+        <td>True Positives / (True Positives + False Positives)</td>
+        <td>Of all positive predictions, how many were actually positive?</td>
+        <td>When false alarms are costly (e.g., spam filter: don't label good email as spam)</td>
+      </tr>
+      <tr>
+        <td>Recall</td>
+        <td>True Positives / (True Positives + False Negatives)</td>
+        <td>Of all actual positives, how many did we catch?</td>
+        <td>When missing a positive is dangerous (e.g., cancer detection: must find all cases)</td>
+      </tr>
+      <tr>
+        <td>F1 Score</td>
+        <td>2 × (Precision × Recall) / (Precision + Recall)</td>
+        <td>Harmonic mean of precision and recall — balances both</td>
+        <td>When both false positives AND false negatives are important</td>
+      </tr>
+    </table>
+    <div class="gold-box">
+      <p><strong>Key insight:</strong> A model that predicts "no disease" for every patient might achieve 99% accuracy on a dataset where 99% of patients are healthy — but it has 0% recall and is useless for diagnosis.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S7: HYPERPARAMETER TUNING + OVERFITTING -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A4.3.3 · Model Evaluation</div>
+    <h2>Overfitting, Underfitting &amp; <span class="hl-orange">Hyperparameters</span></h2>
+    <div class="grid g3" style="margin-bottom:14px;">
+      <div class="card red">
+        <div class="card-title">Overfitting</div>
+        <div class="card-body">
+          The model learns the training data <strong>too precisely</strong> — including its noise and random variation.<br><br>
+          High accuracy on training data, poor accuracy on new data.<br><br>
+          <em>Analogy: memorizing exam answers without understanding the concept</em>
+        </div>
+      </div>
+      <div class="card orange">
+        <div class="card-title">Underfitting</div>
+        <div class="card-body">
+          The model is <strong>too simple</strong> to capture the patterns in the data.<br><br>
+          Poor accuracy on both training and new data.<br><br>
+          <em>Analogy: studying only the textbook summary and missing important details</em>
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">Good Fit</div>
+        <div class="card-body">
+          The model generalizes well — learns the <strong>real patterns</strong> without memorizing noise.<br><br>
+          Good accuracy on both training and unseen test data.<br><br>
+          <em>Goal of hyperparameter tuning</em>
+        </div>
+      </div>
+    </div>
+    <div class="card purple" style="margin-bottom:2px;">
+      <div class="card-title">What is a Hyperparameter?</div>
+      <div class="card-body">A setting chosen <strong>before</strong> training that controls how the model learns. Unlike parameters (learned during training), hyperparameters are set by the developer. Examples: K in K-NN, maximum depth of a decision tree, learning rate in neural networks. Hyperparameter tuning = systematically trying different values to find the best-performing combination.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S8: CLUSTERING -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A4.3.4 · Unsupervised Learning</div>
+    <h2><span class="hl-cyan">Clustering</span> — Grouping Without Labels</h2>
+    <p class="lead" style="margin-bottom:14px;">Clustering groups data points based on <strong style="color:var(--cyan);">similarity in their features</strong> — without any predefined labels. The algorithm discovers structure in the data on its own.</p>
+    <div class="grid g2" style="margin-bottom:14px;">
+      <div class="card cyan">
+        <div class="card-title">How it Works</div>
+        <div class="card-body">
+          Data points are grouped so that:<br>
+          • Points <strong>within a cluster</strong> are similar to each other<br>
+          • Points <strong>in different clusters</strong> are dissimilar<br><br>
+          The algorithm determines the number of clusters (K) or discovers it automatically, depending on the technique used.
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">K-Means Clustering (Concept)</div>
+        <div class="card-body">
+          1. Choose K cluster centroids randomly<br>
+          2. Assign each point to its nearest centroid<br>
+          3. Move each centroid to the mean of its assigned points<br>
+          4. Repeat until centroids stop moving<br><br>
+          Result: K groups of data points.
+        </div>
+      </div>
+    </div>
+    <div class="grid g2">
+      <div class="card green">
+        <div class="card-title">Real-World Applications</div>
+        <div class="card-body">
+          <strong>Market segmentation:</strong> group customers by purchasing behaviour to target marketing<br>
+          <strong>Document clustering:</strong> group news articles by topic<br>
+          <strong>Anomaly detection:</strong> points far from any cluster = outliers / potential fraud
+        </div>
+      </div>
+      <div class="card gold">
+        <div class="card-title">IB Example</div>
+        <div class="card-body">
+          Using purchasing data to segment a customer base into high-spenders, occasional buyers, and bargain hunters — without any prior label of which category each customer belongs to.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S9: ASSOCIATION RULES -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A4.3.5 · Association Rule Mining</div>
+    <h2><span class="hl-gold">Association Rules</span> — Finding Hidden Relationships</h2>
+    <p class="lead" style="margin-bottom:14px;">Association rule mining finds <strong style="color:var(--gold2);">co-occurrence patterns</strong> among items in large datasets — "if X then Y" relationships that appear frequently.</p>
+    <div class="grid g2" style="margin-bottom:14px;">
+      <div class="card gold">
+        <div class="card-title">Classic Example: Market Basket Analysis</div>
+        <div class="card-body">
+          A supermarket finds: customers who buy <strong>bread</strong> and <strong>butter</strong> also frequently buy <strong>jam</strong>.<br><br>
+          Rule: {bread, butter} → {jam} with 75% confidence.<br><br>
+          This rule can inform shelf placement, promotions, and cross-selling strategies.
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Key Terms</div>
+        <div class="card-body">
+          <strong>Support:</strong> how often the items appear together in the dataset<br>
+          <strong>Confidence:</strong> given X was purchased, how often is Y also purchased?<br>
+          <strong>Lift:</strong> how much more likely is Y given X compared to Y alone?
+        </div>
+      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>IB Example — Crime Analysis:</strong> Mining police records reveals that areas with high rates of vandalism also frequently experience theft. This assists law enforcement in predictive policing and resource allocation. Association rule: {vandalism} → {theft}.</p>
+    </div>
+    <div class="gold-box">
+      <p><strong>Note:</strong> Association rule mining is <em>unsupervised</em> — no labels are needed. It discovers patterns directly from co-occurrence frequencies in the data.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S10: REINFORCEMENT LEARNING -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A4.3.6 · Reinforcement Learning</div>
+    <h2>Learning Through <span class="hl-orange">Trial and Error</span></h2>
+    <p class="lead" style="margin-bottom:14px;">An <strong style="color:var(--orange);">agent</strong> interacts with an <strong style="color:var(--orange);">environment</strong>, taking actions and receiving rewards or penalties — learning a policy that maximises cumulative reward over time.</p>
+    <div class="grid g3" style="margin-bottom:14px;">
+      <div class="card orange">
+        <div class="card-title">Key Concepts</div>
+        <div class="card-body">
+          <strong>Agent:</strong> the learner / decision-maker<br>
+          <strong>Environment:</strong> the world the agent acts in<br>
+          <strong>State:</strong> the current situation of the agent<br>
+          <strong>Action:</strong> a choice the agent can make<br>
+          <strong>Reward:</strong> positive or negative feedback for an action<br>
+          <strong>Policy:</strong> the strategy mapping states → actions
+        </div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">Exploration vs Exploitation</div>
+        <div class="card-body">
+          <strong>Exploitation:</strong> use the best known action (safe, but may miss better options)<br><br>
+          <strong>Exploration:</strong> try new actions to discover potentially better rewards (risky, but learns more)<br><br>
+          Effective RL agents must <em>balance</em> both throughout training.
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Cumulative Reward</div>
+        <div class="card-body">
+          The agent does not just optimise the immediate reward — it optimises the <strong>total reward over many steps</strong>.<br><br>
+          Example: in chess, sacrificing a piece (negative short-term reward) might lead to winning the game (large long-term reward).
+        </div>
+      </div>
+    </div>
+    <div class="gold-box">
+      <p><strong>Real-world applications:</strong> Game-playing AI (AlphaGo, chess engines), robot navigation, self-driving cars, dynamic pricing systems.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S11: GENETIC ALGORITHMS -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A4.3.7 · Genetic Algorithms</div>
+    <h2><span class="hl-green">Genetic Algorithms</span> — Evolution as Optimization</h2>
+    <p class="lead" style="margin-bottom:14px;">Genetic algorithms mimic biological evolution to find optimal or near-optimal solutions to complex problems, especially where the search space is too large for exhaustive search.</p>
+    <div class="steps" style="margin-bottom:14px;">
+      <div class="step-row"><div class="step-n" style="color:var(--green);">1</div><div class="step-text"><strong>Population:</strong> start with a set of random candidate solutions ("individuals")</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--green);">2</div><div class="step-text"><strong>Fitness Function:</strong> evaluate how good each candidate solution is at solving the problem</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--green);">3</div><div class="step-text"><strong>Selection:</strong> choose the best-performing candidates as "parents" for the next generation</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--green);">4</div><div class="step-text"><strong>Crossover:</strong> combine parts of two parent solutions to create new "offspring" solutions</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--green);">5</div><div class="step-text"><strong>Mutation:</strong> randomly alter small parts of offspring solutions to maintain diversity and explore new areas</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--green);">6</div><div class="step-text"><strong>Evaluation &amp; Termination:</strong> repeat until a solution meets the required fitness, or after a set number of generations</div></div>
+    </div>
+    <div class="info-box">
+      <p><strong>Classic example — Travelling Salesperson Problem (TSP):</strong> Find the shortest route that visits N cities exactly once. Genetic algorithms evolve better and better routes over many generations without checking all possible permutations.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S12: ANN -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A4.3.8 · Artificial Neural Networks</div>
+    <h2><span class="hl-purple">Artificial Neural Networks</span> (ANNs)</h2>
+    <p class="lead" style="margin-bottom:14px;">ANNs are inspired by biological neurons. They process input through connected layers of nodes, learning weights during training to produce accurate outputs.</p>
+    <div style="display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;margin-bottom:14px;">
+      <div style="flex:1;min-width:220px;">
+        <div class="card purple" style="margin-bottom:2px;">
+          <div class="card-title">Single Perceptron</div>
+          <div class="card-body">
+            <strong>Inputs (x₁, x₂ …):</strong> features fed in<br>
+            <strong>Weights (w₁, w₂ …):</strong> how much each input matters — adjusted during training<br>
+            <strong>Bias:</strong> constant offset, shifts the activation threshold<br>
+            <strong>Activation function:</strong> decides whether the neuron "fires" (e.g. ReLU, sigmoid)<br>
+            <strong>Output:</strong> the neuron's predicted value
+          </div>
+        </div>
+        <div class="card blue">
+          <div class="card-title">Multi-Layer Perceptron (MLP)</div>
+          <div class="card-body">
+            <strong>Input layer:</strong> receives the raw features<br>
+            <strong>Hidden layers:</strong> extract increasingly abstract patterns<br>
+            <strong>Output layer:</strong> produces the final prediction<br><br>
+            Multiple hidden layers = "deep" neural network
+          </div>
+        </div>
+      </div>
+      <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:10px;">
+        <!-- Simplified MLP sketch -->
+        <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-bottom:4px;">MLP SKETCH</div>
+        <div style="display:flex;gap:32px;align-items:center;">
+          <div style="display:flex;flex-direction:column;gap:10px;align-items:center;">
+            <div style="width:28px;height:28px;border-radius:50%;border:2px solid var(--blue);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:8px;color:var(--blue);">x₁</div>
+            <div style="width:28px;height:28px;border-radius:50%;border:2px solid var(--blue);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:8px;color:var(--blue);">x₂</div>
+            <div style="width:28px;height:28px;border-radius:50%;border:2px solid var(--blue);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:8px;color:var(--blue);">x₃</div>
+            <div style="font-family:'DM Mono',monospace;font-size:8px;color:var(--text3);">INPUT</div>
+          </div>
+          <div style="font-family:'DM Mono',monospace;color:var(--text3);">→</div>
+          <div style="display:flex;flex-direction:column;gap:10px;align-items:center;">
+            <div style="width:28px;height:28px;border-radius:50%;border:2px solid var(--purple);background:rgba(155,138,251,0.08);"></div>
+            <div style="width:28px;height:28px;border-radius:50%;border:2px solid var(--purple);background:rgba(155,138,251,0.08);"></div>
+            <div style="width:28px;height:28px;border-radius:50%;border:2px solid var(--purple);background:rgba(155,138,251,0.08);"></div>
+            <div style="width:28px;height:28px;border-radius:50%;border:2px solid var(--purple);background:rgba(155,138,251,0.08);"></div>
+            <div style="font-family:'DM Mono',monospace;font-size:8px;color:var(--text3);">HIDDEN</div>
+          </div>
+          <div style="font-family:'DM Mono',monospace;color:var(--text3);">→</div>
+          <div style="display:flex;flex-direction:column;gap:10px;align-items:center;">
+            <div style="width:28px;height:28px;border-radius:50%;border:2px solid var(--green);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:8px;color:var(--green);">y</div>
+            <div style="font-family:'DM Mono',monospace;font-size:8px;color:var(--text3);">OUTPUT</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="gold-box">
+      <p><strong>IB Requirement:</strong> Be able to <em>sketch</em> a single perceptron (showing inputs, weights, bias, activation, output) and a multi-layer perceptron (input layer, hidden layers, output layer). Labels must be correct.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S13: CNN -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A4.3.9 · Convolutional Neural Networks</div>
+    <h2><span class="hl-orange">CNNs</span> — Learning from Images</h2>
+    <p class="lead" style="margin-bottom:14px;">CNNs are designed for data with <strong style="color:var(--orange);">spatial structure</strong> (images, video). They automatically learn to detect features — edges, textures, shapes — through convolutional layers.</p>
+    <div class="steps" style="margin-bottom:14px;">
+      <div class="step-row"><div class="step-n" style="color:var(--orange);">Input</div><div class="step-text"><strong>Input Layer:</strong> the raw image data (e.g. 224×224×3 pixels for an RGB image)</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--orange);">Conv</div><div class="step-text"><strong>Convolutional Layers:</strong> apply small filters (kernels) that slide across the image to detect local features. Each filter detects a different pattern (vertical edges, curves, etc.)</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--orange);">Activ</div><div class="step-text"><strong>Activation Functions:</strong> applied after each convolution to introduce non-linearity. ReLU (Rectified Linear Unit) is most common — sets negative values to 0</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--orange);">Pool</div><div class="step-text"><strong>Pooling Layers:</strong> downsample feature maps — reduce size while retaining the most important features. Max pooling takes the maximum value in each region</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--orange);">FC</div><div class="step-text"><strong>Fully Connected Layers:</strong> connect every neuron to the next layer — combine detected features to make the final classification</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--orange);">Out</div><div class="step-text"><strong>Output Layer:</strong> produces class probabilities (e.g. 92% dog, 7% cat, 1% other)</div></div>
+    </div>
+    <div class="purple-box">
+      <p><strong>Key hyperparameters that affect CNN performance:</strong> number of convolutional layers, kernel (filter) size, stride (how far the filter moves each step), activation function choice, loss function used during training.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S14: MODEL SELECTION -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A4.3.10 · Model Selection</div>
+    <h2>Choosing the <span class="hl-blue">Right Algorithm</span></h2>
+    <p class="lead" style="margin-bottom:14px;">No single ML algorithm is best for all problems. Model selection requires understanding the <strong style="color:var(--blue);">nature of the data and the problem type</strong>.</p>
+    <table class="comparison-table" style="margin-bottom:14px;">
+      <tr>
+        <th>Factor</th>
+        <th>Influences Choice How?</th>
+      </tr>
+      <tr>
+        <td>Output type</td>
+        <td>Continuous output → regression; Categorical output → classification; No labels → clustering</td>
+      </tr>
+      <tr>
+        <td>Dataset size</td>
+        <td>Small datasets → K-NN, decision trees work well; Large datasets → neural networks benefit more</td>
+      </tr>
+      <tr>
+        <td>Interpretability needs</td>
+        <td>Decision trees are easily explained to non-experts; Neural networks are "black boxes"</td>
+      </tr>
+      <tr>
+        <td>Feature types</td>
+        <td>Images → CNN; Tabular data → regression, decision trees; Sequential data → RNN</td>
+      </tr>
+      <tr>
+        <td>Training time</td>
+        <td>K-NN has no training but slow prediction; neural networks need long training but fast inference</td>
+      </tr>
+      <tr>
+        <td>Data structure</td>
+        <td>Labelled data → supervised; Unlabelled → unsupervised; Agent-environment → reinforcement</td>
+      </tr>
+    </table>
+    <div class="gold-box">
+      <p><strong>Key principle:</strong> Different algorithms trained on the same data <em>will produce different results</em>. Model selection and comparison (trying multiple algorithms) is a standard practice in ML development.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S15: ALGORITHM COMPARISON TABLE -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:1120px;margin:0 auto;">
+    <div class="label">// Summary · All A4.3 Algorithms</div>
+    <h2>Algorithm <span class="hl-purple">Quick Reference</span></h2>
+    <table class="comparison-table">
+      <tr>
+        <th>Algorithm</th>
+        <th>Type</th>
+        <th>Output</th>
+        <th>Key Concept</th>
+        <th>Real-World Use</th>
+      </tr>
+      <tr>
+        <td>Linear Regression</td>
+        <td>Supervised</td>
+        <td>Continuous</td>
+        <td>Best-fit line; y = mx + b; r² fit</td>
+        <td>House price prediction, sales forecasting</td>
+      </tr>
+      <tr>
+        <td>K-NN</td>
+        <td>Supervised</td>
+        <td>Categorical</td>
+        <td>K nearest neighbours vote on class</td>
+        <td>Recommendation systems, image recognition</td>
+      </tr>
+      <tr>
+        <td>Decision Tree</td>
+        <td>Supervised</td>
+        <td>Categorical</td>
+        <td>If-then splits on best features</td>
+        <td>Medical diagnosis, credit scoring</td>
+      </tr>
+      <tr>
+        <td>Clustering (K-Means)</td>
+        <td>Unsupervised</td>
+        <td>Group labels</td>
+        <td>Group by feature similarity</td>
+        <td>Customer segmentation, anomaly detection</td>
+      </tr>
+      <tr>
+        <td>Association Rules</td>
+        <td>Unsupervised</td>
+        <td>IF → THEN rules</td>
+        <td>Co-occurrence frequency patterns</td>
+        <td>Market basket analysis, crime pattern analysis</td>
+      </tr>
+      <tr>
+        <td>Reinforcement Learning</td>
+        <td>Reward-based</td>
+        <td>Policy / actions</td>
+        <td>Agent maximises cumulative reward</td>
+        <td>Game AI, robotics, self-driving cars</td>
+      </tr>
+      <tr>
+        <td>Genetic Algorithm</td>
+        <td>Evolutionary</td>
+        <td>Optimised solution</td>
+        <td>Evolve solutions via selection, crossover, mutation</td>
+        <td>Route planning (TSP), scheduling, design optimization</td>
+      </tr>
+      <tr>
+        <td>ANN / MLP</td>
+        <td>Supervised / DL</td>
+        <td>Any</td>
+        <td>Layers of neurons; weights updated by backprop</td>
+        <td>Speech recognition, NLP, tabular prediction</td>
+      </tr>
+      <tr>
+        <td>CNN</td>
+        <td>Deep Learning</td>
+        <td>Categorical / any</td>
+        <td>Convolutional filters detect spatial features</td>
+        <td>Image classification, object detection, medical imaging</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S16: EXAM REVIEW -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:1120px;margin:0 auto;">
+    <div class="label">// Exam Review · A4.3</div>
+    <h2>Key Points <span class="hl-gold">Summary</span></h2>
+    <div class="grid g3" style="margin-bottom:14px;">
+      <div class="card blue">
+        <div class="card-title">Regression (4.3.1)</div>
+        <div class="card-body">
+          y = mx + b<br>
+          m = slope (rate of change)<br>
+          b = intercept (y when x = 0)<br>
+          r² = how well line fits (0–1)<br>
+          Predicts <em>continuous</em> values
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">Classification (4.3.2)</div>
+        <div class="card-body">
+          K-NN: vote by nearest neighbours<br>
+          Decision Tree: if-then rule splits<br>
+          Both predict <em>discrete categories</em><br>
+          DT: interpretable + embedded FS<br>
+          K-NN: slow prediction, simple concept
+        </div>
+      </div>
+      <div class="card gold">
+        <div class="card-title">Evaluation (4.3.3)</div>
+        <div class="card-body">
+          Accuracy: overall correctness<br>
+          Precision: quality of positives<br>
+          Recall: coverage of positives<br>
+          F1: harmonic mean (balance)<br>
+          Overfitting ↔ Underfitting
+        </div>
+      </div>
+      <div class="card cyan">
+        <div class="card-title">Unsupervised (4.3.4–5)</div>
+        <div class="card-body">
+          Clustering: group by similarity<br>
+          No labels needed<br>
+          K-Means: centroid-based grouping<br>
+          Association: IF X → THEN Y rules<br>
+          Support, confidence, lift
+        </div>
+      </div>
+      <div class="card orange">
+        <div class="card-title">RL + GA (4.3.6–7)</div>
+        <div class="card-body">
+          RL: agent, state, action, reward<br>
+          Exploration vs exploitation<br>
+          GA: population → fitness → select<br>
+          → crossover → mutate → evaluate<br>
+          Termination when fit enough
+        </div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">Neural Networks (4.3.8–9)</div>
+        <div class="card-body">
+          ANN: perceptron → MLP<br>
+          Inputs, weights, bias, activation<br>
+          Input / hidden / output layers<br>
+          CNN: conv → ReLU → pool → FC<br>
+          Hyperparams: kernel, stride, layers
+        </div>
+      </div>
+    </div>
+    <div class="red-box">
+      <p><strong>Common mistakes:</strong> Confusing supervised vs unsupervised; saying "accuracy" when precision or recall is more appropriate for the scenario; forgetting that CNNs are specifically designed for spatial data (images), not general tabular data.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S17: LINKING QUESTIONS -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Linking Questions · IB Connections</div>
+    <h2>Connecting to Other <span class="hl-cyan">Topics</span></h2>
+    <div class="steps" style="margin-bottom:14px;">
+      <div class="step-row"><div class="step-n" style="color:var(--cyan);">A1</div><div class="step-text">How do GPUs and TPUs accelerate the training of neural networks? Why are CPUs insufficient for deep learning at scale?</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--cyan);">A2</div><div class="step-text">How can machine learning be applied to optimize network traffic management and detect intrusions?</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--cyan);">A3</div><div class="step-text">How does database design (A3) affect the quality of data available for machine learning? How do SQL queries retrieve training data?</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--cyan);">A4.2</div><div class="step-text">How does data preprocessing (feature selection, normalization) directly affect the accuracy, precision and recall of a K-NN or decision tree model?</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--cyan);">B2</div><div class="step-text">How do sorting algorithms (B2.4) relate to the efficiency of finding nearest neighbours in K-NN?</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--cyan);">TOK</div><div class="step-text">To what extent can machine learning "understand" data, or is it purely pattern-matching? What are the ethical implications of using models we cannot fully explain (black boxes)?</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S18: CHECKLIST -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Before the Exam</div>
+    <h2>Review <span class="hl-gold">Checklist</span></h2>
+    <div class="grid g2" style="margin-bottom:14px;">
+      <div class="card gold">
+        <div class="card-title">Can You …</div>
+        <div class="card-body">
+          ☐ Explain linear regression (slope, intercept, r²)<br>
+          ☐ Describe K-NN step by step<br>
+          ☐ Draw a simple decision tree for a given scenario<br>
+          ☐ Distinguish accuracy, precision, recall, F1<br>
+          ☐ Explain overfitting and how to detect it<br>
+          ☐ Describe clustering with a real example<br>
+          ☐ Give an example of an association rule with support/confidence<br>
+          ☐ Explain the 6 steps of a genetic algorithm<br>
+          ☐ Sketch a perceptron with all labelled parts<br>
+          ☐ Sketch an MLP with input, hidden, and output layers<br>
+          ☐ List CNN layers in order with brief descriptions<br>
+          ☐ Justify algorithm choice for a given scenario
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">Big Picture A4 (HL)</div>
+        <div class="card-body">
+          <strong>A4.1</strong> — ML types and hardware (SL + HL)<br>
+          <strong>A4.2</strong> — Data preprocessing pipeline (HL)<br>
+          <strong>A4.3</strong> — ML algorithms in depth (HL)<br>
+          <strong>A4.4</strong> — Ethical considerations (SL + HL)<br><br>
+          HL students must understand <em>both</em> the conceptual and technical aspects — not just name algorithms, but explain how they work and when to use them.
+        </div>
+      </div>
+    </div>
+    <div class="cyan-box" style="margin-top:0;">
+      <p><strong>Next:</strong> B4 — Abstract Data Types (linked lists, BSTs, sets, hash tables) — the final HL-only section.</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>← Prev</button>
+  <div class="nav-sep"></div>
+  <div class="nav-dots" id="navDots"></div>
+  <div class="nav-sep"></div>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+</div>
+
+<script>
+  let cur = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const prog = document.getElementById('progress');
+  const slideNum = document.getElementById('slideNum');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const dotsEl = document.getElementById('navDots');
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  }
+  function goTo(n) {
+    slides[cur].classList.remove('active');
+    slides[cur].classList.add('exit');
+    const old = cur;
+    slides[old].scrollTop = 0;
+    setTimeout(() => slides[old].classList.remove('exit'), 380);
+    cur = n;
+    slides[cur].scrollTop = 0;
+    slides[cur].classList.add('active');
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+    prog.style.width = ((cur + 1) / total * 100) + '%';
+    slideNum.textContent = String(cur + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+    prevBtn.disabled = cur === 0;
+    nextBtn.disabled = cur === total - 1;
+  }
+  function changeSlide(d) { const n = cur + d; if (n >= 0 && n < total) goTo(n); }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') changeSlide(1);
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+  });
+  prog.style.width = (1 / total * 100) + '%';
+</script>
+</body>
+</html>

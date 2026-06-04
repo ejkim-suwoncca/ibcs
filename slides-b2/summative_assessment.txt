@@ -1,0 +1,430 @@
+================================================================================
+B2 PROGRAMMING FUNDAMENTALS  |  SUMMATIVE ASSESSMENT
+IB Computer Science SL
+================================================================================
+Name: _________________________________________  Date: ________________________
+Class: ________________________________________  Total: ______ / 40
+
+Instructions:
+  · Answer all questions in both sections.
+  · Write clearly. Crossed-out work will not be marked.
+  · For pseudocode questions, use the IB pseudocode conventions shown below.
+  · For flowchart questions, use the correct symbol for each step.
+  · Time allowed: 75 minutes.
+
+IB Pseudocode Reference:
+    variable ← value           Assignment
+    INPUT variable             Read input from user
+    OUTPUT value               Display output
+    IF condition THEN          Start of selection
+        ...
+    ELSE IF condition THEN
+        ...
+    ELSE
+        ...
+    END IF
+    FOR i FROM 1 TO n DO       Counted loop (runs n times)
+        ...
+    END FOR
+    WHILE condition DO         Conditional loop
+        ...
+    END WHILE
+
+Flowchart Symbol Reference:
+    Oval        — START / END (terminator)
+    Parallelogram — INPUT / OUTPUT
+    Rectangle   — PROCESS (assignment or calculation)
+    Diamond     — DECISION (yes/no condition)
+    Arrow       — Flowline showing direction
+================================================================================
+
+
+================================================================================
+SECTION A  —  DEBUGGING AND HAND CODING                        [ 22 marks ]
+================================================================================
+
+
+────────────────────────────────────────────────────────────────────────────────
+QUESTION A1  —  SEQUENTIAL REASONING                           [ 5 marks ]
+────────────────────────────────────────────────────────────────────────────────
+
+The program below calculates the average score for a class of students.
+The lines are correctly ordered.
+
+    Line 1:   total = 0
+    Line 2:   n = int(input("How many students? "))
+    Line 3:   for i in range(n):
+    Line 4:       score = int(input("Enter score: "))
+    Line 5:       total = total + score
+    Line 6:   average = total / n
+    Line 7:   print("Class average:", average)
+
+(a) Explain why  total = 0  must appear on line 1 rather than inside the loop
+    on line 4.                                                          [1 mark]
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+(b) Explain why  n = int(input(...))  must appear before line 3.       [1 mark]
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+(c) Explain why  average = total / n  must appear after the loop ends,
+    not inside it between lines 4 and 5.                               [1 mark]
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+(d) A student moves line 6 to be the first line inside the loop, between
+    lines 4 and 5. The program no longer crashes, but the output is wrong.
+
+    State the output when n = 3 and the scores entered are 60, 80, and 70.
+
+    Output: __________________________________________________________________
+
+    Explain in one sentence why this output is produced:                [2 marks]
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+
+────────────────────────────────────────────────────────────────────────────────
+QUESTION A2  —  PSEUDOCODE EXPLANATION                         [ 4 marks ]
+────────────────────────────────────────────────────────────────────────────────
+
+Study the pseudocode algorithm below and answer the questions that follow.
+
+    1   count ← 0
+    2   INPUT limit
+    3   FOR i FROM 1 TO limit DO
+    4       IF i MOD 2 = 0 THEN
+    5           count ← count + 1
+    6       END IF
+    7   END FOR
+    8   OUTPUT count
+
+(a) What does  i MOD 2 = 0  test? Write your answer in plain English.  [1 mark]
+
+    ________________________________________________________________________
+
+(b) What is the value of  count  after the algorithm runs if  limit = 10 ?
+    Show your working.                                                  [1 mark]
+
+    Working: _________________________________________________________________
+
+    count = ______
+
+(c) What does the algorithm output overall? Describe its purpose in one
+    complete sentence.                                                  [1 mark]
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+(d) A student changes line 4 to:  IF i MOD 3 = 0 THEN
+    State the new output when  limit = 10.                             [1 mark]
+
+    Output: ______
+
+
+────────────────────────────────────────────────────────────────────────────────
+QUESTION A3  —  FILL IN THE BLANK — CODING                     [ 7 marks ]
+────────────────────────────────────────────────────────────────────────────────
+
+The program below is a number guessing game. The user guesses a secret number.
+They have a maximum of 5 attempts. The game ends early if they guess correctly.
+
+Each blank [ __ ] is worth 1 mark. Fill in the correct value or keyword.
+
+    secret = 42
+    attempts = 0
+    guessed = [ 1 ]________
+
+    while attempts [ 2 ]________ 5 and not guessed:
+
+        attempts = attempts + 1
+        guess = int(input("Guess the number: "))
+
+        if guess == [ 3 ]________:
+            print("Correct! You got it in", attempts, "attempt(s).")
+            guessed = [ 4 ]________
+
+        elif guess [ 5 ]________ secret:
+            print("Too low.")
+
+        else:
+            print("Too high.")
+
+    if not [ 6 ]________:
+        print("Out of attempts. The number was", [ 7 ]________ )
+
+    [1] ______    [2] ______    [3] ______    [4] ______
+    [5] ______    [6] ______    [7] ______
+
+
+────────────────────────────────────────────────────────────────────────────────
+QUESTION A4  —  FLOWCHART FILL IN THE BLANK                    [ 6 marks ]
+────────────────────────────────────────────────────────────────────────────────
+
+The flowchart below represents a program that reads 5 temperatures and outputs
+how many were above 30 degrees.
+
+Each numbered label [ 1 ] through [ 6 ] is missing. Fill in the correct
+content for each shape. The shape type is given to you.
+
+    ┌──────────────────────────────┐
+    │           START              │   ← Oval
+    └──────────────────────────────┘
+                  │
+                  ▼
+    ┌──────────────────────────────┐
+    │  [ 1 ] (Rectangle)           │   What two variables are initialised here?
+    │  _____________________________│
+    └──────────────────────────────┘
+                  │
+                  ▼
+    ◇  [ 2 ] (Diamond — loop condition)                              ◇
+       _____________________________________________________________
+       YES (continue) ──────────────────────────────────────── NO (exit loop)
+          │                                                         │
+          ▼                                                         ▼
+    ┌───────────────────┐                               ┌──────────────────────┐
+    │  [ 3 ]            │   ← Parallelogram             │  [ 5 ]               │
+    │  (input)          │                               │  (output — 1 line)   │
+    └───────────────────┘                               └──────────────────────┘
+          │                                                         │
+          ▼                                                         ▼
+    ◇  [ 4 ] (Diamond — condition)                       ◇              END
+       _____________________________________________
+       YES ────────────────────────── NO
+        │                              │
+        ▼                              │
+    ┌────────────────────┐             │
+    │  hot_days ← hot_days + 1 │       │
+    └────────────────────┘             │
+        │                              │
+        └──────────────────────────────┘
+          │
+          ▼
+    ┌─────────────────────────────────┐
+    │  [ 6 ] (Rectangle — increment)  │
+    │  _________________________________│
+    └─────────────────────────────────┘
+          │
+          └──────────── (loops back to condition [ 2 ])
+
+Write your answers for each blank below:
+
+    [1] ________________________________________________________________________
+
+    [2] ________________________________________________________________________
+
+    [3] ________________________________________________________________________
+
+    [4] ________________________________________________________________________
+
+    [5] ________________________________________________________________________
+
+    [6] ________________________________________________________________________
+
+
+================================================================================
+SECTION B  —  COMPUTATIONAL THINKING SCENARIO                  [ 18 marks ]
+================================================================================
+
+Read the scenario carefully before answering any part.
+
+────────────────────────────────────────────────────────────────────────────────
+SCENARIO
+────────────────────────────────────────────────────────────────────────────────
+
+A school canteen runs a weekly lunch programme. At the end of each school week
+(5 days), the canteen manager needs a report.
+
+For each day of the week, the canteen records:
+  · The number of students who bought lunch
+  · The price per lunch that day (a decimal amount)
+
+The manager wants the program to calculate and display:
+  · The total revenue for the week (number of students × price, per day, summed)
+  · The average daily revenue
+  · The day with the highest revenue (just the day number, e.g. "Day 3")
+  · A warning message if any day had fewer than 20 students buy lunch
+
+
+────────────────────────────────────────────────────────────────────────────────
+QUESTION B1  —  INPUTS, OUTPUTS AND ABSTRACTION                [ 4 marks ]
+────────────────────────────────────────────────────────────────────────────────
+
+(a) Identify all inputs the program must receive.                      [2 marks]
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+(b) Identify all outputs the program must produce.                     [2 marks]
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+
+────────────────────────────────────────────────────────────────────────────────
+QUESTION B2  —  DECOMPOSITION                                  [ 4 marks ]
+────────────────────────────────────────────────────────────────────────────────
+
+Break the problem down into steps a computer could follow.
+Write your steps as a numbered plain-English list. Do not write code yet.
+You should have between 5 and 8 steps.                                 [4 marks]
+
+    Step 1: ___________________________________________________________________
+
+    Step 2: ___________________________________________________________________
+
+    Step 3: ___________________________________________________________________
+
+    Step 4: ___________________________________________________________________
+
+    Step 5: ___________________________________________________________________
+
+    Step 6: ___________________________________________________________________
+
+    Step 7: ___________________________________________________________________
+
+    Step 8: ___________________________________________________________________
+
+
+────────────────────────────────────────────────────────────────────────────────
+QUESTION B3  —  PSEUDOCODE                                     [ 5 marks ]
+────────────────────────────────────────────────────────────────────────────────
+
+Write IB-style pseudocode for the complete solution.
+Use the pseudocode conventions listed at the top of this paper.
+
+One mark is awarded for each of the following being correct:
+  · Variable initialisation before the loop          [1]
+  · Correct loop structure (FOR loop, 5 iterations)  [1]
+  · Revenue calculation inside the loop              [1]
+  · Tracking the highest revenue day                 [1]
+  · All four outputs after the loop                  [1]
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+
+────────────────────────────────────────────────────────────────────────────────
+QUESTION B4  —  FLOWCHART                                      [ 5 marks ]
+────────────────────────────────────────────────────────────────────────────────
+
+Draw a flowchart for the solution in the space below.
+
+You must include:
+  · START and END terminators                                         [1]
+  · Initialisation of variables before the loop                       [1]
+  · A loop structure with a correct entry and exit condition           [1]
+  · The warning decision (fewer than 20 students)                     [1]
+  · All output steps after the loop ends                              [1]
+
+Label every shape. Use arrows to show the direction of flow clearly.
+Label both branches of every decision diamond (YES / NO or TRUE / FALSE).
+
+    FLOWCHART SPACE — draw below this line:
+
+
+
+
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+
+
+================================================================================
+                                                       TOTAL: ______ / 40
+================================================================================
+
+Examiner use only:
+
+    A1 [ /5 ]    A2 [ /4 ]    A3 [ /7 ]    A4 [ /6 ]
+    B1 [ /4 ]    B2 [ /4 ]    B3 [ /5 ]    B4 [ /5 ]
+
+================================================================================
+END OF SUMMATIVE ASSESSMENT
+================================================================================

@@ -1,0 +1,258 @@
+================================================================================
+B2 PROGRAMMING — LOOPS IN CONTEXT  |  GROUP WORKSHEET
+IB Computer Science SL  |  B2.3.3 Iteration + Review
+================================================================================
+Names: ________________________________  ________________________________
+       ________________________________  ________________________________
+
+Instructions: Work through every activity together. Agree before writing.
+Topics: for loops  ·  while loops  ·  variables  ·  conditionals
+Estimated time: ~40 minutes
+================================================================================
+
+
+--------------------------------------------------------------------------------
+ACTIVITY 1 — LOOP OR NO LOOP?                                  [ ~5 minutes ]
+--------------------------------------------------------------------------------
+
+For each task below, decide as a group whether it needs:
+    (A) No loop    (B) A for loop (counted)    (C) A while loop (conditional)
+
+Write A, B, or C in the box, then write a one-sentence justification.
+
+  [ ]  1. Print the numbers 1 to 20.
+
+       Reason: __________________________________________________________________
+
+  [ ]  2. Keep asking the user for a password until they enter the correct one.
+
+       Reason: __________________________________________________________________
+
+  [ ]  3. Calculate the area of a single rectangle using length × width.
+
+       Reason: __________________________________________________________________
+
+  [ ]  4. Read a score for each student in a class — you are told there are 30.
+
+       Reason: __________________________________________________________________
+
+  [ ]  5. Add up all positive numbers the user enters; stop when they enter 0.
+
+       Reason: __________________________________________________________________
+
+Discussion: What is the key difference between choosing a for loop and a
+while loop? Write your group's one-sentence rule below.
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+
+--------------------------------------------------------------------------------
+ACTIVITY 2 — PREDICT THE OUTPUT                                [ ~10 minutes ]
+--------------------------------------------------------------------------------
+
+Without running the code, predict exactly what gets printed. Show any working.
+
+─────────────────────────────────
+Program A
+
+    total = 0
+    for i in range(1, 6):
+        if i % 2 == 0:
+            total = total + i
+    print(total)
+
+Trace the loop iterations before writing your answer:
+
+    i = 1 : i % 2 == 0 ?  ____  →  total = ________
+    i = 2 : i % 2 == 0 ?  ____  →  total = ________
+    i = 3 : i % 2 == 0 ?  ____  →  total = ________
+    i = 4 : i % 2 == 0 ?  ____  →  total = ________
+    i = 5 : i % 2 == 0 ?  ____  →  total = ________
+
+    Output: ___________________________________________________________________
+
+─────────────────────────────────
+Program B
+
+    count = 10
+    while count > 0:
+        if count % 3 == 0:
+            print(count)
+        count = count - 1
+
+    Output (list every printed line in order):
+
+    _____   _____   _____
+
+    How many times does the loop body execute in total?  _______
+
+─────────────────────────────────
+Program C
+
+    word = "hello"
+    result = ""
+    for ch in word:
+        if ch == "l":
+            result = result + "*"
+        else:
+            result = result + ch
+    print(result)
+
+    Output: ___________________________________________________________________
+
+    In plain English, describe what this loop does to any string:
+
+    ________________________________________________________________________
+
+
+--------------------------------------------------------------------------------
+ACTIVITY 3 — BUG HUNT                                          [ ~10 minutes ]
+--------------------------------------------------------------------------------
+
+Each program has exactly one bug. Identify it, name the bug type, and fix it.
+
+─────────────────────────────────
+Bug 1
+
+    count = 1
+    while count < 5:
+        print("Counting:", count)
+
+  What actually happens when you run this?
+
+    ________________________________________________________________________
+
+  Bug type (circle one):    infinite loop  /  logic error  /  sequence error
+
+  What line is missing, and where does it go?
+
+    Missing line: _____________________________________________________________
+
+    Goes after line: _______
+
+─────────────────────────────────
+Bug 2
+
+    total = 0
+    for i in range(1, 6):
+        total = i
+    print("Sum:", total)
+
+  What does this program print?  _____________________________________________
+
+  What was the programmer trying to calculate?  _______________________________
+
+  Bug type (circle one):    infinite loop  /  logic error  /  sequence error
+
+  Write the corrected line 3:
+
+    ___________________________________________________________________________
+
+  What should the program print?  _____________________________________________
+
+─────────────────────────────────
+Bug 3
+
+    target = 50
+    score = 0
+    attempts = 0
+
+    while score != target:
+        score = int(input("Guess: "))
+        attempts = attempts + 1
+        if score == target:
+            print("Correct! Attempts:", attempts)
+
+    print("Game over")
+
+  There is no crash or infinite loop — but a student noticed the program
+  sometimes prints the wrong number of attempts. Trace through two guesses
+  (e.g. user enters 30, then 50) and identify where the count goes wrong.
+
+    Attempt 1: score = _____ , attempts = _____
+    Attempt 2: score = _____ , attempts = _____
+
+  Explain the problem:
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+  Write the fix (you may change any line or move code):
+
+    ________________________________________________________________________
+
+
+--------------------------------------------------------------------------------
+ACTIVITY 4 — BUILD IT TOGETHER                                 [ ~15 minutes ]
+--------------------------------------------------------------------------------
+
+Write a Python program that meets the specification below as a group.
+
+SPECIFICATION:
+  A teacher wants to record exam scores for their class.
+    — Ask how many students took the exam (integer, call it  n )
+    — Use a loop to collect one score per student (integer, 0–100)
+    — Count how many students scored 50 or above (a pass)
+    — After all scores are entered, print:
+          · The number of students who passed
+          · The class average (as a decimal)
+    — Wrap the score input in a try/except so that non-numeric entries
+      print "Invalid score — skipped" and do not crash the program
+
+Write your program below. Use correct indentation.
+
+    n = int(input( ____________________________________________________________ ))
+
+    total = ___________
+    passed = ___________
+    valid_count = ___________
+
+    for i in range( ____________ ):
+
+        try:
+
+            score = int(input( ________________________________________________ ))
+
+            total = _____________________________________________________________
+
+            if _________________________________________________________________:
+
+                passed = ________________________________________________________
+
+            valid_count = _______________________________________________________
+
+        except ____________________________:
+
+            print( _____________________________________________________________ )
+
+    if valid_count > 0:
+
+        average = ______________________________________________________________
+
+        print("Students who passed:", __________________________________________ )
+
+        print("Class average:", ________________________________________________ )
+
+
+Trace your program with this test case and write the expected output:
+
+    n = 3,  scores entered = 72, "abc", 85
+
+    Output:
+    ___________________________________________________________________________
+    ___________________________________________________________________________
+    ___________________________________________________________________________
+
+Discussion: Why is valid_count needed separately from n?
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+
+================================================================================
+END OF GROUP WORKSHEET
+================================================================================

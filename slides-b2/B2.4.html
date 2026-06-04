@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B2.4 — Programming Algorithms</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Serif+Display&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07090f;
+  --surface: #0e1117;
+  --surface2: #151923;
+  --border: #1e2535;
+  --border2: #2a3448;
+  --gold: #c9a84c;
+  --gold2: #e8c97a;
+  --blue: #4a9eff;
+  --green: #3dd68c;
+  --red: #ff6b6b;
+  --purple: #9b8afb;
+  --cyan: #22d3ee;
+  --orange: #fb923c;
+  --text: #dde4f0;
+  --text2: #7a8ba8;
+  --text3: #3d4f6a;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; }
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(232,201,122,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232,201,122,0.02) 1px, transparent 1px);
+  background-size: 80px 80px;
+  pointer-events: none; z-index: 0;
+}
+.deck { position: relative; width: 100vw; height: 100vh; z-index: 1; }
+.slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 50px 72px 92px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.38s ease, transform 0.38s ease;
+  transform: translateY(12px);
+}
+.slide.active { opacity: 1; pointer-events: all; transform: translateY(0); }
+.slide.exit { opacity: 0; transform: translateY(-12px); }
+.slide.scroll-slide {
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-top: 64px;
+  padding-bottom: 132px;
+}
+.slide.scroll-slide::-webkit-scrollbar { width: 10px; }
+.slide.scroll-slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
+.progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--gold), var(--orange)); transition: width 0.38s ease; z-index: 100; }
+.slide-num { position: fixed; top: 17px; right: 24px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
+.content { width: 100%; max-width: 1120px; }
+.label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+.label.blue { color: var(--blue); } .label.green { color: var(--green); } .label.purple { color: var(--purple); } .label.cyan { color: var(--cyan); } .label.orange { color: var(--orange); }
+h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.8rem,5.5vw,4.8rem); font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
+h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem); font-weight: 400; line-height: 1.1; margin-bottom: 12px; }
+.lead { font-size: clamp(1rem,1.75vw,1.35rem); color: var(--text2); font-weight: 300; line-height: 1.65; margin-bottom: 24px; }
+.hl-gold { color: var(--gold2); } .hl-blue { color: var(--blue); } .hl-green { color: var(--green); } .hl-purple { color: var(--purple); } .hl-cyan { color: var(--cyan); } .hl-red { color: var(--red); } .hl-orange { color: var(--orange); }
+.grid { display: grid; gap: 2px; width: 100%; }
+.g2 { grid-template-columns: 1fr 1fr; } .g3 { grid-template-columns: 1fr 1fr 1fr; } .g4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+.card { background: var(--surface); border: 1px solid var(--border); padding: 18px 22px; position: relative; overflow: hidden; }
+.card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.card.gold::after { background: var(--gold); } .card.blue::after { background: var(--blue); }
+.card.green::after { background: var(--green); } .card.red::after { background: var(--red); }
+.card.purple::after { background: var(--purple); } .card.cyan::after { background: var(--cyan); }
+.card.orange::after { background: var(--orange); }
+.card-title { font-family: 'DM Mono', monospace; font-size: clamp(0.7rem,1.1vw,0.9rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.card-body { font-size: clamp(0.85rem,1.3vw,1.05rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
+.card-body strong { color: var(--text); font-weight: 500; }
+.info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(74,158,255,0.04); border-top: 1px solid rgba(74,158,255,0.08); border-right: 1px solid rgba(74,158,255,0.08); border-bottom: 1px solid rgba(74,158,255,0.08); margin-top: 14px; }
+.info-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.info-box strong { color: var(--blue); }
+.gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(201,168,76,0.04); border-top: 1px solid rgba(201,168,76,0.08); border-right: 1px solid rgba(201,168,76,0.08); border-bottom: 1px solid rgba(201,168,76,0.08); margin-top: 14px; }
+.gold-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.gold-box strong { color: var(--gold2); }
+.steps { display: flex; flex-direction: column; gap: 2px; }
+.step-row { display: flex; align-items: flex-start; gap: 18px; background: var(--surface); border: 1px solid var(--border); padding: 13px 18px; }
+.step-n { font-family: 'DM Mono', monospace; font-size: clamp(0.85rem,1.4vw,1.1rem); color: var(--gold2); min-width: 32px; flex-shrink: 0; font-weight: 500; padding-top: 2px; }
+.step-text { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.5; font-weight: 300; }
+.step-text strong { color: var(--text); font-weight: 500; }
+.code { background: #0a0d14; border: 1px solid var(--border2); border-left: 3px solid var(--gold); padding: 14px 18px; font-family: 'DM Mono', monospace; font-size: clamp(0.72rem,1.1vw,0.9rem); line-height: 1.75; overflow-x: auto; margin-top: 8px; }
+.kw { color: var(--cyan); font-weight: 500; }
+.fn { color: var(--gold2); }
+.str { color: var(--green); }
+.cmt { color: var(--text3); font-style: italic; }
+.num { color: var(--orange); }
+/* array visual */
+.arr-row { display: flex; gap: 2px; align-items: center; margin: 12px 0; }
+.arr-cell { width: 48px; height: 44px; display: flex; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 1rem; font-weight: 500; border: 1px solid var(--border2); background: var(--surface); transition: all 0.3s; }
+.arr-cell.hi { background: rgba(201,168,76,0.15); border-color: var(--gold); color: var(--gold2); }
+.arr-cell.found { background: rgba(61,214,140,0.15); border-color: var(--green); color: var(--green); }
+.arr-cell.elim { opacity: 0.3; }
+.arr-idx { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--text3); text-align: center; width: 48px; }
+.comparison-table { width: 100%; border-collapse: collapse; }
+.comparison-table th { font-family: 'DM Mono', monospace; font-size: clamp(0.65rem,1vw,0.82rem); letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); padding: 9px 14px; text-align: left; border-bottom: 1px solid var(--border2); background: var(--surface); }
+.comparison-table td { padding: 11px 14px; font-size: clamp(0.82rem,1.3vw,1.02rem); border-bottom: 1px solid var(--border); color: var(--text2); background: var(--surface); line-height: 1.5; vertical-align: top; }
+.comparison-table tr:last-child td { border-bottom: none; }
+.comparison-table tr:hover td { background: var(--surface2); }
+.comparison-table td:first-child { font-family: 'DM Mono', monospace; font-size: 0.88em; color: var(--gold2); font-weight: 500; }
+.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; }
+.nav-btn { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; }
+.nav-btn:hover { color: var(--gold2); border-color: var(--gold); background: rgba(201,168,76,0.05); }
+.nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+.nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 200px; justify-content: center; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); cursor: pointer; transition: all 0.2s; }
+.dot.active { background: var(--gold); transform: scale(1.4); }
+.nav-sep { width: 1px; height: 18px; background: var(--border2); }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="slide-num" id="slideNum">01 / 14</div>
+<div class="deck">
+
+<!-- ═══════════════════════════════════════════════ S1: TITLE -->
+<div class="slide active">
+  <div class="content">
+    <div class="label">// B2.4 · Programming Algorithms</div>
+    <h1>Programming<br><span class="hl-gold">Algorithms</span></h1>
+    <p style="font-family:'DM Mono',monospace;font-size:clamp(0.85rem,1.4vw,1.1rem);color:var(--text3);margin-bottom:20px;">Theme B2 · IB Computer Science SL</p>
+    <div class="gold-box">
+      <p><strong>👉 Focus:</strong> Big O notation, searching (linear + binary), and sorting (bubble + selection) — how they work, how to trace them, and how efficient they are.</p>
+    </div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:20px;">
+      <div style="padding-left:12px;border-left:2px solid var(--gold);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Big O</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">TIME COMPLEXITY</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--blue);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Search</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">LINEAR / BINARY</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--orange);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Sort</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">BUBBLE / SELECTION</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--green);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Trace</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">STEP-BY-STEP</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S2: IB SPEC -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// IB Specification · B2.4</div>
+    <h2>What IB Requires</h2>
+    <div class="steps">
+      <div class="step-row"><div class="step-n">2.4.1</div><div class="step-text"><strong>Describe</strong> algorithm efficiency using Big O notation — time and space complexity</div></div>
+      <div class="step-row"><div class="step-n">2.4.2</div><div class="step-text"><strong>Construct and trace</strong> linear search and binary search algorithms for data retrieval</div></div>
+      <div class="step-row"><div class="step-n">2.4.3</div><div class="step-text"><strong>Construct and trace</strong> bubble sort and selection sort — evaluate their time and space complexities</div></div>
+    </div>
+    <div class="gold-box" style="margin-top:14px;">
+      <p><strong>"Construct and trace"</strong> = you must be able to write the algorithm in Python/Java AND trace through it step by step, showing what happens at each iteration. Both skills are assessed.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S3: BIG O -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:1000px;margin:0 auto;">
+    <div class="label">// B2.4.1 · Big O Notation</div>
+    <h2>Big O <span class="hl-gold">Notation</span></h2>
+    <p class="lead" style="margin-bottom:12px;"><strong style="color:var(--gold2);">Big O notation</strong> describes how an algorithm's performance (time or space) scales as the input size <em>n</em> grows. It gives the <strong>worst-case scenario</strong>.</p>
+    <table class="comparison-table">
+      <thead><tr><th>Notation</th><th>Name</th><th>Description</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>O(1)</td><td style="color:var(--text2);">Constant</td><td style="color:var(--text2);">Time is the same regardless of input size</td><td style="color:var(--text2);">Access array by index: nums[0]</td></tr>
+        <tr><td>O(log n)</td><td style="color:var(--text2);">Logarithmic</td><td style="color:var(--text2);">Halves the problem at each step</td><td style="color:var(--text2);">Binary search</td></tr>
+        <tr><td>O(n)</td><td style="color:var(--text2);">Linear</td><td style="color:var(--text2);">Time grows proportionally with input</td><td style="color:var(--text2);">Linear search, sum all elements</td></tr>
+        <tr><td>O(n²)</td><td style="color:var(--text2);">Quadratic</td><td style="color:var(--text2);">Nested loops — time grows as n squared</td><td style="color:var(--text2);">Bubble sort, selection sort</td></tr>
+        <tr><td>O(2ⁿ)</td><td style="color:var(--text2);">Exponential</td><td style="color:var(--text2);">Doubles with each extra input item</td><td style="color:var(--text2);">Some recursive problems</td></tr>
+      </tbody>
+    </table>
+    <div class="grid g2" style="gap:2px;margin-top:14px;">
+      <div class="card gold">
+        <div class="card-title">Time Complexity</div>
+        <div class="card-body">How many <strong>steps/operations</strong> the algorithm takes. Ignores constants and lower-order terms — only the dominant growth rate matters.</div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Space Complexity</div>
+        <div class="card-body">How much <strong>extra memory</strong> the algorithm uses. O(1) = constant (uses same memory regardless of n). O(n) = linear extra memory needed.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S4: LINEAR SEARCH INTRO -->
+<div class="slide">
+  <div class="content" style="max-width:960px;margin:0 auto;">
+    <div class="label blue">// B2.4.2 · Searching</div>
+    <h2>Linear <span class="hl-blue">Search</span></h2>
+    <p class="lead" style="margin-bottom:14px;">Check each element <strong style="color:var(--blue);">one by one from the start</strong> until the target is found (or the end is reached). Also called sequential search.</p>
+    <div class="grid g2" style="gap:2px;margin-bottom:14px;">
+      <div class="card blue">
+        <div class="card-title">Algorithm Steps</div>
+        <div class="card-body">
+          Start at index 0<br>
+          Compare current element to target (key)<br>
+          If match → found! Return position<br>
+          If no match → move to next element<br>
+          If end reached → not found
+        </div>
+      </div>
+      <div class="card gold">
+        <div class="card-title">Complexity</div>
+        <div class="card-body">
+          <strong>Time:</strong> O(n) — worst case checks every element<br><br>
+          <strong>Space:</strong> O(1) — no extra memory needed<br><br>
+          <strong>Best case:</strong> O(1) — target is at index 0<br><br>
+          Works on <strong>unsorted</strong> lists
+        </div>
+      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>When to use:</strong> Small datasets (&lt;50 items), or when the list is not sorted. Sorting a list just to binary search it may not be worth the overhead.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S5: LINEAR SEARCH CODE + TRACE -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:900px;margin:0 auto;">
+    <div class="label blue">// B2.4.2 · Linear Search Code</div>
+    <h2>Linear Search: <span class="hl-blue">Code &amp; Trace</span></h2>
+    <div class="code"><span class="cmt"># Python — Linear Search</span>
+<span class="fn">def</span> linear_search(numbers, key):
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="fn">len</span>(numbers)):
+        <span class="kw">if</span> numbers[i] == key:
+            <span class="kw">return</span> i          <span class="cmt"># found at index i</span>
+    <span class="kw">return</span> -<span class="num">1</span>              <span class="cmt"># not found</span>
+
+numbers = [<span class="num">3</span>, <span class="num">9</span>, <span class="num">7</span>, <span class="num">4</span>, <span class="num">11</span>]
+key = <span class="num">7</span>
+result = linear_search(numbers, key)
+<span class="fn">print</span>(<span class="str">"Found at index:"</span>, result)   <span class="cmt"># Output: Found at index: 2</span></div>
+    <p style="font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--text3);margin-top:16px;margin-bottom:6px;">TRACE — searching for 7 in [3, 9, 7, 4, 11]:</p>
+    <div class="steps">
+      <div class="step-row"><div class="step-n">i=0</div><div class="step-text">Check numbers[0] = <strong>3</strong>. 3 ≠ 7. Move on.</div></div>
+      <div class="step-row"><div class="step-n">i=1</div><div class="step-text">Check numbers[1] = <strong>9</strong>. 9 ≠ 7. Move on.</div></div>
+      <div class="step-row" style="border-left:3px solid var(--green);"><div class="step-n" style="color:var(--green);">i=2</div><div class="step-text">Check numbers[2] = <strong>7</strong>. 7 == 7. <strong style="color:var(--green);">Found! Return 2.</strong></div></div>
+    </div>
+    <div class="gold-box" style="margin-top:12px;">
+      <p><strong>In the exam:</strong> When asked to trace, show every comparison — write the index checked, the value, and whether it matched. Don't skip steps.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S6: BINARY SEARCH INTRO -->
+<div class="slide">
+  <div class="content" style="max-width:960px;margin:0 auto;">
+    <div class="label cyan">// B2.4.2 · Binary Search</div>
+    <h2>Binary <span class="hl-cyan">Search</span></h2>
+    <p class="lead" style="margin-bottom:14px;">Works on <strong style="color:var(--cyan);">sorted</strong> lists only. At each step, compare the target to the <strong>middle element</strong>. Eliminate the half that can't contain the target. Repeat.</p>
+    <div class="grid g2" style="gap:2px;margin-bottom:14px;">
+      <div class="card cyan">
+        <div class="card-title">Algorithm Steps</div>
+        <div class="card-body">
+          Set lower = 0, upper = last index<br>
+          Find mid = (lower + upper) // 2<br>
+          If list[mid] == key → found!<br>
+          If list[mid] &lt; key → lower = mid + 1<br>
+          If list[mid] &gt; key → upper = mid − 1<br>
+          Repeat until found or lower &gt; upper
+        </div>
+      </div>
+      <div class="card gold">
+        <div class="card-title">Complexity</div>
+        <div class="card-body">
+          <strong>Time:</strong> O(log n) — halves the search space each step<br><br>
+          <strong>Space:</strong> O(1)<br><br>
+          <strong>Requirement:</strong> List must be <strong>sorted</strong><br><br>
+          For 1000 items: max ~10 comparisons!
+        </div>
+      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>Why O(log n)?</strong> Each step halves the remaining elements. Starting with n items: after 1 step → n/2 → n/4 → ... → 1. Number of steps ≈ log₂(n).</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S7: BINARY SEARCH CODE + TRACE -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:900px;margin:0 auto;">
+    <div class="label cyan">// B2.4.2 · Binary Search Code &amp; Trace</div>
+    <h2>Binary Search: <span class="hl-cyan">Code &amp; Trace</span></h2>
+    <div class="code"><span class="cmt"># Python — Binary Search (list must be SORTED)</span>
+<span class="fn">def</span> binary_search(numbers, key):
+    lower = <span class="num">0</span>
+    upper = <span class="fn">len</span>(numbers) - <span class="num">1</span>
+    <span class="kw">while</span> lower &lt;= upper:
+        mid = (lower + upper) // <span class="num">2</span>
+        <span class="kw">if</span> numbers[mid] == key:
+            <span class="kw">return</span> mid
+        <span class="kw">elif</span> numbers[mid] &lt; key:
+            lower = mid + <span class="num">1</span>    <span class="cmt"># search right half</span>
+        <span class="kw">else</span>:
+            upper = mid - <span class="num">1</span>    <span class="cmt"># search left half</span>
+    <span class="kw">return</span> -<span class="num">1</span>                  <span class="cmt"># not found</span>
+
+numbers = [<span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>, <span class="num">7</span>, <span class="num">9</span>, <span class="num">11</span>, <span class="num">13</span>]
+<span class="fn">print</span>(binary_search(numbers, <span class="num">11</span>))   <span class="cmt"># Output: 5</span></div>
+    <p style="font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--text3);margin-top:16px;margin-bottom:6px;">TRACE — searching for 11 in [3, 4, 5, 7, 9, 11, 13]:</p>
+    <div class="steps">
+      <div class="step-row"><div class="step-n">Step 1</div><div class="step-text">lower=0, upper=6, mid=3 → numbers[3]=<strong>7</strong>. 7 &lt; 11 → lower = 4</div></div>
+      <div class="step-row"><div class="step-n">Step 2</div><div class="step-text">lower=4, upper=6, mid=5 → numbers[5]=<strong>11</strong>. 11 == 11 → <strong style="color:var(--green);">Found at index 5!</strong></div></div>
+    </div>
+    <div class="gold-box" style="margin-top:10px;">
+      <p><strong>Key:</strong> Only 2 comparisons for 7 elements! Linear search could take up to 7. For 1 million items, binary search takes at most 20 comparisons.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S8: SEARCH COMPARISON -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// B2.4.2 · Search Comparison</div>
+    <h2>Linear vs Binary <span class="hl-gold">Search</span></h2>
+    <table class="comparison-table" style="margin-top:10px;">
+      <thead><tr><th>Property</th><th>Linear Search</th><th>Binary Search</th></tr></thead>
+      <tbody>
+        <tr><td>Time Complexity</td><td style="color:var(--text2);">O(n)</td><td style="color:var(--text2);">O(log n)</td></tr>
+        <tr><td>Space Complexity</td><td style="color:var(--text2);">O(1)</td><td style="color:var(--text2);">O(1)</td></tr>
+        <tr><td>Requires sorted list?</td><td style="color:var(--text2);">No</td><td style="color:var(--text2);">Yes</td></tr>
+        <tr><td>Best case</td><td style="color:var(--text2);">O(1) — first element</td><td style="color:var(--text2);">O(1) — midpoint is target</td></tr>
+        <tr><td>Worst case (1000 items)</td><td style="color:var(--text2);">1000 comparisons</td><td style="color:var(--text2);">~10 comparisons</td></tr>
+        <tr><td>Best for</td><td style="color:var(--text2);">Small or unsorted lists</td><td style="color:var(--text2);">Large sorted lists</td></tr>
+      </tbody>
+    </table>
+    <div class="gold-box" style="margin-top:16px;">
+      <p><strong>Exam tip:</strong> If a scenario says "the database is indexed/sorted by name" → binary search. If "employees are stored in the order they joined" → linear search (not sorted). Choose based on the context.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S9: BUBBLE SORT INTRO -->
+<div class="slide">
+  <div class="content" style="max-width:960px;margin:0 auto;">
+    <div class="label orange">// B2.4.3 · Sorting</div>
+    <h2>Bubble <span class="hl-orange">Sort</span></h2>
+    <p class="lead" style="margin-bottom:14px;">Compare <strong style="color:var(--orange);">adjacent pairs</strong>. Swap them if they're in the wrong order. Repeat passes until no swaps occur. Larger elements "bubble up" to the end.</p>
+    <div class="grid g2" style="gap:2px;margin-bottom:14px;">
+      <div class="card orange">
+        <div class="card-title">Algorithm Steps</div>
+        <div class="card-body">
+          Outer loop: repeat n passes<br>
+          Inner loop: compare adjacent elements [j] and [j+1]<br>
+          If [j] &gt; [j+1]: swap them (using temp variable)<br>
+          After each pass, the last element is in its correct place<br>
+          Reduce inner loop length by 1 each pass
+        </div>
+      </div>
+      <div class="card gold">
+        <div class="card-title">Complexity</div>
+        <div class="card-body">
+          <strong>Time:</strong> O(n²) — two nested loops<br>
+          <strong>Space:</strong> O(1) — only needs a temp variable<br><br>
+          Simple to understand and implement<br>
+          Very inefficient for large datasets
+        </div>
+      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>Name origin:</strong> Larger values "bubble" to the right end of the list with each pass, just like air bubbles rise to the top of water.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S10: BUBBLE SORT TRACE -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:900px;margin:0 auto;">
+    <div class="label orange">// B2.4.3 · Bubble Sort Trace</div>
+    <h2>Bubble Sort: <span class="hl-orange">Code &amp; Trace</span></h2>
+    <div class="code"><span class="cmt"># Python — Bubble Sort</span>
+numbers = [<span class="num">7</span>, <span class="num">3</span>, <span class="num">2</span>, <span class="num">9</span>]
+<span class="kw">for</span> i <span class="kw">in</span> range(<span class="fn">len</span>(numbers)):
+    <span class="kw">for</span> j <span class="kw">in</span> range(<span class="num">0</span>, <span class="fn">len</span>(numbers) - <span class="num">1</span> - i):
+        <span class="kw">if</span> numbers[j] &gt; numbers[j + <span class="num">1</span>]:
+            temp = numbers[j]
+            numbers[j] = numbers[j + <span class="num">1</span>]
+            numbers[j + <span class="num">1</span>] = temp
+<span class="fn">print</span>(numbers)   <span class="cmt"># [2, 3, 7, 9]</span></div>
+    <p style="font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--text3);margin-top:16px;margin-bottom:6px;">TRACE — sorting [7, 3, 2, 9]:</p>
+    <div class="steps">
+      <div class="step-row"><div class="step-n" style="color:var(--orange);">Pass 1</div><div class="step-text">Compare 7,3 → swap → [<strong>3,7,</strong>2,9]. Compare 7,2 → swap → [3,<strong>2,7,</strong>9]. Compare 7,9 → no swap. Result: [3,2,7,<strong style="color:var(--green);">9</strong>] (9 is in place)</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--orange);">Pass 2</div><div class="step-text">Compare 3,2 → swap → [<strong>2,3,</strong>7,9]. Compare 3,7 → no swap. Result: [2,3,<strong style="color:var(--green);">7,9</strong>]</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--orange);">Pass 3</div><div class="step-text">Compare 2,3 → no swap. Result: [<strong style="color:var(--green);">2,3,7,9</strong>] — Sorted! ✓</div></div>
+    </div>
+    <div class="gold-box" style="margin-top:12px;">
+      <p><strong>Swap pattern:</strong> Always use a temp variable: temp = a[j]; a[j] = a[j+1]; a[j+1] = temp. Without temp, one value is overwritten and lost.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S11: SELECTION SORT INTRO + CODE -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:900px;margin:0 auto;">
+    <div class="label purple">// B2.4.3 · Selection Sort</div>
+    <h2>Selection <span class="hl-purple">Sort</span></h2>
+    <p class="lead" style="margin-bottom:12px;">Find the <strong style="color:var(--purple);">smallest element</strong> in the unsorted portion. Move it to the front of the unsorted section. Repeat.</p>
+    <div class="code"><span class="cmt"># Python — Selection Sort</span>
+numbers = [<span class="num">9</span>, <span class="num">7</span>, <span class="num">2</span>, <span class="num">3</span>]
+<span class="kw">for</span> i <span class="kw">in</span> range(<span class="fn">len</span>(numbers) - <span class="num">1</span>):
+    min_idx = i
+    <span class="kw">for</span> j <span class="kw">in</span> range(i + <span class="num">1</span>, <span class="fn">len</span>(numbers)):
+        <span class="kw">if</span> numbers[j] &lt; numbers[min_idx]:
+            min_idx = j
+    <span class="cmt"># Swap minimum to position i</span>
+    temp = numbers[i]
+    numbers[i] = numbers[min_idx]
+    numbers[min_idx] = temp
+<span class="fn">print</span>(numbers)   <span class="cmt"># [2, 3, 7, 9]</span></div>
+    <p style="font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--text3);margin-top:14px;margin-bottom:6px;">TRACE — sorting [9, 7, 2, 3]:</p>
+    <div class="steps">
+      <div class="step-row"><div class="step-n" style="color:var(--purple);">i=0</div><div class="step-text">Find min in [9,7,2,3] → <strong>2</strong> at index 2. Swap 9↔2 → [<strong style="color:var(--green);">2</strong>,7,9,3]</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--purple);">i=1</div><div class="step-text">Find min in [7,9,3] → <strong>3</strong> at index 3. Swap 7↔3 → [2,<strong style="color:var(--green);">3</strong>,9,7]</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--purple);">i=2</div><div class="step-text">Find min in [9,7] → <strong>7</strong> at index 3. Swap 9↔7 → [2,3,<strong style="color:var(--green);">7</strong>,9]</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--green);">Done</div><div class="step-text">Result: [<strong style="color:var(--green);">2, 3, 7, 9</strong>] — Sorted! ✓</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S12: SORT COMPARISON -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// B2.4.3 · Sort Comparison</div>
+    <h2>Bubble vs Selection <span class="hl-gold">Sort</span></h2>
+    <table class="comparison-table" style="margin-top:10px;">
+      <thead><tr><th>Property</th><th>Bubble Sort</th><th>Selection Sort</th></tr></thead>
+      <tbody>
+        <tr><td>Time Complexity</td><td style="color:var(--text2);">O(n²)</td><td style="color:var(--text2);">O(n²)</td></tr>
+        <tr><td>Space Complexity</td><td style="color:var(--text2);">O(1)</td><td style="color:var(--text2);">O(1)</td></tr>
+        <tr><td>Strategy</td><td style="color:var(--text2);">Compare adjacent pairs, swap if out of order</td><td style="color:var(--text2);">Find minimum, move it to sorted section</td></tr>
+        <tr><td>Number of swaps</td><td style="color:var(--text2);">Many (one per comparison)</td><td style="color:var(--text2);">Fewer (one per pass)</td></tr>
+        <tr><td>Early exit possible?</td><td style="color:var(--text2);">Yes (with "swapped" flag — if no swaps in a pass, already sorted)</td><td style="color:var(--text2);">No — always completes all passes</td></tr>
+        <tr><td>Best case</td><td style="color:var(--text2);">O(n) with early exit (already sorted)</td><td style="color:var(--text2);">O(n²) always</td></tr>
+      </tbody>
+    </table>
+    <div class="gold-box" style="margin-top:16px;">
+      <p><strong>Both are O(n²):</strong> Neither is efficient for large datasets. But selection sort makes fewer swaps, which can matter when swapping is expensive. Bubble sort with a swapped flag can exit early on nearly-sorted data.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S13: ALL COMPLEXITIES SUMMARY -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Summary · Complexity</div>
+    <h2>Algorithm <span class="hl-gold">Complexity Summary</span></h2>
+    <table class="comparison-table" style="margin-top:10px;">
+      <thead><tr><th>Algorithm</th><th>Time (Best)</th><th>Time (Worst)</th><th>Space</th><th>Requires Sorted?</th></tr></thead>
+      <tbody>
+        <tr><td>Linear Search</td><td style="color:var(--text2);">O(1)</td><td style="color:var(--text2);">O(n)</td><td style="color:var(--text2);">O(1)</td><td style="color:var(--text2);">No</td></tr>
+        <tr><td>Binary Search</td><td style="color:var(--text2);">O(1)</td><td style="color:var(--text2);">O(log n)</td><td style="color:var(--text2);">O(1)</td><td style="color:var(--text2);">Yes</td></tr>
+        <tr><td>Bubble Sort</td><td style="color:var(--text2);">O(n)*</td><td style="color:var(--text2);">O(n²)</td><td style="color:var(--text2);">O(1)</td><td style="color:var(--text2);">N/A — it sorts</td></tr>
+        <tr><td>Selection Sort</td><td style="color:var(--text2);">O(n²)</td><td style="color:var(--text2);">O(n²)</td><td style="color:var(--text2);">O(1)</td><td style="color:var(--text2);">N/A — it sorts</td></tr>
+      </tbody>
+    </table>
+    <p style="font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--text3);margin-top:8px;">* Bubble sort best case O(n) only when using the "swapped" flag early-exit optimization</p>
+    <div class="gold-box" style="margin-top:16px;">
+      <p><strong>Key insight:</strong> Binary search is far more efficient than linear for large sorted datasets. But the data must be sorted first — and sorting costs O(n²) with these basic algorithms, so weigh the trade-off based on how often you need to search.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S14: SUMMARY -->
+<div class="slide">
+  <div class="content" style="max-width:960px;margin:0 auto;">
+    <div class="label">// B2.4 · Summary</div>
+    <h2>Key <span class="hl-gold">Takeaways</span></h2>
+    <div class="grid g2" style="gap:2px;">
+      <div class="card gold">
+        <div class="card-title">Big O Notation</div>
+        <div class="card-body">
+          Describes worst-case growth of time/space<br>
+          O(1) constant &lt; O(log n) &lt; O(n) &lt; O(n²)<br>
+          Ignore constants and lower-order terms<br>
+          Two nested loops = O(n²)
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Search Algorithms</div>
+        <div class="card-body">
+          <strong>Linear</strong> — O(n), works on any list<br>
+          <strong>Binary</strong> — O(log n), requires sorted list<br>
+          Use binary for large sorted data<br>
+          Use linear for small or unsorted data
+        </div>
+      </div>
+      <div class="card orange">
+        <div class="card-title">Sort Algorithms</div>
+        <div class="card-body">
+          <strong>Bubble</strong> — compare adjacent, swap if wrong<br>
+          <strong>Selection</strong> — find min, place it at front<br>
+          Both O(n²) time, O(1) space<br>
+          Selection makes fewer swaps
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">Exam Essentials</div>
+        <div class="card-body">
+          Trace every step — show each comparison<br>
+          Use temp variable for swapping<br>
+          State Big O with justification<br>
+          Match algorithm to scenario context
+        </div>
+      </div>
+    </div>
+    <div class="gold-box" style="margin-top:14px;">
+      <p><strong>Next:</strong> B2.5 File Processing — reading from, writing to, and appending files in Python.</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>← Prev</button>
+  <div class="nav-sep"></div>
+  <div class="nav-dots" id="navDots"></div>
+  <div class="nav-sep"></div>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+</div>
+
+<script>
+  let cur = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const prog = document.getElementById('progress');
+  const slideNum = document.getElementById('slideNum');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const dotsEl = document.getElementById('navDots');
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  }
+  function goTo(n) {
+    slides[cur].classList.remove('active');
+    slides[cur].classList.add('exit');
+    const old = cur;
+    slides[old].scrollTop = 0;
+    setTimeout(() => slides[old].classList.remove('exit'), 380);
+    cur = n;
+    slides[cur].scrollTop = 0;
+    slides[cur].classList.add('active');
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+    prog.style.width = ((cur + 1) / total * 100) + '%';
+    slideNum.textContent = String(cur + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+    prevBtn.disabled = cur === 0;
+    nextBtn.disabled = cur === total - 1;
+  }
+  function changeSlide(d) { const n = cur + d; if (n >= 0 && n < total) goTo(n); }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') changeSlide(1);
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+  });
+  prog.style.width = (1 / total * 100) + '%';
+</script>
+</body>
+</html>

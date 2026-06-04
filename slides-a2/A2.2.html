@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A2.2 — Network Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Serif+Display&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07090f; --surface: #0e1117; --surface2: #151923;
+  --border: #1e2535; --border2: #2a3448;
+  --gold: #c9a84c; --gold2: #e8c97a;
+  --blue: #4a9eff; --green: #3dd68c; --red: #ff6b6b;
+  --purple: #9b8afb; --cyan: #22d3ee; --orange: #fb923c;
+  --text: #dde4f0; --text2: #7a8ba8; --text3: #3d4f6a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;height:100%;overflow:hidden;}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(74,158,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,0.03) 1px,transparent 1px),linear-gradient(rgba(74,158,255,0.01) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,0.01) 1px,transparent 1px);background-size:80px 80px,80px 80px,16px 16px,16px 16px;pointer-events:none;z-index:0;}
+.deck{position:relative;width:100vw;height:100vh;z-index:1;}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:50px 72px 92px;opacity:0;pointer-events:none;transition:opacity 0.38s ease,transform 0.38s ease;transform:translateY(12px);}
+.slide.active{opacity:1;pointer-events:all;transform:translateY(0);}
+.slide.exit{opacity:0;transform:translateY(-12px);}
+.slide.scroll-slide{justify-content:flex-start;align-items:stretch;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-top:64px;padding-bottom:132px;}
+.slide.scroll-slide::-webkit-scrollbar{width:10px;}
+.slide.scroll-slide::-webkit-scrollbar-thumb{background:var(--border2);border-radius:999px;}
+.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--purple),var(--blue));transition:width 0.38s ease;z-index:100;}
+.slide-num{position:fixed;top:17px;right:24px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);letter-spacing:0.1em;z-index:100;}
+.content{width:100%;max-width:1120px;}
+.label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--purple);margin-bottom:14px;}
+.label.blue{color:var(--blue);}.label.green{color:var(--green);}.label.cyan{color:var(--cyan);}.label.gold{color:var(--gold);}.label.orange{color:var(--orange);}
+h1{font-family:'DM Serif Display',serif;font-size:clamp(2.8rem,5.5vw,4.8rem);font-weight:400;line-height:1.05;letter-spacing:-0.02em;margin-bottom:14px;}
+h2{font-family:'DM Serif Display',serif;font-size:clamp(1.9rem,4vw,3.2rem);font-weight:400;line-height:1.1;margin-bottom:12px;}
+.lead{font-size:clamp(1rem,1.75vw,1.35rem);color:var(--text2);font-weight:300;line-height:1.65;margin-bottom:24px;}
+.hl-gold{color:var(--gold2);}.hl-blue{color:var(--blue);}.hl-green{color:var(--green);}.hl-purple{color:var(--purple);}.hl-cyan{color:var(--cyan);}.hl-red{color:var(--red);}.hl-orange{color:var(--orange);}
+.grid{display:grid;gap:2px;width:100%;}
+.g2{grid-template-columns:1fr 1fr;}.g3{grid-template-columns:1fr 1fr 1fr;}.g4{grid-template-columns:1fr 1fr 1fr 1fr;}
+.card{background:var(--surface);border:1px solid var(--border);padding:18px 22px;position:relative;overflow:hidden;}
+.card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.card.gold::after{background:var(--gold);}.card.blue::after{background:var(--blue);}
+.card.green::after{background:var(--green);}.card.red::after{background:var(--red);}
+.card.purple::after{background:var(--purple);}.card.cyan::after{background:var(--cyan);}
+.card.orange::after{background:var(--orange);}
+.card-title{font-family:'DM Mono',monospace;font-size:clamp(0.7rem,1.1vw,0.9rem);font-weight:500;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;}
+.card-body{font-size:clamp(0.85rem,1.3vw,1.05rem);color:var(--text2);line-height:1.65;font-weight:300;}
+.card-body strong{color:var(--text);font-weight:500;}
+.info-box{border-left:3px solid var(--blue);padding:13px 20px;background:rgba(74,158,255,0.04);border-top:1px solid rgba(74,158,255,0.08);border-right:1px solid rgba(74,158,255,0.08);border-bottom:1px solid rgba(74,158,255,0.08);margin-top:14px;}
+.info-box p{font-size:clamp(0.88rem,1.4vw,1.1rem);color:var(--text2);line-height:1.6;}
+.info-box strong{color:var(--blue);}
+.gold-box{border-left:3px solid var(--gold);padding:13px 20px;background:rgba(201,168,76,0.04);border-top:1px solid rgba(201,168,76,0.08);border-right:1px solid rgba(201,168,76,0.08);border-bottom:1px solid rgba(201,168,76,0.08);margin-top:14px;}
+.gold-box p{font-size:clamp(0.88rem,1.4vw,1.1rem);color:var(--text2);line-height:1.6;}
+.gold-box strong{color:var(--gold2);}
+.purple-box{border-left:3px solid var(--purple);padding:13px 20px;background:rgba(155,138,251,0.04);border-top:1px solid rgba(155,138,251,0.08);border-right:1px solid rgba(155,138,251,0.08);border-bottom:1px solid rgba(155,138,251,0.08);margin-top:14px;}
+.purple-box p{font-size:clamp(0.88rem,1.4vw,1.1rem);color:var(--text2);line-height:1.6;}
+.purple-box strong{color:var(--purple);}
+.divider{width:100%;height:1px;background:var(--border);margin:14px 0;}
+.steps{display:flex;flex-direction:column;gap:2px;}
+.step-row{display:flex;align-items:center;gap:18px;background:var(--surface);border:1px solid var(--border);padding:13px 18px;}
+.step-n{font-family:'DM Mono',monospace;font-size:clamp(0.85rem,1.4vw,1.1rem);color:var(--purple);min-width:28px;flex-shrink:0;font-weight:500;}
+.step-text{font-size:clamp(0.88rem,1.4vw,1.1rem);color:var(--text2);line-height:1.5;font-weight:300;}
+.step-text strong{color:var(--text);font-weight:500;}
+.comparison-table{width:100%;border-collapse:collapse;}
+.comparison-table th{font-family:'DM Mono',monospace;font-size:clamp(0.65rem,1vw,0.82rem);letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);padding:9px 14px;text-align:left;border-bottom:1px solid var(--border2);background:var(--surface);}
+.comparison-table td{padding:11px 14px;font-size:clamp(0.82rem,1.3vw,1.02rem);border-bottom:1px solid var(--border);color:var(--text2);background:var(--surface);line-height:1.5;vertical-align:top;}
+.comparison-table tr:last-child td{border-bottom:none;}
+.comparison-table tr:hover td{background:var(--surface2);}
+.comparison-table td:first-child{font-family:'DM Mono',monospace;font-size:0.88em;color:var(--purple);font-weight:500;}
+.nav{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:13px;z-index:100;background:rgba(7,9,15,0.92);backdrop-filter:blur(16px);border:1px solid var(--border2);padding:10px 20px;}
+.nav-btn{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text2);background:none;border:1px solid var(--border2);padding:6px 14px;cursor:pointer;transition:all 0.2s;}
+.nav-btn:hover{color:var(--purple);border-color:var(--purple);background:rgba(155,138,251,0.05);}
+.nav-btn:disabled{opacity:0.25;cursor:not-allowed;}
+.nav-dots{display:flex;gap:4px;flex-wrap:wrap;max-width:200px;justify-content:center;}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--border2);cursor:pointer;transition:all 0.2s;}
+.dot.active{background:var(--purple);transform:scale(1.4);}
+.nav-sep{width:1px;height:18px;background:var(--border2);}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="slide-num" id="slideNum">01 / 13</div>
+<div class="deck">
+
+<!-- S1: TITLE -->
+<div class="slide active">
+  <div class="content">
+    <div class="label">// A2.2 · Network Architecture</div>
+    <h1>Network<br><span class="hl-purple">Architecture</span></h1>
+    <p style="font-family:'DM Mono',monospace;font-size:clamp(0.85rem,1.4vw,1.1rem);color:var(--text3);margin-bottom:20px;">Theme A2 · IB Computer Science SL</p>
+    <div class="gold-box">
+      <p><strong>👉 Guiding Question:</strong> How is a network designed and organised to be reliable, scalable, and efficient?</p>
+    </div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:20px;">
+      <div style="padding-left:12px;border-left:2px solid var(--purple);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Topologies</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">STAR · MESH · HYBRID</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--blue);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Models</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">CLIENT-SERVER · P2P</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--cyan);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Segmentation</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">SUBNETS · VLANs</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: IB SPEC -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// IB Specification · A2.2</div>
+    <h2>What IB Requires</h2>
+    <div class="steps">
+      <div class="step-row">
+        <div class="step-n">2.2.1</div>
+        <div class="step-text"><strong>Describe</strong> the functions and practical applications of network topologies — star, mesh, hybrid. Consider: reliability, speed, scalability, collisions, cost.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">2.2.2</div>
+        <div class="step-text"><span style="color:var(--purple);font-family:'DM Mono',monospace;font-size:0.8em;">HL</span> <strong>Describe</strong> the function of servers — DNS, DHCP, file, mail, proxy, web servers.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">2.2.3</div>
+        <div class="step-text"><strong>Compare and contrast</strong> networking models — client-server and peer-to-peer (P2P). Benefits, drawbacks, and real-world applications.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">2.2.4</div>
+        <div class="step-text"><strong>Explain</strong> the concepts and applications of network segmentation — segmenting, subnetting, and VLANs.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: TOPOLOGIES INTRO -->
+<div class="slide">
+  <div class="content" style="max-width:900px;margin:0 auto;">
+    <div class="label">// A2.2.1</div>
+    <h2>What is a <span class="hl-purple">Topology?</span></h2>
+    <p class="lead">A network topology describes the <strong style="color:var(--purple);">physical or logical arrangement</strong> of devices and how they are connected.</p>
+    <div class="grid g3" style="gap:2px;">
+      <div class="card purple">
+        <div class="card-title">Physical Topology</div>
+        <div class="card-body">The actual layout of cables and hardware in the real world.</div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Logical Topology</div>
+        <div class="card-body">How data actually flows through the network, which may differ from physical layout.</div>
+      </div>
+      <div class="card cyan">
+        <div class="card-title">Why It Matters</div>
+        <div class="card-body">Topology affects reliability, cost, performance, and how easy it is to expand or fix the network.</div>
+      </div>
+    </div>
+    <div class="info-box">
+      <p>IB SL requires: <strong>star</strong>, <strong>mesh</strong>, and <strong>hybrid</strong>. You must be able to draw these, describe how they work, and evaluate them against: reliability, transmission speed, scalability, data collisions, and cost.</p>
+    </div>
+  </div>
+</div>
+
+<!-- S4: STAR TOPOLOGY -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A2.2.1 · Star Topology</div>
+    <h2>Star <span class="hl-purple">Topology</span></h2>
+    <div class="grid g2" style="gap:12px;align-items:start;">
+      <div>
+        <div class="card purple" style="margin-bottom:2px;">
+          <div class="card-title">How it works</div>
+          <div class="card-body">All devices connect to a <strong>central hub or switch</strong>. All data passes through the central device.</div>
+        </div>
+        <div class="card blue">
+          <div class="card-title">Evaluation</div>
+          <div class="card-body">
+            <strong style="color:var(--green);">✓ Easy to add/remove devices</strong> — plug in to switch<br>
+            <strong style="color:var(--green);">✓ Fault isolation</strong> — one cable fails, only that device is affected<br>
+            <strong style="color:var(--green);">✓ No collisions</strong> — switch sends to specific device<br>
+            <strong style="color:var(--green);">✓ Easy to monitor / manage</strong><br>
+            <strong style="color:var(--red);">✗ Single point of failure</strong> — if the switch fails, the whole network goes down<br>
+            <strong style="color:var(--red);">✗ Cable cost</strong> — every device needs a cable to the centre
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;background:var(--surface);border:1px solid var(--border);padding:20px;">
+        <svg viewBox="0 0 220 220" width="100%" style="max-height:240px;">
+          <!-- Centre switch -->
+          <rect x="85" y="85" width="50" height="50" rx="4" fill="#151923" stroke="#9b8afb" stroke-width="2"/>
+          <text x="110" y="114" text-anchor="middle" fill="#9b8afb" font-size="9" font-family="monospace">SWITCH</text>
+          <!-- Spokes -->
+          <line x1="110" y1="85" x2="110" y2="30" stroke="#2a3448" stroke-width="1.5"/>
+          <line x1="110" y1="135" x2="110" y2="190" stroke="#2a3448" stroke-width="1.5"/>
+          <line x1="85" y1="110" x2="30" y2="110" stroke="#2a3448" stroke-width="1.5"/>
+          <line x1="135" y1="110" x2="190" y2="110" stroke="#2a3448" stroke-width="1.5"/>
+          <line x1="85" y1="85" x2="40" y2="40" stroke="#2a3448" stroke-width="1.5"/>
+          <line x1="135" y1="85" x2="180" y2="40" stroke="#2a3448" stroke-width="1.5"/>
+          <line x1="85" y1="135" x2="40" y2="180" stroke="#2a3448" stroke-width="1.5"/>
+          <line x1="135" y1="135" x2="180" y2="180" stroke="#2a3448" stroke-width="1.5"/>
+          <!-- Devices -->
+          <circle cx="110" cy="22" r="8" fill="#0e1117" stroke="#4a9eff" stroke-width="1.5"/>
+          <circle cx="110" cy="198" r="8" fill="#0e1117" stroke="#4a9eff" stroke-width="1.5"/>
+          <circle cx="22" cy="110" r="8" fill="#0e1117" stroke="#4a9eff" stroke-width="1.5"/>
+          <circle cx="198" cy="110" r="8" fill="#0e1117" stroke="#4a9eff" stroke-width="1.5"/>
+          <circle cx="32" cy="32" r="8" fill="#0e1117" stroke="#4a9eff" stroke-width="1.5"/>
+          <circle cx="188" cy="32" r="8" fill="#0e1117" stroke="#4a9eff" stroke-width="1.5"/>
+          <circle cx="32" cy="188" r="8" fill="#0e1117" stroke="#4a9eff" stroke-width="1.5"/>
+          <circle cx="188" cy="188" r="8" fill="#0e1117" stroke="#4a9eff" stroke-width="1.5"/>
+          <text x="110" y="215" text-anchor="middle" fill="#3d4f6a" font-size="8" font-family="monospace">STAR TOPOLOGY</text>
+        </svg>
+      </div>
+    </div>
+    <div class="gold-box">
+      <p><strong>Most common in practice</strong> — used in homes, schools, and most offices because of its simplicity and fault isolation.</p>
+    </div>
+  </div>
+</div>
+
+<!-- S5: MESH TOPOLOGY -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A2.2.1 · Mesh Topology</div>
+    <h2>Mesh <span class="hl-purple">Topology</span></h2>
+    <div class="grid g2" style="gap:12px;align-items:start;">
+      <div>
+        <div class="card purple" style="margin-bottom:2px;">
+          <div class="card-title">How it works</div>
+          <div class="card-body">Every device connects to <strong>multiple (or all) other devices</strong>. Data can travel via multiple routes. A <em>full mesh</em> connects every device to every other.</div>
+        </div>
+        <div class="card blue">
+          <div class="card-title">Evaluation</div>
+          <div class="card-body">
+            <strong style="color:var(--green);">✓ Highly reliable</strong> — multiple paths, no single point of failure<br>
+            <strong style="color:var(--green);">✓ Redundancy</strong> — if one link fails, traffic reroutes<br>
+            <strong style="color:var(--green);">✓ High throughput</strong> — parallel paths possible<br>
+            <strong style="color:var(--red);">✗ Expensive</strong> — many cables and connections needed<br>
+            <strong style="color:var(--red);">✗ Complex</strong> — difficult to set up and manage<br>
+            <strong style="color:var(--red);">✗ Scalability</strong> — adding a device requires many new connections
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;background:var(--surface);border:1px solid var(--border);padding:20px;">
+        <svg viewBox="0 0 200 200" width="100%" style="max-height:240px;">
+          <!-- 5-node full mesh -->
+          <!-- Positions: A(100,20), B(180,80), C(155,170), D(45,170), E(20,80) -->
+          <!-- All connections -->
+          <line x1="100" y1="20" x2="180" y2="80" stroke="#2a3448" stroke-width="1.2"/>
+          <line x1="100" y1="20" x2="155" y2="170" stroke="#2a3448" stroke-width="1.2"/>
+          <line x1="100" y1="20" x2="45" y2="170" stroke="#2a3448" stroke-width="1.2"/>
+          <line x1="100" y1="20" x2="20" y2="80" stroke="#2a3448" stroke-width="1.2"/>
+          <line x1="180" y1="80" x2="155" y2="170" stroke="#2a3448" stroke-width="1.2"/>
+          <line x1="180" y1="80" x2="45" y2="170" stroke="#2a3448" stroke-width="1.2"/>
+          <line x1="180" y1="80" x2="20" y2="80" stroke="#2a3448" stroke-width="1.2"/>
+          <line x1="155" y1="170" x2="45" y2="170" stroke="#2a3448" stroke-width="1.2"/>
+          <line x1="155" y1="170" x2="20" y2="80" stroke="#2a3448" stroke-width="1.2"/>
+          <line x1="45" y1="170" x2="20" y2="80" stroke="#2a3448" stroke-width="1.2"/>
+          <!-- Nodes -->
+          <circle cx="100" cy="20" r="10" fill="#0e1117" stroke="#9b8afb" stroke-width="2"/>
+          <circle cx="180" cy="80" r="10" fill="#0e1117" stroke="#9b8afb" stroke-width="2"/>
+          <circle cx="155" cy="170" r="10" fill="#0e1117" stroke="#9b8afb" stroke-width="2"/>
+          <circle cx="45" cy="170" r="10" fill="#0e1117" stroke="#9b8afb" stroke-width="2"/>
+          <circle cx="20" cy="80" r="10" fill="#0e1117" stroke="#9b8afb" stroke-width="2"/>
+          <text x="100" y="192" text-anchor="middle" fill="#3d4f6a" font-size="8" font-family="monospace">FULL MESH (5 nodes = 10 links)</text>
+        </svg>
+      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>Used in:</strong> military networks, internet backbone infrastructure, and situations where reliability is more important than cost. For n nodes, full mesh needs n(n-1)/2 connections.</p>
+    </div>
+  </div>
+</div>
+
+<!-- S6: HYBRID TOPOLOGY -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A2.2.1 · Hybrid Topology</div>
+    <h2>Hybrid <span class="hl-purple">Topology</span></h2>
+    <p class="lead" style="margin-bottom:14px;">A <strong style="color:var(--purple);">combination</strong> of two or more topologies — the most common in real-world networks.</p>
+    <div class="grid g2" style="gap:2px;">
+      <div class="card purple">
+        <div class="card-title">How it works</div>
+        <div class="card-body">
+          Different parts of the network use different topologies, connected together.<br><br>
+          <em>Example:</em> A school with star-topology in each classroom, connected via a mesh backbone between buildings.
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Evaluation</div>
+        <div class="card-body">
+          <strong style="color:var(--green);">✓ Flexible</strong> — each segment uses the best topology for its needs<br>
+          <strong style="color:var(--green);">✓ Scalable</strong> — easy to add new segments<br>
+          <strong style="color:var(--green);">✓ Fault tolerant</strong> — combines strengths of each topology<br>
+          <strong style="color:var(--red);">✗ Complex</strong> — harder to design and manage<br>
+          <strong style="color:var(--red);">✗ Cost</strong> — can be expensive to implement
+        </div>
+      </div>
+    </div>
+    <div class="gold-box">
+      <p><strong>Real world:</strong> The internet itself is a hybrid topology — local ISP networks are often star or bus; the backbone between data centres uses full mesh for maximum redundancy.</p>
+    </div>
+    <div class="comparison-table" style="margin-top:14px;">
+      <!-- Quick comparison -->
+    </div>
+    <table class="comparison-table" style="margin-top:14px;">
+      <thead><tr><th>Topology</th><th>Reliability</th><th>Cost</th><th>Scalability</th><th>Best For</th></tr></thead>
+      <tbody>
+        <tr><td>Star</td><td style="color:var(--text2);">Medium (switch = SPOF)</td><td style="color:var(--text2);">Low–Medium</td><td style="color:var(--text2);">High</td><td style="color:var(--text2);">Homes, schools, offices</td></tr>
+        <tr><td>Mesh</td><td style="color:var(--text2);">Very High</td><td style="color:var(--text2);">High</td><td style="color:var(--text2);">Low</td><td style="color:var(--text2);">Military, backbone</td></tr>
+        <tr><td>Hybrid</td><td style="color:var(--text2);">High</td><td style="color:var(--text2);">Variable</td><td style="color:var(--text2);">High</td><td style="color:var(--text2);">Large organisations</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- S7: CLIENT-SERVER MODEL -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A2.2.3 · Networking Models</div>
+    <h2>Client–Server <span class="hl-blue">Model</span></h2>
+    <p class="lead" style="margin-bottom:14px;">A central <strong style="color:var(--blue);">server</strong> provides resources or services; <strong style="color:var(--cyan);">clients</strong> request them.</p>
+    <div class="grid g2" style="gap:2px;">
+      <div class="card blue">
+        <div class="card-title">How it works</div>
+        <div class="card-body">
+          The <strong>server</strong> is always on, stores data, and processes requests.<br>
+          <strong>Clients</strong> connect to the server to access resources.<br><br>
+          Client sends a <strong>request</strong> → Server processes → Server sends <strong>response</strong>.<br><br>
+          <em>Examples: Web browsing (HTTP), email (IMAP), online banking</em>
+        </div>
+      </div>
+      <div class="card cyan">
+        <div class="card-title">Advantages &amp; Disadvantages</div>
+        <div class="card-body">
+          <strong style="color:var(--green);">✓ Centralised data</strong> — easy backup and management<br>
+          <strong style="color:var(--green);">✓ Security</strong> — access control on the server<br>
+          <strong style="color:var(--green);">✓ Scalable</strong> — server can be upgraded independently<br>
+          <strong style="color:var(--green);">✓ Consistent data</strong> — one source of truth<br>
+          <strong style="color:var(--red);">✗ Single point of failure</strong> — server goes down = no service<br>
+          <strong style="color:var(--red);">✗ Cost</strong> — expensive to maintain powerful server hardware<br>
+          <strong style="color:var(--red);">✗ Bottleneck</strong> — heavy load can slow response
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S8: P2P MODEL -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A2.2.3 · Networking Models</div>
+    <h2>Peer-to-Peer <span class="hl-purple">Model</span></h2>
+    <p class="lead" style="margin-bottom:14px;">Every device is both a <strong style="color:var(--purple);">client and a server</strong> — peers share resources directly with each other.</p>
+    <div class="grid g2" style="gap:2px;">
+      <div class="card purple">
+        <div class="card-title">How it works</div>
+        <div class="card-body">
+          No central server. Each <strong>peer</strong> shares its own resources (files, processing power) and uses others' resources.<br><br>
+          <em>Examples: BitTorrent, blockchain networks, early Skype, home file sharing</em>
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Advantages &amp; Disadvantages</div>
+        <div class="card-body">
+          <strong style="color:var(--green);">✓ No single point of failure</strong> — network continues even if nodes leave<br>
+          <strong style="color:var(--green);">✓ Low cost</strong> — no dedicated server needed<br>
+          <strong style="color:var(--green);">✓ Scalable</strong> — more peers = more capacity<br>
+          <strong style="color:var(--red);">✗ Security</strong> — hard to control what is shared<br>
+          <strong style="color:var(--red);">✗ Data inconsistency</strong> — no central version of truth<br>
+          <strong style="color:var(--red);">✗ Performance varies</strong> — depends on peers being online
+        </div>
+      </div>
+    </div>
+    <div class="gold-box">
+      <p><strong>Key comparison question:</strong> "Justify which model is more suitable for a school network." Answer: Client-server — centralised control, security, and consistent data access for students and teachers.</p>
+    </div>
+  </div>
+</div>
+
+<!-- S9: NETWORK SEGMENTATION -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// A2.2.4 · Network Segmentation</div>
+    <h2>Network <span class="hl-cyan">Segmentation</span></h2>
+    <p class="lead" style="margin-bottom:14px;">Dividing a network into smaller parts to improve <strong style="color:var(--cyan);">performance</strong> and <strong style="color:var(--cyan);">security</strong>.</p>
+    <div class="grid g3" style="gap:2px;margin-bottom:14px;">
+      <div class="card cyan">
+        <div class="card-title">Why Segment?</div>
+        <div class="card-body">
+          <strong>Reduce congestion</strong> — fewer devices per segment = less competition for bandwidth<br><br>
+          <strong>Improve security</strong> — limit which devices can communicate<br><br>
+          <strong>Manage resources</strong> — different segments can have different policies
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Subnetting</div>
+        <div class="card-body">
+          Dividing an IP address space into smaller <strong>subnets</strong>.<br><br>
+          Each subnet acts as its own mini-network.<br><br>
+          E.g., 192.168.1.0/24 split into 192.168.1.0/25 and 192.168.1.128/25<br><br>
+          Reduces broadcast traffic within each subnet.
+        </div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">VLANs</div>
+        <div class="card-body">
+          <strong>Virtual Local Area Networks</strong> — logically separate networks on the same physical hardware.<br><br>
+          Devices on the same VLAN communicate as if on the same network, even if physically apart.<br><br>
+          Traffic between VLANs requires a router.
+        </div>
+      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>School example:</strong> Staff, students, and guests all connect to the same physical network, but VLANs keep their traffic separate. Staff can access the admin server; students and guests cannot.</p>
+    </div>
+    <div class="grid g2" style="gap:2px;margin-top:14px;">
+      <div class="card cyan">
+        <div class="card-title">Segmentation Benefits</div>
+        <div class="card-body">
+          Limits the spread of malware within the network<br>
+          Reduces the impact of broadcast storms<br>
+          Allows different security policies per segment<br>
+          Improves overall network performance
+        </div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">VLAN vs Physical Separation</div>
+        <div class="card-body">
+          Physical separation requires separate hardware (switches, cabling)<br>
+          VLANs achieve logical separation on <em>shared</em> hardware<br>
+          VLANs are more cost-effective and flexible<br>
+          Configuration-based, not hardware-based
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S10: SERVERS (HL) -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label purple">// A2.2.2 · HL — Types of Servers</div>
+    <h2>Types of <span class="hl-purple">Servers</span></h2>
+    <p class="lead" style="margin-bottom:14px;">Servers provide specific services to clients on a network.</p>
+    <div class="steps" style="gap:2px;">
+      <div class="step-row">
+        <div class="step-n" style="color:var(--cyan);min-width:90px;font-size:0.82rem;">DNS Server</div>
+        <div class="step-text"><strong>Domain Name Server</strong> — translates human-readable domain names (e.g., google.com) into IP addresses (e.g., 142.250.80.46). Like a phone book for the internet.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--blue);min-width:90px;font-size:0.82rem;">DHCP Server</div>
+        <div class="step-text"><strong>Dynamic Host Configuration Protocol</strong> — automatically assigns IP addresses, subnet masks, and default gateway to devices joining the network.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--green);min-width:90px;font-size:0.82rem;">File Server</div>
+        <div class="step-text">Stores and provides access to files for network users. Centralises storage so users can access their files from any device on the network.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--gold2);min-width:90px;font-size:0.82rem;">Mail Server</div>
+        <div class="step-text">Sends and receives email. Uses SMTP (sending) and IMAP/POP3 (receiving) protocols. Stores emails for users.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--purple);min-width:90px;font-size:0.82rem;">Proxy Server</div>
+        <div class="step-text">Acts as an intermediary between clients and the internet. Can cache content (faster re-access), filter requests (content policy), and hide client IP addresses.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--orange);min-width:90px;font-size:0.82rem;">Web Server</div>
+        <div class="step-text">Hosts websites and serves web pages to clients via HTTP/HTTPS. Receives requests and sends back HTML, CSS, JavaScript, and other resources.</div>
+      </div>
+    </div>
+    <div class="gold-box" style="margin-top:14px;">
+      <p><strong>HL Evaluation factors:</strong> When choosing a server type, consider <strong>function</strong> (what service is needed?), <strong>scalability</strong> (how many users?), <strong>reliability</strong> (what is the uptime requirement?), and <strong>security</strong> (what data does it hold?).</p>
+    </div>
+  </div>
+</div>
+
+<!-- S11: HOW DNS WORKS -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// DNS Deep Dive</div>
+    <h2>How <span class="hl-cyan">DNS</span> Works</h2>
+    <p class="lead" style="margin-bottom:14px;">You type <strong style="color:var(--cyan);">google.com</strong> — how does your computer find it?</p>
+    <div class="steps">
+      <div class="step-row">
+        <div class="step-n" style="color:var(--cyan);">1</div>
+        <div class="step-text"><strong>Browser cache check</strong> — Has your browser already resolved this domain recently? Use cached IP address.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--cyan);">2</div>
+        <div class="step-text"><strong>OS cache check</strong> — Has the operating system resolved it before? Check local DNS cache.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--cyan);">3</div>
+        <div class="step-text"><strong>Query local DNS resolver</strong> — Your router/ISP's DNS server checks its cache. If found, return the IP.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--cyan);">4</div>
+        <div class="step-text"><strong>Recursive resolution</strong> — If not cached, the resolver queries root name servers → TLD servers (.com) → authoritative name servers for google.com.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--cyan);">5</div>
+        <div class="step-text"><strong>IP address returned</strong> — 142.250.x.x is sent back to your browser, which then connects to the web server at that address.</div>
+      </div>
+    </div>
+    <div class="info-box">
+      <p>This entire process typically takes <strong>milliseconds</strong>. Cached results skip most steps. DNS resolution happens before any HTTP request.</p>
+    </div>
+  </div>
+</div>
+
+<!-- S12: COMMON ERRORS -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Watch Out</div>
+    <h2>Common <span class="hl-red">Errors</span></h2>
+    <div class="steps" style="gap:2px;">
+      <div class="step-row">
+        <div class="step-n" style="color:var(--red);min-width:28px;">✗</div>
+        <div class="step-text">Saying a <strong>mesh topology has no single point of failure</strong> is true — but not saying <em>why</em>: multiple paths mean traffic can reroute around any failed node.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--red);min-width:28px;">✗</div>
+        <div class="step-text">Confusing <strong>VLAN and subnetting</strong> — subnetting divides IP address space; VLANs divide the network logically at the data link layer. They are complementary, not the same.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--red);min-width:28px;">✗</div>
+        <div class="step-text">Saying <strong>P2P is always better because it has no SPOF</strong> — not justifying the tradeoff. P2P sacrifices security and data consistency for resilience and low cost.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--red);min-width:28px;">✗</div>
+        <div class="step-text">Confusing <strong>DNS and DHCP</strong> — DNS translates domain names to IPs; DHCP assigns IP addresses to devices. Both are essential but do very different jobs.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--red);min-width:28px;">✗</div>
+        <div class="step-text">Describing <strong>star topology as having no SPOF</strong> — the central switch IS a single point of failure. If it fails, all connected devices lose connectivity.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S13: SUMMARY -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// A2.2 · Summary</div>
+    <h2>Key <span class="hl-purple">Takeaways</span></h2>
+    <div class="grid g2" style="gap:2px;margin-top:8px;">
+      <div class="card purple">
+        <div class="card-title">Topologies</div>
+        <div class="card-body">
+          <strong>Star</strong> — central switch/hub; easy to manage; switch = SPOF<br>
+          <strong>Mesh</strong> — every device connected; very reliable; expensive<br>
+          <strong>Hybrid</strong> — mix of topologies; flexible; complex
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Network Models</div>
+        <div class="card-body">
+          <strong>Client-server</strong> — centralised, secure, reliable but costly and has SPOF<br>
+          <strong>P2P</strong> — decentralised, resilient, cheap but insecure and inconsistent
+        </div>
+      </div>
+      <div class="card cyan">
+        <div class="card-title">Segmentation</div>
+        <div class="card-body">
+          <strong>Segmenting</strong> — divides network for performance and security<br>
+          <strong>Subnetting</strong> — divides IP address space<br>
+          <strong>VLAN</strong> — logical separation on shared hardware
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">Key Servers (HL)</div>
+        <div class="card-body">
+          DNS — domain name → IP address<br>
+          DHCP — auto-assigns IPs<br>
+          Proxy — intermediary, caching, filtering<br>
+          Web — serves HTTP content
+        </div>
+      </div>
+    </div>
+    <div class="gold-box" style="margin-top:14px;">
+      <p><strong>Next:</strong> A2.3 Data Transmissions — IP addressing, packet switching, transmission media, and routing.</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>← Prev</button>
+  <div class="nav-sep"></div>
+  <div class="nav-dots" id="navDots"></div>
+  <div class="nav-sep"></div>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+</div>
+
+<script>
+  let cur = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const prog = document.getElementById('progress');
+  const slideNum = document.getElementById('slideNum');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const dotsEl = document.getElementById('navDots');
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  }
+  function goTo(n) {
+    slides[cur].classList.remove('active');
+    slides[cur].classList.add('exit');
+    const old = cur;
+    slides[old].scrollTop = 0;
+    setTimeout(() => slides[old].classList.remove('exit'), 380);
+    cur = n;
+    slides[cur].scrollTop = 0;
+    slides[cur].classList.add('active');
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+    prog.style.width = ((cur + 1) / total * 100) + '%';
+    slideNum.textContent = String(cur + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+    prevBtn.disabled = cur === 0;
+    nextBtn.disabled = cur === total - 1;
+  }
+  function changeSlide(d) { const n = cur + d; if (n >= 0 && n < total) goTo(n); }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') changeSlide(1);
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+  });
+  prog.style.width = (1 / total * 100) + '%';
+</script>
+</body>
+</html>

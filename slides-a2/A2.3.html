@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A2.3 — Data Transmissions</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Serif+Display&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07090f; --surface: #0e1117; --surface2: #151923;
+  --border: #1e2535; --border2: #2a3448;
+  --gold: #c9a84c; --gold2: #e8c97a;
+  --blue: #4a9eff; --green: #3dd68c; --red: #ff6b6b;
+  --purple: #9b8afb; --cyan: #22d3ee; --orange: #fb923c;
+  --text: #dde4f0; --text2: #7a8ba8; --text3: #3d4f6a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;height:100%;overflow:hidden;}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(74,158,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,0.03) 1px,transparent 1px),linear-gradient(rgba(74,158,255,0.01) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,0.01) 1px,transparent 1px);background-size:80px 80px,80px 80px,16px 16px,16px 16px;pointer-events:none;z-index:0;}
+.deck{position:relative;width:100vw;height:100vh;z-index:1;}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:50px 72px 92px;opacity:0;pointer-events:none;transition:opacity 0.38s ease,transform 0.38s ease;transform:translateY(12px);}
+.slide.active{opacity:1;pointer-events:all;transform:translateY(0);}
+.slide.exit{opacity:0;transform:translateY(-12px);}
+.slide.scroll-slide{justify-content:flex-start;align-items:stretch;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-top:64px;padding-bottom:132px;}
+.slide.scroll-slide::-webkit-scrollbar{width:10px;}
+.slide.scroll-slide::-webkit-scrollbar-thumb{background:var(--border2);border-radius:999px;}
+.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--green),var(--cyan));transition:width 0.38s ease;z-index:100;}
+.slide-num{position:fixed;top:17px;right:24px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);letter-spacing:0.1em;z-index:100;}
+.content{width:100%;max-width:1120px;}
+.label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--green);margin-bottom:14px;}
+.label.blue{color:var(--blue);}.label.purple{color:var(--purple);}.label.cyan{color:var(--cyan);}.label.gold{color:var(--gold);}.label.orange{color:var(--orange);}
+h1{font-family:'DM Serif Display',serif;font-size:clamp(2.8rem,5.5vw,4.8rem);font-weight:400;line-height:1.05;letter-spacing:-0.02em;margin-bottom:14px;}
+h2{font-family:'DM Serif Display',serif;font-size:clamp(1.9rem,4vw,3.2rem);font-weight:400;line-height:1.1;margin-bottom:12px;}
+.lead{font-size:clamp(1rem,1.75vw,1.35rem);color:var(--text2);font-weight:300;line-height:1.65;margin-bottom:24px;}
+.hl-gold{color:var(--gold2);}.hl-blue{color:var(--blue);}.hl-green{color:var(--green);}.hl-purple{color:var(--purple);}.hl-cyan{color:var(--cyan);}.hl-red{color:var(--red);}.hl-orange{color:var(--orange);}
+.grid{display:grid;gap:2px;width:100%;}
+.g2{grid-template-columns:1fr 1fr;}.g3{grid-template-columns:1fr 1fr 1fr;}.g4{grid-template-columns:1fr 1fr 1fr 1fr;}
+.card{background:var(--surface);border:1px solid var(--border);padding:18px 22px;position:relative;overflow:hidden;}
+.card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.card.gold::after{background:var(--gold);}.card.blue::after{background:var(--blue);}
+.card.green::after{background:var(--green);}.card.red::after{background:var(--red);}
+.card.purple::after{background:var(--purple);}.card.cyan::after{background:var(--cyan);}
+.card.orange::after{background:var(--orange);}
+.card-title{font-family:'DM Mono',monospace;font-size:clamp(0.7rem,1.1vw,0.9rem);font-weight:500;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;}
+.card-body{font-size:clamp(0.85rem,1.3vw,1.05rem);color:var(--text2);line-height:1.65;font-weight:300;}
+.card-body strong{color:var(--text);font-weight:500;}
+.info-box{border-left:3px solid var(--blue);padding:13px 20px;background:rgba(74,158,255,0.04);border-top:1px solid rgba(74,158,255,0.08);border-right:1px solid rgba(74,158,255,0.08);border-bottom:1px solid rgba(74,158,255,0.08);margin-top:14px;}
+.info-box p{font-size:clamp(0.88rem,1.4vw,1.1rem);color:var(--text2);line-height:1.6;}
+.info-box strong{color:var(--blue);}
+.gold-box{border-left:3px solid var(--gold);padding:13px 20px;background:rgba(201,168,76,0.04);border-top:1px solid rgba(201,168,76,0.08);border-right:1px solid rgba(201,168,76,0.08);border-bottom:1px solid rgba(201,168,76,0.08);margin-top:14px;}
+.gold-box p{font-size:clamp(0.88rem,1.4vw,1.1rem);color:var(--text2);line-height:1.6;}
+.gold-box strong{color:var(--gold2);}
+.green-box{border-left:3px solid var(--green);padding:13px 20px;background:rgba(61,214,140,0.04);border-top:1px solid rgba(61,214,140,0.08);border-right:1px solid rgba(61,214,140,0.08);border-bottom:1px solid rgba(61,214,140,0.08);margin-top:14px;}
+.green-box p{font-size:clamp(0.88rem,1.4vw,1.1rem);color:var(--text2);line-height:1.6;}
+.green-box strong{color:var(--green);}
+.divider{width:100%;height:1px;background:var(--border);margin:14px 0;}
+.steps{display:flex;flex-direction:column;gap:2px;}
+.step-row{display:flex;align-items:center;gap:18px;background:var(--surface);border:1px solid var(--border);padding:13px 18px;}
+.step-n{font-family:'DM Mono',monospace;font-size:clamp(0.85rem,1.4vw,1.1rem);color:var(--green);min-width:28px;flex-shrink:0;font-weight:500;}
+.step-text{font-size:clamp(0.88rem,1.4vw,1.1rem);color:var(--text2);line-height:1.5;font-weight:300;}
+.step-text strong{color:var(--text);font-weight:500;}
+.comparison-table{width:100%;border-collapse:collapse;}
+.comparison-table th{font-family:'DM Mono',monospace;font-size:clamp(0.65rem,1vw,0.82rem);letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);padding:9px 14px;text-align:left;border-bottom:1px solid var(--border2);background:var(--surface);}
+.comparison-table td{padding:11px 14px;font-size:clamp(0.82rem,1.3vw,1.02rem);border-bottom:1px solid var(--border);color:var(--text2);background:var(--surface);line-height:1.5;vertical-align:top;}
+.comparison-table tr:last-child td{border-bottom:none;}
+.comparison-table tr:hover td{background:var(--surface2);}
+.comparison-table td:first-child{font-family:'DM Mono',monospace;font-size:0.88em;color:var(--green);font-weight:500;}
+.nav{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:13px;z-index:100;background:rgba(7,9,15,0.92);backdrop-filter:blur(16px);border:1px solid var(--border2);padding:10px 20px;}
+.nav-btn{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text2);background:none;border:1px solid var(--border2);padding:6px 14px;cursor:pointer;transition:all 0.2s;}
+.nav-btn:hover{color:var(--green);border-color:var(--green);background:rgba(61,214,140,0.05);}
+.nav-btn:disabled{opacity:0.25;cursor:not-allowed;}
+.nav-dots{display:flex;gap:4px;flex-wrap:wrap;max-width:200px;justify-content:center;}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--border2);cursor:pointer;transition:all 0.2s;}
+.dot.active{background:var(--green);transform:scale(1.4);}
+.nav-sep{width:1px;height:18px;background:var(--border2);}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="slide-num" id="slideNum">01 / 13</div>
+<div class="deck">
+
+<!-- S1: TITLE -->
+<div class="slide active">
+  <div class="content">
+    <div class="label">// A2.3 · Data Transmissions</div>
+    <h1>Data<br><span class="hl-green">Transmissions</span></h1>
+    <p style="font-family:'DM Mono',monospace;font-size:clamp(0.85rem,1.4vw,1.1rem);color:var(--text3);margin-bottom:20px;">Theme A2 · IB Computer Science SL</p>
+    <div class="gold-box">
+      <p><strong>👉 Guiding Question:</strong> How does data travel from one device to another across a network?</p>
+    </div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:20px;">
+      <div style="padding-left:12px;border-left:2px solid var(--green);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">IP Addressing</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">IPv4 · IPv6 · NAT</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--cyan);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Transmission Media</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">FIBRE · COPPER · WIRELESS</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--blue);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Packet Switching</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">HOW DATA TRAVELS</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: IB SPEC -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// IB Specification · A2.3</div>
+    <h2>What IB Requires</h2>
+    <div class="steps">
+      <div class="step-row">
+        <div class="step-n">2.3.1</div>
+        <div class="step-text"><strong>Describe</strong> different types of IP addressing — IPv4 vs IPv6, public vs private, static vs dynamic, and the role of NAT.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">2.3.2</div>
+        <div class="step-text"><strong>Compare</strong> types of media — fibre optic, twisted pair (copper), and wireless. Evaluate based on bandwidth, cost, range, interference, reliability, and security.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">2.3.3</div>
+        <div class="step-text"><strong>Explain</strong> how packet switching works — segmenting data, routing headers, independent transmission, reassembly, and the role of switches and routers.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">2.3.4</div>
+        <div class="step-text"><span style="color:var(--purple);font-family:'DM Mono',monospace;font-size:0.8em;">HL</span> <strong>Explain</strong> static routing vs dynamic routing — process, advantages, disadvantages, and factors: configuration, maintenance, scalability.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: IP ADDRESSES -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A2.3.1 · IP Addressing</div>
+    <h2>What is an <span class="hl-green">IP Address?</span></h2>
+    <p class="lead" style="margin-bottom:14px;">An IP address is a <strong style="color:var(--green);">unique numerical label</strong> assigned to each device on a network — like a postal address for data.</p>
+    <div class="grid g2" style="gap:2px;">
+      <div class="card green">
+        <div class="card-title">IPv4</div>
+        <div class="card-body">
+          <strong>32-bit</strong> address<br>
+          Written as 4 octets: <span style="font-family:'DM Mono',monospace;color:var(--green);">192.168.1.42</span><br>
+          Each number: 0–255<br>
+          ~4.3 billion unique addresses<br><br>
+          <strong style="color:var(--red);">Problem:</strong> Not enough for every device on Earth!
+        </div>
+      </div>
+      <div class="card cyan">
+        <div class="card-title">IPv6</div>
+        <div class="card-body">
+          <strong>128-bit</strong> address<br>
+          Written in hexadecimal:<br>
+          <span style="font-family:'DM Mono',monospace;color:var(--cyan);font-size:0.85em;">2001:0db8:85a3::8a2e:0370:7334</span><br>
+          ~340 undecillion unique addresses<br><br>
+          <strong style="color:var(--green);">Solution:</strong> Essentially unlimited addresses for all future devices
+        </div>
+      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>Key IPv4 vs IPv6 differences:</strong> IPv4 = 32-bit, decimal notation, ~4.3B addresses. IPv6 = 128-bit, hexadecimal notation, ~3.4×10³⁸ addresses. IPv6 also has built-in security (IPsec) and simpler routing headers.</p>
+    </div>
+  </div>
+</div>
+
+<!-- S4: PUBLIC/PRIVATE, STATIC/DYNAMIC -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// A2.3.1 · IP Address Types</div>
+    <h2>IP Address <span class="hl-green">Categories</span></h2>
+    <div class="grid g2" style="gap:2px;margin-bottom:14px;">
+      <div class="card green">
+        <div class="card-title">Public IP Address</div>
+        <div class="card-body">
+          Assigned by your ISP. <strong>Visible on the internet</strong>.<br><br>
+          Globally unique — no two devices on the internet share the same public IP.<br><br>
+          <em>Example: Your home router's public IP seen by websites you visit.</em>
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Private IP Address</div>
+        <div class="card-body">
+          Used <strong>within a private network</strong> (home, office). NOT routable on the public internet.<br><br>
+          Reserved ranges: 192.168.x.x, 10.x.x.x, 172.16.x.x<br><br>
+          <em>Example: Your laptop's IP address at home: 192.168.1.5</em>
+        </div>
+      </div>
+      <div class="card cyan">
+        <div class="card-title">Static IP Address</div>
+        <div class="card-body">
+          <strong>Manually assigned</strong> — never changes.<br><br>
+          <strong>Benefits:</strong> Reliable for servers, consistent address for remote access<br>
+          <strong>Limitation:</strong> Manual configuration, costs more from ISP
+        </div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">Dynamic IP Address</div>
+        <div class="card-body">
+          <strong>Assigned by DHCP</strong> — may change each time you connect.<br><br>
+          <strong>Benefits:</strong> Efficient use of IP pool, automatic, no admin needed<br>
+          <strong>Limitation:</strong> Address may change — bad for hosting servers
+        </div>
+      </div>
+    </div>
+    <div class="card green" style="margin-bottom:2px;">
+      <div class="card-title">NAT — Network Address Translation</div>
+      <div class="card-body">
+        NAT allows <strong>many private IP devices to share one public IP address</strong>. The router keeps a translation table mapping internal:port ↔ external:port.<br><br>
+        <strong>Benefits:</strong> Conserves IPv4 addresses, hides internal network structure (security through obscurity).<br>
+        <strong>How:</strong> When a device sends data out, the router replaces the private source IP with its public IP. When data returns, the router translates it back to the correct private IP.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S5: TRANSMISSION MEDIA -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// A2.3.2 · Transmission Media</div>
+    <h2>Transmission <span class="hl-cyan">Media</span></h2>
+    <p class="lead" style="margin-bottom:12px;">The physical medium through which data is transmitted. Each has tradeoffs.</p>
+    <div class="grid g3" style="gap:2px;margin-bottom:14px;">
+      <div class="card cyan">
+        <div class="card-title">🔆 Fibre Optic</div>
+        <div class="card-body">
+          Transmits <strong>light pulses</strong> through glass or plastic fibre.<br><br>
+          <strong style="color:var(--green);">✓ Very high bandwidth</strong> (Tbps possible)<br>
+          <strong style="color:var(--green);">✓ Very low signal loss</strong> over long distances<br>
+          <strong style="color:var(--green);">✓ No electromagnetic interference</strong><br>
+          <strong style="color:var(--green);">✓ Secure</strong> (hard to tap)<br>
+          <strong style="color:var(--red);">✗ Expensive</strong> to install<br>
+          <strong style="color:var(--red);">✗ Fragile</strong> — glass can break<br>
+          <strong style="color:var(--red);">✗ Complex</strong> connections
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">🔌 Twisted Pair (Copper)</div>
+        <div class="card-body">
+          Two insulated copper wires twisted together. The twisting reduces crosstalk.<br><br>
+          <strong style="color:var(--green);">✓ Inexpensive</strong><br>
+          <strong style="color:var(--green);">✓ Easy to install</strong><br>
+          <strong style="color:var(--green);">✓ Compatible</strong> with existing infrastructure<br>
+          <strong style="color:var(--red);">✗ Limited bandwidth</strong> compared to fibre<br>
+          <strong style="color:var(--red);">✗ Signal degrades</strong> over ~100m<br>
+          <strong style="color:var(--red);">✗ Susceptible to EMI</strong><br>
+          <strong style="color:var(--red);">✗ Easier to tap</strong>
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">📡 Wireless</div>
+        <div class="card-body">
+          Radio waves (Wi-Fi, Bluetooth, cellular).<br><br>
+          <strong style="color:var(--green);">✓ No cables needed</strong> — mobility<br>
+          <strong style="color:var(--green);">✓ Easy to expand</strong><br>
+          <strong style="color:var(--green);">✓ Low installation cost</strong><br>
+          <strong style="color:var(--red);">✗ Interference</strong> from walls, devices<br>
+          <strong style="color:var(--red);">✗ Lower reliability</strong> than wired<br>
+          <strong style="color:var(--red);">✗ Security risk</strong> — signals can be intercepted<br>
+          <strong style="color:var(--red);">✗ Limited range</strong>
+        </div>
+      </div>
+    </div>
+    <table class="comparison-table">
+      <thead><tr><th>Factor</th><th>Fibre Optic</th><th>Twisted Pair</th><th>Wireless</th></tr></thead>
+      <tbody>
+        <tr><td>Bandwidth</td><td style="color:var(--green);">Very High</td><td style="color:var(--text2);">Medium</td><td style="color:var(--text2);">Medium</td></tr>
+        <tr><td>Cost</td><td style="color:var(--red);">High</td><td style="color:var(--green);">Low</td><td style="color:var(--green);">Low–Medium</td></tr>
+        <tr><td>Range</td><td style="color:var(--green);">Very Long</td><td style="color:var(--red);">Short (~100m)</td><td style="color:var(--text2);">Medium (~50m)</td></tr>
+        <tr><td>Security</td><td style="color:var(--green);">High</td><td style="color:var(--text2);">Medium</td><td style="color:var(--red);">Low</td></tr>
+        <tr><td>Interference</td><td style="color:var(--green);">None</td><td style="color:var(--text2);">Some EMI</td><td style="color:var(--red);">High</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- S6: PACKET SWITCHING INTRO -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A2.3.3 · Packet Switching</div>
+    <h2>Why <span class="hl-blue">Packet Switching?</span></h2>
+    <p class="lead" style="margin-bottom:14px;">The alternative is <em>circuit switching</em> — but the internet uses packet switching. Why?</p>
+    <div class="grid g2" style="gap:2px;">
+      <div class="card blue">
+        <div class="card-title">Circuit Switching (Old)</div>
+        <div class="card-body">
+          A <strong>dedicated path</strong> is established before data is sent and held open for the entire connection.<br><br>
+          <em>Like making a phone call — the line is reserved for you.</em><br><br>
+          <strong style="color:var(--red);">✗ Inefficient</strong> — line is occupied even during silence<br>
+          <strong style="color:var(--red);">✗ Not scalable</strong> for millions of simultaneous connections
+        </div>
+      </div>
+      <div class="card cyan">
+        <div class="card-title">Packet Switching (Internet)</div>
+        <div class="card-body">
+          Data is split into <strong>packets</strong>, each sent independently through the network.<br><br>
+          Different packets may take different routes to the same destination.<br><br>
+          <strong style="color:var(--green);">✓ Efficient</strong> — bandwidth is shared dynamically<br>
+          <strong style="color:var(--green);">✓ Resilient</strong> — packets reroute around failures<br>
+          <strong style="color:var(--green);">✓ Scalable</strong> — millions of users can share infrastructure
+        </div>
+      </div>
+    </div>
+    <div class="info-box">
+      <p>Packet switching was developed by Paul Baran (RAND Corporation) and Donald Davies (NPL) in the 1960s, originally for military networks that needed to survive nuclear attacks.</p>
+    </div>
+  </div>
+</div>
+
+<!-- S7: PACKET STRUCTURE AND PROCESS -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// A2.3.3 · Packet Switching</div>
+    <h2>How Packet Switching <span class="hl-blue">Works</span></h2>
+    <div class="steps" style="margin-bottom:14px;">
+      <div class="step-row">
+        <div class="step-n" style="color:var(--blue);">1</div>
+        <div class="step-text"><strong>Segmentation</strong> — The sender's OS splits the data into small chunks called <strong>packets</strong> (typically 1,500 bytes for Ethernet). Each packet contains a portion of the data.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--blue);">2</div>
+        <div class="step-text"><strong>Header added</strong> — Each packet gets a <strong>header</strong> containing: source IP, destination IP, packet number (sequence), total number of packets, and error-checking data (checksum).</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--blue);">3</div>
+        <div class="step-text"><strong>Independent routing</strong> — Packets are sent into the network. Each <strong>router</strong> reads the destination IP and forwards the packet to the next best hop. Different packets may take different routes.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--blue);">4</div>
+        <div class="step-text"><strong>Arrival</strong> — Packets may arrive <strong>out of order</strong> or some may be delayed. Routers don't guarantee delivery order.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--blue);">5</div>
+        <div class="step-text"><strong>Reassembly</strong> — The receiving device uses the <strong>sequence numbers</strong> in the headers to reassemble packets in the correct order. If TCP is used, missing packets are requested again.</div>
+      </div>
+    </div>
+    <div class="grid g2" style="gap:2px;">
+      <div class="card blue">
+        <div class="card-title">Packet Structure</div>
+        <div class="card-body" style="font-family:'DM Mono',monospace;font-size:0.85em;">
+          <span style="color:var(--cyan);">[HEADER]</span> Source IP | Dest IP | Seq# | Checksum<br>
+          <span style="color:var(--green);">[PAYLOAD]</span> Actual data (up to ~1,460 bytes)<br>
+          <span style="color:var(--gold2);">[TRAILER]</span> Error detection (CRC)
+        </div>
+      </div>
+      <div class="card cyan">
+        <div class="card-title">Role of Devices</div>
+        <div class="card-body">
+          <strong>Switch</strong> — forwards packets within a LAN using MAC addresses<br>
+          <strong>Router</strong> — forwards packets between networks using IP addresses; chooses the best path
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S8: PACKET SWITCHING DIAGRAM -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Visual Explanation</div>
+    <h2>Packets Take <span class="hl-blue">Different Paths</span></h2>
+    <div style="background:var(--surface);border:1px solid var(--border);padding:24px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
+      <svg viewBox="0 0 560 220" width="100%" style="max-height:220px;">
+        <!-- Nodes -->
+        <!-- Sender -->
+        <rect x="10" y="85" width="70" height="50" rx="3" fill="#0e1117" stroke="#3dd68c" stroke-width="2"/>
+        <text x="45" y="112" text-anchor="middle" fill="#3dd68c" font-size="9" font-family="monospace">SENDER</text>
+        <!-- Router A -->
+        <circle cx="165" cy="60" r="22" fill="#0e1117" stroke="#4a9eff" stroke-width="1.5"/>
+        <text x="165" y="64" text-anchor="middle" fill="#4a9eff" font-size="8" font-family="monospace">R-A</text>
+        <!-- Router B -->
+        <circle cx="280" cy="35" r="22" fill="#0e1117" stroke="#4a9eff" stroke-width="1.5"/>
+        <text x="280" y="39" text-anchor="middle" fill="#4a9eff" font-size="8" font-family="monospace">R-B</text>
+        <!-- Router C -->
+        <circle cx="280" cy="110" r="22" fill="#0e1117" stroke="#4a9eff" stroke-width="1.5"/>
+        <text x="280" y="114" text-anchor="middle" fill="#4a9eff" font-size="8" font-family="monospace">R-C</text>
+        <!-- Router D -->
+        <circle cx="165" cy="160" r="22" fill="#0e1117" stroke="#4a9eff" stroke-width="1.5"/>
+        <text x="165" y="164" text-anchor="middle" fill="#4a9eff" font-size="8" font-family="monospace">R-D</text>
+        <!-- Router E -->
+        <circle cx="390" cy="60" r="22" fill="#0e1117" stroke="#4a9eff" stroke-width="1.5"/>
+        <text x="390" y="64" text-anchor="middle" fill="#4a9eff" font-size="8" font-family="monospace">R-E</text>
+        <!-- Receiver -->
+        <rect x="480" y="85" width="70" height="50" rx="3" fill="#0e1117" stroke="#9b8afb" stroke-width="2"/>
+        <text x="515" y="112" text-anchor="middle" fill="#9b8afb" font-size="9" font-family="monospace">RECEIVER</text>
+        <!-- Links (grey) -->
+        <line x1="80" y1="100" x2="143" y2="72" stroke="#2a3448" stroke-width="1.2"/>
+        <line x1="80" y1="115" x2="143" y2="148" stroke="#2a3448" stroke-width="1.2"/>
+        <line x1="187" y1="60" x2="258" y2="43" stroke="#2a3448" stroke-width="1.2"/>
+        <line x1="165" y1="82" x2="165" y2="138" stroke="#2a3448" stroke-width="1.2"/>
+        <line x1="187" y1="160" x2="258" y2="122" stroke="#2a3448" stroke-width="1.2"/>
+        <line x1="302" y1="35" x2="368" y2="52" stroke="#2a3448" stroke-width="1.2"/>
+        <line x1="302" y1="110" x2="368" y2="68" stroke="#2a3448" stroke-width="1.2"/>
+        <line x1="302" y1="125" x2="480" y2="112" stroke="#2a3448" stroke-width="1.2"/>
+        <line x1="412" y1="60" x2="480" y2="90" stroke="#2a3448" stroke-width="1.2"/>
+        <!-- Packet 1 path (top): Sender→A→B→E→Receiver in cyan -->
+        <line x1="80" y1="98" x2="143" y2="70" stroke="#22d3ee" stroke-width="2" stroke-dasharray="5,3"/>
+        <line x1="187" y1="57" x2="258" y2="40" stroke="#22d3ee" stroke-width="2" stroke-dasharray="5,3"/>
+        <line x1="302" y1="33" x2="368" y2="50" stroke="#22d3ee" stroke-width="2" stroke-dasharray="5,3"/>
+        <line x1="412" y1="58" x2="480" y2="88" stroke="#22d3ee" stroke-width="2" stroke-dasharray="5,3"/>
+        <!-- Packet 2 path (bottom): Sender→D→C→Receiver in orange -->
+        <line x1="80" y1="117" x2="143" y2="150" stroke="#fb923c" stroke-width="2" stroke-dasharray="5,3"/>
+        <line x1="187" y1="162" x2="258" y2="124" stroke="#fb923c" stroke-width="2" stroke-dasharray="5,3"/>
+        <line x1="302" y1="127" x2="480" y2="114" stroke="#fb923c" stroke-width="2" stroke-dasharray="5,3"/>
+        <!-- Labels -->
+        <text x="220" y="18" fill="#22d3ee" font-size="9" font-family="monospace">Packet #1</text>
+        <text x="220" y="190" fill="#fb923c" font-size="9" font-family="monospace">Packet #2</text>
+        <text x="220" y="202" fill="#3d4f6a" font-size="8" font-family="monospace">(different route, reassembled at receiver)</text>
+      </svg>
+    </div>
+    <div class="green-box">
+      <p><strong>Key insight:</strong> Packets 1 and 2 are part of the same message but take completely different routes. The receiver reassembles them in the correct order using sequence numbers. This is why the internet is robust — if one path fails, traffic uses another.</p>
+    </div>
+  </div>
+</div>
+
+<!-- S9: ATTENUATION AND BANDWIDTH -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Key Concepts</div>
+    <h2>Bandwidth &amp; <span class="hl-cyan">Attenuation</span></h2>
+    <div class="grid g2" style="gap:2px;margin-top:8px;">
+      <div class="card cyan">
+        <div class="card-title">Bandwidth</div>
+        <div class="card-body">
+          The <strong>maximum amount of data</strong> that can be transmitted over a medium per unit of time.<br><br>
+          Measured in: bits per second (bps), Mbps, Gbps, Tbps<br><br>
+          Higher bandwidth = more data simultaneously = faster downloads<br><br>
+          <em>Analogy: The width of a pipe — wider = more water flows</em>
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Attenuation</div>
+        <div class="card-body">
+          The <strong>weakening of a signal</strong> as it travels through a medium over distance.<br><br>
+          All media suffer from attenuation — some more than others.<br><br>
+          <strong>Twisted pair:</strong> significant attenuation (~100m max for Ethernet)<br>
+          <strong>Fibre optic:</strong> very low attenuation (many km without repeaters)<br>
+          <strong>Wireless:</strong> high attenuation through walls/obstacles
+        </div>
+      </div>
+    </div>
+    <div class="grid g2" style="gap:2px;margin-top:2px;">
+      <div class="card green">
+        <div class="card-title">Latency</div>
+        <div class="card-body">
+          The <strong>delay</strong> between sending and receiving data. Measured in milliseconds (ms).<br><br>
+          Affected by: distance, number of hops, router processing time, congestion.<br><br>
+          Important for: gaming, video calls, real-time applications.
+        </div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">Throughput</div>
+        <div class="card-body">
+          The <strong>actual data transfer rate</strong> achieved — always lower than theoretical bandwidth due to protocol overhead, congestion, errors, and retransmissions.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S10: STATIC vs DYNAMIC ROUTING (HL) -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label purple">// A2.3.4 · HL — Routing</div>
+    <h2>Static vs Dynamic <span class="hl-purple">Routing</span></h2>
+    <p class="lead" style="margin-bottom:14px;">How do routers decide which path to send a packet on?</p>
+    <div class="grid g2" style="gap:2px;margin-bottom:14px;">
+      <div class="card purple">
+        <div class="card-title">Static Routing</div>
+        <div class="card-body">
+          Routes are <strong>manually configured</strong> by a network administrator and don't change automatically.<br><br>
+          <strong style="color:var(--green);">✓ Predictable</strong> — routes are always the same<br>
+          <strong style="color:var(--green);">✓ No overhead</strong> — no routing protocol traffic<br>
+          <strong style="color:var(--green);">✓ Secure</strong> — no automatic route changes<br>
+          <strong style="color:var(--green);">✓ Simple</strong> for small networks<br>
+          <strong style="color:var(--red);">✗ Manual updates</strong> required when topology changes<br>
+          <strong style="color:var(--red);">✗ Does not adapt</strong> to failures automatically<br>
+          <strong style="color:var(--red);">✗ Scales poorly</strong> on large networks
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Dynamic Routing</div>
+        <div class="card-body">
+          Routers automatically <strong>discover routes</strong> and update their routing tables using routing protocols (e.g., OSPF, BGP — protocol details not required).<br><br>
+          <strong style="color:var(--green);">✓ Adapts to failures</strong> — automatically finds new routes<br>
+          <strong style="color:var(--green);">✓ Scales well</strong> on large networks<br>
+          <strong style="color:var(--green);">✓ Low admin overhead</strong> once set up<br>
+          <strong style="color:var(--red);">✗ Protocol overhead</strong> — routers exchange routing info, consuming bandwidth<br>
+          <strong style="color:var(--red);">✗ Complex</strong> to configure and troubleshoot<br>
+          <strong style="color:var(--red);">✗ Convergence time</strong> — takes time after a failure to settle
+        </div>
+      </div>
+    </div>
+    <table class="comparison-table">
+      <thead><tr><th>Factor</th><th>Static</th><th>Dynamic</th></tr></thead>
+      <tbody>
+        <tr><td>Configuration</td><td style="color:var(--text2);">Manual</td><td style="color:var(--text2);">Automatic</td></tr>
+        <tr><td>Maintenance</td><td style="color:var(--red);">High (manual updates)</td><td style="color:var(--green);">Low (self-updating)</td></tr>
+        <tr><td>Network size</td><td style="color:var(--text2);">Small</td><td style="color:var(--text2);">Large</td></tr>
+        <tr><td>Failure response</td><td style="color:var(--red);">Manual intervention</td><td style="color:var(--green);">Automatic reroute</td></tr>
+        <tr><td>Resource usage</td><td style="color:var(--green);">Low</td><td style="color:var(--red);">Higher (protocol traffic)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- S11: COMMON ERRORS -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Watch Out</div>
+    <h2>Common <span class="hl-red">Errors</span></h2>
+    <div class="steps" style="gap:2px;">
+      <div class="step-row">
+        <div class="step-n" style="color:var(--red);min-width:28px;">✗</div>
+        <div class="step-text">Saying <strong>all packets take the same path</strong> — in packet switching, each packet is independently routed and may take a different path.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--red);min-width:28px;">✗</div>
+        <div class="step-text">Confusing <strong>bandwidth and speed</strong> — bandwidth is the theoretical maximum capacity; actual transfer speed depends on many factors and is usually lower.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--red);min-width:28px;">✗</div>
+        <div class="step-text">Not mentioning <strong>NAT's security benefit</strong> — NAT hides internal IP addresses from the external network, providing a layer of security as well as address conservation.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--red);min-width:28px;">✗</div>
+        <div class="step-text">Saying <strong>wireless is always worse</strong> — in some scenarios (mobility, ease of installation) wireless is the better choice. Always justify based on context.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--red);min-width:28px;">✗</div>
+        <div class="step-text">Saying <strong>IPv6 is the same as IPv4 but longer</strong> — IPv6 also introduced auto-configuration, improved routing headers, built-in IPsec, and elimination of NAT as a workaround.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S12: REAL WORLD CONNECTION -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Real World</div>
+    <h2>What Happens When You Visit <span class="hl-cyan">a Website?</span></h2>
+    <div class="steps">
+      <div class="step-row">
+        <div class="step-n" style="color:var(--cyan);">1</div>
+        <div class="step-text">Your device has a <strong>private IP</strong> (e.g., 192.168.1.5) assigned by DHCP. Your router has a <strong>public IP</strong>.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--cyan);">2</div>
+        <div class="step-text">You type <em>example.com</em>. Your device sends a <strong>DNS query</strong> to resolve the domain to an IP address (e.g., 93.184.216.34).</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--cyan);">3</div>
+        <div class="step-text">Your browser creates an <strong>HTTP/S request</strong> using TCP. The data is split into <strong>packets</strong> with headers containing source/destination IPs.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--cyan);">4</div>
+        <div class="step-text">The router performs <strong>NAT</strong>, replacing your private source IP with the public IP, then forwards packets. <strong>Routers</strong> along the way forward packets hop by hop.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--cyan);">5</div>
+        <div class="step-text">The web server receives packets via <strong>fibre optic or copper</strong> cables, assembles them, and sends the web page content back — in packets — via the same process in reverse.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S13: SUMMARY -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// A2.3 · Summary</div>
+    <h2>Key <span class="hl-green">Takeaways</span></h2>
+    <div class="grid g2" style="gap:2px;margin-top:8px;">
+      <div class="card green">
+        <div class="card-title">IP Addressing</div>
+        <div class="card-body">
+          <strong>IPv4</strong> — 32-bit, 4.3B addresses, running out<br>
+          <strong>IPv6</strong> — 128-bit, essentially unlimited<br>
+          <strong>Public</strong> — internet-visible, unique globally<br>
+          <strong>Private</strong> — internal network only (192.168.x.x)<br>
+          <strong>NAT</strong> — maps private IPs to one public IP
+        </div>
+      </div>
+      <div class="card cyan">
+        <div class="card-title">Transmission Media</div>
+        <div class="card-body">
+          <strong>Fibre</strong> — fastest, longest, most expensive<br>
+          <strong>Twisted pair</strong> — cheap, common, ~100m limit<br>
+          <strong>Wireless</strong> — mobile, interference-prone, insecure
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Packet Switching</div>
+        <div class="card-body">
+          Data split into <strong>packets</strong> with headers<br>
+          Packets route <strong>independently</strong> — may take different paths<br>
+          Receiver <strong>reassembles</strong> using sequence numbers<br>
+          Resilient: packets reroute around failures
+        </div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">Routing (HL)</div>
+        <div class="card-body">
+          <strong>Static</strong> — manual, predictable, small networks<br>
+          <strong>Dynamic</strong> — automatic, adaptive, large networks<br>
+          Tradeoff: control and simplicity vs resilience and scale
+        </div>
+      </div>
+    </div>
+    <div class="gold-box" style="margin-top:14px;">
+      <p><strong>Next:</strong> A2.4 Network Security — firewalls, encryption, digital certificates, and (HL) network vulnerabilities and countermeasures.</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>← Prev</button>
+  <div class="nav-sep"></div>
+  <div class="nav-dots" id="navDots"></div>
+  <div class="nav-sep"></div>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+</div>
+
+<script>
+  let cur = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const prog = document.getElementById('progress');
+  const slideNum = document.getElementById('slideNum');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const dotsEl = document.getElementById('navDots');
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  }
+  function goTo(n) {
+    slides[cur].classList.remove('active');
+    slides[cur].classList.add('exit');
+    const old = cur;
+    slides[old].scrollTop = 0;
+    setTimeout(() => slides[old].classList.remove('exit'), 380);
+    cur = n;
+    slides[cur].scrollTop = 0;
+    slides[cur].classList.add('active');
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+    prog.style.width = ((cur + 1) / total * 100) + '%';
+    slideNum.textContent = String(cur + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+    prevBtn.disabled = cur === 0;
+    nextBtn.disabled = cur === total - 1;
+  }
+  function changeSlide(d) { const n = cur + d; if (n >= 0 && n < total) goTo(n); }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') changeSlide(1);
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+  });
+  prog.style.width = (1 / total * 100) + '%';
+</script>
+</body>
+</html>

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A1.4 — Translation</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Serif+Display&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07090f; --surface: #0e1117; --surface2: #151923;
+  --border: #1e2535; --border2: #2a3448;
+  --gold: #c9a84c; --gold2: #e8c97a;
+  --blue: #4a9eff; --green: #3dd68c; --red: #ff6b6b;
+  --purple: #9b8afb; --cyan: #22d3ee; --orange: #fb923c;
+  --pink: #f472b6; --teal: #2dd4bf;
+  --text: #dde4f0; --text2: #7a8ba8; --text3: #3d4f6a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;height:100%;overflow:hidden;}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;}
+body::before{content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(74,158,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,.03) 1px,transparent 1px),linear-gradient(rgba(74,158,255,.01) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,.01) 1px,transparent 1px);
+  background-size:80px 80px,80px 80px,16px 16px,16px 16px;pointer-events:none;z-index:0;}
+.deck{position:relative;width:100vw;height:100vh;z-index:1;}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  padding:44px 68px 86px;opacity:0;pointer-events:none;
+  transition:opacity .38s ease,transform .38s ease;transform:translateY(12px);}
+.slide.active{opacity:1;pointer-events:all;transform:translateY(0);}
+.slide.exit{opacity:0;transform:translateY(-12px);}
+.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--orange),var(--pink),var(--purple));transition:width .38s ease;z-index:100;}
+.slide-num{position:fixed;top:17px;right:24px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);letter-spacing:.1em;z-index:100;}
+.content{width:100%;max-width:1120px;}
+.label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:13px;}
+.label.blue{color:var(--blue);}.label.green{color:var(--green);}.label.cyan{color:var(--cyan);}
+.label.purple{color:var(--purple);}.label.pink{color:var(--pink);}.label.orange{color:var(--orange);}
+.label.teal{color:var(--teal);}
+h1{font-family:'DM Serif Display',serif;font-size:clamp(2.6rem,5vw,4.6rem);font-weight:400;line-height:1.05;letter-spacing:-.02em;margin-bottom:13px;}
+h2{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3.8vw,3rem);font-weight:400;line-height:1.1;margin-bottom:11px;}
+.lead{font-size:clamp(.95rem,1.65vw,1.28rem);color:var(--text2);font-weight:300;line-height:1.65;margin-bottom:18px;}
+.hl-gold{color:var(--gold2);}.hl-blue{color:var(--blue);}.hl-green{color:var(--green);}.hl-cyan{color:var(--cyan);}
+.hl-red{color:var(--red);}.hl-purple{color:var(--purple);}.hl-pink{color:var(--pink);}.hl-orange{color:var(--orange);}.hl-teal{color:var(--teal);}
+.grid{display:grid;gap:2px;width:100%;}
+.g2{grid-template-columns:1fr 1fr;}.g3{grid-template-columns:1fr 1fr 1fr;}.g4{grid-template-columns:repeat(4,1fr);}
+.card{background:var(--surface);border:1px solid var(--border);padding:16px 20px;position:relative;}
+.card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.card.gold::after{background:var(--gold);}.card.blue::after{background:var(--blue);}
+.card.green::after{background:var(--green);}.card.red::after{background:var(--red);}
+.card.purple::after{background:var(--purple);}.card.cyan::after{background:var(--cyan);}
+.card.pink::after{background:var(--pink);}.card.orange::after{background:var(--orange);}.card.teal::after{background:var(--teal);}
+.card-title{font-family:'DM Mono',monospace;font-size:clamp(.68rem,1.05vw,.88rem);font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:7px;}
+.card-body{font-size:clamp(.82rem,1.25vw,1rem);color:var(--text2);line-height:1.6;font-weight:300;}
+.card-body strong{color:var(--text);font-weight:500;}
+.gold-box{border-left:3px solid var(--gold);padding:11px 18px;background:rgba(201,168,76,.04);border-top:1px solid rgba(201,168,76,.08);border-right:1px solid rgba(201,168,76,.08);border-bottom:1px solid rgba(201,168,76,.08);margin-top:12px;}
+.gold-box p{font-size:clamp(.85rem,1.35vw,1.05rem);color:var(--text2);line-height:1.6;}
+.gold-box strong{color:var(--gold2);}
+.cyan-box{border-left:3px solid var(--cyan);padding:11px 18px;background:rgba(34,211,238,.04);border-top:1px solid rgba(34,211,238,.08);border-right:1px solid rgba(34,211,238,.08);border-bottom:1px solid rgba(34,211,238,.08);margin-top:12px;}
+.cyan-box p{font-size:clamp(.85rem,1.35vw,1.05rem);color:var(--text2);line-height:1.6;}
+.cyan-box strong{color:var(--cyan);}
+.info-box{border-left:3px solid var(--blue);padding:11px 18px;background:rgba(74,158,255,.04);border-top:1px solid rgba(74,158,255,.08);border-right:1px solid rgba(74,158,255,.08);border-bottom:1px solid rgba(74,158,255,.08);margin-top:12px;}
+.info-box p{font-size:clamp(.85rem,1.35vw,1.05rem);color:var(--text2);line-height:1.6;}
+.info-box strong{color:var(--blue);}
+/* chain */
+.chain{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin:10px 0;}
+.chain-box{background:var(--surface);border:1px solid var(--border2);padding:9px 16px;text-align:center;}
+.chain-box .c-top{font-family:'DM Mono',monospace;font-size:clamp(.52rem,.82vw,.68rem);color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;}
+.chain-box .c-val{font-family:'DM Mono',monospace;font-size:clamp(.78rem,1.2vw,.95rem);font-weight:500;}
+.chain-arrow{color:var(--gold);font-size:1.1rem;padding:0 6px;display:flex;align-items:center;flex-shrink:0;}
+/* summary table */
+.summary-table{border-collapse:collapse;width:100%;}
+.summary-table th{background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.18);padding:9px 12px;text-align:left;font-family:'DM Mono',monospace;font-size:clamp(.58rem,.9vw,.75rem);color:var(--cyan);font-weight:500;letter-spacing:.08em;text-transform:uppercase;}
+.summary-table td{border:1px solid var(--border);padding:9px 12px;background:var(--surface);font-size:clamp(.78rem,1.18vw,.95rem);color:var(--text2);vertical-align:top;}
+.summary-table tr:hover td{background:var(--surface2);}
+.summary-table td:first-child{font-family:'DM Mono',monospace;font-weight:700;font-size:clamp(.82rem,1.25vw,1rem);white-space:nowrap;}
+/* nav */
+.nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;z-index:100;background:rgba(7,9,15,.92);backdrop-filter:blur(16px);border:1px solid var(--border2);padding:9px 18px;}
+.nav-btn{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);background:none;border:1px solid var(--border2);padding:6px 13px;cursor:pointer;transition:all .2s;}
+.nav-btn:hover{color:var(--gold);border-color:var(--gold);background:rgba(201,168,76,.05);}
+.nav-btn:disabled{opacity:.25;cursor:not-allowed;}
+.nav-dots{display:flex;gap:4px;flex-wrap:wrap;max-width:260px;justify-content:center;}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--border2);cursor:pointer;transition:all .2s;}
+.dot.active{background:var(--gold);transform:scale(1.4);}
+.nav-sep{width:1px;height:16px;background:var(--border2);}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="slide-num" id="slideNum">01 / 09</div>
+<div class="deck">
+
+<!-- ═══ S1 TITLE ═══ -->
+<div class="slide active">
+  <div class="content">
+    <div class="label">// A1.4.1 · Translation</div>
+    <h1>Translation<br><span class="hl-orange">Processes</span></h1>
+    <p style="font-family:'DM Mono',monospace;font-size:clamp(.82rem,1.3vw,1rem);color:var(--text3);margin-bottom:18px;">Summary Lesson</p>
+    <div class="gold-box"><p><strong>👉 Guiding Question:</strong> How is high-level code turned into something a computer can actually run?</p></div>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:18px;">
+      <div style="padding-left:11px;border-left:2px solid var(--orange);"><div style="font-family:'DM Mono',monospace;font-size:.95rem;">Interpreters</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">LINE-BY-LINE EXECUTION</div></div>
+      <div style="padding-left:11px;border-left:2px solid var(--blue);"><div style="font-family:'DM Mono',monospace;font-size:.95rem;">Compilers</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">WHOLE PROGRAM → MACHINE CODE</div></div>
+      <div style="padding-left:11px;border-left:2px solid var(--purple);"><div style="font-family:'DM Mono',monospace;font-size:.95rem;">Bytecode / JIT</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">HYBRID APPROACHES</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S2 BIG PICTURE ═══ -->
+<div class="slide">
+  <div class="content" style="max-width:960px;">
+    <div class="label orange">// The Big Picture</div>
+    <h2>Why Do We Need <span class="hl-orange">Translation</span>?</h2>
+    <p class="lead" style="margin-bottom:14px;">Computers only understand machine code (0s and 1s). Humans write in high-level languages. <em>Translation</em> bridges the gap.</p>
+    <div class="chain" style="margin-bottom:14px;">
+      <div class="chain-box"><div class="c-top">Source Code</div><div class="c-val" style="color:var(--orange);">Python / C++ / Java</div></div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-box" style="border-color:var(--purple);"><div class="c-top">Translator</div><div class="c-val" style="color:var(--purple);">Interpreter / Compiler</div></div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-box" style="border-color:var(--cyan);"><div class="c-top">Machine Code</div><div class="c-val" style="color:var(--cyan);">0100 1101…</div></div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-box" style="border-color:var(--green);"><div class="c-top">Output</div><div class="c-val" style="color:var(--green);">Program runs</div></div>
+    </div>
+    <div class="grid g3" style="gap:2px;">
+      <div class="card orange">
+        <div class="card-title">Interpreter</div>
+        <div class="card-body">Translates and runs code <strong>one line at a time</strong>. No separate executable file is produced.</div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Compiler</div>
+        <div class="card-body">Translates the <strong>entire program at once</strong> into a standalone executable before it runs.</div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">Bytecode / JIT</div>
+        <div class="card-body"><strong>Hybrid</strong> approaches that combine steps from both to balance speed and portability.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S3 INTERPRETERS ═══ -->
+<div class="slide">
+  <div class="content" style="max-width:980px;">
+    <div class="label orange">// Interpreters</div>
+    <h2>How an <span class="hl-orange">Interpreter</span> Works</h2>
+    <div class="grid g2" style="gap:10px;align-items:start;">
+      <div>
+        <div class="card orange">
+          <div class="card-title">Mechanics</div>
+          <div class="card-body">Reads source code <strong>line by line</strong>, translates each line to machine code, and <strong>executes it immediately</strong>. No separate executable file is saved. The translation happens fresh every time the program runs.</div>
+        </div>
+        <div class="card green" style="margin-top:2px;">
+          <div class="card-title">Use Cases</div>
+          <div class="card-body">
+            • Rapid development & debugging (see results immediately)<br>
+            • Scripting, web development<br>
+            • Education — beginners see output in real time<br>
+            • Cross-platform (same code runs anywhere an interpreter is installed)<br>
+            • Languages: <strong>Python, JavaScript, Ruby</strong>
+          </div>
+        </div>
+      </div>
+      <div>
+        <table style="border-collapse:collapse;width:100%;font-family:'DM Mono',monospace;font-size:.82rem;">
+          <tr>
+            <td style="background:rgba(61,214,140,.08);border:1px solid rgba(61,214,140,.2);padding:8px 12px;color:var(--green);font-weight:500;width:50%;">✓ Advantages</td>
+            <td style="background:rgba(255,107,107,.06);border:1px solid rgba(255,107,107,.18);padding:8px 12px;color:var(--red);font-weight:500;">✗ Disadvantages</td>
+          </tr>
+          <tr>
+            <td style="background:var(--surface);border:1px solid var(--border2);padding:8px 12px;color:var(--text2);vertical-align:top;">Immediate execution — no wait<br><br>Easy to test and debug interactively<br><br>Highly portable across platforms<br><br>Errors shown as they occur — helpful for learning</td>
+            <td style="background:var(--surface);border:1px solid var(--border2);padding:8px 12px;color:var(--text2);vertical-align:top;"><strong>Slower</strong> — retranslates every run<br><br>Errors only found when that line is reached at runtime<br><br>Source code must be present to run (less secure)</td>
+          </tr>
+        </table>
+        <div class="gold-box" style="margin-top:8px;"><p><strong>Analogy:</strong> A live translator who reads each sentence of a book aloud — useful immediately but must retranslate every time.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S4 COMPILERS ═══ -->
+<div class="slide">
+  <div class="content" style="max-width:980px;">
+    <div class="label blue">// Compilers</div>
+    <h2>How a <span class="hl-blue">Compiler</span> Works</h2>
+    <div class="grid g2" style="gap:10px;align-items:start;">
+      <div>
+        <div class="card blue">
+          <div class="card-title">Mechanics</div>
+          <div class="card-body">Reads <strong>the entire source code</strong> in one pass through stages: <em>lexical analysis → syntax analysis → semantic analysis → optimization → code generation</em>. Produces a <strong>standalone executable</strong> in machine code. Once compiled, no further translation is needed.</div>
+        </div>
+        <div class="card cyan" style="margin-top:2px;">
+          <div class="card-title">Use Cases</div>
+          <div class="card-body">
+            • Performance-critical applications<br>
+            • System software, operating systems<br>
+            • Video games, real-time systems<br>
+            • Security-sensitive code (harder to reverse-engineer)<br>
+            • Languages: <strong>C, C++, Java (→ bytecode)</strong>
+          </div>
+        </div>
+      </div>
+      <div>
+        <table style="border-collapse:collapse;width:100%;font-family:'DM Mono',monospace;font-size:.82rem;">
+          <tr>
+            <td style="background:rgba(74,158,255,.08);border:1px solid rgba(74,158,255,.2);padding:8px 12px;color:var(--blue);font-weight:500;width:50%;">✓ Advantages</td>
+            <td style="background:rgba(255,107,107,.06);border:1px solid rgba(255,107,107,.18);padding:8px 12px;color:var(--red);font-weight:500;">✗ Disadvantages</td>
+          </tr>
+          <tr>
+            <td style="background:var(--surface);border:1px solid var(--border2);padding:8px 12px;color:var(--text2);vertical-align:top;"><strong>Fast execution</strong> — translated once, runs instantly<br><br>All syntax errors caught <strong>before</strong> the program runs<br><br>More secure — source code not needed at runtime<br><br>Can be optimized for target hardware</td>
+            <td style="background:var(--surface);border:1px solid var(--border2);padding:8px 12px;color:var(--text2);vertical-align:top;"><strong>Slow to compile</strong> — large programs take time<br><br>All errors must be fixed before you can run anything<br><br>Less portable — may need recompiling per platform</td>
+          </tr>
+        </table>
+        <div class="gold-box" style="margin-top:8px;"><p><strong>Analogy:</strong> A translator who first reads the whole book and produces a finished translation — you wait longer upfront, but reading is seamless after.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S5 BYTECODE + JIT ═══ -->
+<div class="slide">
+  <div class="content" style="max-width:980px;">
+    <div class="label purple">// Advanced Approaches</div>
+    <h2>Bytecode Interpreters & <span class="hl-purple">JIT</span></h2>
+    <div class="grid g2" style="gap:8px;align-items:start;">
+      <div>
+        <div class="card purple">
+          <div class="card-title">Bytecode Interpreter</div>
+          <div class="card-body">Source code is first <strong>compiled into bytecode</strong> — a compact, platform-independent intermediate form. The bytecode then runs on a <strong>Virtual Machine (VM)</strong> rather than directly on hardware.<br><br>The same bytecode runs on <em>any platform with the right VM</em>.<br><br><strong>Examples:</strong> Java → JVM, Python → .pyc files</div>
+        </div>
+        <div class="chain" style="margin-top:8px;">
+          <div class="chain-box"><div class="c-top">Source</div><div class="c-val" style="color:var(--orange);">.java</div></div>
+          <div class="chain-arrow">→</div>
+          <div class="chain-box" style="border-color:var(--purple);"><div class="c-top">Compiler</div><div class="c-val" style="color:var(--purple);">bytecode</div></div>
+          <div class="chain-arrow">→</div>
+          <div class="chain-box" style="border-color:var(--cyan);"><div class="c-top">JVM</div><div class="c-val" style="color:var(--cyan);">.class</div></div>
+          <div class="chain-arrow">→</div>
+          <div class="chain-box" style="border-color:var(--green);"><div class="c-top">Runs on</div><div class="c-val" style="color:var(--green);">any OS</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="card pink">
+          <div class="card-title">Just-In-Time (JIT) Compilation</div>
+          <div class="card-body">Starts by interpreting bytecode. As the program runs, the JIT compiler identifies <strong>"hot spots"</strong> — frequently executed sections — and compiles them to machine code on the fly. That compiled version is <strong>cached</strong> for future use.<br><br>Result: portability of bytecode <em>plus</em> near-compiled speed.<br><br><strong>Examples:</strong> Java JVM, .NET runtime, JavaScript in browsers</div>
+        </div>
+        <div class="cyan-box" style="margin-top:6px;"><p><strong>Key idea:</strong> JIT gets faster the longer a program runs — hot spots keep getting optimized. Ideal for servers and long-running apps.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S6 ERROR DETECTION ═══ -->
+<div class="slide">
+  <div class="content" style="max-width:960px;">
+    <div class="label red">// Evaluation · Error Detection</div>
+    <h2>When Are <span class="hl-red">Errors</span> Caught?</h2>
+    <p class="lead" style="margin-bottom:12px;">One of the biggest practical differences between translation methods.</p>
+    <div class="grid g2" style="gap:8px;margin-bottom:10px;">
+      <div class="card blue">
+        <div class="card-title">Compiler — Before execution</div>
+        <div class="card-body">Analyses the <strong>entire code upfront</strong>. All syntax and many semantic errors are caught and <em>must</em> be fixed before the program can run at all. Fewer surprises at runtime → more stable final product.</div>
+      </div>
+      <div class="card orange">
+        <div class="card-title">Interpreter — At runtime</div>
+        <div class="card-body">Errors are discovered <strong>only when the problematic line is executed</strong>. Useful for quick iteration during development, but a bug in a rarely-run code path may go unnoticed until it crashes in production.</div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">Bytecode Interpreter — Mixed</div>
+        <div class="card-body">Some errors caught at the bytecode compilation stage, but others still surface <strong>at runtime</strong>. A middle ground — fewer runtime errors than a pure interpreter.</div>
+      </div>
+      <div class="card pink">
+        <div class="card-title">JIT — Runtime + dynamic fix</div>
+        <div class="card-body">Errors can still occur at runtime, but the JIT compiler's repeated optimization of hot spots can <strong>detect and improve</strong> issues in frequently executed paths over time.</div>
+      </div>
+    </div>
+    <div class="gold-box"><p><strong>Common mistake:</strong> Don't confuse "compilers catch errors" with "compilers catch ALL errors." They catch syntax and some semantic errors — logic errors still slip through.</p></div>
+  </div>
+</div>
+
+<!-- ═══ S7 FULL COMPARISON TABLE ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label gold">// Evaluation · Full Comparison</div>
+    <h2>All Four — <span class="hl-gold">At a Glance</span></h2>
+    <table class="summary-table">
+      <thead>
+        <tr><th></th><th style="color:var(--blue);">Compiler</th><th style="color:var(--orange);">Interpreter</th><th style="color:var(--purple);">Bytecode</th><th style="color:var(--pink);">JIT</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:var(--cyan);">Error detection</td>
+          <td>All errors before execution</td>
+          <td>Errors found at runtime, line by line</td>
+          <td>Some before, some at runtime</td>
+          <td>Runtime + dynamic optimization</td>
+        </tr>
+        <tr>
+          <td style="color:var(--cyan);">Translation time</td>
+          <td>High upfront — but fast execution after</td>
+          <td>Immediate start — slower overall</td>
+          <td>Moderate start — moderate speed</td>
+          <td>Low start, improves as it runs</td>
+        </tr>
+        <tr>
+          <td style="color:var(--cyan);">Portability</td>
+          <td style="color:var(--red);">Low — tied to specific hardware</td>
+          <td style="color:var(--green);">High — runs anywhere with the interpreter</td>
+          <td style="color:var(--green);">High — bytecode runs on any VM</td>
+          <td style="color:var(--green);">High — portable + platform-optimized</td>
+        </tr>
+        <tr>
+          <td style="color:var(--cyan);">Best for</td>
+          <td>Performance-critical apps, system software</td>
+          <td>Rapid dev, scripting, education</td>
+          <td>Cross-platform enterprise / mobile apps</td>
+          <td>Long-running servers, dynamic web apps</td>
+        </tr>
+        <tr>
+          <td style="color:var(--cyan);">Examples</td>
+          <td style="font-family:'DM Mono',monospace;font-size:.8rem;color:var(--blue);">C, C++</td>
+          <td style="font-family:'DM Mono',monospace;font-size:.8rem;color:var(--orange);">Python, JavaScript, Ruby</td>
+          <td style="font-family:'DM Mono',monospace;font-size:.8rem;color:var(--purple);">Java (JVM), Python (.pyc)</td>
+          <td style="font-family:'DM Mono',monospace;font-size:.8rem;color:var(--pink);">JVM, .NET, V8 (Chrome)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══ S8 SCENARIO EXAMPLES ═══ -->
+<div class="slide">
+  <div class="content" style="max-width:980px;">
+    <div class="label cyan">// Evaluation · Scenario Examples</div>
+    <h2>Which to <span class="hl-cyan">Choose</span>?</h2>
+    <p class="lead" style="margin-bottom:12px;">The right translation method depends on the project's needs.</p>
+    <div class="grid g3" style="gap:2px;">
+      <div class="card orange">
+        <div class="card-title">Rapid Development & Testing</div>
+        <div class="card-body">
+          <strong style="color:var(--orange);">→ Use an Interpreter</strong><br><br>
+          <em>Example:</em> A startup prototyping a web app in Python. The team needs to test and iterate fast — no compilation delay, errors surface immediately.<br><br>
+          Languages like Python and JavaScript let developers see results right away.
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Performance-Critical Applications</div>
+        <div class="card-body">
+          <strong style="color:var(--blue);">→ Use a Compiler</strong><br><br>
+          <em>Example:</em> A real-time trading system in C++ requiring minimal latency. The entire codebase is compiled to optimized machine code for maximum speed.<br><br>
+          Also: game engines, OS kernels, embedded systems.
+        </div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">Cross-Platform Development</div>
+        <div class="card-body">
+          <strong style="color:var(--purple);">→ Use Bytecode / JIT</strong><br><br>
+          <em>Example:</em> An enterprise Java app that must run on Windows, macOS and Linux. Java compiles to bytecode → JVM handles each platform. JIT then optimizes hot paths per platform.<br><br>
+          Also: Android apps, web services, .NET apps.
+        </div>
+      </div>
+    </div>
+    <div class="info-box" style="margin-top:10px;"><p><strong>Tip:</strong> In the exam, always justify your choice using at least two criteria — e.g. "An interpreter is suitable because it allows rapid testing and the code needs to run on multiple platforms."</p></div>
+  </div>
+</div>
+
+<!-- ═══ S9 SUMMARY ═══ -->
+<div class="slide">
+  <div class="content" style="max-width:980px;">
+    <div class="label">// Summary</div>
+    <h2>What We <span class="hl-gold">Covered</span></h2>
+    <div class="grid g2" style="gap:2px;margin-bottom:10px;">
+      <div class="card orange">
+        <div class="card-title">Interpreter</div>
+        <div class="card-body">Line-by-line translation + execution. <strong>Immediate start, slower overall.</strong> Errors at runtime. High portability. Best for: scripting, rapid dev, education. (Python, JS)</div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Compiler</div>
+        <div class="card-body">Full translation upfront → standalone executable. <strong>Slow to compile, fast to run.</strong> All errors before execution. Low portability. Best for: performance-critical, system software. (C, C++)</div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">Bytecode Interpreter</div>
+        <div class="card-body">Source → bytecode → runs on VM. <strong>Platform-independent.</strong> Moderate speed. Mixed error detection. Best for: cross-platform enterprise/mobile apps. (Java JVM)</div>
+      </div>
+      <div class="card pink">
+        <div class="card-title">JIT Compilation</div>
+        <div class="card-body">Bytecode + hot-spot compilation at runtime. <strong>Portable + fast</strong> (gets faster over time). Best for: long-running servers, dynamic web apps. (JVM, .NET, V8)</div>
+      </div>
+    </div>
+    <div class="gold-box"><p><strong>Big picture:</strong> All four methods translate the same thing — high-level code into machine-executable instructions. They differ in <em>when</em> translation happens and the trade-offs that follow.</p></div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="go(-1)" disabled>← prev</button>
+  <div class="nav-sep"></div>
+  <div class="nav-dots" id="dots"></div>
+  <div class="nav-sep"></div>
+  <button class="nav-btn" id="nextBtn" onclick="go(1)">next →</button>
+</nav>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let cur = 0;
+
+document.getElementById('slideNum').textContent = `01 / ${String(total).padStart(2,'0')}`;
+
+const dotsEl = document.getElementById('dots');
+slides.forEach((_,i) => {
+  const d = document.createElement('span');
+  d.className = 'dot' + (i===0?' active':'');
+  d.onclick = () => show(i);
+  dotsEl.appendChild(d);
+});
+
+function show(n) {
+  slides[cur].classList.remove('active');
+  slides[cur].classList.add('exit');
+  setTimeout(() => slides[cur].classList.remove('exit'), 400);
+  cur = n;
+  slides[cur].classList.add('active');
+  document.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('active', i===cur));
+  document.getElementById('progress').style.width = ((cur+1)/total*100)+'%';
+  document.getElementById('slideNum').textContent = `${String(cur+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`;
+  document.getElementById('prevBtn').disabled = cur === 0;
+  document.getElementById('nextBtn').disabled = cur === total-1;
+}
+
+function go(dir) { if(cur+dir>=0 && cur+dir<total) show(cur+dir); }
+
+document.addEventListener('keydown', e => {
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') go(1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp') go(-1);
+});
+
+document.getElementById('progress').style.width = (1/total*100)+'%';
+document.getElementById('prevBtn').disabled = true;
+</script>
+</body>
+</html>

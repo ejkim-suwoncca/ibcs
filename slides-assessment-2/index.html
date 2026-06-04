@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IB CS SL I — 수행평가 2: 알고리즘 이해 및 문제 상황 적용</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #16161f;
+    --surface2: #1e1e2a;
+    --border: #2a2a3a;
+    --accent: #00e5ff;
+    --purple: #a78bfa;
+    --amber: #f59e0b;
+    --green: #10b981;
+    --red: #ef4444;
+    --text: #e8e8f0;
+    --text2: #9090a8;
+    --text3: #5a5a72;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    word-break: keep-all;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 48px 48px;
+    opacity: 0.18;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .slides-wrapper {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 80px;
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none;
+    overflow-y: auto;
+  }
+
+  .slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: all;
+  }
+
+  .slide.exit {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+
+  .slide-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 20px;
+    align-self: flex-start;
+  }
+
+  .slide-title {
+    font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    align-self: flex-start;
+  }
+
+  .slide-subtitle {
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-weight: 300;
+    color: var(--text2);
+    margin-bottom: 40px;
+    align-self: flex-start;
+    line-height: 1.6;
+  }
+
+  .c-purple { color: var(--purple); }
+  .c-amber { color: var(--amber); }
+  .c-green { color: var(--green); }
+  .c-red { color: var(--red); }
+  .c-cyan { color: var(--accent); }
+
+  .content-grid {
+    display: grid;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .grid-2 { grid-template-columns: 1fr 1fr; }
+  .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 28px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .card.purple::before { background: var(--purple); }
+  .card.amber::before  { background: var(--amber); }
+  .card.cyan::before   { background: var(--accent); }
+  .card.green::before  { background: var(--green); }
+  .card.red::before    { background: var(--red); }
+
+  .card-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 10px;
+  }
+
+  .card-title {
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .card-body {
+    font-size: clamp(0.95rem, 1.5vw, 1.2rem);
+    color: var(--text2);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .rubric {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: clamp(0.85rem, 1.35vw, 1.05rem);
+  }
+
+  .rubric th {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(0.7rem, 1.1vw, 0.92rem);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text3);
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .rubric td {
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text2);
+    line-height: 1.5;
+    vertical-align: top;
+    background: var(--surface);
+  }
+
+  .rubric tr:last-child td { border-bottom: none; }
+  .rubric tr:hover td { background: var(--surface2); }
+  .rubric td:first-child { font-weight: 700; color: var(--text); }
+
+  .score-badge {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(0.75rem, 1.1vw, 0.92rem);
+    padding: 2px 9px;
+    border-radius: 2px;
+    font-weight: 700;
+    margin: 1px;
+  }
+
+  .s-hi  { background: rgba(16,185,129,0.15);  color: var(--green); }
+  .s-mid { background: rgba(167,139,250,0.15); color: var(--purple); }
+  .s-lo  { background: rgba(245,158,11,0.12);  color: var(--amber); }
+  .s-min { background: rgba(239,68,68,0.1);    color: var(--red); }
+
+  .step-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .step {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 18px 24px;
+  }
+
+  .step-num {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+    color: var(--purple);
+    flex-shrink: 0;
+    min-width: 32px;
+    font-weight: 700;
+  }
+
+  .step-text {
+    font-size: clamp(1rem, 1.6vw, 1.25rem);
+    line-height: 1.6;
+    color: var(--text2);
+  }
+
+  .step-text strong { color: var(--text); }
+
+  .hbox {
+    width: 100%;
+    padding: 20px 28px;
+    border-left: 4px solid var(--purple);
+    background: rgba(167,139,250,0.04);
+    border-top: 1px solid rgba(167,139,250,0.1);
+    border-right: 1px solid rgba(167,139,250,0.1);
+    border-bottom: 1px solid rgba(167,139,250,0.1);
+    margin-top: 16px;
+  }
+
+  .hbox.red {
+    border-left-color: var(--red);
+    background: rgba(239,68,68,0.04);
+    border-top-color: rgba(239,68,68,0.1);
+    border-right-color: rgba(239,68,68,0.1);
+    border-bottom-color: rgba(239,68,68,0.1);
+  }
+
+  .hbox.green {
+    border-left-color: var(--green);
+    background: rgba(16,185,129,0.04);
+    border-top-color: rgba(16,185,129,0.1);
+    border-right-color: rgba(16,185,129,0.1);
+    border-bottom-color: rgba(16,185,129,0.1);
+  }
+
+  .hbox p {
+    font-size: clamp(0.95rem, 1.5vw, 1.2rem);
+    color: var(--text2);
+    line-height: 1.65;
+  }
+
+  .hbox strong { color: var(--text); }
+
+  .tag {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  .tag.no-ai { background: rgba(239,68,68,0.1); color: var(--red); border: 1px solid rgba(239,68,68,0.25); }
+  .tag.written { background: rgba(167,139,250,0.1); color: var(--purple); border: 1px solid rgba(167,139,250,0.25); }
+
+  .algo-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--purple);
+    padding: 22px 28px;
+    margin-top: 10px;
+  }
+
+  .algo-title {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(0.8rem, 1.3vw, 1rem);
+    color: var(--purple);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .algo-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .algo-list li {
+    font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+    color: var(--text2);
+    padding-left: 18px;
+    position: relative;
+  }
+
+  .algo-list li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--purple);
+    font-weight: 700;
+  }
+
+  .code-block {
+    background: #0d0d14;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--purple);
+    padding: 18px 22px;
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(0.78rem, 1.2vw, 0.95rem);
+    color: #c9d1e0;
+    line-height: 1.75;
+    white-space: pre;
+    overflow-x: auto;
+    margin-top: 10px;
+  }
+
+  .code-block .kw  { color: #a78bfa; }
+  .code-block .fn  { color: #00e5ff; }
+  .code-block .cm  { color: #5a5a72; font-style: italic; }
+  .code-block .num { color: #f59e0b; }
+  .code-block .str { color: #10b981; }
+
+  .full-content {
+    width: 100%;
+    max-width: 1200px;
+  }
+
+  .glow {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .nav {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 100;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    padding: 14px 28px;
+    border-radius: 2px;
+  }
+
+  .nav-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text2);
+    background: none;
+    border: 1px solid var(--border);
+    padding: 8px 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .nav-btn:hover { color: var(--purple); border-color: var(--purple); background: rgba(167,139,250,0.05); }
+  .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .nav-counter {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: var(--text3);
+    min-width: 60px;
+    text-align: center;
+  }
+
+  .dots { display: flex; gap: 6px; align-items: center; }
+  .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .dot.active { background: var(--purple); transform: scale(1.4); }
+
+  .home-link {
+    position: fixed;
+    top: 20px;
+    left: 24px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--text3);
+    text-decoration: none;
+    text-transform: uppercase;
+    z-index: 100;
+    transition: color 0.2s;
+  }
+  .home-link:hover { color: var(--purple); }
+
+  @media (max-width: 700px) {
+    .slide { padding: 40px 24px; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .grid-3 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<a class="home-link" href="../index.html">← 메인</a>
+
+<div class="slides-wrapper" id="slidesWrapper">
+
+  <!-- SLIDE 1: TITLE -->
+  <div class="slide active" id="slide-0">
+    <div class="glow" style="width:700px;height:700px;background:radial-gradient(circle,rgba(167,139,250,0.07) 0%,transparent 70%);top:-200px;left:-150px;"></div>
+    <div class="glow" style="width:500px;height:500px;background:radial-gradient(circle,rgba(245,158,11,0.05) 0%,transparent 70%);bottom:-100px;right:-100px;"></div>
+    <div class="full-content">
+      <div class="slide-label">// IB Computer Science SL Ⅰ · 2026 · 수행평가 2</div>
+      <h1 class="slide-title" style="font-size:clamp(2.6rem,6vw,5rem);margin-bottom:20px;">
+        <span class="c-purple">알고리즘</span> 이해<br>및 문제 상황 적용
+      </h1>
+      <p class="slide-subtitle" style="font-size:clamp(1.05rem,1.9vw,1.45rem);max-width:640px;">
+        순서도 · 의사코드 · Python 코드 완성 +<br>실제 문제 상황에서 알고리즘 선정 논술
+      </p>
+      <div style="display:flex;gap:40px;margin-top:16px;flex-wrap:wrap;">
+        <div style="display:flex;flex-direction:column;gap:4px;padding-left:16px;border-left:2px solid var(--purple);">
+          <span style="font-family:'Space Mono',monospace;font-size:clamp(1.4rem,2.5vw,2rem);font-weight:700;">30점</span>
+          <span style="font-size:clamp(0.8rem,1.2vw,1rem);color:var(--text3);">총점</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;padding-left:16px;border-left:2px solid var(--amber);">
+          <span style="font-family:'Space Mono',monospace;font-size:clamp(1.4rem,2.5vw,2rem);font-weight:700;">5월 4주</span>
+          <span style="font-size:clamp(0.8rem,1.2vw,1rem);color:var(--text3);">제출 기한</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;padding-left:16px;border-left:2px solid var(--red);">
+          <span style="font-family:'Space Mono',monospace;font-size:clamp(1.4rem,2.5vw,2rem);font-weight:700;">수기 전용</span>
+          <span style="font-size:clamp(0.8rem,1.2vw,1rem);color:var(--text3);">AI 사용 전면 금지</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: OVERVIEW -->
+  <div class="slide" id="slide-1">
+    <div class="full-content">
+      <div class="slide-label">// 00 · 평가 구성</div>
+      <h2 class="slide-title">두 파트,<br>하나의 흐름.</h2>
+      <div class="content-grid grid-2" style="margin-top:8px;">
+        <div class="card purple">
+          <div class="card-label">Part 2.1 — 알고리즘 완성 · 15점</div>
+          <div class="card-title">순서도 + 의사코드 + 코드</div>
+          <div class="card-body">
+            제시된 알고리즘의 <strong style="color:var(--text)">순서도</strong>, <strong style="color:var(--text)">의사코드</strong>, <strong style="color:var(--text)">Python 코드</strong>를 완성합니다.
+            알고리즘의 명칭과 적합한 사용 상황도 설명합니다.
+          </div>
+        </div>
+        <div class="card purple">
+          <div class="card-label">Part 2.2 — 문제 상황 논술 · 15점</div>
+          <div class="card-title">알고리즘 선정 & 근거</div>
+          <div class="card-body">
+            주어진 <strong style="color:var(--text)">실제 문제 상황</strong>에서 가장 적합한 알고리즘을 선정하고,
+            선정 근거 · 동작 원리 · 상황과의 연결을 논술합니다.
+          </div>
+        </div>
+      </div>
+      <div class="hbox red" style="margin-top:16px;">
+        <p>⚠️ <strong>수기(손글씨) 전용 평가</strong>입니다. AI 도구 사용은 조사·작성·완성 모든 과정에서 <strong>전면 금지</strong>됩니다. 시험지에 직접 작성합니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: ALGORITHMS COVERED -->
+  <div class="slide" id="slide-2">
+    <div class="full-content">
+      <div class="slide-label">// 01 · 평가 범위</div>
+      <h2 class="slide-title">출제 범위:<br><span class="c-purple">알고리즘</span></h2>
+      <p class="slide-subtitle">B2.4 과정에서 학습한 알고리즘들이 출제됩니다.</p>
+      <div class="content-grid grid-2" style="margin-top:0;">
+        <div>
+          <div class="algo-box">
+            <div class="algo-title">탐색 알고리즘 (Search)</div>
+            <ul class="algo-list">
+              <li><strong style="color:var(--text)">선형 탐색</strong> Linear Search — O(n), 정렬 불필요</li>
+              <li><strong style="color:var(--text)">이진 탐색</strong> Binary Search — O(log n), 정렬 필수</li>
+            </ul>
+          </div>
+          <div class="algo-box" style="margin-top:10px;">
+            <div class="algo-title">정렬 알고리즘 (Sort)</div>
+            <ul class="algo-list">
+              <li><strong style="color:var(--text)">버블 정렬</strong> Bubble Sort — O(n²), 인접 비교</li>
+              <li><strong style="color:var(--text)">선택 정렬</strong> Selection Sort — O(n²), 최솟값 선택</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="algo-box">
+            <div class="algo-title">Big O 복잡도 비교</div>
+            <table style="width:100%;border-collapse:collapse;margin-top:8px;">
+              <thead>
+                <tr>
+                  <th style="font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--text3);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);">알고리즘</th>
+                  <th style="font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--text3);padding:8px 12px;text-align:center;border-bottom:1px solid var(--border);">최선</th>
+                  <th style="font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--text3);padding:8px 12px;text-align:center;border-bottom:1px solid var(--border);">최악</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding:8px 12px;font-size:0.95rem;border-bottom:1px solid var(--border);color:var(--text2);">선형 탐색</td>
+                  <td style="padding:8px 12px;text-align:center;border-bottom:1px solid var(--border);color:var(--green);font-family:'Space Mono',monospace;font-size:0.85rem;">O(1)</td>
+                  <td style="padding:8px 12px;text-align:center;border-bottom:1px solid var(--border);color:var(--amber);font-family:'Space Mono',monospace;font-size:0.85rem;">O(n)</td>
+                </tr>
+                <tr>
+                  <td style="padding:8px 12px;font-size:0.95rem;border-bottom:1px solid var(--border);color:var(--text2);">이진 탐색</td>
+                  <td style="padding:8px 12px;text-align:center;border-bottom:1px solid var(--border);color:var(--green);font-family:'Space Mono',monospace;font-size:0.85rem;">O(1)</td>
+                  <td style="padding:8px 12px;text-align:center;border-bottom:1px solid var(--border);color:var(--green);font-family:'Space Mono',monospace;font-size:0.85rem;">O(log n)</td>
+                </tr>
+                <tr>
+                  <td style="padding:8px 12px;font-size:0.95rem;border-bottom:1px solid var(--border);color:var(--text2);">버블 정렬</td>
+                  <td style="padding:8px 12px;text-align:center;border-bottom:1px solid var(--border);color:var(--green);font-family:'Space Mono',monospace;font-size:0.85rem;">O(n)</td>
+                  <td style="padding:8px 12px;text-align:center;border-bottom:1px solid var(--border);color:var(--red);font-family:'Space Mono',monospace;font-size:0.85rem;">O(n²)</td>
+                </tr>
+                <tr>
+                  <td style="padding:8px 12px;font-size:0.95rem;color:var(--text2);">선택 정렬</td>
+                  <td style="padding:8px 12px;text-align:center;color:var(--amber);font-family:'Space Mono',monospace;font-size:0.85rem;">O(n²)</td>
+                  <td style="padding:8px 12px;text-align:center;color:var(--red);font-family:'Space Mono',monospace;font-size:0.85rem;">O(n²)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: PART 2.1 WHAT IS EXPECTED -->
+  <div class="slide" id="slide-3">
+    <div class="full-content">
+      <div class="slide-label">// 02 · Part 2.1</div>
+      <h2 class="slide-title">Part 2.1:<br><span class="c-purple">알고리즘 완성</span></h2>
+      <p class="slide-subtitle">주어진 알고리즘을 세 가지 표현 방식으로 완성합니다. (15점)</p>
+      <div class="step-list">
+        <div class="step">
+          <div class="step-num">①</div>
+          <div class="step-text"><strong>순서도 완성</strong> — 빈칸이 있는 순서도를 완성합니다. 올바른 기호 사용: 시작/끝(타원), 처리(직사각형), 결정(마름모), 입출력(평행사변형), 흐름선.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">②</div>
+          <div class="step-text"><strong>의사코드 완성</strong> — 알고리즘의 논리를 의사코드로 작성합니다. 제어 구조(IF, WHILE, FOR), 변수 할당, 비교 연산자를 정확히 사용합니다.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">③</div>
+          <div class="step-text"><strong>Python 코드 완성</strong> — 실행 가능한 Python 코드로 작성합니다. 올바른 문법, 들여쓰기, 논리 구조를 갖추어야 합니다.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">④</div>
+          <div class="step-text"><strong>알고리즘 식별</strong> — 완성한 알고리즘의 <strong>명칭</strong>, <strong>핵심 원리</strong>, <strong>적합한 사용 상황</strong>을 간단히 설명합니다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: FLOWCHART SYMBOLS -->
+  <div class="slide" id="slide-4">
+    <div class="full-content">
+      <div class="slide-label">// 02 · Part 2.1 · 순서도 기호</div>
+      <h2 class="slide-title" style="font-size:clamp(1.8rem,3.5vw,3rem);margin-bottom:16px;">표준 <span class="c-purple">순서도 기호</span></h2>
+      <div class="content-grid grid-3" style="margin-top:0;gap:10px;">
+        <div class="card purple">
+          <div class="card-label">시작 / 끝</div>
+          <div style="text-align:center;margin:12px 0;">
+            <div style="display:inline-block;background:var(--surface2);border:2px solid var(--purple);border-radius:50px;padding:10px 30px;font-family:'Space Mono',monospace;font-size:0.9rem;color:var(--purple);">START / END</div>
+          </div>
+          <div class="card-body">타원 (둥근 직사각형). 알고리즘의 시작과 끝을 나타냄.</div>
+        </div>
+        <div class="card cyan">
+          <div class="card-label">처리 / 연산</div>
+          <div style="text-align:center;margin:12px 0;">
+            <div style="display:inline-block;background:var(--surface2);border:2px solid var(--accent);padding:10px 30px;font-family:'Space Mono',monospace;font-size:0.9rem;color:var(--accent);">PROCESS</div>
+          </div>
+          <div class="card-body">직사각형. 변수 할당, 계산, 교환 등의 처리 작업.</div>
+        </div>
+        <div class="card amber">
+          <div class="card-label">결정 / 조건</div>
+          <div style="text-align:center;margin:12px 0;">
+            <svg viewBox="0 0 120 60" style="width:100px;height:50px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="60,5 115,30 60,55 5,30" fill="none" stroke="#f59e0b" stroke-width="2"/>
+              <text x="60" y="34" text-anchor="middle" font-family="'Space Mono',monospace" font-size="10" fill="#f59e0b">YES / NO</text>
+            </svg>
+          </div>
+          <div class="card-body">마름모. 조건을 판단해 두 방향으로 분기.</div>
+        </div>
+        <div class="card green">
+          <div class="card-label">입력 / 출력</div>
+          <div style="text-align:center;margin:12px 0;">
+            <div style="display:inline-block;background:var(--surface2);border:2px solid var(--green);padding:10px 20px;font-family:'Space Mono',monospace;font-size:0.9rem;color:var(--green);transform:skewX(-10deg);">INPUT / OUTPUT</div>
+          </div>
+          <div class="card-body">평행사변형. 사용자 입력 또는 화면 출력.</div>
+        </div>
+        <div class="card" style="border-color:var(--text3);">
+          <div class="card-label" style="color:var(--text3);">흐름선</div>
+          <div style="text-align:center;margin:12px 0;font-family:'Space Mono',monospace;font-size:1.4rem;color:var(--text2);">→ ↓ ↑ ←</div>
+          <div class="card-body">화살표로 실행 흐름 방향을 표시. 반드시 방향 표시 필수.</div>
+        </div>
+        <div class="card" style="border-color:var(--accent);">
+          <div class="card-label" style="color:var(--accent);">연결자</div>
+          <div style="text-align:center;margin:12px 0;">
+            <div style="display:inline-block;background:var(--surface2);border:2px solid var(--accent);border-radius:50%;width:40px;height:40px;line-height:40px;font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--accent);">A</div>
+          </div>
+          <div class="card-body">원. 순서도가 여러 부분으로 나뉠 때 연결 지점 표시.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: PSEUDOCODE GUIDE -->
+  <div class="slide" id="slide-5">
+    <div class="full-content">
+      <div class="slide-label">// 02 · Part 2.1 · 의사코드</div>
+      <h2 class="slide-title" style="font-size:clamp(1.8rem,3.5vw,3rem);margin-bottom:16px;"><span class="c-purple">의사코드</span> 작성 규칙</h2>
+      <div class="content-grid grid-2" style="margin-top:0;">
+        <div>
+          <div class="algo-box">
+            <div class="algo-title">기본 구조</div>
+            <div class="code-block"><span class="cm"># 변수 할당</span>
+x ← 0
+array ← [3, 1, 4, 1, 5]
+
+<span class="cm"># 조건문</span>
+<span class="kw">IF</span> x > 0 <span class="kw">THEN</span>
+  output x
+<span class="kw">ELSE</span>
+  output <span class="str">"음수"</span>
+<span class="kw">END IF</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="algo-box">
+            <div class="algo-title">반복문</div>
+            <div class="code-block"><span class="cm"># WHILE 반복</span>
+<span class="kw">WHILE</span> i < n <span class="kw">DO</span>
+  process(i)
+  i ← i + 1
+<span class="kw">END WHILE</span>
+
+<span class="cm"># FOR 반복</span>
+<span class="kw">FOR</span> i ← 0 <span class="kw">TO</span> n-1 <span class="kw">DO</span>
+  process(i)
+<span class="kw">END FOR</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="hbox">
+        <p><strong>핵심 원칙:</strong> 의사코드는 특정 언어에 종속되지 않지만 <strong>논리가 명확</strong>해야 합니다. 들여쓰기로 블록 구조를 나타내고, 화살표(←)로 대입을 표시합니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: PART 2.1 RUBRIC -->
+  <div class="slide" id="slide-6">
+    <div class="full-content">
+      <div class="slide-label">// 02 · Part 2.1 · 채점 기준</div>
+      <h2 class="slide-title" style="font-size:clamp(1.8rem,3.5vw,3rem);margin-bottom:20px;">Part 2.1 채점 기준 <span style="font-family:'Space Mono',monospace;font-size:0.5em;color:var(--text3);">15점</span></h2>
+      <table class="rubric">
+        <thead>
+          <tr>
+            <th>평가 요소</th>
+            <th>수행 수준</th>
+            <th style="text-align:center;">점수</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="4" style="border-right:1px solid var(--border);min-width:110px;">순서도 완성<br><span style="font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--purple);">/4점</span></td>
+            <td>모든 기호와 흐름을 정확하게 완성, 표준 기호 올바르게 사용</td>
+            <td style="text-align:center;"><span class="score-badge s-hi">4</span></td>
+          </tr>
+          <tr>
+            <td>대부분 올바르나 일부 기호 오류 또는 흐름 부정확</td>
+            <td style="text-align:center;"><span class="score-badge s-mid">3</span></td>
+          </tr>
+          <tr>
+            <td>일부만 완성, 핵심 구조 누락</td>
+            <td style="text-align:center;"><span class="score-badge s-lo">2</span></td>
+          </tr>
+          <tr>
+            <td>미완성 또는 기호 대부분 오류</td>
+            <td style="text-align:center;"><span class="score-badge s-min">1</span></td>
+          </tr>
+          <tr>
+            <td rowspan="4" style="border-right:1px solid var(--border);">의사코드 완성<br><span style="font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--purple);">/4점</span></td>
+            <td>제어 구조와 변수 처리 포함하여 정확히 완성</td>
+            <td style="text-align:center;"><span class="score-badge s-hi">4</span></td>
+          </tr>
+          <tr>
+            <td>논리 구조는 맞으나 일부 표기 부정확</td>
+            <td style="text-align:center;"><span class="score-badge s-mid">3</span></td>
+          </tr>
+          <tr>
+            <td>일부만 완성, 제어 구조 누락</td>
+            <td style="text-align:center;"><span class="score-badge s-lo">2</span></td>
+          </tr>
+          <tr>
+            <td>미완성 또는 논리 오류 다수</td>
+            <td style="text-align:center;"><span class="score-badge s-min">1</span></td>
+          </tr>
+          <tr>
+            <td rowspan="4" style="border-right:1px solid var(--border);">Python 코드 완성<br><span style="font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--purple);">/4점</span></td>
+            <td>문법에 맞게 완성, 논리 정확, 실행 가능</td>
+            <td style="text-align:center;"><span class="score-badge s-hi">4</span></td>
+          </tr>
+          <tr>
+            <td>소수 문법 오류 있으나 논리 구조 올바름</td>
+            <td style="text-align:center;"><span class="score-badge s-mid">3</span></td>
+          </tr>
+          <tr>
+            <td>오류 포함, 실행 불가능</td>
+            <td style="text-align:center;"><span class="score-badge s-lo">2</span></td>
+          </tr>
+          <tr>
+            <td>미완성 또는 알고리즘 논리 반영 안됨</td>
+            <td style="text-align:center;"><span class="score-badge s-min">1</span></td>
+          </tr>
+          <tr>
+            <td rowspan="3" style="border-right:1px solid var(--border);">알고리즘 식별<br><span style="font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--purple);">/3점</span></td>
+            <td>명칭·핵심 원리·적합한 사용 상황을 구체적으로 설명</td>
+            <td style="text-align:center;"><span class="score-badge s-hi">3</span></td>
+          </tr>
+          <tr>
+            <td>원리 설명은 있으나 사용 상황 설명 미흡</td>
+            <td style="text-align:center;"><span class="score-badge s-mid">2</span></td>
+          </tr>
+          <tr>
+            <td>명칭만 식별, 설명 거의 없음</td>
+            <td style="text-align:center;"><span class="score-badge s-min">1</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: PART 2.2 GUIDE -->
+  <div class="slide" id="slide-7">
+    <div class="full-content">
+      <div class="slide-label">// 03 · Part 2.2</div>
+      <h2 class="slide-title">Part 2.2:<br><span class="c-purple">문제 상황 논술</span></h2>
+      <p class="slide-subtitle">실제 문제 상황을 분석하고 가장 적합한 알고리즘을 논리적으로 선정합니다. (15점)</p>
+      <div class="step-list">
+        <div class="step">
+          <div class="step-num">① 상황 파악</div>
+          <div class="step-text">제시된 문제 상황의 <strong>조건</strong>을 파악합니다. 데이터 크기? 정렬 여부? 탐색인가 정렬인가? 시간 제약?</div>
+        </div>
+        <div class="step">
+          <div class="step-num">② 알고리즘 선정</div>
+          <div class="step-text">조건에 맞는 알고리즘을 선정하고 <strong>왜 다른 알고리즘보다 적합한지</strong> 비교 근거를 제시합니다.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">③ 동작 원리 설명</div>
+          <div class="step-text">선정한 알고리즘이 <strong>이 문제 상황에서 어떻게 작동하는지</strong> 구체적으로 설명합니다. 예시 데이터와 함께 단계별로.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">④ 글 구조 완성</div>
+          <div class="step-text">주장 → 근거 → 설명 → 연결의 4단계 구조로 글을 작성합니다. 논리 흐름이 일관되어야 합니다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: PART 2.2 RUBRIC -->
+  <div class="slide" id="slide-8">
+    <div class="full-content">
+      <div class="slide-label">// 03 · Part 2.2 · 채점 기준</div>
+      <h2 class="slide-title" style="font-size:clamp(1.8rem,3.5vw,3rem);margin-bottom:20px;">Part 2.2 채점 기준 <span style="font-family:'Space Mono',monospace;font-size:0.5em;color:var(--text3);">15점</span></h2>
+      <table class="rubric">
+        <thead>
+          <tr>
+            <th>평가 요소</th>
+            <th>수행 수준</th>
+            <th style="text-align:center;">점수</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="4" style="border-right:1px solid var(--border);">알고리즘 선정<br>근거 및 설명<br><span style="font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--purple);">/10점</span></td>
+            <td>시나리오 조건 완전 파악, 비교 근거 명확, 동작 원리를 구체적으로 설명</td>
+            <td style="text-align:center;"><span class="score-badge s-hi">10</span></td>
+          </tr>
+          <tr>
+            <td>대체로 잘 선정, 근거 및 설명 다소 부족</td>
+            <td style="text-align:center;"><span class="score-badge s-mid">8</span></td>
+          </tr>
+          <tr>
+            <td>알고리즘 선정은 맞으나 상황과 연결 미흡</td>
+            <td style="text-align:center;"><span class="score-badge s-lo">6</span></td>
+          </tr>
+          <tr>
+            <td>선정 근거 단편적, 동작 원리 설명 불충분</td>
+            <td style="text-align:center;"><span class="score-badge s-min">4</span></td>
+          </tr>
+          <tr>
+            <td rowspan="3" style="border-right:1px solid var(--border);">글의 논리 구조<br>(주장-근거-설명-연결)<br><span style="font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--purple);">/5점</span></td>
+            <td>4가지 요소 모두 명확하고 글 흐름이 매끄러움</td>
+            <td style="text-align:center;"><span class="score-badge s-hi">5</span></td>
+          </tr>
+          <tr>
+            <td>대체로 갖추었으나 일부 연결이 어색함</td>
+            <td style="text-align:center;"><span class="score-badge s-mid">4</span></td>
+          </tr>
+          <tr>
+            <td>2가지 이하 요소만 포함, 논리 흐름 불명확</td>
+            <td style="text-align:center;"><span class="score-badge s-min">3</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="hbox" style="margin-top:16px;">
+        <p><strong>논술 구조 체크리스트:</strong> ① 어떤 알고리즘을 선택했는가? <strong>주장</strong> → ② 왜 이 알고리즘인가? <strong>근거</strong> → ③ 어떻게 작동하는가? <strong>설명</strong> → ④ 이 상황에 왜 맞는가? <strong>연결</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: ALGORITHM SELECTION TIPS -->
+  <div class="slide" id="slide-9">
+    <div class="full-content">
+      <div class="slide-label">// 03 · Part 2.2 · 선정 가이드</div>
+      <h2 class="slide-title" style="font-size:clamp(1.8rem,3.5vw,3rem);margin-bottom:16px;"><span class="c-purple">알고리즘 선택</span> 결정 가이드</h2>
+      <div class="content-grid grid-2" style="margin-top:0;">
+        <div>
+          <div class="algo-box">
+            <div class="algo-title">탐색: 선형 vs 이진</div>
+            <ul class="algo-list">
+              <li><strong style="color:var(--text)">선형 탐색</strong> 선택 → 데이터가 정렬되지 않음 / 데이터 양이 적음</li>
+              <li><strong style="color:var(--text)">이진 탐색</strong> 선택 → 데이터가 정렬됨 / 데이터 양이 많음 / 빠른 탐색 필요</li>
+            </ul>
+          </div>
+          <div class="algo-box" style="margin-top:10px;">
+            <div class="algo-title">언제 탐색 알고리즘?</div>
+            <ul class="algo-list">
+              <li>특정 값을 찾는 문제</li>
+              <li>목록에서 특정 항목 조회</li>
+              <li>데이터베이스 레코드 검색</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="algo-box">
+            <div class="algo-title">정렬: 버블 vs 선택</div>
+            <ul class="algo-list">
+              <li><strong style="color:var(--text)">버블 정렬</strong> → 거의 정렬된 데이터 / 단순 구현 필요</li>
+              <li><strong style="color:var(--text)">선택 정렬</strong> → 교환 횟수 최소화 필요 / 메모리 쓰기 비용이 클 때</li>
+            </ul>
+          </div>
+          <div class="algo-box" style="margin-top:10px;">
+            <div class="algo-title">언제 정렬 알고리즘?</div>
+            <ul class="algo-list">
+              <li>데이터를 순서대로 배열해야 할 때</li>
+              <li>이진 탐색을 위한 전처리</li>
+              <li>순위/랭킹 시스템 구현</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 11: TOTAL RUBRIC SUMMARY -->
+  <div class="slide" id="slide-10">
+    <div class="full-content">
+      <div class="slide-label">// 04 · 전체 채점 요약</div>
+      <h2 class="slide-title" style="font-size:clamp(1.8rem,3.5vw,3rem);margin-bottom:20px;">전체 채점 요약 <span style="font-family:'Space Mono',monospace;font-size:0.5em;color:var(--text3);">총 30점</span></h2>
+      <table class="rubric">
+        <thead>
+          <tr>
+            <th>파트</th>
+            <th>평가 요소</th>
+            <th style="text-align:center;">배점</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="4" style="border-right:1px solid var(--border);">Part 2.1<br><span style="font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--purple);">알고리즘 완성<br>/15점</span></td>
+            <td>순서도 완성</td>
+            <td style="text-align:center;"><span class="score-badge s-mid">4점</span></td>
+          </tr>
+          <tr>
+            <td>의사코드 완성</td>
+            <td style="text-align:center;"><span class="score-badge s-mid">4점</span></td>
+          </tr>
+          <tr>
+            <td>Python 코드 완성</td>
+            <td style="text-align:center;"><span class="score-badge s-mid">4점</span></td>
+          </tr>
+          <tr>
+            <td>알고리즘 명칭·원리·사용 상황</td>
+            <td style="text-align:center;"><span class="score-badge s-mid">3점</span></td>
+          </tr>
+          <tr>
+            <td rowspan="2" style="border-right:1px solid var(--border);">Part 2.2<br><span style="font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--purple);">문제 상황 논술<br>/15점</span></td>
+            <td>알고리즘 선정 근거 및 동작 원리 설명</td>
+            <td style="text-align:center;"><span class="score-badge s-hi">10점</span></td>
+          </tr>
+          <tr>
+            <td>글의 논리 구조 (주장-근거-설명-연결)</td>
+            <td style="text-align:center;"><span class="score-badge s-hi">5점</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="hbox red" style="margin-top:16px;">
+        <p>✏️ <strong>수기(손글씨) 전용 평가입니다.</strong> AI 도구 사용은 전면 금지. 시험 당일 필기도구만 지참합니다. <span class="tag no-ai">AI 전면 금지</span> <span class="tag written">손글씨 제출</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 12: PREPARATION TIPS -->
+  <div class="slide" id="slide-11">
+    <div class="full-content">
+      <div class="slide-label">// 05 · 준비 전략</div>
+      <h2 class="slide-title"><span class="c-purple">준비</span> 전략</h2>
+      <p class="slide-subtitle">수기 평가이므로 반복 연습이 핵심입니다.</p>
+      <div class="content-grid grid-2" style="margin-top:0;">
+        <div class="card green">
+          <div class="card-label">Part 2.1 준비</div>
+          <div class="card-title">반복 작성 연습</div>
+          <div class="card-body">
+            4가지 알고리즘(선형 탐색, 이진 탐색, 버블 정렬, 선택 정렬)의 순서도·의사코드·Python 코드를
+            <strong style="color:var(--text)">보지 않고 손으로 작성</strong>할 수 있을 때까지 반복합니다.
+            표준 순서도 기호를 정확히 익힙니다.
+          </div>
+        </div>
+        <div class="card green">
+          <div class="card-label">Part 2.2 준비</div>
+          <div class="card-title">논술 구조 연습</div>
+          <div class="card-body">
+            다양한 시나리오(쇼핑몰 검색, 학생 성적 정렬 등)에 대해
+            <strong style="color:var(--text)">주장-근거-설명-연결</strong> 4단계 구조로 논술하는 연습을 합니다.
+            Big O 복잡도를 근거로 활용하세요.
+          </div>
+        </div>
+      </div>
+      <div class="hbox" style="margin-top:16px;">
+        <p><strong>체크리스트:</strong> ① 4개 알고리즘 순서도 암기 ② 의사코드 작성 능숙 ③ Python 코드 문법 정확 ④ Big O 비교 설명 가능 ⑤ 논술 4단계 구조 숙지</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>← PREV</button>
+  <div class="dots" id="dots"></div>
+  <div class="nav-counter" id="counter">1 / 12</div>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">NEXT →</button>
+</div>
+
+<script>
+  let current = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const dotsEl = document.getElementById('dots');
+  const counter = document.getElementById('counter');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+
+  for (let i = 0; i < total; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => goTo(i);
+    dotsEl.appendChild(dot);
+  }
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    slides[current].classList.add('exit');
+    setTimeout(() => slides[current].classList.remove('exit'), 500);
+    current = n;
+    slides[current].classList.add('active');
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+    counter.textContent = `${current + 1} / ${total}`;
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === total - 1;
+  }
+
+  function changeSlide(dir) {
+    const next = current + dir;
+    if (next >= 0 && next < total) goTo(next);
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') changeSlide(-1);
+  });
+</script>
+</body>
+</html>
