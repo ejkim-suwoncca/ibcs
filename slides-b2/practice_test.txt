@@ -1,0 +1,355 @@
+================================================================================
+B2 PROGRAMMING FUNDAMENTALS  |  PRACTICE TEST
+IB Computer Science SL
+================================================================================
+Name: _________________________________________  Date: ________________________
+Class: ________________________________________  Total: ______ / 30
+
+Instructions:
+  · Answer all questions.
+  · Write clearly. Crossed-out work will not be marked.
+  · For pseudocode questions, use the IB pseudocode conventions shown below.
+  · Time allowed: 50 minutes.
+
+IB Pseudocode Reference:
+    variable ← value           Assignment
+    INPUT variable             Read input from user
+    OUTPUT value               Display output
+    IF condition THEN          Start of selection
+        ...
+    ELSE IF condition THEN
+        ...
+    ELSE
+        ...
+    END IF
+    FOR i FROM 1 TO n DO       Counted loop (runs n times)
+        ...
+    END FOR
+    WHILE condition DO         Conditional loop
+        ...
+    END WHILE
+
+Flowchart Symbol Reference:
+    Oval           — START / END (terminator)
+    Parallelogram  — INPUT / OUTPUT
+    Rectangle      — PROCESS (assignment or calculation)
+    Diamond        — DECISION (yes/no condition)
+    Arrow          — Flowline showing direction
+================================================================================
+
+
+================================================================================
+SECTION A  —  COMPUTATIONAL THINKING                            [ 10 marks ]
+================================================================================
+
+
+────────────────────────────────────────────────────────────────────────────────
+QUESTION A1  —  ALGORITHM WRITING                               [ 5 marks ]
+────────────────────────────────────────────────────────────────────────────────
+
+Think about this everyday task:
+
+    A user wants to watch a specific video on YouTube on their phone.
+
+(a) Write a step-by-step algorithm in plain English describing exactly what
+    the user must do. Write between 6 and 8 numbered steps.             [3 marks]
+
+    Step 1: ___________________________________________________________________
+
+    Step 2: ___________________________________________________________________
+
+    Step 3: ___________________________________________________________________
+
+    Step 4: ___________________________________________________________________
+
+    Step 5: ___________________________________________________________________
+
+    Step 6: ___________________________________________________________________
+
+    Step 7: ___________________________________________________________________
+
+    Step 8: ___________________________________________________________________
+
+(b) Identify ONE step in your algorithm that requires a DECISION (a yes / no
+    condition). Write the step number and describe both outcomes.        [1 mark]
+
+    Step number: ______
+
+    If YES: ___________________________________________________________________
+
+    If NO: ____________________________________________________________________
+
+(c) Identify ONE step in your algorithm that involves REPETITION (a loop).
+    Describe in one sentence why repetition is needed there.            [1 mark]
+
+    Step number: ______
+
+    Why: ______________________________________________________________________
+
+    ________________________________________________________________________
+
+
+────────────────────────────────────────────────────────────────────────────────
+QUESTION A2  —  FLOWCHART FILL IN THE BLANK                     [ 5 marks ]
+────────────────────────────────────────────────────────────────────────────────
+
+The flowchart below represents a PIN entry system.
+The user has up to 3 attempts to enter the correct PIN ("1234").
+If they succeed, the system prints "Access granted."
+If all 3 attempts are used, the system prints "Card blocked."
+
+Each numbered label [ 1 ] through [ 5 ] is missing. Fill in the correct
+content for each shape. The shape type is given to you.
+
+    ┌──────────────────────────────────┐
+    │              START               │   ← Oval
+    └──────────────────────────────────┘
+                    │
+                    ▼
+    ┌──────────────────────────────────┐
+    │  [ 1 ] (Rectangle)               │   Initialise the attempt counter
+    └──────────────────────────────────┘
+                    │
+                    ▼
+    ◇  [ 2 ] (Diamond — loop condition)                                 ◇
+       ___________________________________________________________________
+       YES (continue) ──────────────────────────── NO (too many attempts)
+          │                                                    │
+          ▼                                                    ▼
+    ┌─────────────────────┐                      ┌────────────────────────┐
+    │  [ 3 ]              │  ← Parallelogram      │  [ 5 ]                 │
+    │  (input)            │                       │  (output)              │
+    └─────────────────────┘                       └────────────────────────┘
+          │                                                    │
+          ▼                                                    ▼
+    ◇  [ 4 ] (Diamond — condition)               ◇           END
+       ___________________________________________________
+       YES (correct) ─────────────── NO (wrong)
+        │                               │
+        ▼                               ▼
+    ┌──────────────────────┐    ┌───────────────────────────────┐
+    │ OUTPUT               │    │  attempts ← attempts + 1      │
+    │ "Access granted"     │    └───────────────────────────────┘
+    └──────────────────────┘            │
+        │                               └─────── (loops back to [ 2 ])
+        ▼
+       END
+
+Write your answers for each blank below:
+
+    [1] ________________________________________________________________________
+
+    [2] ________________________________________________________________________
+
+    [3] ________________________________________________________________________
+
+    [4] ________________________________________________________________________
+
+    [5] ________________________________________________________________________
+
+
+================================================================================
+SECTION B  —  PROGRAMMING                                       [ 20 marks ]
+================================================================================
+
+
+────────────────────────────────────────────────────────────────────────────────
+QUESTION B1  —  PREDICT THE OUTPUT                              [ 4 marks ]
+────────────────────────────────────────────────────────────────────────────────
+
+Write exactly what gets printed. If there is an error, write ERROR and explain.
+
+─────────────────────────────────
+Program A                                                              [2 marks]
+
+    word = "programming"
+    count = 0
+    for ch in word:
+        if ch == "m":
+            count = count + 1
+    print(count)
+
+    Output: ___________________________________________________________________
+
+    Explain in one sentence what this program does:
+
+    ________________________________________________________________________
+
+─────────────────────────────────
+Program B                                                              [2 marks]
+
+    n = 20
+    while n > 10:
+        print(n)
+        n = n - 5
+
+    Output (list every printed line):
+
+    _______   _______
+
+
+────────────────────────────────────────────────────────────────────────────────
+QUESTION B2  —  DEBUGGING                                       [ 6 marks ]
+────────────────────────────────────────────────────────────────────────────────
+
+Each program below has exactly one bug.
+For each: identify the bug type, explain what goes wrong, and write the fix.
+
+─────────────────────────────────
+Bug 1                                                                  [2 marks]
+
+    print("Your total is:", total)
+    total = 0
+    for price in [5, 10, 3]:
+        total = total + price
+
+    Bug type (circle one):    sequence error  /  logic error  /  type error
+
+    What goes wrong when this code runs?
+
+    ________________________________________________________________________
+
+    Write the corrected program (rewrite all lines in the correct order):
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+─────────────────────────────────
+Bug 2                                                                  [2 marks]
+
+    age = input("Enter your age: ")
+    if age > 17:
+        print("You can drive.")
+    else:
+        print("Too young.")
+
+    Bug type (circle one):    sequence error  /  logic error  /  type error
+
+    What goes wrong when this code runs?
+
+    ________________________________________________________________________
+
+    Write the corrected line only:
+
+    ________________________________________________________________________
+
+─────────────────────────────────
+Bug 3                                                                  [2 marks]
+
+    count = 1
+    while count < 5:
+        print("Counting:", count)
+
+    Bug type (circle one):    infinite loop  /  logic error  /  type error
+
+    What goes wrong when this code runs?
+
+    ________________________________________________________________________
+
+    What single line is missing, and where does it go?
+
+    Missing line: _____________________________________________________________
+
+    Goes after: _______________________________________________________________
+
+
+────────────────────────────────────────────────────────────────────────────────
+QUESTION B3  —  FILL IN THE BLANK                               [ 5 marks ]
+────────────────────────────────────────────────────────────────────────────────
+
+The program below collects 5 exam scores and tells the student whether
+they passed. Fill in each blank. Each blank is worth 1 mark.
+
+    total = [ 1 ]________
+
+    count = 0
+
+    while count [ 2 ]________ 5:
+        score = int(input("Enter score: "))
+        total = total + [ 3 ]________
+        count = [ 4 ]________ + 1
+
+    average = total / 5
+
+    if average [ 5 ]________ 50:
+        print("Pass — well done!")
+    else:
+        print("Fail — keep practising.")
+
+    [1] ______    [2] ______    [3] ______    [4] ______    [5] ______
+
+
+────────────────────────────────────────────────────────────────────────────────
+QUESTION B4  —  PSEUDOCODE EXPLANATION                          [ 3 marks ]
+────────────────────────────────────────────────────────────────────────────────
+
+Study the algorithm below and answer the questions that follow.
+
+    count ← 0
+    FOR i FROM 1 TO 20 DO
+        IF i MOD 5 = 0 THEN
+            count ← count + 1
+        END IF
+    END FOR
+    OUTPUT count
+
+(a) What does  i MOD 5 = 0  test? Write your answer in plain English. [1 mark]
+
+    ________________________________________________________________________
+
+(b) What is the value of  count  when  i = 15 ?
+    Show your working.                                                  [1 mark]
+
+    Working: _________________________________________________________________
+
+    count = ______
+
+(c) Describe in one complete sentence what this algorithm outputs.     [1 mark]
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+
+────────────────────────────────────────────────────────────────────────────────
+QUESTION B5  —  WRITE PYTHON FROM PSEUDOCODE                    [ 2 marks ]
+────────────────────────────────────────────────────────────────────────────────
+
+Translate the pseudocode below into correct Python.
+
+    total ← 0
+    FOR i FROM 1 TO 10 DO
+        total ← total + i
+    END FOR
+    OUTPUT total
+
+Write your Python code below. Use correct indentation.
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+
+================================================================================
+                                                       TOTAL: ______ / 30
+================================================================================
+
+Examiner use only:
+
+    A1 [ /5 ]    A2 [ /5 ]
+    B1 [ /4 ]    B2 [ /6 ]    B3 [ /5 ]    B4 [ /3 ]    B5 [ /2 ]
+
+================================================================================
+END OF PRACTICE TEST
+================================================================================

@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B3.1 — Fundamentals of OOP for a Single Class</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Serif+Display&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07090f;
+  --surface: #0e1117;
+  --surface2: #151923;
+  --border: #1e2535;
+  --border2: #2a3448;
+  --gold: #c9a84c;
+  --gold2: #e8c97a;
+  --blue: #4a9eff;
+  --green: #3dd68c;
+  --red: #ff6b6b;
+  --purple: #9b8afb;
+  --cyan: #22d3ee;
+  --orange: #fb923c;
+  --text: #dde4f0;
+  --text2: #7a8ba8;
+  --text3: #3d4f6a;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; }
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(155,138,251,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(155,138,251,0.03) 1px, transparent 1px),
+    linear-gradient(rgba(155,138,251,0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(155,138,251,0.01) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+  pointer-events: none; z-index: 0;
+}
+.deck { position: relative; width: 100vw; height: 100vh; z-index: 1; }
+.slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 50px 72px 92px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.38s ease, transform 0.38s ease;
+  transform: translateY(12px);
+}
+.slide.active { opacity: 1; pointer-events: all; transform: translateY(0); }
+.slide.exit { opacity: 0; transform: translateY(-12px); }
+.slide.scroll-slide {
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-top: 64px;
+  padding-bottom: 132px;
+}
+.slide.scroll-slide::-webkit-scrollbar { width: 10px; }
+.slide.scroll-slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
+.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(14,17,23,0.3); }
+.progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--purple), var(--blue)); transition: width 0.38s ease; z-index: 100; }
+.slide-num { position: fixed; top: 17px; right: 24px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
+.content { width: 100%; max-width: 1120px; }
+.label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--purple); margin-bottom: 14px; }
+.label.blue { color: var(--blue); } .label.green { color: var(--green); } .label.gold { color: var(--gold); } .label.cyan { color: var(--cyan); } .label.orange { color: var(--orange); }
+h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.8rem,5.5vw,4.8rem); font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
+h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem); font-weight: 400; line-height: 1.1; margin-bottom: 12px; }
+.lead { font-size: clamp(1rem,1.75vw,1.35rem); color: var(--text2); font-weight: 300; line-height: 1.65; margin-bottom: 24px; }
+.hl-gold { color: var(--gold2); } .hl-blue { color: var(--blue); } .hl-green { color: var(--green); } .hl-purple { color: var(--purple); } .hl-cyan { color: var(--cyan); } .hl-red { color: var(--red); } .hl-orange { color: var(--orange); }
+.grid { display: grid; gap: 2px; width: 100%; }
+.g2 { grid-template-columns: 1fr 1fr; } .g3 { grid-template-columns: 1fr 1fr 1fr; } .g4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+.card { background: var(--surface); border: 1px solid var(--border); padding: 18px 22px; position: relative; overflow: hidden; }
+.card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.card.gold::after { background: var(--gold); } .card.blue::after { background: var(--blue); }
+.card.green::after { background: var(--green); } .card.red::after { background: var(--red); }
+.card.purple::after { background: var(--purple); } .card.cyan::after { background: var(--cyan); }
+.card.orange::after { background: var(--orange); }
+.card-title { font-family: 'DM Mono', monospace; font-size: clamp(0.7rem,1.1vw,0.9rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.card-body { font-size: clamp(0.85rem,1.3vw,1.05rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
+.card-body strong { color: var(--text); font-weight: 500; }
+.info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(74,158,255,0.04); border-top: 1px solid rgba(74,158,255,0.08); border-right: 1px solid rgba(74,158,255,0.08); border-bottom: 1px solid rgba(74,158,255,0.08); margin-top: 14px; }
+.info-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.info-box strong { color: var(--blue); }
+.gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(201,168,76,0.04); border-top: 1px solid rgba(201,168,76,0.08); border-right: 1px solid rgba(201,168,76,0.08); border-bottom: 1px solid rgba(201,168,76,0.08); margin-top: 14px; }
+.gold-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.gold-box strong { color: var(--gold2); }
+.purple-box { border-left: 3px solid var(--purple); padding: 13px 20px; background: rgba(155,138,251,0.04); border-top: 1px solid rgba(155,138,251,0.08); border-right: 1px solid rgba(155,138,251,0.08); border-bottom: 1px solid rgba(155,138,251,0.08); margin-top: 14px; }
+.purple-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.purple-box strong { color: var(--purple); }
+.cyan-box { border-left: 3px solid var(--cyan); padding: 13px 20px; background: rgba(34,211,238,0.04); border-top: 1px solid rgba(34,211,238,0.08); border-right: 1px solid rgba(34,211,238,0.08); border-bottom: 1px solid rgba(34,211,238,0.08); margin-top: 14px; }
+.cyan-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.cyan-box strong { color: var(--cyan); }
+.green-box { border-left: 3px solid var(--green); padding: 13px 20px; background: rgba(61,214,140,0.04); border-top: 1px solid rgba(61,214,140,0.08); border-right: 1px solid rgba(61,214,140,0.08); border-bottom: 1px solid rgba(61,214,140,0.08); margin-top: 14px; }
+.green-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.green-box strong { color: var(--green); }
+.divider { width: 100%; height: 1px; background: var(--border); margin: 14px 0; }
+.steps { display: flex; flex-direction: column; gap: 2px; }
+.step-row { display: flex; align-items: flex-start; gap: 18px; background: var(--surface); border: 1px solid var(--border); padding: 13px 18px; }
+.step-n { font-family: 'DM Mono', monospace; font-size: clamp(0.85rem,1.4vw,1.1rem); color: var(--purple); min-width: 28px; flex-shrink: 0; font-weight: 500; padding-top: 2px; }
+.step-text { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.5; font-weight: 300; }
+.step-text strong { color: var(--text); font-weight: 500; }
+.tag { display: inline-block; font-family: 'DM Mono', monospace; font-size: 9px; padding: 2px 7px; border-radius: 2px; letter-spacing: 0.06em; vertical-align: middle; margin-left: 4px; }
+.tag.sl { background: rgba(61,214,140,0.1); color: var(--green); border: 1px solid rgba(61,214,140,0.25); }
+.tag.hl { background: rgba(155,138,251,0.1); color: var(--purple); border: 1px solid rgba(155,138,251,0.25); }
+/* Code blocks */
+.code-block { background: #0a0c12; border: 1px solid var(--border2); padding: 16px 20px; font-family: 'DM Mono', monospace; font-size: clamp(0.72rem,1.1vw,0.9rem); line-height: 1.7; color: var(--text2); margin-top: 10px; overflow-x: auto; }
+.code-block .kw { color: var(--purple); }
+.code-block .fn { color: var(--blue); }
+.code-block .str { color: var(--green); }
+.code-block .cm { color: var(--text3); font-style: italic; }
+.code-block .num { color: var(--orange); }
+.code-block .cls { color: var(--gold2); }
+/* UML table */
+.uml-table { width: 100%; border-collapse: collapse; font-family: 'DM Mono', monospace; font-size: clamp(0.78rem,1.2vw,0.95rem); }
+.uml-table td { border: 1px solid var(--border2); padding: 10px 16px; background: var(--surface); }
+.uml-table .uml-head { background: var(--surface2); color: var(--gold2); font-weight: 500; text-align: center; letter-spacing: 0.08em; font-size: 1.05em; }
+.uml-table .uml-attr { color: var(--cyan); }
+.uml-table .uml-method { color: var(--blue); }
+.uml-table .uml-priv { color: var(--red); }
+.uml-table .uml-pub { color: var(--green); }
+.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; }
+.nav-btn { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; }
+.nav-btn:hover { color: var(--purple); border-color: var(--purple); background: rgba(155,138,251,0.05); }
+.nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+.nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 240px; justify-content: center; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); cursor: pointer; transition: all 0.2s; }
+.dot.active { background: var(--purple); transform: scale(1.4); }
+.nav-sep { width: 1px; height: 18px; background: var(--border2); }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="slide-num" id="slideNum">01 / 13</div>
+<div class="deck">
+
+<!-- ═══════════════════════════════════════════════ S1: TITLE -->
+<div class="slide active">
+  <div class="content">
+    <div class="label">// B3.1 · Object-Oriented Programming</div>
+    <h1>Fundamentals of<br><span class="hl-purple">OOP</span> — Single Class</h1>
+    <p style="font-family:'DM Mono',monospace;font-size:clamp(0.85rem,1.4vw,1.1rem);color:var(--text3);margin-bottom:20px;">Theme B3 · IB Computer Science SL</p>
+    <div class="gold-box">
+      <p><strong>👉 Guiding Question:</strong> Is object-oriented programming (OOP) an appropriate paradigm for solving complex problems?</p>
+    </div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:20px;">
+      <div style="padding-left:12px;border-left:2px solid var(--purple);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Classes</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">BLUEPRINTS FOR OBJECTS</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--blue);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Objects</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">INSTANCES OF A CLASS</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--green);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Encapsulation</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">DATA HIDING</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--cyan);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">UML</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">DESIGN DIAGRAMS</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S2: IB SPEC -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// IB Specification · B3.1</div>
+    <h2>What IB Requires</h2>
+    <div class="steps">
+      <div class="step-row">
+        <div class="step-n">3.1.1</div>
+        <div class="step-text"><strong>Evaluate</strong> the fundamentals of OOP <span class="tag sl">SL</span><br>
+        <span style="font-size:0.88em;color:var(--text3);">Classes, objects, inheritance, encapsulation, polymorphism — advantages and disadvantages of OOP</span></div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">3.1.2</div>
+        <div class="step-text"><strong>Construct</strong> a design of classes, their methods and behaviour <span class="tag sl">SL</span><br>
+        <span style="font-size:0.88em;color:var(--text3);">UML class diagrams — attributes, methods, relationships, cardinality</span></div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">3.1.3</div>
+        <div class="step-text"><strong>Distinguish</strong> between static and non-static variables and methods <span class="tag sl">SL</span><br>
+        <span style="font-size:0.88em;color:var(--text3);">Instance variables vs class variables; when to use each</span></div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">3.1.4</div>
+        <div class="step-text"><strong>Construct</strong> code to define classes and instantiate objects <span class="tag sl">SL</span><br>
+        <span style="font-size:0.88em;color:var(--text3);">Constructors, <code>self</code> (Python) / <code>this</code> (Java), creating and using objects</span></div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">3.1.5</div>
+        <div class="step-text"><strong>Explain and apply</strong> encapsulation and information hiding <span class="tag sl">SL</span><br>
+        <span style="font-size:0.88em;color:var(--text3);">Access modifiers: private / public; controlling access to class members</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S3: WHAT IS OOP -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// B3.1.1 · Fundamentals</div>
+    <h2>What is OOP?</h2>
+    <p class="lead">OOP is a programming paradigm that organizes code around <strong class="hl-purple">objects</strong> — custom data types that bundle together data (attributes) and the functions that operate on that data (methods).</p>
+    <div class="grid g2">
+      <div class="card purple">
+        <div class="card-title">The Blueprint Analogy</div>
+        <div class="card-body">
+          A <strong>class</strong> is like an architectural blueprint — it defines the structure and behaviour, but is not a real object itself.<br><br>
+          An <strong>object</strong> is like an actual house built from that blueprint — a real instance with its own specific values.
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Why OOP?</div>
+        <div class="card-body">
+          Before OOP, programs were just sequences of instructions. OOP allows you to model real-world entities — a <code>Person</code>, <code>BankAccount</code>, <code>Car</code> — each knowing its own data and how to act on it.
+        </div>
+      </div>
+    </div>
+    <div class="purple-box">
+      <p><strong>Definition:</strong> Object-oriented programming — a form of programming that involves creating code for <em>classes</em> of objects, allowing many such objects to be created from a single code base, achieving a more modular and extensible software development process.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S4: FIVE PILLARS -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// B3.1.1 · Core Concepts</div>
+    <h2>The Five Pillars of OOP</h2>
+    <p class="lead" style="margin-bottom:14px;">IB requires you to know these five fundamental concepts. B3.1 covers the first two in depth; B3.2 (HL) covers the rest.</p>
+    <div class="steps">
+      <div class="step-row">
+        <div class="step-n" style="color:var(--purple);">①</div>
+        <div class="step-text">
+          <strong>Class</strong> — a template/blueprint defining attributes and methods<br>
+          <span style="font-size:0.9em;color:var(--text3);">e.g. <code>BankAccount</code> defines that every account has a <em>name</em> and <em>balance</em>, and can <em>deposit()</em>, <em>withdraw()</em></span>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--blue);">②</div>
+        <div class="step-text">
+          <strong>Object</strong> — a specific instance of a class with its own data values<br>
+          <span style="font-size:0.9em;color:var(--text3);">e.g. <code>amy = BankAccount("Amy")</code> creates an object with name="Amy" and balance=0</span>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--green);">③</div>
+        <div class="step-text">
+          <strong>Encapsulation</strong> — bundling data and methods together; hiding internal state <span class="tag sl">SL</span><br>
+          <span style="font-size:0.9em;color:var(--text3);">Other code interacts only through well-defined public methods — it cannot directly modify internal variables</span>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--cyan);">④</div>
+        <div class="step-text">
+          <strong>Inheritance</strong> — a child class inherits attributes and methods from a parent class <span class="tag hl">HL — B3.2</span><br>
+          <span style="font-size:0.9em;color:var(--text3);">e.g. <code>SavingsAccount</code> inherits from <code>BankAccount</code> and adds interest-calculation functionality</span>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--orange);">⑤</div>
+        <div class="step-text">
+          <strong>Polymorphism</strong> — the same method name behaves differently in different classes <span class="tag hl">HL — B3.2</span><br>
+          <span style="font-size:0.9em;color:var(--text3);">e.g. <code>toString()</code> on a <code>BankAccount</code> prints balance; on a <code>Person</code> prints name and age</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S5: ADVANTAGES & DISADVANTAGES -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// B3.1.1 · Evaluate</div>
+    <h2>Advantages &amp; Disadvantages of OOP</h2>
+    <p class="lead" style="margin-bottom:14px;">The IB command term <em>Evaluate</em> means you must discuss <strong>both sides</strong>.</p>
+    <div class="grid g2" style="gap:2px;">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.18em;color:var(--green);margin-bottom:8px;">ADVANTAGES</div>
+        <div class="steps">
+          <div class="step-row">
+            <div class="step-n" style="color:var(--green);">+</div>
+            <div class="step-text"><strong>Modularity</strong> — code is organized around objects, easier to manage large projects</div>
+          </div>
+          <div class="step-row">
+            <div class="step-n" style="color:var(--green);">+</div>
+            <div class="step-text"><strong>Reusability</strong> — a class can be written once, imported and reused across many programs</div>
+          </div>
+          <div class="step-row">
+            <div class="step-n" style="color:var(--green);">+</div>
+            <div class="step-text"><strong>Encapsulation</strong> — internal data is protected; prevents unintended side effects</div>
+          </div>
+          <div class="step-row">
+            <div class="step-n" style="color:var(--green);">+</div>
+            <div class="step-text"><strong>Scalability</strong> — larger teams can work in parallel on separate classes</div>
+          </div>
+          <div class="step-row">
+            <div class="step-n" style="color:var(--green);">+</div>
+            <div class="step-text"><strong>Maintainability</strong> — changes to a class don't necessarily break other code</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.18em;color:var(--red);margin-bottom:8px;">DISADVANTAGES</div>
+        <div class="steps">
+          <div class="step-row">
+            <div class="step-n" style="color:var(--red);">−</div>
+            <div class="step-text"><strong>Learning Curve</strong> — concepts like classes, inheritance, polymorphism are complex for beginners</div>
+          </div>
+          <div class="step-row">
+            <div class="step-n" style="color:var(--red);">−</div>
+            <div class="step-text"><strong>Complexity</strong> — simple problems can become unnecessarily complex when forced into OOP</div>
+          </div>
+          <div class="step-row">
+            <div class="step-n" style="color:var(--red);">−</div>
+            <div class="step-text"><strong>Overuse</strong> — deep inheritance hierarchies can make code hard to understand and debug</div>
+          </div>
+          <div class="step-row">
+            <div class="step-n" style="color:var(--red);">−</div>
+            <div class="step-text"><strong>Overhead</strong> — OOP typically introduces additional memory and processing overhead</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="gold-box" style="margin-top:14px;">
+      <p><strong>Conclusion:</strong> OOP is excellent for large, complex systems where modularity and collaboration matter. For simple scripts or small programs, a procedural approach may be simpler and more efficient.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S6: UML CLASS DIAGRAMS -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// B3.1.2 · UML Class Diagrams</div>
+    <h2>Designing with UML</h2>
+    <p class="lead" style="margin-bottom:14px;">A <strong>UML (Unified Modelling Language) Class Diagram</strong> is the standard way to plan a class before writing code. It has three sections:</p>
+
+    <div class="grid g2" style="gap:24px;align-items:start;">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.16em;color:var(--text3);margin-bottom:10px;">GENERIC TEMPLATE</div>
+        <table class="uml-table">
+          <tr><td class="uml-head">ClassName</td></tr>
+          <tr><td class="uml-attr">− attribute: type<br>− attribute: type</td></tr>
+          <tr><td class="uml-method">+ ClassName(params)<br>+ method(params): returnType<br>+ method(params): returnType</td></tr>
+        </table>
+        <div style="margin-top:14px;" class="steps">
+          <div class="step-row">
+            <div class="step-n" style="color:var(--purple);font-size:0.95rem;">Row 1</div>
+            <div class="step-text">Class name (capitalized noun)</div>
+          </div>
+          <div class="step-row">
+            <div class="step-n" style="color:var(--cyan);font-size:0.95rem;">Row 2</div>
+            <div class="step-text">Instance variables with data types</div>
+          </div>
+          <div class="step-row">
+            <div class="step-n" style="color:var(--blue);font-size:0.95rem;">Row 3</div>
+            <div class="step-text">Methods including constructor, params, and return type</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.16em;color:var(--text3);margin-bottom:10px;">EXAMPLE: BankAccount</div>
+        <table class="uml-table">
+          <tr><td class="uml-head">BankAccount</td></tr>
+          <tr><td>
+            <span class="uml-priv">− name: string</span><br>
+            <span class="uml-priv">− balance: float</span>
+          </td></tr>
+          <tr><td>
+            <span class="uml-pub">+ BankAccount(name: string)</span><br>
+            <span class="uml-pub">+ deposit(amount: float): void</span><br>
+            <span class="uml-pub">+ withdraw(amount: float): void</span><br>
+            <span class="uml-pub">+ transfer(amount: float, recipient: BankAccount): void</span><br>
+            <span class="uml-pub">+ toString(): string</span>
+          </td></tr>
+        </table>
+        <div class="purple-box" style="margin-top:12px;">
+          <p><strong>Visibility:</strong> <span style="color:var(--red);">−</span> means <strong>private</strong> (only accessible inside the class). <span style="color:var(--green);">+</span> means <strong>public</strong> (accessible from outside).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S7: CODING A CLASS -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// B3.1.4 · Constructors &amp; Classes</div>
+    <h2>Writing a Class &amp; Constructor</h2>
+    <p class="lead" style="margin-bottom:14px;">The <strong>constructor</strong> is a special method that runs automatically when an object is created. It initializes the object's instance variables.</p>
+
+    <div class="grid g2" style="gap:14px;">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.16em;color:var(--green);margin-bottom:6px;">PYTHON</div>
+        <div class="code-block"><span class="kw">class</span> <span class="cls">BankAccount</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, name):
+        <span class="cm"># Instance variables</span>
+        <span class="kw">self</span>.name = name
+        <span class="kw">self</span>.balance = <span class="num">0.0</span>
+
+    <span class="kw">def</span> <span class="fn">deposit</span>(<span class="kw">self</span>, amount):
+        <span class="kw">self</span>.balance += amount
+
+    <span class="kw">def</span> <span class="fn">withdraw</span>(<span class="kw">self</span>, amount):
+        <span class="kw">self</span>.balance -= amount
+
+    <span class="kw">def</span> <span class="fn">__str__</span>(<span class="kw">self</span>):
+        <span class="kw">return</span> <span class="str">f"Account {self.name}: ${self.balance}"</span>
+
+<span class="cm"># Create objects (instantiation)</span>
+amy = <span class="cls">BankAccount</span>(<span class="str">"Amy"</span>)
+amy.<span class="fn">deposit</span>(<span class="num">100</span>)
+<span class="fn">print</span>(amy)  <span class="cm"># Account Amy: $100.0</span></div>
+      </div>
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.16em;color:var(--blue);margin-bottom:6px;">JAVA</div>
+        <div class="code-block"><span class="kw">public class</span> <span class="cls">BankAccount</span> {
+    <span class="cm">// Instance variables</span>
+    <span class="kw">private</span> String name;
+    <span class="kw">private double</span> balance;
+
+    <span class="cm">// Constructor</span>
+    <span class="kw">public</span> <span class="fn">BankAccount</span>(String name) {
+        <span class="kw">this</span>.name = name;
+        <span class="kw">this</span>.balance = <span class="num">0.0</span>;
+    }
+
+    <span class="kw">public void</span> <span class="fn">deposit</span>(<span class="kw">double</span> amount) {
+        balance += amount;
+    }
+
+    <span class="kw">public</span> String <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="str">"Account "</span> + name + <span class="str">": $"</span> + balance;
+    }
+}
+<span class="cm">// In Main:</span>
+<span class="cls">BankAccount</span> amy = <span class="kw">new</span> <span class="cls">BankAccount</span>(<span class="str">"Amy"</span>);
+amy.<span class="fn">deposit</span>(<span class="num">100</span>);</div>
+      </div>
+    </div>
+    <div class="cyan-box">
+      <p><strong>Python:</strong> Use <code>self</code> to refer to the current object. The constructor is always named <code>__init__</code>. <strong>Java:</strong> Use <code>this</code> to distinguish instance variables from parameters with the same name.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S8: INSTANTIATION & ARRAYS -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// B3.1.4 · Instantiation</div>
+    <h2>Creating Objects &amp; Arrays of Objects</h2>
+    <p class="lead" style="margin-bottom:10px;"><strong>Instantiation</strong> is the process of creating a specific instance of a class (an object). Memory is allocated and the constructor runs.</p>
+
+    <div class="grid g2" style="gap:14px;">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.16em;color:var(--green);margin-bottom:6px;">PYTHON — SINGLE &amp; ARRAY</div>
+        <div class="code-block"><span class="cm"># Single object</span>
+acc = <span class="cls">BankAccount</span>(<span class="str">"Neo"</span>)
+<span class="fn">print</span>(acc)
+
+<span class="cm"># List of objects — Method 1</span>
+accounts = [
+    <span class="cls">BankAccount</span>(<span class="str">"Amy"</span>),
+    <span class="cls">BankAccount</span>(<span class="str">"Brian"</span>),
+    <span class="cls">BankAccount</span>(<span class="str">"Clare"</span>)
+]
+
+<span class="cm"># List of objects — Method 2</span>
+accounts = []
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">3</span>):
+    name = <span class="fn">input</span>(<span class="str">"Enter name: "</span>)
+    accounts.<span class="fn">append</span>(<span class="cls">BankAccount</span>(name))
+
+<span class="cm"># Traverse and call methods</span>
+<span class="kw">for</span> acc <span class="kw">in</span> accounts:
+    <span class="fn">print</span>(acc)</div>
+      </div>
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.16em;color:var(--blue);margin-bottom:6px;">JAVA — SINGLE &amp; ARRAY</div>
+        <div class="code-block"><span class="cm">// Single object</span>
+<span class="cls">BankAccount</span> acc = <span class="kw">new</span> <span class="cls">BankAccount</span>(<span class="str">"Neo"</span>);
+System.out.<span class="fn">println</span>(acc);
+
+<span class="cm">// Array of objects</span>
+<span class="cls">BankAccount</span>[] accounts = <span class="kw">new</span> <span class="cls">BankAccount</span>[<span class="num">3</span>];
+accounts[<span class="num">0</span>] = <span class="kw">new</span> <span class="cls">BankAccount</span>(<span class="str">"Amy"</span>);
+accounts[<span class="num">1</span>] = <span class="kw">new</span> <span class="cls">BankAccount</span>(<span class="str">"Brian"</span>);
+accounts[<span class="num">2</span>] = <span class="kw">new</span> <span class="cls">BankAccount</span>(<span class="str">"Clare"</span>);
+
+<span class="cm">// Traverse</span>
+<span class="kw">for</span> (<span class="cls">BankAccount</span> a : accounts) {
+    System.out.<span class="fn">println</span>(a);
+}</div>
+      </div>
+    </div>
+    <div class="gold-box" style="margin-top:14px;">
+      <p><strong>Naming Convention:</strong> Class names use <em>PascalCase</em> (<code>BankAccount</code>). Method names and variable names use <em>camelCase</em> in Java (<code>depositAmount</code>) and <em>snake_case</em> in Python (<code>deposit_amount</code>). Array/list names should be plural of the class name.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S9: ENCAPSULATION -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// B3.1.5 · Encapsulation</div>
+    <h2>Encapsulation &amp; Information Hiding</h2>
+    <p class="lead" style="margin-bottom:14px;"><strong>Encapsulation</strong> bundles data (attributes) and the methods that operate on them into a single unit (the class), while <strong>information hiding</strong> restricts direct access to an object's internal data.</p>
+
+    <div class="grid g2" style="gap:14px;">
+      <div>
+        <div class="card red">
+          <div class="card-title">❌ Without Encapsulation</div>
+          <div class="card-body">
+            If <code>balance</code> is <code>public</code>, any code can do:<br>
+            <code>amy.balance = -999999</code><br><br>
+            This <strong>breaks the integrity</strong> of the object's data — a negative balance could be set directly without any validation.
+          </div>
+        </div>
+        <div class="code-block" style="margin-top:8px;font-size:0.8rem;"><span class="cm"># BAD — direct attribute access</span>
+amy = <span class="cls">BankAccount</span>(<span class="str">"Amy"</span>)
+amy.balance = <span class="num">-99999</span>  <span class="cm"># No guard!</span></div>
+      </div>
+      <div>
+        <div class="card green">
+          <div class="card-title">✓ With Encapsulation</div>
+          <div class="card-body">
+            <code>balance</code> is <code>private</code>. Outside code must use <code>withdraw()</code>, which can validate the amount and prevent invalid states.<br><br>
+            <strong>Internal data is protected.</strong> The class controls how its data can be modified.
+          </div>
+        </div>
+        <div class="code-block" style="margin-top:8px;font-size:0.8rem;"><span class="kw">def</span> <span class="fn">withdraw</span>(<span class="kw">self</span>, amount):
+    <span class="kw">if</span> amount &gt; <span class="kw">self</span>.balance:
+        <span class="fn">print</span>(<span class="str">"Insufficient funds!"</span>)
+    <span class="kw">else</span>:
+        <span class="kw">self</span>.balance -= amount</div>
+      </div>
+    </div>
+    <div class="purple-box" style="margin-top:14px;">
+      <p><strong>Principle:</strong> Programmers only interact with a class through its <strong>public interface</strong> (the public methods). They do not need to know — or have access to — the internal data. This prevents accidental corruption and simplifies maintenance.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S10: ACCESS MODIFIERS -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// B3.1.5 · Access Modifiers</div>
+    <h2>Public, Private &amp; Getters/Setters</h2>
+
+    <div class="grid g2" style="gap:2px;margin-top:8px;">
+      <div class="card green">
+        <div class="card-title">public</div>
+        <div class="card-body">
+          Accessible from <strong>anywhere</strong> — inside the class, from other classes, from main program.<br>
+          Use for methods that form the public interface of the class (e.g. <code>deposit()</code>, <code>toString()</code>).
+        </div>
+      </div>
+      <div class="card red">
+        <div class="card-title">private</div>
+        <div class="card-body">
+          Accessible <strong>only from within the class itself</strong>.<br>
+          Use for all instance variables and helper methods that should not be touched directly (e.g. <code>balance</code>, <code>name</code>).
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:14px;">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.16em;color:var(--text3);margin-bottom:8px;">GETTER &amp; SETTER METHODS — Controlled Access to Private Data</div>
+      <div class="grid g2" style="gap:14px;">
+        <div class="code-block" style="font-size:0.8rem;"><span class="cm"># Python getter/setter</span>
+<span class="kw">class</span> <span class="cls">BankAccount</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, name):
+        <span class="kw">self</span>.__name = name   <span class="cm"># private</span>
+        <span class="kw">self</span>.__balance = <span class="num">0</span>  <span class="cm"># private</span>
+
+    <span class="kw">def</span> <span class="fn">get_balance</span>(<span class="kw">self</span>):  <span class="cm"># getter</span>
+        <span class="kw">return self</span>.__balance
+
+    <span class="kw">def</span> <span class="fn">get_name</span>(<span class="kw">self</span>):      <span class="cm"># getter</span>
+        <span class="kw">return self</span>.__name</div>
+        <div class="code-block" style="font-size:0.8rem;"><span class="cm">// Java getter</span>
+<span class="kw">public class</span> <span class="cls">BankAccount</span> {
+    <span class="kw">private</span> String name;
+    <span class="kw">private double</span> balance;
+
+    <span class="kw">public</span> String <span class="fn">getName</span>() {
+        <span class="kw">return this</span>.name;
+    }
+
+    <span class="kw">public double</span> <span class="fn">getBalance</span>() {
+        <span class="kw">return this</span>.balance;
+    }
+}</div>
+      </div>
+    </div>
+    <div class="cyan-box" style="margin-top:12px;">
+      <p><strong>Python Convention:</strong> Use double underscore prefix (<code>__balance</code>) to make attributes private (name-mangling). In Java, use the <code>private</code> keyword explicitly.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S11: STATIC VS NON-STATIC -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// B3.1.3 · Static vs Non-Static</div>
+    <h2>Static vs Non-Static (Instance)</h2>
+    <p class="lead" style="margin-bottom:14px;">The key distinction: does this belong to the <strong>class as a whole</strong>, or to each <strong>individual object</strong>?</p>
+
+    <div class="grid g2" style="gap:2px;margin-bottom:14px;">
+      <div class="card purple">
+        <div class="card-title">Non-Static (Instance)</div>
+        <div class="card-body">
+          Belongs to each <strong>individual object</strong>. Each object has its own copy.<br><br>
+          e.g. <code>balance</code> and <code>name</code> in <code>BankAccount</code> — Amy's balance is different from Brian's.
+        </div>
+      </div>
+      <div class="card cyan">
+        <div class="card-title">Static (Class)</div>
+        <div class="card-body">
+          Belongs to the <strong>class itself</strong> — shared by all objects. Only one copy exists.<br><br>
+          e.g. <code>interestRate</code> that applies to all bank accounts equally; <code>accountCount</code> tracking how many accounts exist.
+        </div>
+      </div>
+    </div>
+
+    <div class="grid g2" style="gap:14px;">
+      <div class="code-block" style="font-size:0.8rem;"><span class="cm"># Python static (class variable)</span>
+<span class="kw">class</span> <span class="cls">BankAccount</span>:
+    interest_rate = <span class="num">0.03</span>  <span class="cm"># class var</span>
+    account_count = <span class="num">0</span>      <span class="cm"># class var</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, name):
+        <span class="kw">self</span>.name = name       <span class="cm"># instance</span>
+        <span class="kw">self</span>.balance = <span class="num">0</span>      <span class="cm"># instance</span>
+        <span class="cls">BankAccount</span>.account_count += <span class="num">1</span>
+
+<span class="cm"># Access class variable directly</span>
+<span class="fn">print</span>(<span class="cls">BankAccount</span>.interest_rate)</div>
+      <div class="code-block" style="font-size:0.8rem;"><span class="cm">// Java static</span>
+<span class="kw">public class</span> <span class="cls">BankAccount</span> {
+    <span class="kw">private static double</span> interestRate = <span class="num">0.03</span>;
+    <span class="kw">private static int</span> accountCount = <span class="num">0</span>;
+
+    <span class="kw">private</span> String name;   <span class="cm">// instance</span>
+    <span class="kw">private double</span> balance; <span class="cm">// instance</span>
+
+    <span class="kw">public static int</span> <span class="fn">getCount</span>() {
+        <span class="kw">return</span> accountCount;
+    }
+}
+<span class="cm">// Call without an object:</span>
+<span class="cls">BankAccount</span>.<span class="fn">getCount</span>();</div>
+    </div>
+    <div class="gold-box" style="margin-top:12px;">
+      <p><strong>Rule of thumb:</strong> If every object needs its own separate copy → <strong>instance variable</strong>. If all objects share the same value, or it doesn't relate to any specific object → <strong>static/class variable</strong>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S12: WORKED EXAMPLE -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// Worked Example</div>
+    <h2>Complete Example: Student Class</h2>
+    <p class="lead" style="margin-bottom:10px;">Applying all B3.1 concepts together:</p>
+
+    <div class="grid g2" style="gap:14px;">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.16em;color:var(--text3);margin-bottom:8px;">UML DESIGN</div>
+        <table class="uml-table">
+          <tr><td class="uml-head">Student</td></tr>
+          <tr><td>
+            <span class="uml-priv">− name: string</span><br>
+            <span class="uml-priv">− grade: float</span><br>
+            <span class="uml-pub">+ studentCount: int (static)</span>
+          </td></tr>
+          <tr><td>
+            <span class="uml-pub">+ Student(name: string)</span><br>
+            <span class="uml-pub">+ setGrade(g: float): void</span><br>
+            <span class="uml-pub">+ getGrade(): float</span><br>
+            <span class="uml-pub">+ getName(): string</span><br>
+            <span class="uml-pub">+ toString(): string</span>
+          </td></tr>
+        </table>
+      </div>
+      <div class="code-block" style="font-size:0.78rem;"><span class="kw">class</span> <span class="cls">Student</span>:
+    student_count = <span class="num">0</span>  <span class="cm"># static</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, name):
+        <span class="kw">self</span>.__name = name   <span class="cm"># private</span>
+        <span class="kw">self</span>.__grade = <span class="num">0.0</span>  <span class="cm"># private</span>
+        <span class="cls">Student</span>.student_count += <span class="num">1</span>
+
+    <span class="kw">def</span> <span class="fn">set_grade</span>(<span class="kw">self</span>, g):
+        <span class="kw">if</span> <span class="num">0</span> &lt;= g &lt;= <span class="num">100</span>:
+            <span class="kw">self</span>.__grade = g
+
+    <span class="kw">def</span> <span class="fn">get_grade</span>(<span class="kw">self</span>):
+        <span class="kw">return self</span>.__grade
+
+    <span class="kw">def</span> <span class="fn">get_name</span>(<span class="kw">self</span>):
+        <span class="kw">return self</span>.__name
+
+    <span class="kw">def</span> <span class="fn">__str__</span>(<span class="kw">self</span>):
+        <span class="kw">return</span> <span class="str">f"{self.__name}: {self.__grade}"</span>
+
+s1 = <span class="cls">Student</span>(<span class="str">"EJ"</span>)
+s1.<span class="fn">set_grade</span>(<span class="num">92</span>)
+<span class="fn">print</span>(s1)                   <span class="cm"># EJ: 92</span>
+<span class="fn">print</span>(<span class="cls">Student</span>.student_count) <span class="cm"># 1</span></div>
+    </div>
+    <div class="purple-box" style="margin-top:12px;">
+      <p><strong>Notice:</strong> <code>__grade</code> is private — validated in <code>set_grade()</code> to prevent invalid values. <code>student_count</code> is a class variable — shared and incremented each time any Student is created.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S13: REVIEW -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label">// Review · B3.1</div>
+    <h2>Review &amp; Key Takeaways</h2>
+
+    <div class="grid g2" style="gap:10px;margin-top:8px;">
+      <div class="card purple">
+        <div class="card-title">Classes &amp; Objects</div>
+        <div class="card-body">A <strong>class</strong> is a blueprint. An <strong>object</strong> is an instance. A class defines attributes (data) and methods (behaviour). Multiple objects can be created from one class, each with their own data.</div>
+      </div>
+      <div class="card cyan">
+        <div class="card-title">UML Class Diagrams</div>
+        <div class="card-body">Three-row table: <strong>class name</strong> → <strong>attributes with types</strong> → <strong>methods with params/return</strong>. <span style="color:var(--red);">−</span> = private, <span style="color:var(--green);">+</span> = public. Design before coding.</div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Constructors</div>
+        <div class="card-body">Automatically called at instantiation. Initializes instance variables. Python: <code>__init__(self, ...)</code>. Java: same name as class. Use <code>self</code> / <code>this</code> to refer to the current object.</div>
+      </div>
+      <div class="card green">
+        <div class="card-title">Encapsulation</div>
+        <div class="card-body">Make attributes <strong>private</strong>. Provide <strong>public</strong> getter/setter methods for controlled access. Prevents invalid data and unintended side effects. Core principle of safe OOP design.</div>
+      </div>
+      <div class="card orange">
+        <div class="card-title">Static vs Instance</div>
+        <div class="card-body"><strong>Static</strong> = belongs to the class (shared). <strong>Instance</strong> = belongs to each object (unique copy). Use static for shared constants or counters; instance for per-object data.</div>
+      </div>
+      <div class="card gold">
+        <div class="card-title">Evaluate OOP</div>
+        <div class="card-body"><strong>Pros:</strong> modularity, reusability, encapsulation, scalability. <strong>Cons:</strong> learning curve, complexity, overhead. Best for large, complex, collaborative projects.</div>
+      </div>
+    </div>
+    <div class="gold-box" style="margin-top:14px;">
+      <p><strong>Next:</strong> B3.2 (HL) — Inheritance, Polymorphism, Abstraction, Composition, and Design Patterns in OOP.</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>← Prev</button>
+  <div class="nav-sep"></div>
+  <div class="nav-dots" id="navDots"></div>
+  <div class="nav-sep"></div>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+</div>
+
+<script>
+  let cur = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const prog = document.getElementById('progress');
+  const slideNum = document.getElementById('slideNum');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const dotsEl = document.getElementById('navDots');
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  }
+  function goTo(n) {
+    slides[cur].classList.remove('active');
+    slides[cur].classList.add('exit');
+    const old = cur;
+    slides[old].scrollTop = 0;
+    setTimeout(() => slides[old].classList.remove('exit'), 380);
+    cur = n;
+    slides[cur].scrollTop = 0;
+    slides[cur].classList.add('active');
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+    prog.style.width = ((cur + 1) / total * 100) + '%';
+    slideNum.textContent = String(cur + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+    prevBtn.disabled = cur === 0;
+    nextBtn.disabled = cur === total - 1;
+  }
+  function changeSlide(d) { const n = cur + d; if (n >= 0 && n < total) goTo(n); }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') changeSlide(1);
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+  });
+  prog.style.width = (1 / total * 100) + '%';
+</script>
+</body>
+</html>

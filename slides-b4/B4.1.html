@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B4.1 — Abstract Data Types · HL</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Serif+Display&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07090f;
+  --surface: #0e1117;
+  --surface2: #151923;
+  --border: #1e2535;
+  --border2: #2a3448;
+  --gold: #c9a84c;
+  --gold2: #e8c97a;
+  --blue: #4a9eff;
+  --green: #3dd68c;
+  --red: #ff6b6b;
+  --purple: #9b8afb;
+  --cyan: #22d3ee;
+  --orange: #fb923c;
+  --text: #dde4f0;
+  --text2: #7a8ba8;
+  --text3: #3d4f6a;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; }
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(61,214,140,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(61,214,140,0.025) 1px, transparent 1px),
+    linear-gradient(rgba(61,214,140,0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(61,214,140,0.01) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+  pointer-events: none; z-index: 0;
+}
+.deck { position: relative; width: 100vw; height: 100vh; z-index: 1; }
+.slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 50px 72px 92px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.38s ease, transform 0.38s ease;
+  transform: translateY(12px);
+}
+.slide.active { opacity: 1; pointer-events: all; transform: translateY(0); }
+.slide.exit { opacity: 0; transform: translateY(-12px); }
+.slide.scroll-slide {
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-top: 64px;
+  padding-bottom: 132px;
+}
+.slide.scroll-slide::-webkit-scrollbar { width: 10px; }
+.slide.scroll-slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
+.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(14,17,23,0.3); }
+.progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--green), var(--cyan)); transition: width 0.38s ease; z-index: 100; }
+.slide-num { position: fixed; top: 17px; right: 24px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
+.content { width: 100%; max-width: 1120px; }
+.label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--green); margin-bottom: 14px; }
+.label.blue { color: var(--blue); } .label.purple { color: var(--purple); } .label.orange { color: var(--orange); } .label.gold { color: var(--gold); } .label.red { color: var(--red); } .label.cyan { color: var(--cyan); }
+h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.8rem,5.5vw,4.8rem); font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
+h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem); font-weight: 400; line-height: 1.1; margin-bottom: 12px; }
+.lead { font-size: clamp(1rem,1.75vw,1.35rem); color: var(--text2); font-weight: 300; line-height: 1.65; margin-bottom: 24px; }
+.hl-gold { color: var(--gold2); } .hl-blue { color: var(--blue); } .hl-green { color: var(--green); } .hl-purple { color: var(--purple); } .hl-cyan { color: var(--cyan); } .hl-red { color: var(--red); } .hl-orange { color: var(--orange); }
+.grid { display: grid; gap: 2px; width: 100%; }
+.g2 { grid-template-columns: 1fr 1fr; } .g3 { grid-template-columns: 1fr 1fr 1fr; } .g4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+.card { background: var(--surface); border: 1px solid var(--border); padding: 18px 22px; position: relative; overflow: hidden; }
+.card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.card.gold::after { background: var(--gold); } .card.blue::after { background: var(--blue); }
+.card.green::after { background: var(--green); } .card.red::after { background: var(--red); }
+.card.purple::after { background: var(--purple); } .card.cyan::after { background: var(--cyan); }
+.card.orange::after { background: var(--orange); }
+.card-title { font-family: 'DM Mono', monospace; font-size: clamp(0.7rem,1.1vw,0.9rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.card-body { font-size: clamp(0.85rem,1.3vw,1.05rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
+.card-body strong { color: var(--text); font-weight: 500; }
+.info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(74,158,255,0.04); border-top: 1px solid rgba(74,158,255,0.08); border-right: 1px solid rgba(74,158,255,0.08); border-bottom: 1px solid rgba(74,158,255,0.08); margin-top: 14px; }
+.info-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.info-box strong { color: var(--blue); }
+.gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(201,168,76,0.04); border-top: 1px solid rgba(201,168,76,0.08); border-right: 1px solid rgba(201,168,76,0.08); border-bottom: 1px solid rgba(201,168,76,0.08); margin-top: 14px; }
+.gold-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.gold-box strong { color: var(--gold2); }
+.green-box { border-left: 3px solid var(--green); padding: 13px 20px; background: rgba(61,214,140,0.04); border-top: 1px solid rgba(61,214,140,0.08); border-right: 1px solid rgba(61,214,140,0.08); border-bottom: 1px solid rgba(61,214,140,0.08); margin-top: 14px; }
+.green-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.green-box strong { color: var(--green); }
+.purple-box { border-left: 3px solid var(--purple); padding: 13px 20px; background: rgba(155,138,251,0.04); border-top: 1px solid rgba(155,138,251,0.08); border-right: 1px solid rgba(155,138,251,0.08); border-bottom: 1px solid rgba(155,138,251,0.08); margin-top: 14px; }
+.purple-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.purple-box strong { color: var(--purple); }
+.red-box { border-left: 3px solid var(--red); padding: 13px 20px; background: rgba(255,107,107,0.04); border-top: 1px solid rgba(255,107,107,0.08); border-right: 1px solid rgba(255,107,107,0.08); border-bottom: 1px solid rgba(255,107,107,0.08); margin-top: 14px; }
+.red-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.red-box strong { color: var(--red); }
+.steps { display: flex; flex-direction: column; gap: 2px; }
+.step-row { display: flex; align-items: flex-start; gap: 18px; background: var(--surface); border: 1px solid var(--border); padding: 13px 18px; }
+.step-n { font-family: 'DM Mono', monospace; font-size: clamp(0.85rem,1.4vw,1.1rem); color: var(--green); min-width: 40px; flex-shrink: 0; font-weight: 500; padding-top: 2px; }
+.step-text { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.5; font-weight: 300; }
+.step-text strong { color: var(--text); font-weight: 500; }
+.comparison-table { width: 100%; border-collapse: collapse; }
+.comparison-table th { font-family: 'DM Mono', monospace; font-size: clamp(0.65rem,1vw,0.82rem); letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); padding: 9px 14px; text-align: left; border-bottom: 1px solid var(--border2); background: var(--surface); }
+.comparison-table td { padding: 11px 14px; font-size: clamp(0.82rem,1.3vw,1.02rem); border-bottom: 1px solid var(--border); color: var(--text2); background: var(--surface); line-height: 1.5; vertical-align: top; }
+.comparison-table tr:last-child td { border-bottom: none; }
+.comparison-table tr:hover td { background: var(--surface2); }
+.comparison-table td:first-child { font-family: 'DM Mono', monospace; font-size: 0.88em; color: var(--green); font-weight: 500; }
+.hl-badge { display: inline-block; font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--orange); padding: 2px 8px; background: rgba(251,146,60,0.1); border: 1px solid rgba(251,146,60,0.25); border-radius: 2px; margin-left: 8px; vertical-align: middle; }
+/* Node/pointer diagram styles */
+.node-box { display: inline-flex; align-items: stretch; font-family: 'DM Mono', monospace; font-size: 0.8rem; }
+.node-data { padding: 8px 14px; border: 2px solid; min-width: 50px; text-align: center; }
+.node-ptr { padding: 8px 10px; border-top: 2px solid; border-bottom: 2px solid; border-right: 2px solid; color: var(--text3); min-width: 36px; text-align: center; }
+.node-arrow { padding: 8px 6px; color: var(--text3); align-self: center; }
+.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; }
+.nav-btn { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; }
+.nav-btn:hover { color: var(--green); border-color: var(--green); background: rgba(61,214,140,0.05); }
+.nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+.nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 280px; justify-content: center; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); cursor: pointer; transition: all 0.2s; }
+.dot.active { background: var(--green); transform: scale(1.4); }
+.nav-sep { width: 1px; height: 18px; background: var(--border2); }
+code { font-family: 'DM Mono', monospace; font-size: 0.85em; color: var(--green); background: rgba(61,214,140,0.08); padding: 1px 6px; border-radius: 2px; }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="slide-num" id="slideNum">01 / 18</div>
+<div class="deck">
+
+<!-- ═══════════════════════════════════════════════ S1: TITLE -->
+<div class="slide active">
+  <div class="content">
+    <div class="label">// B4 · Abstract Data Types <span class="hl-badge">HL Only</span></div>
+    <h1>Abstract<br><span class="hl-green">Data Types</span></h1>
+    <p style="font-family:'DM Mono',monospace;font-size:clamp(0.85rem,1.4vw,1.1rem);color:var(--text3);margin-bottom:20px;">Theme B4 · IB Computer Science HL · 23 hours</p>
+    <div class="gold-box">
+      <p><strong>👉 Guiding Question:</strong> Which abstract data types (ADTs) are most appropriate for different situations?</p>
+    </div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:20px;">
+      <div style="padding-left:12px;border-left:2px solid var(--green);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Linked Lists</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">SINGLY · DOUBLY · CIRCULAR</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--blue);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">BST</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">BINARY SEARCH TREE</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--purple);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Sets</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">UNION · INTERSECTION · DIFF</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--gold);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Hash Tables</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">HASHING · COLLISION</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S2: IB SPEC -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:1120px;margin:0 auto;">
+    <div class="label">// IB Specification · B4.1</div>
+    <h2>Learning Objectives <span class="hl-badge">HL Only</span></h2>
+    <div class="steps">
+      <div class="step-row"><div class="step-n">4.1.1</div><div class="step-text"><strong>Explain</strong> the properties and purpose of ADTs — high-level description of data structures and their associated operations</div></div>
+      <div class="step-row"><div class="step-n">4.1.2</div><div class="step-text"><strong>Evaluate</strong> linked lists — singly, doubly, circular; sketch operations diagrammatically; compare to arrays</div></div>
+      <div class="step-row"><div class="step-n">4.1.3</div><div class="step-text"><strong>Construct and apply</strong> linked lists — implement insertion, deletion, traversal, search</div></div>
+      <div class="step-row"><div class="step-n">4.1.4</div><div class="step-text"><strong>Explain</strong> the structure and properties of BSTs — insert, delete, traverse, search; sketch as a tree diagram</div></div>
+      <div class="step-row"><div class="step-n">4.1.5</div><div class="step-text"><strong>Construct and apply</strong> sets — union, intersection, difference; check membership, add, remove, subset/superset</div></div>
+      <div class="step-row"><div class="step-n">4.1.6</div><div class="step-text"><strong>Explain</strong> core ADT principles — hash tables: hashing functions, collision resolution, load factors; HashMap/HashSet in Java; dict/set in Python</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S3: WHAT IS AN ADT? -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// B4.1.1 · Foundation</div>
+    <h2>What is an <span class="hl-green">Abstract Data Type?</span></h2>
+    <p class="lead">An ADT is a <strong style="color:var(--green);">high-level description</strong> of a data structure — it defines <em>what</em> operations can be performed and <em>what</em> behaviour to expect, without specifying <em>how</em> those operations are implemented.</p>
+    <div class="grid g2" style="margin-bottom:14px;">
+      <div class="card green">
+        <div class="card-title">What ADTs Define</div>
+        <div class="card-body">
+          <strong>Data:</strong> what kind of values are stored<br>
+          <strong>Operations:</strong> what actions can be performed (insert, delete, search, etc.)<br>
+          <strong>Behaviour:</strong> what the result of each operation should be<br><br>
+          ADTs are the <em>interface</em>. The underlying data structure (array, nodes, hash table) is the <em>implementation</em>.
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Why ADTs Matter</div>
+        <div class="card-body">
+          <strong>Abstraction:</strong> users of the ADT don't need to know how it works internally<br>
+          <strong>Modularity:</strong> swap the implementation without changing code that uses the ADT<br>
+          <strong>Correctness:</strong> the defined behaviour is a contract — implementations must honour it
+        </div>
+      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>Already seen in B2:</strong> Stacks (LIFO) and Queues (FIFO) are ADTs — you learned their operations (push, pop, enqueue, dequeue) without worrying about whether they use arrays or linked lists internally.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S4: LINKED LIST INTRO -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// B4.1.2 · Linked Lists</div>
+    <h2><span class="hl-green">Linked Lists</span> — Nodes and Pointers</h2>
+    <p class="lead" style="margin-bottom:14px;">A linked list is a sequence of <strong style="color:var(--green);">nodes</strong>, where each node stores a <strong>data value</strong> and a <strong>pointer</strong> (reference) to the next node in the list.</p>
+    <div style="margin-bottom:18px;">
+      <div style="font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--text3);margin-bottom:8px;letter-spacing:0.1em;">SINGLY LINKED LIST — DIAGRAM</div>
+      <div style="display:flex;align-items:center;flex-wrap:wrap;gap:0;">
+        <div style="font-family:'DM Mono',monospace;font-size:0.8rem;color:var(--green);margin-right:8px;">HEAD →</div>
+        <div class="node-box"><div class="node-data" style="border-color:var(--green);color:var(--text);">10</div><div class="node-ptr" style="border-color:var(--green);color:var(--text3);">→</div></div>
+        <div class="node-box" style="margin-left:4px;"><div class="node-data" style="border-color:var(--green);color:var(--text);">25</div><div class="node-ptr" style="border-color:var(--green);color:var(--text3);">→</div></div>
+        <div class="node-box" style="margin-left:4px;"><div class="node-data" style="border-color:var(--green);color:var(--text);">47</div><div class="node-ptr" style="border-color:var(--green);color:var(--text3);">→</div></div>
+        <div class="node-box" style="margin-left:4px;"><div class="node-data" style="border-color:var(--green);color:var(--text);">63</div><div class="node-ptr" style="border-color:var(--green);color:var(--text3);">null</div></div>
+      </div>
+    </div>
+    <div class="grid g2" style="margin-bottom:14px;">
+      <div class="card green">
+        <div class="card-title">Key Properties</div>
+        <div class="card-body">
+          <strong>Dynamic size:</strong> grows and shrinks at runtime — no fixed capacity like an array<br>
+          <strong>Non-contiguous memory:</strong> nodes can be stored anywhere in memory, linked by pointers<br>
+          <strong>Sequential access:</strong> to reach node N, you must traverse from the head through N-1 nodes
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Operations</div>
+        <div class="card-body">
+          <strong>Insertion:</strong> add node at head, tail, or middle — update pointers<br>
+          <strong>Deletion:</strong> remove a node — update pointers to bypass it<br>
+          <strong>Traversal:</strong> visit every node from head to tail<br>
+          <strong>Search:</strong> scan sequentially until target found
+        </div>
+      </div>
+    </div>
+    <div class="gold-box">
+      <p><strong>IB Requirement:</strong> Be able to sketch insertion, deletion, and traversal diagrammatically — showing nodes and how pointer updates work step by step.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S5: TYPES OF LINKED LISTS -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// B4.1.2 · Linked List Variants</div>
+    <h2>Three Types of <span class="hl-green">Linked Lists</span></h2>
+    <div class="steps" style="margin-bottom:14px;">
+      <div class="step-row">
+        <div class="step-n" style="color:var(--green);">Singly</div>
+        <div class="step-text">
+          <strong>Singly Linked List:</strong> each node has one pointer — to the <em>next</em> node. Can only traverse forward.<br>
+          <code>HEAD → [10|→] → [25|→] → [47|null]</code><br>
+          <em>Use when:</em> forward-only traversal is sufficient; memory is limited.
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--blue);">Doubly</div>
+        <div class="step-text">
+          <strong>Doubly Linked List:</strong> each node has two pointers — to the <em>next</em> and <em>previous</em> node. Can traverse both directions.<br>
+          <code>null ← [10|↔] ↔ [25|↔] ↔ [47|→] → null</code><br>
+          <em>Use when:</em> bidirectional traversal needed (e.g. browser history back/forward).
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--purple);">Circular</div>
+        <div class="step-text">
+          <strong>Circular Linked List:</strong> the last node's pointer points back to the <em>head</em> instead of null — forming a loop.<br>
+          <code>HEAD → [10|→] → [25|→] → [47|→] → HEAD</code><br>
+          <em>Use when:</em> continuous cycling is needed (e.g. round-robin scheduling, playlist looping).
+        </div>
+      </div>
+    </div>
+    <div class="grid g2">
+      <div class="card green">
+        <div class="card-title">Linked List vs Array</div>
+        <div class="card-body">
+          <strong>Array:</strong> fixed size, fast random access O(1), slow insertion/deletion (must shift)<br>
+          <strong>Linked List:</strong> dynamic size, slow random access O(n), fast insertion/deletion O(1) once position is known
+        </div>
+      </div>
+      <div class="card red">
+        <div class="card-title">Linked List Disadvantages</div>
+        <div class="card-body">
+          No random access — must traverse from head<br>
+          Extra memory for pointer storage<br>
+          Not cache-friendly — nodes scattered in memory
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S6: LINKED LIST OPERATIONS -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// B4.1.3 · Linked List Operations</div>
+    <h2>Insertion &amp; Deletion <span class="hl-green">Diagrammatically</span></h2>
+    <div class="grid g2" style="margin-bottom:14px;">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--text3);margin-bottom:8px;letter-spacing:0.1em;">INSERTION AT HEAD</div>
+        <div style="background:var(--surface);border:1px solid var(--border);padding:16px;font-family:'DM Mono',monospace;font-size:0.8rem;line-height:2;color:var(--text2);">
+          Before: HEAD → [A] → [B] → [C]<br>
+          New node [X]<br>
+          Step 1: X.next = HEAD (point X to A)<br>
+          Step 2: HEAD = X (move HEAD to X)<br>
+          After: HEAD → [X] → [A] → [B] → [C]
+        </div>
+        <div style="margin-top:8px;font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--text3);margin-bottom:8px;letter-spacing:0.1em;">INSERTION IN MIDDLE (after node B)</div>
+        <div style="background:var(--surface);border:1px solid var(--border);padding:16px;font-family:'DM Mono',monospace;font-size:0.8rem;line-height:2;color:var(--text2);">
+          Before: ... → [B] → [C] → ...<br>
+          New node [X]<br>
+          Step 1: X.next = B.next (point X to C)<br>
+          Step 2: B.next = X (point B to X)<br>
+          After: ... → [B] → [X] → [C] → ...
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--text3);margin-bottom:8px;letter-spacing:0.1em;">DELETION (remove node B)</div>
+        <div style="background:var(--surface);border:1px solid var(--border);padding:16px;font-family:'DM Mono',monospace;font-size:0.8rem;line-height:2;color:var(--text2);">
+          Before: [A] → [B] → [C]<br>
+          Step 1: A.next = B.next (point A to C)<br>
+          Step 2: B is now unreferenced<br>
+          After: [A] → [C]<br>
+          Note: memory for B is freed
+        </div>
+        <div style="margin-top:8px;font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--text3);margin-bottom:8px;letter-spacing:0.1em;">TRAVERSAL (search for value 25)</div>
+        <div style="background:var(--surface);border:1px solid var(--border);padding:16px;font-family:'DM Mono',monospace;font-size:0.8rem;line-height:2;color:var(--text2);">
+          current = HEAD<br>
+          while current ≠ null:<br>
+          &nbsp;&nbsp;if current.data == 25: FOUND<br>
+          &nbsp;&nbsp;current = current.next<br>
+          → visit each node in order
+        </div>
+      </div>
+    </div>
+    <div class="green-box">
+      <p><strong>Key principle:</strong> All linked list operations depend on correctly updating pointers. Updating them in the wrong order causes nodes to be lost or loops to form — always set the new node's pointer <em>before</em> breaking existing links.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S7: BST INTRO -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// B4.1.4 · Binary Search Trees</div>
+    <h2><span class="hl-blue">Binary Search Trees</span> (BSTs)</h2>
+    <p class="lead" style="margin-bottom:14px;">A BST is a tree structure where each node has at most two children, and every node satisfies the <strong style="color:var(--blue);">BST property</strong>.</p>
+    <div class="card blue" style="margin-bottom:14px;">
+      <div class="card-title">BST Property (Invariant)</div>
+      <div class="card-body" style="font-family:'DM Mono',monospace;">
+        For any node N:<br>
+        &nbsp;&nbsp;• All values in N's <strong style="color:var(--green);">LEFT</strong> subtree are <strong style="color:var(--green);">less than</strong> N<br>
+        &nbsp;&nbsp;• All values in N's <strong style="color:var(--red);">RIGHT</strong> subtree are <strong style="color:var(--red);">greater than</strong> N
+      </div>
+    </div>
+    <div style="display:flex;gap:28px;flex-wrap:wrap;margin-bottom:14px;">
+      <div style="flex:1;min-width:200px;">
+        <div style="font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--text3);margin-bottom:8px;letter-spacing:0.1em;">EXAMPLE BST (insert: 50, 30, 70, 20, 40)</div>
+        <div style="background:var(--surface);border:1px solid var(--border);padding:16px;font-family:'DM Mono',monospace;font-size:0.82rem;line-height:1.8;color:var(--text2);">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--blue);">50</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--green);">30</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--red);">70</span><br>
+          &nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;\<br>
+          &nbsp;&nbsp;<span style="color:var(--green);">20</span>&nbsp;&nbsp;&nbsp;<span style="color:var(--green);">40</span>
+        </div>
+      </div>
+      <div style="flex:1;min-width:200px;">
+        <div class="card blue">
+          <div class="card-title">Why BSTs are Useful</div>
+          <div class="card-body">
+            <strong>Fast search:</strong> O(log n) on a balanced tree<br>
+            At each node, eliminate half the remaining possibilities — like binary search on sorted arrays, but built into the structure<br><br>
+            <strong>Also supports:</strong> in-order traversal produces <em>sorted output</em>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S8: BST OPERATIONS -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// B4.1.4 · BST Operations</div>
+    <h2>BST: Insert, Search &amp; <span class="hl-blue">Traverse</span></h2>
+    <div class="grid g3" style="margin-bottom:14px;">
+      <div class="card blue">
+        <div class="card-title">Insert (value: 35)</div>
+        <div class="card-body" style="font-family:'DM Mono',monospace;font-size:0.82rem;line-height:1.8;">
+          Start at root (50)<br>
+          35 &lt; 50 → go Left (30)<br>
+          35 &gt; 30 → go Right (40)<br>
+          35 &lt; 40 → go Left (empty)<br>
+          Insert 35 here ✓
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">Search (value: 40)</div>
+        <div class="card-body" style="font-family:'DM Mono',monospace;font-size:0.82rem;line-height:1.8;">
+          Start at root (50)<br>
+          40 &lt; 50 → go Left (30)<br>
+          40 &gt; 30 → go Right (40)<br>
+          40 == 40 → FOUND ✓<br>
+          Steps: O(log n) best case
+        </div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">In-Order Traversal</div>
+        <div class="card-body" style="font-family:'DM Mono',monospace;font-size:0.82rem;line-height:1.8;">
+          Visit: Left → Root → Right<br>
+          Result: 20, 30, 40, 50, 70<br>
+          (sorted ascending order!)<br><br>
+          Pre-order: Root→L→R<br>
+          Post-order: L→R→Root
+        </div>
+      </div>
+    </div>
+    <div class="card red" style="margin-bottom:14px;">
+      <div class="card-title">Deletion — Three Cases</div>
+      <div class="card-body">
+        <strong>Leaf node (no children):</strong> simply remove the node<br>
+        <strong>One child:</strong> replace the node with its child — update parent's pointer<br>
+        <strong>Two children:</strong> find the in-order successor (smallest value in right subtree), copy its value here, then delete the successor node
+      </div>
+    </div>
+    <div class="red-box">
+      <p><strong>Worst case — Unbalanced BST:</strong> If values are inserted in sorted order (1, 2, 3, 4, 5…), the BST degenerates into a linked list — O(n) search. Balanced BSTs (AVL, Red-Black) fix this, but are beyond IB scope.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S9: SETS -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// B4.1.5 · Sets</div>
+    <h2>Sets — <span class="hl-purple">Unique, Unordered Collections</span></h2>
+    <p class="lead" style="margin-bottom:14px;">A set is a collection of <strong style="color:var(--purple);">unique elements with no duplicates</strong> and no defined order. Based on mathematical set theory.</p>
+    <div class="grid g2" style="margin-bottom:14px;">
+      <div class="card purple">
+        <div class="card-title">Fundamental Properties</div>
+        <div class="card-body">
+          <strong>Uniqueness:</strong> each element appears at most once<br>
+          <strong>Unordered:</strong> no guaranteed sequence — {1, 2, 3} and {3, 1, 2} are the same set<br>
+          <strong>Membership:</strong> O(1) average lookup — "is X in this set?"<br>
+          <strong>Mutable:</strong> elements can be added or removed
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Set Operations</div>
+        <div class="card-body">
+          <strong>Union (A ∪ B):</strong> all elements from both A and B<br>
+          <strong>Intersection (A ∩ B):</strong> only elements in both A and B<br>
+          <strong>Difference (A \ B):</strong> elements in A but not in B<br>
+          <strong>Subset:</strong> every element of A is also in B (A ⊆ B)<br>
+          <strong>Superset:</strong> B ⊆ A (A contains all of B)
+        </div>
+      </div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);padding:16px;font-family:'DM Mono',monospace;font-size:0.82rem;line-height:2;margin-bottom:14px;">
+      <span style="color:var(--text3);">// Python examples</span><br>
+      <span style="color:var(--blue);">A</span> = {1, 2, 3, 4} &nbsp;&nbsp; <span style="color:var(--blue);">B</span> = {3, 4, 5, 6}<br>
+      A | B &nbsp;→ {1, 2, 3, 4, 5, 6} &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--text3);"># Union</span><br>
+      A &amp; B &nbsp;→ {3, 4} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--text3);"># Intersection</span><br>
+      A - B &nbsp;→ {1, 2} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--text3);"># Difference</span><br>
+      5 in A &nbsp;→ False &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--text3);"># Membership check</span>
+    </div>
+    <div class="info-box">
+      <p><strong>Java equivalents:</strong> <code>HashSet</code> implements a set. Add → <code>add()</code>, Remove → <code>remove()</code>, Contains → <code>contains()</code>, Union → <code>addAll()</code>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S10: HASH TABLES INTRO -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// B4.1.6 · Hash Tables</div>
+    <h2><span class="hl-gold">Hash Tables</span> — Fast Key-Value Lookup</h2>
+    <p class="lead" style="margin-bottom:14px;">A hash table stores data as <strong style="color:var(--gold2);">key-value pairs</strong>, using a hash function to compute a table index directly from the key — enabling O(1) average-case lookup.</p>
+    <div style="display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap;margin-bottom:14px;">
+      <div style="flex:1;min-width:220px;">
+        <div class="card gold" style="margin-bottom:2px;">
+          <div class="card-title">How it Works</div>
+          <div class="card-body">
+            <strong>1.</strong> Given a key (e.g. "alice"), apply the hash function<br>
+            <strong>2.</strong> Hash function computes an integer index (e.g. 4)<br>
+            <strong>3.</strong> Store / retrieve the value at that index in an array<br>
+            <strong>4.</strong> Lookup: hash the key again → go directly to index → O(1)
+          </div>
+        </div>
+        <div class="card blue">
+          <div class="card-title">Hash Function Properties</div>
+          <div class="card-body">
+            <strong>Deterministic:</strong> same key always produces the same index<br>
+            <strong>Uniform distribution:</strong> ideally spreads keys evenly across the table<br>
+            <strong>Fast to compute:</strong> should run in O(1)
+          </div>
+        </div>
+      </div>
+      <div style="flex:1;min-width:200px;">
+        <div style="background:var(--surface);border:1px solid var(--border);padding:16px;font-family:'DM Mono',monospace;font-size:0.8rem;line-height:1.8;">
+          <span style="color:var(--text3);">// Conceptual example</span><br>
+          hash("alice") → index 4<br>
+          hash("bob")   → index 1<br>
+          hash("carol") → index 7<br><br>
+          Table:<br>
+          [0]: empty<br>
+          [1]: "bob" → 92<br>
+          [2]: empty<br>
+          [3]: empty<br>
+          [4]: "alice" → 88<br>
+          [5–6]: empty<br>
+          [7]: "carol" → 74
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S11: COLLISION RESOLUTION -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// B4.1.6 · Hash Tables</div>
+    <h2>Collision <span class="hl-red">Resolution</span></h2>
+    <p class="lead" style="margin-bottom:14px;">A <strong style="color:var(--red);">collision</strong> occurs when two different keys produce the same hash index. Since table slots can hold one value, a strategy is needed to handle this.</p>
+    <div class="grid g2" style="margin-bottom:14px;">
+      <div class="card red">
+        <div class="card-title">Chaining (Separate Chaining)</div>
+        <div class="card-body">
+          Each slot holds a <strong>linked list</strong> of all key-value pairs that hash to that index.<br><br>
+          Collision → append to the list at that slot.<br>
+          Lookup → hash key → scan the list at that index.<br><br>
+          <em>Advantage:</em> simple; handles many collisions gracefully.<br>
+          <em>Disadvantage:</em> extra memory for pointers; long lists degrade performance.
+        </div>
+      </div>
+      <div class="card orange">
+        <div class="card-title">Open Addressing (Linear Probing)</div>
+        <div class="card-body">
+          If slot is occupied, try the <strong>next slot</strong> (index + 1), then + 2, etc., until empty slot found.<br><br>
+          Lookup → hash key → check slot; if not match, probe forward.<br><br>
+          <em>Advantage:</em> all data stays in the array; cache-friendly.<br>
+          <em>Disadvantage:</em> clustering — consecutive occupied slots slow probing.
+        </div>
+      </div>
+    </div>
+    <div class="card gold" style="margin-bottom:14px;">
+      <div class="card-title">Load Factor</div>
+      <div class="card-body">
+        <strong>Load factor = (number of stored entries) / (total table capacity)</strong><br>
+        A high load factor (close to 1.0) increases collision probability and degrades performance toward O(n).<br>
+        When load factor exceeds a threshold (typically 0.75), the table is <em>rehashed</em> — copied into a larger array with new hash positions.
+      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>Java / Python:</strong> <code>HashMap</code> and <code>dict</code> use chaining with automatic rehashing. <code>HashSet</code> and Python <code>set</code> are implemented as hash tables that store only keys (no values).</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S12: SETS AS HASH TABLES -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// B4.1.6 · Hash-Based ADTs</div>
+    <h2>HashMap, HashSet, dict &amp; <span class="hl-purple">set</span></h2>
+    <table class="comparison-table" style="margin-bottom:14px;">
+      <tr>
+        <th>ADT</th>
+        <th>Java</th>
+        <th>Python</th>
+        <th>Stores</th>
+        <th>Key Feature</th>
+      </tr>
+      <tr>
+        <td>Hash Map / Dict</td>
+        <td><code style="color:var(--gold);">HashMap&lt;K,V&gt;</code></td>
+        <td><code style="color:var(--gold);">dict</code></td>
+        <td>Key-Value pairs</td>
+        <td>O(1) average get/put by key</td>
+      </tr>
+      <tr>
+        <td>Hash Set / Set</td>
+        <td><code style="color:var(--purple);">HashSet&lt;E&gt;</code></td>
+        <td><code style="color:var(--purple);">set</code></td>
+        <td>Unique keys only</td>
+        <td>O(1) average membership check; no duplicates</td>
+      </tr>
+    </table>
+    <div style="background:var(--surface);border:1px solid var(--border);padding:16px;font-family:'DM Mono',monospace;font-size:0.8rem;line-height:2;margin-bottom:14px;">
+      <span style="color:var(--text3);">// Python dict (HashMap)</span><br>
+      grades = {"Alice": 88, "Bob": 74, "Carol": 91}<br>
+      grades["Alice"] &nbsp;&nbsp;&nbsp;→ 88 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--text3);"># O(1) lookup</span><br>
+      grades["Dave"] = 79 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--text3);"># O(1) insert</span><br>
+      del grades["Bob"] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--text3);"># O(1) delete</span><br><br>
+      <span style="color:var(--text3);">// Python set (HashSet)</span><br>
+      primes = {2, 3, 5, 7, 11}<br>
+      4 in primes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ False &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--text3);"># O(1) check</span><br>
+      primes.add(13) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--text3);"># O(1) insert</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S13: ADT COMPARISON -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:1120px;margin:0 auto;">
+    <div class="label">// Summary · All B4 ADTs Compared</div>
+    <h2>ADT <span class="hl-green">Quick Reference</span></h2>
+    <table class="comparison-table">
+      <tr>
+        <th>ADT</th>
+        <th>Order</th>
+        <th>Access Method</th>
+        <th>Insert</th>
+        <th>Delete</th>
+        <th>Search</th>
+        <th>Best For</th>
+      </tr>
+      <tr>
+        <td>Singly Linked List</td>
+        <td>Sequential</td>
+        <td>Traversal (head→tail)</td>
+        <td>O(1) at head</td>
+        <td>O(n) find, O(1) remove</td>
+        <td>O(n)</td>
+        <td>Frequent head insertions; dynamic size</td>
+      </tr>
+      <tr>
+        <td>Doubly Linked List</td>
+        <td>Sequential (bi-dir)</td>
+        <td>Traversal (either dir)</td>
+        <td>O(1) at head/tail</td>
+        <td>O(n) find, O(1) remove</td>
+        <td>O(n)</td>
+        <td>Browser history, undo/redo</td>
+      </tr>
+      <tr>
+        <td>Circular Linked List</td>
+        <td>Circular</td>
+        <td>Traversal (loops)</td>
+        <td>O(1) at head</td>
+        <td>O(n)</td>
+        <td>O(n)</td>
+        <td>Round-robin, playlist looping</td>
+      </tr>
+      <tr>
+        <td>BST (balanced)</td>
+        <td>Sorted</td>
+        <td>Key comparison</td>
+        <td>O(log n)</td>
+        <td>O(log n)</td>
+        <td>O(log n)</td>
+        <td>Sorted data storage; range queries</td>
+      </tr>
+      <tr>
+        <td>Set (HashSet)</td>
+        <td>Unordered</td>
+        <td>Hash function</td>
+        <td>O(1) avg</td>
+        <td>O(1) avg</td>
+        <td>O(1) avg</td>
+        <td>Membership testing; removing duplicates</td>
+      </tr>
+      <tr>
+        <td>Hash Table (HashMap)</td>
+        <td>Unordered</td>
+        <td>Hash function (by key)</td>
+        <td>O(1) avg</td>
+        <td>O(1) avg</td>
+        <td>O(1) avg by key</td>
+        <td>Key-value lookups; caching; indexing</td>
+      </tr>
+    </table>
+    <div class="gold-box" style="margin-top:14px;">
+      <p><strong>Choosing an ADT:</strong> Need fast search by key? → Hash table. Need sorted data? → BST. Need dynamic insertion at the front? → Linked list. Need unique elements? → Set. Need ordered LIFO/FIFO? → Stack/Queue (B2).</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S14: REAL WORLD APPLICATIONS -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Real-World Context</div>
+    <h2>ADTs in <span class="hl-green">Practice</span></h2>
+    <div class="grid g2" style="margin-bottom:14px;">
+      <div class="card green">
+        <div class="card-title">Linked Lists</div>
+        <div class="card-body">
+          <strong>Browser history:</strong> doubly linked list — back/forward navigation<br>
+          <strong>Music playlists:</strong> circular — loop through songs<br>
+          <strong>OS memory allocation:</strong> free memory blocks tracked in a linked list<br>
+          <strong>Image viewer:</strong> next/previous image navigation
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">BSTs</div>
+        <div class="card-body">
+          <strong>File system directories:</strong> hierarchical sorted storage<br>
+          <strong>Database indexes:</strong> B-trees (generalization of BST) for fast record lookup<br>
+          <strong>Spell checkers:</strong> dictionary stored as BST for fast word search<br>
+          <strong>Autocomplete:</strong> prefix-based BST (trie) for suggestions
+        </div>
+      </div>
+    </div>
+    <div class="grid g2">
+      <div class="card purple">
+        <div class="card-title">Sets</div>
+        <div class="card-body">
+          <strong>Email deduplication:</strong> track which emails have been seen<br>
+          <strong>Search engines:</strong> track which URLs have been crawled<br>
+          <strong>Social networks:</strong> find mutual friends (intersection of friend sets)<br>
+          <strong>Gaming:</strong> track which achievements a player has unlocked
+        </div>
+      </div>
+      <div class="card gold">
+        <div class="card-title">Hash Tables</div>
+        <div class="card-body">
+          <strong>Database caching:</strong> store recent query results for instant access<br>
+          <strong>Symbol tables:</strong> compilers store variable names → memory addresses<br>
+          <strong>DNS lookup:</strong> domain name → IP address mapping<br>
+          <strong>Password storage:</strong> store hashed passwords (not the passwords themselves)
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S15: LINKING QUESTIONS -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// IB Linking Questions · B4</div>
+    <h2>Connecting to Other <span class="hl-cyan">Topics</span></h2>
+    <div class="steps" style="margin-bottom:14px;">
+      <div class="step-row"><div class="step-n" style="color:var(--cyan);">A1</div><div class="step-text">What role do stacks and queues play in handling CPU interrupts and polling (A1.3)? How does the call stack use a stack ADT during program execution?</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--cyan);">A2</div><div class="step-text">Can ADTs be used to manage routing tables and address lookup in networks? How might hash tables speed up ARP (Address Resolution Protocol) lookups?</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--cyan);">A4</div><div class="step-text">How can a BST play a role in the quicksort algorithm (B1)? How do hash tables support fast feature lookup during ML model inference?</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--cyan);">B2</div><div class="step-text">How can ADTs be used to optimize file-processing operations? How does a hash set efficiently detect duplicate records during data cleaning?</div></div>
+      <div class="step-row"><div class="step-n" style="color:var(--cyan);">B3</div><div class="step-text">How would you implement a linked list, BST, or hash table as a Java class? Which OOP principles (encapsulation, abstraction) apply to ADT design?</div></div>
+    </div>
+    <div class="green-box">
+      <p><strong>IB Exam tip:</strong> Linking questions expect you to make <em>genuine connections</em> — not just name the other topic, but explain specifically how the concepts relate. E.g. "A hash table allows O(1) lookup of cached DNS entries, compared to O(n) linear search through a list."</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S16: EXAM REVIEW -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:1120px;margin:0 auto;">
+    <div class="label">// Exam Review · B4.1</div>
+    <h2>Key Concepts <span class="hl-gold">Summary</span></h2>
+    <div class="grid g3" style="margin-bottom:14px;">
+      <div class="card green">
+        <div class="card-title">ADTs (4.1.1)</div>
+        <div class="card-body">
+          High-level description of data + operations<br>
+          Defines WHAT, not HOW<br>
+          Interface vs Implementation<br>
+          Abstraction — users don't need internals<br>
+          Already know: Stack (LIFO), Queue (FIFO)
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Linked Lists (4.1.2–3)</div>
+        <div class="card-body">
+          Singly: one pointer (→ next)<br>
+          Doubly: two pointers (← ↔ →)<br>
+          Circular: tail → head<br>
+          Insert: update pointers carefully<br>
+          vs Array: dynamic size, slow access
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">BSTs (4.1.4)</div>
+        <div class="card-body">
+          Left subtree &lt; root &lt; right subtree<br>
+          Insert/search: O(log n) balanced<br>
+          In-order traversal = sorted output<br>
+          Deletion: 3 cases (leaf, 1 child, 2 children)<br>
+          Worst case: O(n) if unbalanced
+        </div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">Sets (4.1.5)</div>
+        <div class="card-body">
+          Unique elements, unordered<br>
+          Union (∪), Intersection (∩), Difference (\)<br>
+          Subset (⊆), Superset (⊇)<br>
+          Python: <code>set</code> &nbsp; Java: <code>HashSet</code><br>
+          O(1) membership check
+        </div>
+      </div>
+      <div class="card gold">
+        <div class="card-title">Hash Tables (4.1.6)</div>
+        <div class="card-body">
+          Hash function → index in O(1)<br>
+          Collision: chaining or probing<br>
+          Load factor → rehash when too full<br>
+          Java: <code>HashMap</code>, <code>HashSet</code><br>
+          Python: <code>dict</code>, <code>set</code>
+        </div>
+      </div>
+      <div class="card red">
+        <div class="card-title">Common Exam Mistakes</div>
+        <div class="card-body">
+          Saying "any node" for BST — must say left &lt; node &lt; right<br>
+          Forgetting collision resolution exists<br>
+          Confusing Set and List (Set has no order, no duplicates)<br>
+          Not sketching linked list diagrams with actual pointer arrows
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S17: REVIEW CHECKLIST -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Before the Exam</div>
+    <h2>Review <span class="hl-gold">Checklist</span></h2>
+    <div class="grid g2" style="margin-bottom:14px;">
+      <div class="card gold">
+        <div class="card-title">Can You …</div>
+        <div class="card-body">
+          ☐ Explain what an ADT is (abstract description, not implementation)<br>
+          ☐ Sketch a singly linked list with 4 nodes and label data + pointer<br>
+          ☐ Diagram insertion at head, middle, and tail of a linked list<br>
+          ☐ Diagram deletion of a node with pointer updates<br>
+          ☐ Distinguish singly, doubly, and circular linked lists<br>
+          ☐ Compare linked lists vs arrays (insert O(1) vs O(n), access O(n) vs O(1))<br>
+          ☐ Draw a BST from a sequence of insertions<br>
+          ☐ Trace BST search step by step<br>
+          ☐ Perform in-order traversal on a BST<br>
+          ☐ List the 3 deletion cases for BSTs<br>
+          ☐ Perform union, intersection, difference on two sets<br>
+          ☐ Explain how a hash function and table work<br>
+          ☐ Describe chaining and linear probing for collisions<br>
+          ☐ Define load factor and explain when rehashing occurs
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">Theme B — Full Picture</div>
+        <div class="card-body">
+          <strong>B1:</strong> Computational thinking (SL + HL)<br>
+          <strong>B2:</strong> Programming — variables, data structures, algorithms, files (SL + HL + recursion)<br>
+          <strong>B3:</strong> Object-Oriented Programming (SL: single class; HL: multiple classes)<br>
+          <strong>B4:</strong> Abstract Data Types — linked lists, BSTs, sets, hash tables (HL only)<br><br>
+          B4 connects deeply to B2 (arrays vs linked lists), B3 (implementing ADTs as classes), and A1 (stacks/queues in CPU operation).
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S18: END -->
+<div class="slide">
+  <div class="content" style="max-width:800px;margin:0 auto;text-align:center;">
+    <div class="label" style="text-align:center;">// Course Complete</div>
+    <h1 style="font-size:clamp(2rem,5vw,3.8rem);margin-bottom:20px;">IB CS HL<br><span class="hl-green">Full Syllabus</span></h1>
+    <p style="font-family:'DM Mono',monospace;font-size:clamp(0.85rem,1.4vw,1.1rem);color:var(--text3);margin-bottom:28px;">Theme A · Theme B · First Assessment May 2027</p>
+    <div class="grid g2" style="margin-bottom:20px;text-align:left;">
+      <div class="card green">
+        <div class="card-title">Theme A — Covered</div>
+        <div class="card-body">
+          A1: Computer Fundamentals ✓<br>
+          A2: Networks ✓<br>
+          A3: Databases ✓<br>
+          A4: Machine Learning ✓<br>
+          &nbsp;&nbsp;A4.2: Data Preprocessing (HL) ✓<br>
+          &nbsp;&nbsp;A4.3: ML Approaches (HL) ✓
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Theme B — Covered</div>
+        <div class="card-body">
+          B1: Computational Thinking ✓<br>
+          B2: Programming ✓<br>
+          &nbsp;&nbsp;(incl. recursion B2.4.4–5, HL)<br>
+          B3: Object-Oriented Programming ✓<br>
+          B4: Abstract Data Types (HL) ✓
+        </div>
+      </div>
+    </div>
+    <div class="gold-box">
+      <p><strong>Good luck on your IB examinations!</strong> First assessment: May 2027. Keep reviewing, practising past papers, and connecting concepts across themes.</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>← Prev</button>
+  <div class="nav-sep"></div>
+  <div class="nav-dots" id="navDots"></div>
+  <div class="nav-sep"></div>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+</div>
+
+<script>
+  let cur = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const prog = document.getElementById('progress');
+  const slideNum = document.getElementById('slideNum');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const dotsEl = document.getElementById('navDots');
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  }
+  function goTo(n) {
+    slides[cur].classList.remove('active');
+    slides[cur].classList.add('exit');
+    const old = cur;
+    slides[old].scrollTop = 0;
+    setTimeout(() => slides[old].classList.remove('exit'), 380);
+    cur = n;
+    slides[cur].scrollTop = 0;
+    slides[cur].classList.add('active');
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+    prog.style.width = ((cur + 1) / total * 100) + '%';
+    slideNum.textContent = String(cur + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+    prevBtn.disabled = cur === 0;
+    nextBtn.disabled = cur === total - 1;
+  }
+  function changeSlide(d) { const n = cur + d; if (n >= 0 && n < total) goTo(n); }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') changeSlide(1);
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+  });
+  prog.style.width = (1 / total * 100) + '%';
+</script>
+</body>
+</html>

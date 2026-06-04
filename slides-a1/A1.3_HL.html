@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A1.3 (HL) — Multitasking, Resource Allocation & Control Systems</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Serif+Display&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07090f;
+  --surface: #0e1117;
+  --surface2: #151923;
+  --border: #1e2535;
+  --border2: #2a3448;
+  --gold: #c9a84c;
+  --gold2: #e8c97a;
+  --blue: #4a9eff;
+  --green: #3dd68c;
+  --red: #ff6b6b;
+  --purple: #9b8afb;
+  --cyan: #22d3ee;
+  --orange: #fb923c;
+  --teal: #2dd4bf;
+  --text: #dde4f0;
+  --text2: #7a8ba8;
+  --text3: #3d4f6a;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; }
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(251,146,60,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(251,146,60,0.025) 1px, transparent 1px),
+    linear-gradient(rgba(251,146,60,0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(251,146,60,0.01) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+  pointer-events: none; z-index: 0;
+}
+.deck { position: relative; width: 100vw; height: 100vh; z-index: 1; }
+.slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 50px 72px 92px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.38s ease, transform 0.38s ease;
+  transform: translateY(12px);
+}
+.slide.active { opacity: 1; pointer-events: all; transform: translateY(0); }
+.slide.exit { opacity: 0; transform: translateY(-12px); }
+.slide.scroll-slide {
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-top: 64px;
+  padding-bottom: 132px;
+}
+.slide.scroll-slide::-webkit-scrollbar { width: 10px; }
+.slide.scroll-slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
+.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(14,17,23,0.3); }
+.progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--orange), var(--gold)); transition: width 0.38s ease; z-index: 100; }
+.slide-num { position: fixed; top: 17px; right: 24px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
+.content { width: 100%; max-width: 1120px; }
+.label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; }
+.label.blue { color: var(--blue); } .label.green { color: var(--green); } .label.gold { color: var(--gold); } .label.cyan { color: var(--cyan); } .label.teal { color: var(--teal); } .label.purple { color: var(--purple); } .label.red { color: var(--red); }
+h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.8rem,5.5vw,4.8rem); font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
+h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem); font-weight: 400; line-height: 1.1; margin-bottom: 12px; }
+.lead { font-size: clamp(1rem,1.75vw,1.35rem); color: var(--text2); font-weight: 300; line-height: 1.65; margin-bottom: 24px; }
+.hl-gold { color: var(--gold2); } .hl-blue { color: var(--blue); } .hl-green { color: var(--green); } .hl-purple { color: var(--purple); } .hl-cyan { color: var(--cyan); } .hl-red { color: var(--red); } .hl-orange { color: var(--orange); } .hl-teal { color: var(--teal); }
+.grid { display: grid; gap: 2px; width: 100%; }
+.g2 { grid-template-columns: 1fr 1fr; } .g3 { grid-template-columns: 1fr 1fr 1fr; } .g4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+.card { background: var(--surface); border: 1px solid var(--border); padding: 18px 22px; position: relative; overflow: hidden; }
+.card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.card.gold::after { background: var(--gold); } .card.blue::after { background: var(--blue); }
+.card.green::after { background: var(--green); } .card.red::after { background: var(--red); }
+.card.purple::after { background: var(--purple); } .card.cyan::after { background: var(--cyan); }
+.card.orange::after { background: var(--orange); } .card.teal::after { background: var(--teal); }
+.card-title { font-family: 'DM Mono', monospace; font-size: clamp(0.7rem,1.1vw,0.9rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.card-body { font-size: clamp(0.85rem,1.3vw,1.05rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
+.card-body strong { color: var(--text); font-weight: 500; }
+.info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(74,158,255,0.04); border-top: 1px solid rgba(74,158,255,0.08); border-right: 1px solid rgba(74,158,255,0.08); border-bottom: 1px solid rgba(74,158,255,0.08); margin-top: 14px; }
+.info-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.info-box strong { color: var(--blue); }
+.gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(201,168,76,0.04); border-top: 1px solid rgba(201,168,76,0.08); border-right: 1px solid rgba(201,168,76,0.08); border-bottom: 1px solid rgba(201,168,76,0.08); margin-top: 14px; }
+.gold-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.gold-box strong { color: var(--gold2); }
+.green-box { border-left: 3px solid var(--green); padding: 13px 20px; background: rgba(61,214,140,0.04); border-top: 1px solid rgba(61,214,140,0.08); border-right: 1px solid rgba(61,214,140,0.08); border-bottom: 1px solid rgba(61,214,140,0.08); margin-top: 14px; }
+.green-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.green-box strong { color: var(--green); }
+.orange-box { border-left: 3px solid var(--orange); padding: 13px 20px; background: rgba(251,146,60,0.04); border-top: 1px solid rgba(251,146,60,0.08); border-right: 1px solid rgba(251,146,60,0.08); border-bottom: 1px solid rgba(251,146,60,0.08); margin-top: 14px; }
+.orange-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.orange-box strong { color: var(--orange); }
+.red-box { border-left: 3px solid var(--red); padding: 13px 20px; background: rgba(255,107,107,0.04); border-top: 1px solid rgba(255,107,107,0.08); border-right: 1px solid rgba(255,107,107,0.08); border-bottom: 1px solid rgba(255,107,107,0.08); margin-top: 14px; }
+.red-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.red-box strong { color: var(--red); }
+.purple-box { border-left: 3px solid var(--purple); padding: 13px 20px; background: rgba(155,138,251,0.04); border-top: 1px solid rgba(155,138,251,0.08); border-right: 1px solid rgba(155,138,251,0.08); border-bottom: 1px solid rgba(155,138,251,0.08); margin-top: 14px; }
+.purple-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.purple-box strong { color: var(--purple); }
+.steps { display: flex; flex-direction: column; gap: 2px; }
+.step-row { display: flex; align-items: flex-start; gap: 18px; background: var(--surface); border: 1px solid var(--border); padding: 13px 18px; }
+.step-n { font-family: 'DM Mono', monospace; font-size: clamp(0.85rem,1.4vw,1.1rem); color: var(--orange); min-width: 60px; flex-shrink: 0; font-weight: 500; padding-top: 2px; }
+.step-text { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.5; font-weight: 300; }
+.step-text strong { color: var(--text); font-weight: 500; }
+.comparison-table { width: 100%; border-collapse: collapse; }
+.comparison-table th { font-family: 'DM Mono', monospace; font-size: clamp(0.65rem,1vw,0.82rem); letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); padding: 9px 14px; text-align: left; border-bottom: 1px solid var(--border2); background: var(--surface); }
+.comparison-table td { padding: 11px 14px; font-size: clamp(0.82rem,1.3vw,1.02rem); border-bottom: 1px solid var(--border); color: var(--text2); background: var(--surface); line-height: 1.5; vertical-align: top; }
+.comparison-table tr:last-child td { border-bottom: none; }
+.comparison-table tr:hover td { background: var(--surface2); }
+.comparison-table td:first-child { font-family: 'DM Mono', monospace; font-size: 0.88em; color: var(--orange); font-weight: 500; }
+.hl-badge { display: inline-block; font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--orange); padding: 2px 8px; background: rgba(251,146,60,0.1); border: 1px solid rgba(251,146,60,0.25); border-radius: 2px; margin-left: 8px; vertical-align: middle; }
+/* Loop diagram for open/closed loop */
+.loop-box { display: flex; align-items: center; gap: 0; flex-wrap: wrap; }
+.loop-node { padding: 10px 16px; border: 1px solid var(--border2); background: var(--surface); font-family: 'DM Mono', monospace; font-size: 0.78rem; text-align: center; min-width: 90px; }
+.loop-arrow { font-family: 'DM Mono', monospace; font-size: 1.1rem; color: var(--text3); padding: 0 6px; align-self: center; }
+.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; }
+.nav-btn { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; }
+.nav-btn:hover { color: var(--orange); border-color: var(--orange); background: rgba(251,146,60,0.05); }
+.nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+.nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 300px; justify-content: center; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); cursor: pointer; transition: all 0.2s; }
+.dot.active { background: var(--orange); transform: scale(1.4); }
+.nav-sep { width: 1px; height: 18px; background: var(--border2); }
+code { font-family: 'DM Mono', monospace; font-size: 0.85em; color: var(--orange); background: rgba(251,146,60,0.08); padding: 1px 6px; border-radius: 2px; }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="slide-num" id="slideNum">01 / 22</div>
+<div class="deck">
+
+<!-- ═══════════════════════════════════ S1: TITLE -->
+<div class="slide active">
+  <div class="content">
+    <div class="label">// A1.3 · HL Extension <span class="hl-badge">HL Only</span></div>
+    <h1>Multitasking,<br>Resource Allocation<br><span class="hl-orange">&amp; Control Systems</span></h1>
+    <p style="font-family:'DM Mono',monospace;font-size:clamp(0.85rem,1.4vw,1.1rem);color:var(--text3);margin-bottom:20px;">A1.3.5 · A1.3.6 · A1.3.7 · IB Computer Science HL</p>
+    <div class="gold-box">
+      <p><strong>👉 Guiding Question:</strong> How does an operating system manage competing processes — and how do control systems use feedback to regulate the physical world?</p>
+    </div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:20px;">
+      <div style="padding-left:12px;border-left:2px solid var(--orange);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">A1.3.5</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">MULTITASKING · DEADLOCK</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--blue);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">A1.3.6</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">SENSORS · ACTUATORS · LOOPS</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--green);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">A1.3.7</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">REAL-WORLD APPLICATIONS</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ S2: IB SPEC -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:1120px;margin:0 auto;">
+    <div class="label">// IB Specification · A1.3 HL</div>
+    <h2>Learning Objectives <span class="hl-badge">HL Only</span></h2>
+    <div class="steps">
+      <div class="step-row"><div class="step-n">A1.3.5</div><div class="step-text"><strong>Explain</strong> the role of the operating system in managing multitasking and resource allocation — including task scheduling, resource contention and deadlock</div></div>
+      <div class="step-row"><div class="step-n">A1.3.6</div><div class="step-text"><strong>Describe</strong> the use of control system components — the input, process, output and feedback mechanism (open-loop, closed-loop); controller, sensors, actuators, transducers and control algorithm</div></div>
+      <div class="step-row"><div class="step-n">A1.3.7</div><div class="step-text"><strong>Explain</strong> the use of control systems in a range of real-world applications — may include autonomous vehicles, home thermostats, elevator controllers, washing machines, traffic signal systems, irrigation systems, home security systems, automatic doors</div></div>
+    </div>
+    <div class="info-box" style="margin-top:18px;">
+      <p><strong>Note:</strong> A1.3.5–A1.3.7 build on A1.3.1–A1.3.4 (SL). Make sure you have covered OS functions, scheduling algorithms, and interrupt handling before starting this section.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ S3: WHAT IS MULTITASKING -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A1.3.5 · Multitasking</div>
+    <h2>What is <span class="hl-orange">Multitasking?</span></h2>
+    <p class="lead">Multitasking allows a system to perform multiple tasks <strong style="color:var(--orange);">seemingly simultaneously</strong> by rapidly switching between them — each process receives CPU time in turn.</p>
+    <div class="grid g2" style="margin-bottom:14px;">
+      <div class="card orange">
+        <div class="card-title">The OS must manage</div>
+        <div class="card-body">
+          <strong>CPU time</strong> — which process runs and for how long<br>
+          <strong>Memory</strong> — each process needs its own space<br>
+          <strong>I/O devices</strong> — shared peripherals must be co-ordinated<br>
+          <strong>Context switching</strong> — saving and restoring process state
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Three HL Challenges</div>
+        <div class="card-body">
+          <strong>Task Scheduling</strong> — deciding execution order and duration<br>
+          <strong>Resource Contention</strong> — multiple processes competing for the same resource<br>
+          <strong>Deadlock</strong> — processes permanently blocked waiting for each other
+        </div>
+      </div>
+    </div>
+    <div class="gold-box">
+      <p><strong>Key idea:</strong> The CPU does not truly run multiple processes at the same instant — it switches so fast that it <em>appears</em> simultaneous. The OS scheduler controls this process.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ S4: TASK SCHEDULING -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A1.3.5 · Task Scheduling</div>
+    <h2>Task <span class="hl-orange">Scheduling</span> &amp; Context Switching</h2>
+    <p class="lead">The OS <strong style="color:var(--orange);">scheduler</strong> decides which process gets CPU time and for how long, aiming to maximise utilisation and responsiveness.</p>
+    <div class="grid g2" style="margin-bottom:14px;">
+      <div class="card orange">
+        <div class="card-title">Scheduling Algorithms (recap)</div>
+        <div class="card-body">
+          <strong>FCFS:</strong> simple but can cause convoy effect<br>
+          <strong>Round Robin:</strong> fair time-slice rotation<br>
+          <strong>Priority:</strong> urgent tasks first; risk of starvation<br>
+          <strong>Multilevel Queue:</strong> separate queues per process type
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Context Switching</div>
+        <div class="card-body">
+          When the CPU switches from one process to another it must:<br>
+          1. <strong>Save</strong> the current process state (registers, PC, memory pointers)<br>
+          2. <strong>Load</strong> the saved state of the next process<br><br>
+          Each switch adds <strong>overhead</strong> — too many switches slow the system down.
+        </div>
+      </div>
+    </div>
+    <div class="red-box">
+      <p><strong>Common mistake:</strong> Don't say context switching "enables multitasking" without noting the overhead it introduces. Excessive context switching reduces overall performance.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ S5: RESOURCE CONTENTION -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A1.3.5 · Resource Contention</div>
+    <h2>Resource Contention &amp; <span class="hl-orange">Mutual Exclusion</span></h2>
+    <p class="lead"><strong style="color:var(--orange);">Resource contention</strong> occurs when multiple processes compete for the same resource (CPU, memory, I/O device) at the same time.</p>
+    <div class="grid g2" style="margin-bottom:14px;">
+      <div class="card orange">
+        <div class="card-title">Mutual Exclusion</div>
+        <div class="card-body">
+          Only <strong>one process</strong> may access a shared resource (called the <em>critical section</em>) at a time.<br><br>
+          Techniques: <strong>Semaphores</strong>, locks, monitors.<br><br>
+          Prevents data corruption when two processes try to write simultaneously.
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Problems from Poor Management</div>
+        <div class="card-body">
+          <strong>Starvation:</strong> a process is repeatedly denied resource access — it never gets CPU time<br><br>
+          <strong>Priority Inversion:</strong> a low-priority process holds a resource that a high-priority process needs, effectively blocking the high-priority task
+        </div>
+      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>Semaphore example:</strong> Two processes need to write to the same log file. A binary semaphore (0 or 1) acts as a lock — Process A sets it to 0 (locks), writes, then sets it back to 1 (releases). Process B waits until it is 1 before writing.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ S6: DEADLOCK DEFINITION -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A1.3.5 · Deadlock</div>
+    <h2><span class="hl-red">Deadlock</span> — Four Conditions</h2>
+    <p class="lead">A <strong style="color:var(--red);">deadlock</strong> occurs when a set of processes are permanently blocked — each is waiting for a resource held by another in the set. All four conditions must hold simultaneously.</p>
+    <div class="grid g2" style="margin-bottom:14px;">
+      <div class="card red">
+        <div class="card-title">1 · Mutual Exclusion</div>
+        <div class="card-body">Resources cannot be shared — only one process can use a resource at a time.</div>
+      </div>
+      <div class="card red">
+        <div class="card-title">2 · Hold and Wait</div>
+        <div class="card-body">A process holds at least one resource while waiting to acquire additional resources held by others.</div>
+      </div>
+      <div class="card red">
+        <div class="card-title">3 · No Pre-emption</div>
+        <div class="card-body">Resources cannot be forcibly taken from a process — they must be released voluntarily.</div>
+      </div>
+      <div class="card red">
+        <div class="card-title">4 · Circular Wait</div>
+        <div class="card-body">Process A waits for B, B waits for C, C waits for A — a cycle of waiting with no exit.</div>
+      </div>
+    </div>
+    <div class="gold-box">
+      <p><strong>Analogy:</strong> Four cars arrive at a four-way stop simultaneously. Each car is waiting for the car on its right to move. Nobody moves — deadlock.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ S7: DEADLOCK HANDLING -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:1120px;margin:0 auto;">
+    <div class="label">// A1.3.5 · Deadlock Handling</div>
+    <h2>Deadlock — <span class="hl-orange">Prevention, Avoidance &amp; Recovery</span></h2>
+    <div class="steps" style="margin-bottom:16px;">
+      <div class="step-row">
+        <div class="step-n" style="color:var(--green);">PREVENT</div>
+        <div class="step-text"><strong>Deadlock Prevention</strong> — design the system so at least one of the four conditions can never hold. Example: require processes to request all resources at once (eliminates "hold and wait").</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--blue);">AVOID</div>
+        <div class="step-text"><strong>Deadlock Avoidance (Banker's Algorithm)</strong> — the OS only grants a resource if doing so keeps the system in a "safe state". If granting would risk deadlock, the process must wait.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--orange);">DETECT</div>
+        <div class="step-text"><strong>Deadlock Detection</strong> — allow deadlocks to occur but periodically check for circular waits using a resource allocation graph. If a cycle is found, take recovery action.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--red);">RECOVER</div>
+        <div class="step-text"><strong>Deadlock Recovery</strong> — once detected, the OS can: terminate one or more deadlocked processes, or pre-empt resources from a process (roll back to a safe checkpoint) to break the cycle.</div>
+      </div>
+    </div>
+    <div class="grid g2">
+      <div class="green-box">
+        <p><strong>Key exam point:</strong> You must know the four necessary conditions for deadlock AND at least two strategies for handling it. Naming the strategy is not enough — explain the mechanism.</p>
+      </div>
+      <div class="red-box">
+        <p><strong>Common mistake:</strong> Don't just say "deadlock is when processes are stuck" — explain specifically that it involves circular resource dependency and why it cannot resolve itself.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ S8: MULTITASKING SUMMARY -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A1.3.5 · Summary</div>
+    <h2>Multitasking &amp; Resource Allocation — <span class="hl-orange">At a Glance</span></h2>
+    <table class="comparison-table" style="margin-bottom:16px;">
+      <thead>
+        <tr><th>Challenge</th><th>What it is</th><th>OS Solution</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Task Scheduling</td><td>Deciding which process runs and when</td><td>Scheduler algorithms (FCFS, RR, Priority, MLQ)</td></tr>
+        <tr><td>Context Switching</td><td>Saving/loading process state on switch</td><td>Minimise switches; PCB (Process Control Block) stores state</td></tr>
+        <tr><td>Resource Contention</td><td>Multiple processes fighting for same resource</td><td>Mutual exclusion, semaphores, locks</td></tr>
+        <tr><td>Starvation</td><td>Low-priority process never gets resource</td><td>Ageing — gradually increase priority over time</td></tr>
+        <tr><td>Priority Inversion</td><td>Low-priority holds resource high-priority needs</td><td>Priority inheritance — temporarily boost lower process</td></tr>
+        <tr><td>Deadlock</td><td>Circular wait; all processes permanently blocked</td><td>Prevention, avoidance, detection &amp; recovery</td></tr>
+      </tbody>
+    </table>
+    <div class="orange-box">
+      <p><strong>Exam tip:</strong> When discussing multitasking, always link scheduling → resource contention → deadlock. They are interconnected. The OS handles all three simultaneously.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ S9: WHAT IS A CONTROL SYSTEM -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A1.3.6 · Control Systems</div>
+    <h2>What is a <span class="hl-blue">Control System?</span></h2>
+    <p class="lead">A <strong style="color:var(--blue);">control system</strong> is a set of components that work together to regulate a process or machine — taking inputs from the environment, processing them, and producing outputs that adjust behaviour.</p>
+    <div class="grid g2" style="margin-bottom:16px;">
+      <div class="card blue">
+        <div class="card-title">Core Concept</div>
+        <div class="card-body">
+          Control systems are used to <strong>automate and regulate</strong> processes without continuous human intervention. They are fundamental in manufacturing, robotics, transport, home automation and environmental monitoring.
+        </div>
+      </div>
+      <div class="card orange">
+        <div class="card-title">Key Components (A1.3.6)</div>
+        <div class="card-body">
+          <strong>Input</strong> — desired condition or target<br>
+          <strong>Process</strong> — the controller deciding what to do<br>
+          <strong>Output</strong> — the physical action taken<br>
+          <strong>Feedback</strong> — monitoring the output and adjusting<br>
+          <strong>Sensors, Actuators, Transducers</strong>
+        </div>
+      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>Why it matters for IB:</strong> A1.3.6 links directly to real-world applications (A1.3.7) and to ethical/societal questions about automation. Expect questions asking you to identify components from a scenario description.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ S10: INPUT PROCESS OUTPUT -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A1.3.6 · Core Model</div>
+    <h2>Input → Process → Output → <span class="hl-orange">Feedback</span></h2>
+    <div class="grid g2" style="margin-bottom:14px;">
+      <div class="card blue">
+        <div class="card-title">Input</div>
+        <div class="card-body">The <strong>desired target</strong> or reference condition. Could be set by a user (e.g. desired temperature = 22°C) or detected from the environment. Serves as the reference point the system aims to achieve.</div>
+      </div>
+      <div class="card orange">
+        <div class="card-title">Process (Controller)</div>
+        <div class="card-body">The <strong>controller compares</strong> the desired input with the current state (from feedback) and computes the necessary action to minimise the difference (error) between them.</div>
+      </div>
+      <div class="card green">
+        <div class="card-title">Output</div>
+        <div class="card-body">The <strong>physical result</strong> produced — e.g. the heater switches on, the motor speed changes, a valve opens. The output is what we can observe and measure.</div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">Feedback</div>
+        <div class="card-body">Sensors measure the <strong>actual output</strong> and send this data back to the controller. The controller adjusts its actions based on this real-time information — keeping the system on target.</div>
+      </div>
+    </div>
+    <div class="gold-box">
+      <p><strong>Key insight:</strong> Without feedback, the system is "blind" — it cannot correct errors. Feedback is what makes a control system <em>adaptive</em>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ S11: OPEN vs CLOSED LOOP -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A1.3.6 · Feedback Mechanism</div>
+    <h2>Open-Loop vs <span class="hl-blue">Closed-Loop</span> Control</h2>
+    <div class="grid g2" style="gap:14px;margin-bottom:16px;">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;">Open-Loop System</div>
+        <div style="display:flex;align-items:center;gap:0;margin-bottom:12px;flex-wrap:wrap;">
+          <div class="loop-node" style="border-color:var(--orange);color:var(--orange);">Input<br><span style="font-size:9px;color:var(--text3);">Set point</span></div>
+          <div class="loop-arrow">→</div>
+          <div class="loop-node">Controller</div>
+          <div class="loop-arrow">→</div>
+          <div class="loop-node">System</div>
+          <div class="loop-arrow">→</div>
+          <div class="loop-node" style="border-color:var(--green);color:var(--green);">Output</div>
+        </div>
+        <div class="card orange">
+          <div class="card-title">Open-Loop — No Feedback</div>
+          <div class="card-body">
+            The system acts on the initial input only — <strong>no correction</strong> based on actual output. Simple, predictable, cheap.<br><br>
+            <strong>Example:</strong> A basic timer (toaster, microwave on a fixed setting) — it runs for a set time regardless of actual result.<br><br>
+            <strong>Limitation:</strong> Cannot compensate for disturbances or errors.
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;">Closed-Loop System</div>
+        <div style="display:flex;align-items:center;gap:0;margin-bottom:12px;flex-wrap:wrap;">
+          <div class="loop-node" style="border-color:var(--blue);color:var(--blue);">Input<br><span style="font-size:9px;color:var(--text3);">Set point</span></div>
+          <div class="loop-arrow">→</div>
+          <div class="loop-node">Controller</div>
+          <div class="loop-arrow">→</div>
+          <div class="loop-node">System</div>
+          <div class="loop-arrow">→</div>
+          <div class="loop-node" style="border-color:var(--green);color:var(--green);">Output</div>
+        </div>
+        <div style="text-align:center;font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--text3);margin-bottom:4px;">↑ Sensor feedback loop ↑</div>
+        <div class="card blue">
+          <div class="card-title">Closed-Loop — With Feedback</div>
+          <div class="card-body">
+            Sensors continuously monitor the output and feed data back to the controller, which <strong>adjusts actions in real time</strong>.<br><br>
+            <strong>Example:</strong> Home thermostat — temperature sensor monitors room, controller adjusts heating/cooling.<br><br>
+            <strong>Advantage:</strong> Accurate, adaptive, self-correcting.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ S12: KEY COMPONENTS -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:1120px;margin:0 auto;">
+    <div class="label">// A1.3.6 · Components</div>
+    <h2>Key Components of a <span class="hl-blue">Control System</span></h2>
+    <div class="steps" style="margin-bottom:16px;">
+      <div class="step-row">
+        <div class="step-n" style="color:var(--orange);">Controller</div>
+        <div class="step-text">The <strong>"brain"</strong> of the system. Processes input and feedback; computes the required output action using the control algorithm. Compares <em>desired value</em> (set point) with <em>actual value</em> (from sensors) and sends correction commands to actuators. Examples: thermostat circuit, microprocessor, PLC (Programmable Logic Controller).</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--blue);">Sensors</div>
+        <div class="step-text">The <strong>"eyes and ears"</strong>. Devices that detect and measure physical quantities — temperature, pressure, speed, light, motion — and convert them into electrical signals for the controller. Examples: thermistor, pressure sensor, IR sensor, camera, LiDAR.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--green);">Actuators</div>
+        <div class="step-text">The <strong>"muscles"</strong>. Convert the controller's commands into physical actions — mechanical motion, opening a valve, turning a motor, activating a heating element. Examples: electric motor, solenoid valve, servo, relay, speaker.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--purple);">Transducers</div>
+        <div class="step-text">Devices that <strong>convert one form of energy to another</strong>, bridging sensors/actuators and the controller. A microphone converts sound → electrical signal. A speaker converts electrical → sound. A pressure transducer converts mechanical pressure → voltage the controller can read.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--gold);">Control Algorithm</div>
+        <div class="step-text">The <strong>logic</strong> (set of mathematical rules) that determines the correct output from the input and feedback. Ranges from simple proportional control ("adjust in proportion to the error") to advanced PID control (Proportional-Integral-Derivative, which considers past, present and future error).</div>
+      </div>
+    </div>
+    <div class="red-box">
+      <p><strong>Common mistake:</strong> Don't oversimplify. Sensors and actuators have distinct roles. A sensor <em>detects</em>, a transducer <em>converts</em>, an actuator <em>acts</em>. In exams, identify which component does which job from the scenario.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ S13: CONTROL SYSTEM DIAGRAM -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A1.3.6 · System Overview</div>
+    <h2>Control System — <span class="hl-orange">Full Picture</span></h2>
+    <div style="background:var(--surface);border:1px solid var(--border2);padding:30px;margin-bottom:16px;">
+      <div style="display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap;gap:2px;">
+        <div style="text-align:center;padding:14px 18px;border:2px solid var(--orange);min-width:110px;">
+          <div style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Input</div>
+          <div style="font-family:'DM Mono',monospace;font-size:0.88rem;color:var(--orange);">Set Point</div>
+          <div style="font-size:0.75rem;color:var(--text3);margin-top:4px;">desired value</div>
+        </div>
+        <div style="font-family:'DM Mono',monospace;color:var(--text3);padding:0 8px;font-size:1.2rem;">→</div>
+        <div style="text-align:center;padding:14px 18px;border:2px solid var(--blue);min-width:120px;">
+          <div style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Controller</div>
+          <div style="font-family:'DM Mono',monospace;font-size:0.88rem;color:var(--blue);">Algorithm</div>
+          <div style="font-size:0.75rem;color:var(--text3);margin-top:4px;">compare &amp; decide</div>
+        </div>
+        <div style="font-family:'DM Mono',monospace;color:var(--text3);padding:0 8px;font-size:1.2rem;">→</div>
+        <div style="text-align:center;padding:14px 18px;border:2px solid var(--purple);min-width:120px;">
+          <div style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Actuator</div>
+          <div style="font-family:'DM Mono',monospace;font-size:0.88rem;color:var(--purple);">Physical Act</div>
+          <div style="font-size:0.75rem;color:var(--text3);margin-top:4px;">motor, valve, heat</div>
+        </div>
+        <div style="font-family:'DM Mono',monospace;color:var(--text3);padding:0 8px;font-size:1.2rem;">→</div>
+        <div style="text-align:center;padding:14px 18px;border:2px solid var(--green);min-width:110px;">
+          <div style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Output</div>
+          <div style="font-family:'DM Mono',monospace;font-size:0.88rem;color:var(--green);">Result</div>
+          <div style="font-size:0.75rem;color:var(--text3);margin-top:4px;">actual state</div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:6px;">
+        <div style="font-family:'DM Mono',monospace;font-size:0.8rem;color:var(--text3);">↑&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑</div>
+      </div>
+      <div style="display:flex;justify-content:center;margin-top:2px;">
+        <div style="border:1px dashed var(--border2);padding:10px 20px;font-family:'DM Mono',monospace;font-size:0.8rem;color:var(--teal);display:flex;align-items:center;gap:12px;">
+          <span>← Feedback Loop (closed-loop only)</span>
+          <div style="border:1px solid var(--teal);padding:6px 12px;font-size:0.78rem;color:var(--text2);">Sensor monitors output</div>
+          <span style="color:var(--text3);">→ signals controller</span>
+        </div>
+      </div>
+    </div>
+    <div class="grid g3">
+      <div class="card orange"><div class="card-title">Transducer role</div><div class="card-body" style="font-size:0.85rem;">Converts energy between forms so sensors and actuators can communicate with the controller</div></div>
+      <div class="card blue"><div class="card-title">Open-loop</div><div class="card-body" style="font-size:0.85rem;">No feedback path — simple but cannot self-correct</div></div>
+      <div class="card green"><div class="card-title">Closed-loop</div><div class="card-body" style="font-size:0.85rem;">Feedback path active — controller continuously adjusts</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ S14: REAL-WORLD INTRO -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A1.3.7 · Real-World Applications</div>
+    <h2>Control Systems in the <span class="hl-green">Real World</span></h2>
+    <p class="lead">Nearly every automated device around us contains a control system. The IB expects you to identify components and explain how feedback maintains the desired state.</p>
+    <div class="grid g4" style="margin-bottom:16px;">
+      <div class="card green">
+        <div class="card-title">🌡️ Thermostat</div>
+        <div class="card-body" style="font-size:0.85rem;">Closed-loop temperature regulation</div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">🚗 Autonomous Car</div>
+        <div class="card-body" style="font-size:0.85rem;">Multi-sensor navigation &amp; real-time decisions</div>
+      </div>
+      <div class="card orange">
+        <div class="card-title">🛗 Elevator</div>
+        <div class="card-body" style="font-size:0.85rem;">Floor position sensors &amp; motor actuators</div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">🚦 Traffic Lights</div>
+        <div class="card-body" style="font-size:0.85rem;">Adaptive signal timing from vehicle sensors</div>
+      </div>
+    </div>
+    <div class="grid g4">
+      <div class="card teal">
+        <div class="card-title">👕 Washing Machine</div>
+        <div class="card-body" style="font-size:0.85rem;">Water level &amp; load sensors, motor control</div>
+      </div>
+      <div class="card gold">
+        <div class="card-title">💧 Irrigation</div>
+        <div class="card-body" style="font-size:0.85rem;">Soil moisture sensors, valve actuators</div>
+      </div>
+      <div class="card red">
+        <div class="card-title">🔒 Home Security</div>
+        <div class="card-body" style="font-size:0.85rem;">Motion/door sensors, alarm actuators</div>
+      </div>
+      <div class="card orange">
+        <div class="card-title">🚪 Auto Doors</div>
+        <div class="card-body" style="font-size:0.85rem;">IR/pressure sensor triggers door motor</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ S15: THERMOSTAT -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A1.3.7 · Example 1</div>
+    <h2>Home <span class="hl-green">Thermostat</span></h2>
+    <div class="grid g2" style="margin-bottom:14px;">
+      <div>
+        <div class="steps">
+          <div class="step-row"><div class="step-n" style="color:var(--orange);min-width:90px;">Input</div><div class="step-text">User sets desired temperature (e.g. 22°C)</div></div>
+          <div class="step-row"><div class="step-n" style="color:var(--blue);min-width:90px;">Sensor</div><div class="step-text">Thermistor continuously monitors room temperature</div></div>
+          <div class="step-row"><div class="step-n" style="color:var(--purple);min-width:90px;">Controller</div><div class="step-text">Compares actual vs desired; determines whether to heat or cool</div></div>
+          <div class="step-row"><div class="step-n" style="color:var(--green);min-width:90px;">Actuator</div><div class="step-text">Switches boiler/AC unit on or off</div></div>
+          <div class="step-row"><div class="step-n" style="color:var(--teal);min-width:90px;">Feedback</div><div class="step-text">Temperature sensor feeds updated reading back — controller adjusts continuously</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="card green">
+          <div class="card-title">System Type</div>
+          <div class="card-body">
+            <strong>Closed-loop</strong> — feedback is essential. Without it, the boiler would keep running regardless of actual temperature.<br><br>
+            <strong>Control algorithm:</strong> Simple ON/OFF (bang-bang) — if temp &lt; set point, turn on heat. If temp ≥ set point, turn off.
+          </div>
+        </div>
+        <div class="info-box" style="margin-top:10px;">
+          <p><strong>Transducer note:</strong> The thermistor converts temperature (physical quantity) → electrical resistance → voltage signal that the controller can read. This is a transducer function.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ S16: AUTONOMOUS VEHICLE -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A1.3.7 · Example 2</div>
+    <h2>Autonomous <span class="hl-blue">Vehicles</span></h2>
+    <p class="lead">Self-driving cars integrate <strong style="color:var(--blue);">multiple sensor types</strong>, an AI-powered controller and multiple actuators — one of the most complex real-world control systems.</p>
+    <div class="grid g3" style="margin-bottom:14px;">
+      <div class="card blue">
+        <div class="card-title">Sensors (Input)</div>
+        <div class="card-body">Cameras, LiDAR, radar, GPS, ultrasonic sensors — detect obstacles, road markings, traffic signals, speed, position</div>
+      </div>
+      <div class="card orange">
+        <div class="card-title">Controller (Process)</div>
+        <div class="card-body">AI algorithms process sensor data in real time to decide speed, steering direction, braking force</div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">Actuators (Output)</div>
+        <div class="card-body">Steering system, acceleration (throttle), braking — execute the controller's commands physically</div>
+      </div>
+    </div>
+    <div class="grid g2">
+      <div class="green-box">
+        <p><strong>Feedback:</strong> Sensors continuously re-scan the environment, feeding updated data to the controller — the vehicle adapts to sudden obstacles, lane changes, pedestrians in real time.</p>
+      </div>
+      <div class="info-box">
+        <p><strong>Transducers:</strong> LiDAR converts laser pulses → distance measurements; cameras convert light → digital images. Both are transducers bridging physical world and digital controller.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ S17: WASHING MACHINE + TRAFFIC LIGHTS -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:1120px;margin:0 auto;">
+    <div class="label">// A1.3.7 · Examples 3 &amp; 4</div>
+    <h2>Washing Machine &amp; <span class="hl-orange">Traffic Signals</span></h2>
+    <div class="grid g2" style="margin-bottom:14px;">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;">👕 Automatic Washing Machine</div>
+        <div class="steps">
+          <div class="step-row"><div class="step-n" style="color:var(--orange);min-width:80px;font-size:0.78rem;">Sensors</div><div class="step-text" style="font-size:0.9rem;">Water level sensor, load-size sensor, cycle-progress sensor</div></div>
+          <div class="step-row"><div class="step-n" style="color:var(--blue);min-width:80px;font-size:0.78rem;">Controller</div><div class="step-text" style="font-size:0.9rem;">Determines fill amount, wash duration, spin speed based on load</div></div>
+          <div class="step-row"><div class="step-n" style="color:var(--green);min-width:80px;font-size:0.78rem;">Actuators</div><div class="step-text" style="font-size:0.9rem;">Water valve, drum motor, drain pump, heating element</div></div>
+          <div class="step-row"><div class="step-n" style="color:var(--teal);min-width:80px;font-size:0.78rem;">Feedback</div><div class="step-text" style="font-size:0.9rem;">Water level sensor stops fill when target reached; load sensor adjusts spin cycle intensity</div></div>
+        </div>
+        <div class="green-box" style="margin-top:10px;">
+          <p><strong>System type:</strong> <strong>Closed-loop</strong> — feedback ensures the correct water level and spin speed for each load.</p>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;">🚦 Traffic Signal Control</div>
+        <div class="steps">
+          <div class="step-row"><div class="step-n" style="color:var(--orange);min-width:80px;font-size:0.78rem;">Sensors</div><div class="step-text" style="font-size:0.9rem;">Inductive loop sensors / cameras detect vehicle presence and count; pedestrian push buttons</div></div>
+          <div class="step-row"><div class="step-n" style="color:var(--blue);min-width:80px;font-size:0.78rem;">Controller</div><div class="step-text" style="font-size:0.9rem;">Determines optimal timing and sequence — extends green for congested lanes, triggers pedestrian crossing</div></div>
+          <div class="step-row"><div class="step-n" style="color:var(--green);min-width:80px;font-size:0.78rem;">Actuators</div><div class="step-text" style="font-size:0.9rem;">Traffic lights (LED arrays) — red, amber, green for each direction</div></div>
+          <div class="step-row"><div class="step-n" style="color:var(--teal);min-width:80px;font-size:0.78rem;">Feedback</div><div class="step-text" style="font-size:0.9rem;">Real-time vehicle counts feed back to controller — adapts signal timing dynamically to reduce congestion</div></div>
+        </div>
+        <div class="orange-box" style="margin-top:10px;">
+          <p><strong>System type:</strong> <strong>Closed-loop</strong> — without feedback, lights would use fixed timing regardless of actual traffic flow.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ S18: IRRIGATION + SECURITY + DOORS -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:1120px;margin:0 auto;">
+    <div class="label">// A1.3.7 · Examples 5, 6 &amp; 7</div>
+    <h2>Irrigation, Security &amp; <span class="hl-teal">Automatic Doors</span></h2>
+    <div class="grid g3" style="margin-bottom:14px;">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;">💧 Irrigation System</div>
+        <div class="steps">
+          <div class="step-row" style="padding:10px 14px;"><div class="step-n" style="color:var(--orange);min-width:60px;font-size:0.7rem;">Input</div><div class="step-text" style="font-size:0.82rem;">Desired soil moisture level</div></div>
+          <div class="step-row" style="padding:10px 14px;"><div class="step-n" style="color:var(--blue);min-width:60px;font-size:0.7rem;">Sensor</div><div class="step-text" style="font-size:0.82rem;">Soil moisture probe, weather station, time-of-day</div></div>
+          <div class="step-row" style="padding:10px 14px;"><div class="step-n" style="color:var(--purple);min-width:60px;font-size:0.7rem;">Control</div><div class="step-text" style="font-size:0.82rem;">Decides when and how long to irrigate</div></div>
+          <div class="step-row" style="padding:10px 14px;"><div class="step-n" style="color:var(--green);min-width:60px;font-size:0.7rem;">Actuator</div><div class="step-text" style="font-size:0.82rem;">Solenoid valves open/close to control water flow</div></div>
+        </div>
+        <div class="green-box" style="margin-top:8px;">
+          <p style="font-size:0.85rem;"><strong>Feedback:</strong> Moisture sensor shuts off water once target level reached — conserves water.</p>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--red);margin-bottom:10px;">🔒 Home Security System</div>
+        <div class="steps">
+          <div class="step-row" style="padding:10px 14px;"><div class="step-n" style="color:var(--orange);min-width:60px;font-size:0.7rem;">Input</div><div class="step-text" style="font-size:0.82rem;">Armed/disarmed state set by user</div></div>
+          <div class="step-row" style="padding:10px 14px;"><div class="step-n" style="color:var(--blue);min-width:60px;font-size:0.7rem;">Sensors</div><div class="step-text" style="font-size:0.82rem;">Door/window contacts, PIR motion detectors, cameras</div></div>
+          <div class="step-row" style="padding:10px 14px;"><div class="step-n" style="color:var(--purple);min-width:60px;font-size:0.7rem;">Control</div><div class="step-text" style="font-size:0.82rem;">Determines if breach detected → trigger alarm</div></div>
+          <div class="step-row" style="padding:10px 14px;"><div class="step-n" style="color:var(--green);min-width:60px;font-size:0.7rem;">Actuator</div><div class="step-text" style="font-size:0.82rem;">Siren, strobe light, alert to phone/monitoring centre</div></div>
+        </div>
+        <div class="red-box" style="margin-top:8px;">
+          <p style="font-size:0.85rem;"><strong>Feedback:</strong> Sensor state continuously monitored — controller responds to any change in real time.</p>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;">🚪 Automatic Doors</div>
+        <div class="steps">
+          <div class="step-row" style="padding:10px 14px;"><div class="step-n" style="color:var(--orange);min-width:60px;font-size:0.7rem;">Input</div><div class="step-text" style="font-size:0.82rem;">Presence of a person near the door</div></div>
+          <div class="step-row" style="padding:10px 14px;"><div class="step-n" style="color:var(--blue);min-width:60px;font-size:0.7rem;">Sensors</div><div class="step-text" style="font-size:0.82rem;">IR motion detectors, pressure mats under floor</div></div>
+          <div class="step-row" style="padding:10px 14px;"><div class="step-n" style="color:var(--purple);min-width:60px;font-size:0.7rem;">Control</div><div class="step-text" style="font-size:0.82rem;">Decides to open or close based on sensor state</div></div>
+          <div class="step-row" style="padding:10px 14px;"><div class="step-n" style="color:var(--green);min-width:60px;font-size:0.7rem;">Actuator</div><div class="step-text" style="font-size:0.82rem;">Electric motor slides/swings door open or closed</div></div>
+        </div>
+        <div class="info-box" style="margin-top:8px;">
+          <p style="font-size:0.85rem;"><strong>Feedback:</strong> Sensor re-checks — door stays open while person present; closes after absence is confirmed.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ S19: COMPONENT COMPARISON TABLE -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:1120px;margin:0 auto;">
+    <div class="label">// A1.3.7 · Comparison</div>
+    <h2>Across All Applications — <span class="hl-orange">Component Comparison</span></h2>
+    <table class="comparison-table" style="margin-bottom:16px;">
+      <thead>
+        <tr><th>Application</th><th>Sensor(s)</th><th>Controller</th><th>Actuator(s)</th><th>Loop Type</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Thermostat</td><td>Thermistor</td><td>Thermostat circuit</td><td>Boiler / AC unit</td><td style="color:var(--green);">Closed</td></tr>
+        <tr><td>Autonomous Car</td><td>LiDAR, cameras, radar, GPS</td><td>AI processing unit</td><td>Steering, throttle, brakes</td><td style="color:var(--green);">Closed</td></tr>
+        <tr><td>Elevator</td><td>Floor-position sensors, door sensors</td><td>PLC / microcontroller</td><td>Motor, door motor</td><td style="color:var(--green);">Closed</td></tr>
+        <tr><td>Washing Machine</td><td>Water-level sensor, load sensor</td><td>Embedded controller</td><td>Valve, drum motor, pump</td><td style="color:var(--green);">Closed</td></tr>
+        <tr><td>Traffic Lights</td><td>Inductive loop, cameras</td><td>Traffic management system</td><td>LED signal arrays</td><td style="color:var(--green);">Closed</td></tr>
+        <tr><td>Irrigation</td><td>Soil moisture sensor</td><td>Irrigation controller</td><td>Solenoid valves</td><td style="color:var(--green);">Closed</td></tr>
+        <tr><td>Home Security</td><td>PIR, door contacts, cameras</td><td>Security control panel</td><td>Siren, strobe, alerts</td><td style="color:var(--green);">Closed</td></tr>
+        <tr><td>Automatic Doors</td><td>IR motion / pressure mat</td><td>Door controller</td><td>Electric motor</td><td style="color:var(--green);">Closed</td></tr>
+        <tr><td>Basic Timer / Toaster</td><td>(none)</td><td>Timer circuit</td><td>Heating element</td><td style="color:var(--orange);">Open</td></tr>
+      </tbody>
+    </table>
+    <div class="orange-box">
+      <p><strong>Pattern:</strong> Almost all sophisticated real-world control systems are <strong>closed-loop</strong> — they need feedback to respond to changing conditions. Open-loop systems are only used for simple, predictable tasks where accuracy is not critical.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ S20: EXAM STRATEGY -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Exam Guidance</div>
+    <h2>Answering A1.3 HL <span class="hl-orange">Exam Questions</span></h2>
+    <div class="grid g2" style="margin-bottom:14px;">
+      <div class="card orange">
+        <div class="card-title">For Multitasking / Deadlock Questions</div>
+        <div class="card-body">
+          ✓ Name the challenge (resource contention, deadlock, priority inversion)<br>
+          ✓ Define it precisely (e.g. deadlock = circular wait where each process holds a resource the next needs)<br>
+          ✓ Name the OS mechanism used to handle it (semaphore, prevention strategy, etc.)<br>
+          ✓ Give a brief concrete example
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">For Control System Questions</div>
+        <div class="card-body">
+          ✓ Identify all components present in the scenario<br>
+          ✓ Correctly label sensor vs actuator vs transducer<br>
+          ✓ State whether open or closed loop and explain why<br>
+          ✓ Describe the feedback loop: what is measured? what is adjusted?<br>
+          ✓ Name what the controller decides
+        </div>
+      </div>
+    </div>
+    <div class="red-box">
+      <p><strong>Common mistake:</strong> Confusing <em>transducer</em> with <em>sensor</em>. A transducer converts energy form; a sensor <em>detects</em> a physical quantity. Many sensors include transducer functionality — but the transducer specifically handles the energy conversion step.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ S21: PRACTICE QUESTIONS -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:1120px;margin:0 auto;">
+    <div class="label">// Practice</div>
+    <h2>Practice <span class="hl-orange">Questions</span></h2>
+    <div class="steps" style="margin-bottom:14px;">
+      <div class="step-row"><div class="step-n" style="min-width:36px;">1</div><div class="step-text">Explain what is meant by <strong>deadlock</strong> in a multitasking operating system. State all four conditions that must be present simultaneously. <span style="color:var(--text3);">[4 marks]</span></div></div>
+      <div class="step-row"><div class="step-n" style="min-width:36px;">2</div><div class="step-text">Describe two strategies an OS can use to handle deadlock. For each, explain how it works. <span style="color:var(--text3);">[4 marks]</span></div></div>
+      <div class="step-row"><div class="step-n" style="min-width:36px;">3</div><div class="step-text">Explain the difference between <strong>resource starvation</strong> and <strong>priority inversion</strong>. How does the OS address each? <span style="color:var(--text3);">[4 marks]</span></div></div>
+      <div class="step-row"><div class="step-n" style="min-width:36px;">4</div><div class="step-text">Distinguish between an <strong>open-loop</strong> and a <strong>closed-loop</strong> control system. Give one example of each. <span style="color:var(--text3);">[4 marks]</span></div></div>
+      <div class="step-row"><div class="step-n" style="min-width:36px;">5</div><div class="step-text">For a home thermostat: identify the sensor, controller, actuator and transducer. Explain how the closed-loop feedback mechanism operates. <span style="color:var(--text3);">[5 marks]</span></div></div>
+      <div class="step-row"><div class="step-n" style="min-width:36px;">6</div><div class="step-text">A smart irrigation system monitors soil moisture and controls water valves. Describe the roles of each control system component in this scenario. <span style="color:var(--text3);">[5 marks]</span></div></div>
+      <div class="step-row"><div class="step-n" style="min-width:36px;">7</div><div class="step-text">Explain how an autonomous vehicle uses sensors, controllers and actuators to navigate safely. Include reference to the feedback mechanism used. <span style="color:var(--text3);">[6 marks]</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ S22: SUMMARY -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Summary · A1.3.5–A1.3.7</div>
+    <h2>What We <span class="hl-orange">Covered</span></h2>
+    <div class="grid g3" style="margin-bottom:16px;">
+      <div class="card orange">
+        <div class="card-title">A1.3.5 · Multitasking (HL)</div>
+        <div class="card-body">
+          <strong>Task scheduling</strong> — OS decides execution order<br>
+          <strong>Context switching</strong> — saves/loads process state<br>
+          <strong>Resource contention</strong> — mutual exclusion, semaphores<br>
+          <strong>Deadlock</strong> — 4 conditions; prevention / avoidance / detection / recovery<br>
+          <strong>Starvation &amp; priority inversion</strong> — handled by ageing and priority inheritance
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">A1.3.6 · Control Systems (HL)</div>
+        <div class="card-body">
+          <strong>Input → Process → Output → Feedback</strong><br>
+          <strong>Open-loop</strong>: no feedback, simple, less accurate<br>
+          <strong>Closed-loop</strong>: feedback loop, self-correcting, adaptive<br>
+          <strong>Sensor</strong>: detects physical quantity<br>
+          <strong>Actuator</strong>: physical action<br>
+          <strong>Transducer</strong>: energy conversion<br>
+          <strong>Control algorithm</strong>: decision logic
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">A1.3.7 · Applications (HL)</div>
+        <div class="card-body">
+          All major applications use <strong>closed-loop</strong> feedback.<br>
+          For each: identify sensor → controller → actuator → feedback.<br><br>
+          <strong>Thermostat · Autonomous car · Elevator · Washing machine · Traffic lights · Irrigation · Security · Auto doors</strong>
+        </div>
+      </div>
+    </div>
+    <div class="orange-box">
+      <p><strong>Exam tip:</strong> For any control system scenario, immediately ask: What is the <em>sensor</em>? What does the <em>controller</em> decide? What does the <em>actuator</em> do? Is there <em>feedback</em>? If yes → closed-loop. Structuring your answer this way earns full marks.</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<nav class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="navigate(-1)" disabled>← Prev</button>
+  <div class="nav-dots" id="dots"></div>
+  <div class="nav-sep"></div>
+  <button class="nav-btn" id="nextBtn" onclick="navigate(1)">Next →</button>
+</nav>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let current = 0;
+
+const dotsEl = document.getElementById('dots');
+const progress = document.getElementById('progress');
+const slideNum = document.getElementById('slideNum');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+// Build dots
+slides.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+});
+
+function goTo(n) {
+  slides[current].classList.remove('active');
+  slides[current].classList.add('exit');
+  setTimeout(() => slides[current < n ? current : n + 1]?.classList.remove('exit'), 400);
+  // reset exit class
+  const old = current;
+  setTimeout(() => slides[old].classList.remove('exit'), 400);
+  current = n;
+  slides[current].classList.add('active');
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+  progress.style.width = ((current + 1) / total * 100) + '%';
+  slideNum.textContent = String(current + 1).padStart(2,'0') + ' / ' + String(total).padStart(2,'0');
+  prevBtn.disabled = current === 0;
+  nextBtn.disabled = current === total - 1;
+}
+
+function navigate(dir) {
+  const n = current + dir;
+  if (n >= 0 && n < total) goTo(n);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') navigate(-1);
+});
+
+// init progress
+progress.style.width = (1 / total * 100) + '%';
+</script>
+</body>
+</html>

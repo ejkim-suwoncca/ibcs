@@ -1,0 +1,511 @@
+================================================================================
+B2 PROGRAMMING FUNDAMENTALS  |  FINAL ASSESSMENT
+IB Computer Science SL
+================================================================================
+Name: _________________________________________  Date: ________________________
+Class: ________________________________________  Total: ______ / 50
+
+Instructions:
+  · Answer ALL questions in both sections.
+  · Write clearly. Crossed-out work will not be marked.
+  · For pseudocode questions, use the IB pseudocode conventions shown below.
+  · For flowchart questions, label every shape and every decision branch.
+  · Time allowed: 75 minutes.
+
+IB Pseudocode Reference:
+    variable ← value           Assignment
+    INPUT variable             Read input from user
+    OUTPUT value               Display output
+    IF condition THEN          Start of selection
+        ...
+    ELSE IF condition THEN
+        ...
+    ELSE
+        ...
+    END IF
+    FOR i FROM 1 TO n DO       Counted loop (runs n times)
+        ...
+    END FOR
+    WHILE condition DO         Conditional loop
+        ...
+    END WHILE
+
+Flowchart Symbol Reference:
+    Oval           — START / END (terminator)
+    Parallelogram  — INPUT / OUTPUT
+    Rectangle      — PROCESS (assignment or calculation)
+    Diamond        — DECISION (yes/no condition)
+    Arrow          — Flowline showing direction
+================================================================================
+
+
+================================================================================
+SECTION A  —  COMPUTATIONAL THINKING                            [ 15 marks ]
+================================================================================
+
+
+────────────────────────────────────────────────────────────────────────────────
+QUESTION A1  —  DECOMPOSITION                                   [ 4 marks ]
+────────────────────────────────────────────────────────────────────────────────
+
+Read the scenario carefully.
+
+SCENARIO:
+    A student uses a food delivery app (like Baemin or Coupang Eats) to order
+    fried chicken to their home. A program runs behind the app to process the
+    order from start to finish.
+
+(a) Write 6 to 8 numbered steps in plain English that describe what the
+    program must do — from opening the app to confirming the order.     [3 marks]
+
+    Step 1: ___________________________________________________________________
+
+    Step 2: ___________________________________________________________________
+
+    Step 3: ___________________________________________________________________
+
+    Step 4: ___________________________________________________________________
+
+    Step 5: ___________________________________________________________________
+
+    Step 6: ___________________________________________________________________
+
+    Step 7: ___________________________________________________________________
+
+    Step 8: ___________________________________________________________________
+
+(b) Choose ONE step from your list that involves a decision (a yes/no
+    condition). State the step number and describe both possible outcomes
+    clearly.                                                            [1 mark]
+
+    Step number: ______
+
+    YES outcome: ______________________________________________________________
+
+    NO outcome: _______________________________________________________________
+
+
+────────────────────────────────────────────────────────────────────────────────
+QUESTION A2  —  DRAW A FLOWCHART                                [ 6 marks ]
+────────────────────────────────────────────────────────────────────────────────
+
+Read the specification below and draw a complete flowchart in the space
+provided.
+
+SPECIFICATION:
+    A gym membership check-in system works as follows:
+      · The system reads the member's card ID.
+      · It checks whether the card ID is valid (on the system).
+      · If the card is NOT valid, it outputs "Invalid card" and ends.
+      · If the card IS valid, it then checks whether the membership
+        is currently active (not expired).
+      · If the membership has expired, it outputs "Membership expired
+        — please renew" and ends.
+      · If the membership is active, it outputs "Welcome!" and ends.
+
+Your flowchart MUST include:
+  · START and END terminators                                          [1]
+  · At least two input or output parallelograms                        [1]
+  · Both decision diamonds with YES and NO branches clearly labelled   [2]
+  · All three output messages                                          [1]
+  · Correct arrows showing direction of flow                           [1]
+
+    FLOWCHART SPACE — draw below this line:
+
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+    │
+
+
+────────────────────────────────────────────────────────────────────────────────
+QUESTION A3  —  TRACE TABLE                                     [ 5 marks ]
+────────────────────────────────────────────────────────────────────────────────
+
+Study the program below.
+
+    scores = [88, 45, 72, 91, 56]
+    highest = 0
+    i = 0
+
+    while i < len(scores):
+        if scores[i] > highest:
+            highest = scores[i]
+        i = i + 1
+
+    print(highest)
+
+(a) Complete the trace table below. Write the value AFTER each statement
+    executes. For the condition column, write T (True) or F (False).   [3 marks]
+
+    i  | scores[i] | scores[i] > highest ? | highest | i (after +1)
+    ────────────────────────────────────────────────────────────────
+    0  |           |                        |         |
+    1  |           |                        |         |
+    2  |           |                        |         |
+    3  |           |                        |         |
+    4  |           |                        |         |
+    (loop exits — i = 5, condition is F)
+       |           |                        |         | print( _______ )
+
+(b) In one sentence, describe what this program calculates.            [1 mark]
+
+    ________________________________________________________________________
+
+(c) What would  print  output if  scores = [45, 32, 18] ?              [1 mark]
+
+    Output: ______
+
+
+================================================================================
+SECTION B  —  PROGRAMMING                                       [ 35 marks ]
+================================================================================
+
+
+────────────────────────────────────────────────────────────────────────────────
+QUESTION B1  —  PREDICT THE OUTPUT                              [ 6 marks ]
+────────────────────────────────────────────────────────────────────────────────
+
+Write exactly what gets printed for each program.
+If there is an error, write ERROR and give a one-sentence explanation.
+
+─────────────────────────────────
+Program A                                                              [2 marks]
+
+    for i in range(1, 6):
+        if i % 2 != 0:
+            print(i, "odd")
+
+    Output (list every printed line in order):
+
+    Line 1: ___________________________________________________________________
+
+    Line 2: ___________________________________________________________________
+
+    Line 3: ___________________________________________________________________
+
+─────────────────────────────────
+Program B                                                              [2 marks]
+
+    message = "Hello"
+    result = ""
+    for ch in message:
+        result = ch + result
+    print(result)
+
+    Output: ___________________________________________________________________
+
+    Explain in one sentence what the loop does to the string:
+
+    ________________________________________________________________________
+
+─────────────────────────────────
+Program C                                                              [2 marks]
+
+    x = 10
+    while x > 0:
+        x = x - 3
+        print(x)
+
+    Output (list every printed line in order):
+
+    _______   _______   _______   _______
+
+
+────────────────────────────────────────────────────────────────────────────────
+QUESTION B2  —  DEBUGGING                                       [ 9 marks ]
+────────────────────────────────────────────────────────────────────────────────
+
+Each program below has exactly one bug.
+For each: (i) name the bug type, (ii) explain what goes wrong, (iii) write
+the corrected line(s).
+
+─────────────────────────────────
+Bug 1                                                                  [3 marks]
+
+    temperature = float(input("Enter temperature: "))
+
+    if temperature < 37.5:
+        print("Fever detected.")
+    else:
+        print("Normal temperature.")
+
+    (i)  Bug type (circle one):   logic error  /  type error  /  sequence error
+
+    (ii) What goes wrong? (one sentence)
+
+         _____________________________________________________________________
+
+    (iii) Write the corrected line:
+
+         _____________________________________________________________________
+
+─────────────────────────────────
+Bug 2                                                                  [3 marks]
+
+    username = "ibcs_student"
+    password = "1234"
+
+    entered_user = input("Username: ")
+    entered_pass = input("Password: ")
+
+    if entered_user = username and entered_pass = password:
+        print("Login successful.")
+    else:
+        print("Incorrect credentials.")
+
+    (i)  Bug type (circle one):   logic error  /  type error  /  syntax error
+
+    (ii) What goes wrong? (one sentence)
+
+         _____________________________________________________________________
+
+    (iii) Write the corrected line:
+
+         _____________________________________________________________________
+
+─────────────────────────────────
+Bug 3                                                                  [3 marks]
+
+    total = 0
+    count = 1
+
+    while count <= 5:
+        total = total + count
+
+    print("Total:", total)
+
+    (i)  Bug type (circle one):   infinite loop  /  logic error  /  type error
+
+    (ii) What goes wrong? (one sentence)
+
+         _____________________________________________________________________
+
+    (iii) What single line is missing, and where does it go?
+
+         Missing line: ________________________________________________________
+
+         Goes: ________________________________________________________________
+
+
+────────────────────────────────────────────────────────────────────────────────
+QUESTION B3  —  FILL IN THE BLANK                               [ 7 marks ]
+────────────────────────────────────────────────────────────────────────────────
+
+The program below collects quiz scores for 5 students and reports how many
+passed. Each blank [ 1 ] – [ 7 ] is worth 1 mark.
+
+    name = input("Enter class name: ")
+    total = [ 1 ]________
+    passed = [ 2 ]________
+
+    for i in range( [ 3 ]________ ):
+
+        score = int(input("Enter score: "))
+        total = total + score
+
+        if score [ 4 ]________ 50:
+            passed = passed + [ 5 ]________
+
+    average = total / [ 6 ]________
+
+    print("Class:", name)
+    print("Average score:", average)
+    print("Students who passed:", [ 7 ]________ )
+
+    [1] ______    [2] ______    [3] ______    [4] ______
+    [5] ______    [6] ______    [7] ______
+
+
+────────────────────────────────────────────────────────────────────────────────
+QUESTION B4  —  PSEUDOCODE EXPLANATION                          [ 5 marks ]
+────────────────────────────────────────────────────────────────────────────────
+
+Study the algorithm below and answer the questions that follow.
+
+    best ← 0
+    best_day ← 0
+    FOR day FROM 1 TO 7 DO
+        INPUT steps
+        IF steps > best THEN
+            best ← steps
+            best_day ← day
+        END IF
+    END FOR
+    OUTPUT "Best day: " + best_day
+    OUTPUT "Most steps: " + best
+
+(a) What are the two inputs this algorithm receives per loop iteration? [1 mark]
+
+    ________________________________________________________________________
+
+(b) What is the purpose of the variable  best ?                        [1 mark]
+
+    ________________________________________________________________________
+
+(c) What is the purpose of the variable  best_day ?                    [1 mark]
+
+    ________________________________________________________________________
+
+(d) The step counts entered are:  5000, 8000, 6000, 9000, 7000, 4000, 10000
+
+    State the final values of  best  and  best_day  after the loop ends.[1 mark]
+
+    best = ____________    best_day = ____________
+
+(e) Describe in one complete sentence what this algorithm does overall. [1 mark]
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+
+────────────────────────────────────────────────────────────────────────────────
+QUESTION B5  —  WRITE PYTHON FROM PSEUDOCODE                    [ 4 marks ]
+────────────────────────────────────────────────────────────────────────────────
+
+Translate the pseudocode below into correct, working Python.
+
+    total_revenue ← 0
+    FOR day FROM 1 TO 5 DO
+        INPUT price
+        INPUT customers
+        revenue ← price * customers
+        total_revenue ← total_revenue + revenue
+    END FOR
+    OUTPUT "Total revenue: " + total_revenue
+    OUTPUT "Daily average: " + (total_revenue / 5)
+
+One mark is awarded for each of the following:
+  · Correct initialisation before the loop                             [1]
+  · Correct loop structure (5 iterations)                              [1]
+  · Correct revenue calculation inside the loop                        [1]
+  · Both output statements after the loop                              [1]
+
+Write your Python code below. Use correct indentation.
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+
+────────────────────────────────────────────────────────────────────────────────
+QUESTION B6  —  WRITE PSEUDOCODE FROM PYTHON                    [ 4 marks ]
+────────────────────────────────────────────────────────────────────────────────
+
+Study the Python program below, then write it as IB-style pseudocode.
+Use the conventions at the top of this paper.
+
+    found = False
+    target = input("Enter a word to search for: ")
+
+    words = ["apple", "banana", "cherry", "date"]
+
+    for word in words:
+        if word == target:
+            found = True
+
+    if found:
+        print("Word found!")
+    else:
+        print("Word not found.")
+
+One mark is awarded for each of the following:
+  · found variable correctly initialised and updated                   [1]
+  · INPUT for target                                                   [1]
+  · Correct FOR loop structure with correct condition inside           [1]
+  · Correct IF / ELSE output after the loop                           [1]
+
+Write your IB pseudocode below:
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+
+================================================================================
+                                                       TOTAL: ______ / 50
+================================================================================
+
+Examiner use only:
+
+    A1 [ /4 ]    A2 [ /6 ]    A3 [ /5 ]
+    B1 [ /6 ]    B2 [ /9 ]    B3 [ /7 ]    B4 [ /5 ]    B5 [ /4 ]    B6 [ /4 ]
+
+================================================================================
+END OF FINAL ASSESSMENT
+================================================================================

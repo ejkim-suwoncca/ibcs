@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B2.5 — File Processing</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Serif+Display&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07090f;
+  --surface: #0e1117;
+  --surface2: #151923;
+  --border: #1e2535;
+  --border2: #2a3448;
+  --gold: #c9a84c;
+  --gold2: #e8c97a;
+  --blue: #4a9eff;
+  --green: #3dd68c;
+  --red: #ff6b6b;
+  --purple: #9b8afb;
+  --cyan: #22d3ee;
+  --orange: #fb923c;
+  --teal: #2dd4bf;
+  --text: #dde4f0;
+  --text2: #7a8ba8;
+  --text3: #3d4f6a;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; }
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(45,212,191,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(45,212,191,0.02) 1px, transparent 1px);
+  background-size: 80px 80px;
+  pointer-events: none; z-index: 0;
+}
+.deck { position: relative; width: 100vw; height: 100vh; z-index: 1; }
+.slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 50px 72px 92px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.38s ease, transform 0.38s ease;
+  transform: translateY(12px);
+}
+.slide.active { opacity: 1; pointer-events: all; transform: translateY(0); }
+.slide.exit { opacity: 0; transform: translateY(-12px); }
+.slide.scroll-slide {
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-top: 64px;
+  padding-bottom: 132px;
+}
+.slide.scroll-slide::-webkit-scrollbar { width: 10px; }
+.slide.scroll-slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
+.progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--teal), var(--cyan)); transition: width 0.38s ease; z-index: 100; }
+.slide-num { position: fixed; top: 17px; right: 24px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
+.content { width: 100%; max-width: 1120px; }
+.label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--teal); margin-bottom: 14px; }
+.label.blue { color: var(--blue); } .label.green { color: var(--green); } .label.purple { color: var(--purple); } .label.cyan { color: var(--cyan); } .label.orange { color: var(--orange); } .label.gold { color: var(--gold); }
+h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.8rem,5.5vw,4.8rem); font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
+h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem); font-weight: 400; line-height: 1.1; margin-bottom: 12px; }
+.lead { font-size: clamp(1rem,1.75vw,1.35rem); color: var(--text2); font-weight: 300; line-height: 1.65; margin-bottom: 24px; }
+.hl-gold { color: var(--gold2); } .hl-blue { color: var(--blue); } .hl-green { color: var(--green); } .hl-purple { color: var(--purple); } .hl-cyan { color: var(--cyan); } .hl-red { color: var(--red); } .hl-orange { color: var(--orange); } .hl-teal { color: var(--teal); }
+.grid { display: grid; gap: 2px; width: 100%; }
+.g2 { grid-template-columns: 1fr 1fr; } .g3 { grid-template-columns: 1fr 1fr 1fr; } .g4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+.card { background: var(--surface); border: 1px solid var(--border); padding: 18px 22px; position: relative; overflow: hidden; }
+.card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.card.gold::after { background: var(--gold); } .card.blue::after { background: var(--blue); }
+.card.green::after { background: var(--green); } .card.red::after { background: var(--red); }
+.card.purple::after { background: var(--purple); } .card.cyan::after { background: var(--cyan); }
+.card.orange::after { background: var(--orange); } .card.teal::after { background: var(--teal); }
+.card-title { font-family: 'DM Mono', monospace; font-size: clamp(0.7rem,1.1vw,0.9rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.card-body { font-size: clamp(0.85rem,1.3vw,1.05rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
+.card-body strong { color: var(--text); font-weight: 500; }
+.info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(74,158,255,0.04); border-top: 1px solid rgba(74,158,255,0.08); border-right: 1px solid rgba(74,158,255,0.08); border-bottom: 1px solid rgba(74,158,255,0.08); margin-top: 14px; }
+.info-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.info-box strong { color: var(--blue); }
+.teal-box { border-left: 3px solid var(--teal); padding: 13px 20px; background: rgba(45,212,191,0.04); border-top: 1px solid rgba(45,212,191,0.08); border-right: 1px solid rgba(45,212,191,0.08); border-bottom: 1px solid rgba(45,212,191,0.08); margin-top: 14px; }
+.teal-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.teal-box strong { color: var(--teal); }
+.gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(201,168,76,0.04); border-top: 1px solid rgba(201,168,76,0.08); border-right: 1px solid rgba(201,168,76,0.08); border-bottom: 1px solid rgba(201,168,76,0.08); margin-top: 14px; }
+.gold-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.gold-box strong { color: var(--gold2); }
+.warn-box { border-left: 3px solid var(--red); padding: 13px 20px; background: rgba(255,107,107,0.04); border-top: 1px solid rgba(255,107,107,0.08); border-right: 1px solid rgba(255,107,107,0.08); border-bottom: 1px solid rgba(255,107,107,0.08); margin-top: 14px; }
+.warn-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.warn-box strong { color: var(--red); }
+.steps { display: flex; flex-direction: column; gap: 2px; }
+.step-row { display: flex; align-items: flex-start; gap: 18px; background: var(--surface); border: 1px solid var(--border); padding: 13px 18px; }
+.step-n { font-family: 'DM Mono', monospace; font-size: clamp(0.85rem,1.4vw,1.1rem); color: var(--teal); min-width: 32px; flex-shrink: 0; font-weight: 500; padding-top: 2px; }
+.step-text { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.5; font-weight: 300; }
+.step-text strong { color: var(--text); font-weight: 500; }
+.code { background: #0a0d14; border: 1px solid var(--border2); border-left: 3px solid var(--teal); padding: 14px 18px; font-family: 'DM Mono', monospace; font-size: clamp(0.72rem,1.1vw,0.9rem); line-height: 1.75; overflow-x: auto; margin-top: 8px; white-space: pre; }
+.kw { color: var(--cyan); font-weight: 500; }
+.fn { color: var(--gold2); }
+.str { color: var(--green); }
+.cmt { color: var(--text3); font-style: italic; }
+.num { color: var(--orange); }
+.comparison-table { width: 100%; border-collapse: collapse; }
+.comparison-table th { font-family: 'DM Mono', monospace; font-size: clamp(0.65rem,1vw,0.82rem); letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); padding: 9px 14px; text-align: left; border-bottom: 1px solid var(--border2); background: var(--surface); }
+.comparison-table td { padding: 11px 14px; font-size: clamp(0.82rem,1.3vw,1.02rem); border-bottom: 1px solid var(--border); color: var(--text2); background: var(--surface); line-height: 1.5; vertical-align: top; }
+.comparison-table tr:last-child td { border-bottom: none; }
+.comparison-table tr:hover td { background: var(--surface2); }
+.comparison-table td:first-child { font-family: 'DM Mono', monospace; font-size: 0.88em; color: var(--teal); font-weight: 500; }
+/* file visual */
+.file-box { background: var(--surface); border: 1px solid var(--border2); padding: 12px 18px; font-family: 'DM Mono', monospace; font-size: clamp(0.75rem,1.15vw,0.92rem); line-height: 1.9; margin-top: 8px; border-top: 3px solid var(--teal); }
+.file-line { color: var(--text2); }
+.file-line .ln { color: var(--text3); margin-right: 16px; user-select: none; }
+.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; }
+.nav-btn { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; }
+.nav-btn:hover { color: var(--teal); border-color: var(--teal); background: rgba(45,212,191,0.05); }
+.nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+.nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 200px; justify-content: center; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); cursor: pointer; transition: all 0.2s; }
+.dot.active { background: var(--teal); transform: scale(1.4); }
+.nav-sep { width: 1px; height: 18px; background: var(--border2); }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="slide-num" id="slideNum">01 / 13</div>
+<div class="deck">
+
+<!-- ═══════════════════════════════════════════════ S1: TITLE -->
+<div class="slide active">
+  <div class="content">
+    <div class="label">// B2.5 · File Processing</div>
+    <h1>File<br><span class="hl-teal">Processing</span></h1>
+    <p style="font-family:'DM Mono',monospace;font-size:clamp(0.85rem,1.4vw,1.1rem);color:var(--text3);margin-bottom:20px;">Theme B2 · IB Computer Science SL</p>
+    <div class="teal-box">
+      <p><strong>👉 Focus:</strong> Reading from and writing to text files in Python — open modes, reading line by line, writing records, and properly closing files.</p>
+    </div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:20px;">
+      <div style="padding-left:12px;border-left:2px solid var(--teal);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">open()</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">FILE MODES</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--blue);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">read()</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">READ METHODS</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--green);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">write()</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">WRITE METHODS</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--cyan);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">close()</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">FILE MANAGEMENT</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S2: IB SPEC -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// IB Specification · B2.5</div>
+    <h2>What IB Requires</h2>
+    <div class="steps">
+      <div class="step-row"><div class="step-n">2.5.1</div><div class="step-text"><strong>Describe</strong> the concept of a sequential file as a collection of records stored in sequence, one per line</div></div>
+      <div class="step-row"><div class="step-n">2.5.2</div><div class="step-text"><strong>Explain</strong> the difference between reading from and writing to a file, and between the file modes: read ("r"), write ("w"), and append ("a")</div></div>
+      <div class="step-row"><div class="step-n">2.5.3</div><div class="step-text"><strong>Construct and trace</strong> algorithms that use files — open, read line by line, write records, and close</div></div>
+    </div>
+    <div class="teal-box" style="margin-top:14px;">
+      <p><strong>"Sequential file"</strong> = records stored one after another in a fixed order. To reach record 50, you must read through records 1–49 first. This is different from direct access (random access) files.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S3: WHAT IS A FILE -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// B2.5.1 · Sequential Text Files</div>
+    <h2>What Is a <span class="hl-teal">Text File?</span></h2>
+    <p class="lead" style="margin-bottom:16px;">A <strong style="color:var(--teal);">sequential text file</strong> stores data as plain text, with each record on a separate line. Records are read or written in order from beginning to end.</p>
+    <div class="grid g2" style="gap:2px;margin-bottom:14px;">
+      <div class="card teal">
+        <div class="card-title" style="color:var(--teal);">Key Characteristics</div>
+        <div class="card-body">
+          <strong>Sequential access</strong> — must read from the top<br><br>
+          <strong>Human-readable</strong> — plain text, not binary<br><br>
+          <strong>One record per line</strong> — separated by newline (\n)<br><br>
+          <strong>Persistent</strong> — survives after the program ends
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Example File: students.txt</div>
+        <div class="card-body" style="font-family:'DM Mono',monospace;font-size:0.88rem;line-height:2;">
+          <span style="color:var(--text3);">line 1 →</span> Alice,95<br>
+          <span style="color:var(--text3);">line 2 →</span> Bob,82<br>
+          <span style="color:var(--text3);">line 3 →</span> Carol,91<br>
+          <span style="color:var(--text3);">line 4 →</span> David,78
+        </div>
+      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>Compare with:</strong> RAM (volatile — lost when program ends), databases (structured, indexed), binary files (not human-readable). Text files are the simplest form of persistent storage.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S4: FILE MODES -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:1000px;margin:0 auto;">
+    <div class="label">// B2.5.2 · File Modes</div>
+    <h2>Opening a File: <span class="hl-teal">Modes</span></h2>
+    <p class="lead" style="margin-bottom:12px;">The <strong style="color:var(--teal);">second argument</strong> to <span style="font-family:'DM Mono',monospace;">open()</span> sets the mode — it controls what you can do with the file and what happens to existing content.</p>
+    <table class="comparison-table">
+      <thead><tr><th>Mode</th><th>Name</th><th>What It Does</th><th>File Must Exist?</th><th>Existing Content</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>"r"</td>
+          <td style="color:var(--text2);">Read</td>
+          <td style="color:var(--text2);">Opens file for reading only</td>
+          <td style="color:var(--green);">Yes — error if missing</td>
+          <td style="color:var(--text2);">Unchanged</td>
+        </tr>
+        <tr>
+          <td>"w"</td>
+          <td style="color:var(--text2);">Write</td>
+          <td style="color:var(--text2);">Opens file for writing — creates new file or overwrites</td>
+          <td style="color:var(--text2);">No — creates if missing</td>
+          <td style="color:var(--red);">⚠ Deleted (overwritten)</td>
+        </tr>
+        <tr>
+          <td>"a"</td>
+          <td style="color:var(--text2);">Append</td>
+          <td style="color:var(--text2);">Opens file for writing — adds to the end</td>
+          <td style="color:var(--text2);">No — creates if missing</td>
+          <td style="color:var(--green);">Preserved (added to end)</td>
+        </tr>
+        <tr>
+          <td>"r+"</td>
+          <td style="color:var(--text2);">Read+Write</td>
+          <td style="color:var(--text2);">Both reading and writing</td>
+          <td style="color:var(--green);">Yes — error if missing</td>
+          <td style="color:var(--text2);">Preserved (overwrite at position)</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="warn-box">
+      <p><strong>⚠ Common mistake:</strong> Using <span style="font-family:'DM Mono',monospace;">"w"</span> when you meant <span style="font-family:'DM Mono',monospace;">"a"</span>. Opening in write mode immediately destroys all existing content — even before you write anything!</p>
+    </div>
+    <div class="teal-box">
+      <p><strong>IB Exam tip:</strong> You will always be asked about "r", "w", and "a" specifically. Know the difference cold — especially that "w" wipes the file and "a" preserves it.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S5: READING METHODS -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:1000px;margin:0 auto;">
+    <div class="label blue">// B2.5.3 · Reading from a File</div>
+    <h2>Reading: <span class="hl-blue">Three Methods</span></h2>
+    <div class="grid g3" style="gap:2px;margin-bottom:14px;">
+      <div class="card blue">
+        <div class="card-title">read()</div>
+        <div class="card-body">Reads the <strong>entire file</strong> as one big string. Good for small files. Returns everything including newlines (\n).</div>
+      </div>
+      <div class="card teal">
+        <div class="card-title" style="color:var(--teal);">readline()</div>
+        <div class="card-body">Reads <strong>one line</strong> at a time. Returns an empty string <span style="font-family:'DM Mono',monospace;">""</span> when end of file is reached. Used in a loop.</div>
+      </div>
+      <div class="card cyan">
+        <div class="card-title" style="color:var(--cyan);">readlines()</div>
+        <div class="card-body">Reads <strong>all lines</strong> and returns a list. Each element is one line including the <span style="font-family:'DM Mono',monospace;">\n</span> character.</div>
+      </div>
+    </div>
+    <div class="code"><span class="cmt"># Method 1: read() — entire file as one string</span>
+f = <span class="fn">open</span>(<span class="str">"students.txt"</span>, <span class="str">"r"</span>)
+content = f.<span class="fn">read</span>()
+<span class="fn">print</span>(content)
+f.<span class="fn">close</span>()
+
+<span class="cmt"># Method 2: readline() — one line at a time (most common)</span>
+f = <span class="fn">open</span>(<span class="str">"students.txt"</span>, <span class="str">"r"</span>)
+line = f.<span class="fn">readline</span>()
+<span class="kw">while</span> line != <span class="str">""</span>:
+    <span class="fn">print</span>(line.<span class="fn">strip</span>())   <span class="cmt"># strip() removes trailing \n</span>
+    line = f.<span class="fn">readline</span>()
+f.<span class="fn">close</span>()
+
+<span class="cmt"># Method 3: readlines() — get all lines as a list</span>
+f = <span class="fn">open</span>(<span class="str">"students.txt"</span>, <span class="str">"r"</span>)
+lines = f.<span class="fn">readlines</span>()     <span class="cmt"># ['Alice,95\n', 'Bob,82\n', ...]</span>
+f.<span class="fn">close</span>()</div>
+    <div class="teal-box" style="margin-top:10px;">
+      <p><strong>IB preferred pattern:</strong> Use <span style="font-family:'DM Mono',monospace;">readline()</span> in a while loop — it processes line by line without loading the entire file into memory. This is the most commonly tested approach.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S6: WRITING TO A FILE -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:1000px;margin:0 auto;">
+    <div class="label green">// B2.5.3 · Writing to a File</div>
+    <h2>Writing: <span class="hl-green">write() and append</span></h2>
+    <p class="lead" style="margin-bottom:12px;">Use <span style="font-family:'DM Mono',monospace;color:var(--green);">write()</span> to output text to a file. You must manually add newline characters (<span style="font-family:'DM Mono',monospace;">\n</span>) — they are not added automatically.</p>
+    <div class="code"><span class="cmt"># Writing — creates new file (or wipes existing)</span>
+f = <span class="fn">open</span>(<span class="str">"students.txt"</span>, <span class="str">"w"</span>)
+f.<span class="fn">write</span>(<span class="str">"Alice,95\n"</span>)
+f.<span class="fn">write</span>(<span class="str">"Bob,82\n"</span>)
+f.<span class="fn">write</span>(<span class="str">"Carol,91\n"</span>)
+f.<span class="fn">close</span>()
+
+<span class="cmt"># Appending — adds to end of existing file</span>
+f = <span class="fn">open</span>(<span class="str">"students.txt"</span>, <span class="str">"a"</span>)
+f.<span class="fn">write</span>(<span class="str">"David,78\n"</span>)      <span class="cmt"># added after Carol</span>
+f.<span class="fn">close</span>()
+
+<span class="cmt"># Writing a list of records in a loop</span>
+students = [(<span class="str">"Eve"</span>, <span class="num">88</span>), (<span class="str">"Frank"</span>, <span class="num">74</span>)]
+f = <span class="fn">open</span>(<span class="str">"new_students.txt"</span>, <span class="str">"w"</span>)
+<span class="kw">for</span> name, score <span class="kw">in</span> students:
+    f.<span class="fn">write</span>(name + <span class="str">","</span> + <span class="fn">str</span>(score) + <span class="str">"\n"</span>)
+f.<span class="fn">close</span>()</div>
+    <div class="warn-box" style="margin-top:10px;">
+      <p><strong>⚠ Remember \n:</strong> Without <span style="font-family:'DM Mono',monospace;">\n</span>, all records will be on the same line. The file would read <span style="font-family:'DM Mono',monospace;">Alice,95Bob,82</span> instead of being on separate lines. Always end each record with <span style="font-family:'DM Mono',monospace;">\n</span>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S7: CLOSE AND WITH -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// B2.5.3 · Closing Files</div>
+    <h2>Always <span class="hl-teal">Close</span> Your File</h2>
+    <p class="lead" style="margin-bottom:16px;">Calling <span style="font-family:'DM Mono',monospace;color:var(--teal);">close()</span> releases the file back to the OS. Without it, data may not be saved (it stays in the write buffer) and the file may be locked.</p>
+    <div class="grid g2" style="gap:2px;margin-bottom:14px;">
+      <div class="card red">
+        <div class="card-title" style="color:var(--red);">⚠ Without close()</div>
+        <div class="card-body">
+          Data may remain in the <strong>write buffer</strong> — not saved to disk<br><br>
+          Other programs can't access the file<br><br>
+          File may become <strong>corrupt</strong> if program crashes<br><br>
+          OS resource (file descriptor) is leaked
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title" style="color:var(--green);">✓ The "with" Statement</div>
+        <div class="card-body">
+          Python's preferred approach — automatically closes the file even if an error occurs (exception-safe):<br><br>
+          <span style="font-family:'DM Mono',monospace;font-size:0.85rem;color:var(--text);">with open("file.txt", "r") as f:<br>&nbsp;&nbsp;&nbsp;&nbsp;data = f.read()<br># file is closed here automatically</span>
+        </div>
+      </div>
+    </div>
+    <div class="teal-box">
+      <p><strong>IB Exam note:</strong> The IB syllabus uses the explicit <span style="font-family:'DM Mono',monospace;">open() / close()</span> pattern — both are acceptable but you will commonly see <span style="font-family:'DM Mono',monospace;">close()</span> in exam answers. Know both.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S8: READLINE LOOP TRACE -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:900px;margin:0 auto;">
+    <div class="label blue">// B2.5.3 · Tracing</div>
+    <h2>Trace: <span class="hl-blue">Reading Line by Line</span></h2>
+    <p style="font-size:clamp(0.88rem,1.4vw,1.1rem);color:var(--text2);margin-bottom:10px;">File <span style="font-family:'DM Mono',monospace;">grades.txt</span> contains:</p>
+    <div class="file-box">
+      <div class="file-line"><span class="ln">1</span>Alice,95</div>
+      <div class="file-line"><span class="ln">2</span>Bob,82</div>
+      <div class="file-line"><span class="ln">3</span>Carol,91</div>
+    </div>
+    <div class="code" style="margin-top:10px;"><span class="fn">def</span> find_top(filename, threshold):
+    f = <span class="fn">open</span>(filename, <span class="str">"r"</span>)
+    line = f.<span class="fn">readline</span>()
+    <span class="kw">while</span> line != <span class="str">""</span>:
+        parts = line.<span class="fn">strip</span>().<span class="fn">split</span>(<span class="str">","</span>)
+        name = parts[<span class="num">0</span>]
+        score = <span class="fn">int</span>(parts[<span class="num">1</span>])
+        <span class="kw">if</span> score >= threshold:
+            <span class="fn">print</span>(name, <span class="str">"passed"</span>)
+        line = f.<span class="fn">readline</span>()
+    f.<span class="fn">close</span>()
+
+find_top(<span class="str">"grades.txt"</span>, <span class="num">90</span>)</div>
+    <div class="steps" style="margin-top:10px;">
+      <div class="step-row"><div class="step-n">Read 1</div><div class="step-text">line = "Alice,95\n" → strip → split → name="Alice", score=95. 95 ≥ 90 → <strong style="color:var(--green);">print "Alice passed"</strong></div></div>
+      <div class="step-row"><div class="step-n">Read 2</div><div class="step-text">line = "Bob,82\n" → strip → split → name="Bob", score=82. 82 &lt; 90 → <strong>skip</strong></div></div>
+      <div class="step-row"><div class="step-n">Read 3</div><div class="step-text">line = "Carol,91\n" → strip → split → name="Carol", score=91. 91 ≥ 90 → <strong style="color:var(--green);">print "Carol passed"</strong></div></div>
+      <div class="step-row" style="border-left:3px solid var(--teal);"><div class="step-n" style="color:var(--teal);">EOF</div><div class="step-text">readline() returns "" → while condition false → exit loop → close()</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S9: WRITE TRACE -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:900px;margin:0 auto;">
+    <div class="label green">// B2.5.3 · Tracing</div>
+    <h2>Trace: <span class="hl-green">Writing Records</span></h2>
+    <p style="font-size:clamp(0.88rem,1.4vw,1.1rem);color:var(--text2);margin-bottom:10px;">This program collects names and scores from the user and saves them to a file:</p>
+    <div class="code"><span class="cmt"># Collect data from user and write to file</span>
+f = <span class="fn">open</span>(<span class="str">"results.txt"</span>, <span class="str">"w"</span>)
+n = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"How many students? "</span>))
+<span class="kw">for</span> i <span class="kw">in</span> range(n):
+    name = <span class="fn">input</span>(<span class="str">"Name: "</span>)
+    score = <span class="fn">input</span>(<span class="str">"Score: "</span>)
+    f.<span class="fn">write</span>(name + <span class="str">","</span> + score + <span class="str">"\n"</span>)
+f.<span class="fn">close</span>()
+<span class="fn">print</span>(<span class="str">"Saved!"</span>)</div>
+    <p style="font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--text3);margin-top:16px;margin-bottom:6px;">TRACE — user enters n=2, then Alice/95, then Bob/82:</p>
+    <div class="steps">
+      <div class="step-row"><div class="step-n">Init</div><div class="step-text">open("results.txt", "w") → creates empty file. n = 2</div></div>
+      <div class="step-row"><div class="step-n">i=0</div><div class="step-text">name="Alice", score="95" → write("Alice,95\n") → file: <span style="font-family:'DM Mono',monospace;">Alice,95</span></div></div>
+      <div class="step-row"><div class="step-n">i=1</div><div class="step-text">name="Bob", score="82" → write("Bob,82\n") → file: <span style="font-family:'DM Mono',monospace;">Alice,95 / Bob,82</span></div></div>
+      <div class="step-row" style="border-left:3px solid var(--green);"><div class="step-n" style="color:var(--green);">End</div><div class="step-text">close() → data flushed to disk. print("Saved!") → program done.</div></div>
+    </div>
+    <div class="gold-box" style="margin-top:12px;">
+      <p><strong>Key detail:</strong> <span style="font-family:'DM Mono',monospace;">score</span> is entered as a string via <span style="font-family:'DM Mono',monospace;">input()</span> — no need to convert to int for writing. If we later read it back and need to compare numerically, <em>then</em> we cast with <span style="font-family:'DM Mono',monospace;">int()</span>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S10: STRIP AND SPLIT -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// B2.5.3 · Parsing File Data</div>
+    <h2>strip() and <span class="hl-teal">split()</span></h2>
+    <p class="lead" style="margin-bottom:16px;">Raw lines from a file include the newline character (<span style="font-family:'DM Mono',monospace;">\n</span>) at the end. Two string methods are essential for cleaning and splitting data.</p>
+    <div class="grid g2" style="gap:2px;margin-bottom:14px;">
+      <div class="card teal">
+        <div class="card-title" style="color:var(--teal);">.strip()</div>
+        <div class="card-body">
+          Removes <strong>leading and trailing whitespace</strong>, including \n<br><br>
+          <span style="font-family:'DM Mono',monospace;font-size:0.85rem;">"Alice,95\n".strip()<br>→ "Alice,95"</span><br><br>
+          Use it on every line you read before processing
+        </div>
+      </div>
+      <div class="card cyan">
+        <div class="card-title" style="color:var(--cyan);">.split(",")</div>
+        <div class="card-body">
+          Splits a string at a <strong>delimiter</strong> into a list<br><br>
+          <span style="font-family:'DM Mono',monospace;font-size:0.85rem;">"Alice,95".split(",")<br>→ ["Alice", "95"]</span><br><br>
+          Access parts by index: <span style="font-family:'DM Mono',monospace;">parts[0]</span>, <span style="font-family:'DM Mono',monospace;">parts[1]</span>
+        </div>
+      </div>
+    </div>
+    <div class="code"><span class="cmt"># Full pattern: read → strip → split → use</span>
+line = f.<span class="fn">readline</span>().<span class="fn">strip</span>()         <span class="cmt"># "Alice,95"</span>
+parts = line.<span class="fn">split</span>(<span class="str">","</span>)              <span class="cmt"># ["Alice", "95"]</span>
+name = parts[<span class="num">0</span>]                        <span class="cmt"># "Alice"</span>
+score = <span class="fn">int</span>(parts[<span class="num">1</span>])                 <span class="cmt"># 95 (as integer)</span></div>
+    <div class="info-box" style="margin-top:10px;">
+      <p><strong>Comma-separated values (CSV)</strong> is the most common format for simple file-based records in IB questions. Always split on <span style="font-family:'DM Mono',monospace;">","</span> and cast numbers with <span style="font-family:'DM Mono',monospace;">int()</span> or <span style="font-family:'DM Mono',monospace;">float()</span> when needed.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S11: FUNCTIONS REFERENCE -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:1000px;margin:0 auto;">
+    <div class="label">// B2.5 · Quick Reference</div>
+    <h2>File Methods <span class="hl-teal">Reference</span></h2>
+    <table class="comparison-table">
+      <thead><tr><th>Method / Syntax</th><th>What It Does</th><th>Returns</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>open(name, mode)</td>
+          <td style="color:var(--text2);">Opens a file and returns a file object</td>
+          <td style="color:var(--text2);">File object</td>
+          <td style="color:var(--text2);">Must assign: f = open(...)</td>
+        </tr>
+        <tr>
+          <td>f.read()</td>
+          <td style="color:var(--text2);">Reads entire file as one string</td>
+          <td style="color:var(--text2);">str</td>
+          <td style="color:var(--text2);">Includes all \n characters</td>
+        </tr>
+        <tr>
+          <td>f.readline()</td>
+          <td style="color:var(--text2);">Reads next line from file</td>
+          <td style="color:var(--text2);">str (or "" at EOF)</td>
+          <td style="color:var(--text2);">Use in while loop; includes \n</td>
+        </tr>
+        <tr>
+          <td>f.readlines()</td>
+          <td style="color:var(--text2);">Reads all lines at once</td>
+          <td style="color:var(--text2);">list of str</td>
+          <td style="color:var(--text2);">Each element has \n at end</td>
+        </tr>
+        <tr>
+          <td>f.write(s)</td>
+          <td style="color:var(--text2);">Writes string s to file</td>
+          <td style="color:var(--text2);">int (chars written)</td>
+          <td style="color:var(--text2);">Add \n manually between records</td>
+        </tr>
+        <tr>
+          <td>f.close()</td>
+          <td style="color:var(--text2);">Closes the file</td>
+          <td style="color:var(--text2);">None</td>
+          <td style="color:var(--text2);">Always call this after you're done</td>
+        </tr>
+        <tr>
+          <td>"r"</td>
+          <td style="color:var(--text2);">Read mode</td>
+          <td style="color:var(--text2);">—</td>
+          <td style="color:var(--text2);">File must exist; cannot write</td>
+        </tr>
+        <tr>
+          <td>"w"</td>
+          <td style="color:var(--text2);">Write mode</td>
+          <td style="color:var(--text2);">—</td>
+          <td style="color:var(--text2);">Creates or wipes file; cannot read</td>
+        </tr>
+        <tr>
+          <td>"a"</td>
+          <td style="color:var(--text2);">Append mode</td>
+          <td style="color:var(--text2);">—</td>
+          <td style="color:var(--text2);">Creates or adds to end; cannot read</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S12: COMMON MISTAKES -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:960px;margin:0 auto;">
+    <div class="label red">// Common Mistakes</div>
+    <h2>Common <span class="hl-red">Mistakes</span></h2>
+    <div class="steps">
+      <div class="step-row" style="border-left:3px solid var(--red);">
+        <div class="step-n" style="color:var(--red);">✗</div>
+        <div class="step-text"><strong>Forgetting \n when writing</strong> — f.write("Alice,95") with no newline means the next record will be on the same line. Always write("...\n").</div>
+      </div>
+      <div class="step-row" style="border-left:3px solid var(--red);">
+        <div class="step-n" style="color:var(--red);">✗</div>
+        <div class="step-text"><strong>Not calling strip()</strong> — comparing "Alice\n" == "Alice" returns False. Always strip() your line before comparing or splitting.</div>
+      </div>
+      <div class="step-row" style="border-left:3px solid var(--red);">
+        <div class="step-n" style="color:var(--red);">✗</div>
+        <div class="step-text"><strong>Using "w" instead of "a"</strong> — every time you open in "w" mode the file is wiped. If you want to add a new student, use "a" mode.</div>
+      </div>
+      <div class="step-row" style="border-left:3px solid var(--red);">
+        <div class="step-n" style="color:var(--red);">✗</div>
+        <div class="step-text"><strong>Not casting numbers</strong> — all data read from files is a string. If you need to do arithmetic (score > 90), cast with int(parts[1]) first.</div>
+      </div>
+      <div class="step-row" style="border-left:3px solid var(--red);">
+        <div class="step-n" style="color:var(--red);">✗</div>
+        <div class="step-text"><strong>Forgetting to close()</strong> — data may not be saved to disk. The file object keeps a write buffer; close() flushes it.</div>
+      </div>
+      <div class="step-row" style="border-left:3px solid var(--red);">
+        <div class="step-n" style="color:var(--red);">✗</div>
+        <div class="step-text"><strong>Wrong end-of-file check</strong> — readline() returns "" (empty string) at EOF. Don't check for None or for a specific number of lines.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S13: EXAM STRATEGY -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Exam Strategy</div>
+    <h2>Exam Answer <span class="hl-teal">Checklist</span></h2>
+    <p class="lead" style="margin-bottom:16px;">When asked to write or trace file processing code, follow this pattern every time:</p>
+    <div class="steps">
+      <div class="step-row"><div class="step-n">①</div><div class="step-text"><strong>Open</strong> the file with the correct mode — "r" to read, "w" to write fresh, "a" to append. State which mode and why.</div></div>
+      <div class="step-row"><div class="step-n">②</div><div class="step-text"><strong>Read loop</strong> — use readline() in a while loop; check for "" to detect end of file. Don't use a counter unless the question specifies n lines.</div></div>
+      <div class="step-row"><div class="step-n">③</div><div class="step-text"><strong>Process each line</strong> — strip() first, then split(",") if there are multiple fields. Cast to int/float only when arithmetic is needed.</div></div>
+      <div class="step-row"><div class="step-n">④</div><div class="step-text"><strong>Write records</strong> — always append \n to end of each record. Write strings only (convert numbers with str()).</div></div>
+      <div class="step-row"><div class="step-n">⑤</div><div class="step-text"><strong>Close the file</strong> — f.close() at the end. Examiners do notice if this is missing.</div></div>
+    </div>
+    <div class="teal-box" style="margin-top:12px;">
+      <p><strong>Tracing questions:</strong> Show the file state after each write. Show the variable values after each read + split. Work through every iteration — don't skip.</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- /.deck -->
+
+<nav class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="goTo(current-1)" disabled>← Prev</button>
+  <div class="nav-sep"></div>
+  <div class="nav-dots" id="dots"></div>
+  <div class="nav-sep"></div>
+  <button class="nav-btn" id="nextBtn" onclick="goTo(current+1)">Next →</button>
+</nav>
+
+<script>
+const TOTAL = 13;
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const dotsEl = document.getElementById('dots');
+const progress = document.getElementById('progress');
+const slideNum = document.getElementById('slideNum');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+// Build dots
+for (let i = 0; i < TOTAL; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+}
+
+function goTo(n) {
+  if (n < 0 || n >= TOTAL) return;
+  slides[current].classList.remove('active');
+  slides[current].classList.add('exit');
+  setTimeout(() => slides[current - (n > current ? 0 : 0)].classList.remove('exit'), 400);
+  const prev = current;
+  current = n;
+  slides[prev].classList.remove('active');
+  setTimeout(() => slides[prev].classList.remove('exit'), 400);
+  slides[current].classList.add('active');
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+  progress.style.width = ((current + 1) / TOTAL * 100) + '%';
+  slideNum.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(TOTAL).padStart(2, '0');
+  prevBtn.disabled = current === 0;
+  nextBtn.disabled = current === TOTAL - 1;
+  if (slides[current].classList.contains('scroll-slide')) slides[current].scrollTop = 0;
+}
+
+goTo(0);
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1);
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') goTo(current - 1);
+});
+</script>
+</body>
+</html>

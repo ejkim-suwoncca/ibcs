@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A1.3 — Operating Systems</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Serif+Display&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07090f; --surface: #0e1117; --surface2: #151923;
+  --border: #1e2535; --border2: #2a3448;
+  --gold: #c9a84c; --gold2: #e8c97a;
+  --blue: #4a9eff; --green: #3dd68c; --red: #ff6b6b;
+  --purple: #9b8afb; --cyan: #22d3ee; --orange: #fb923c;
+  --pink: #f472b6; --teal: #2dd4bf;
+  --text: #dde4f0; --text2: #7a8ba8; --text3: #3d4f6a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;height:100%;overflow:hidden;}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;}
+body::before{content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(74,158,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,.03) 1px,transparent 1px),linear-gradient(rgba(74,158,255,.01) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,.01) 1px,transparent 1px);
+  background-size:80px 80px,80px 80px,16px 16px,16px 16px;pointer-events:none;z-index:0;}
+.deck{position:relative;width:100vw;height:100vh;z-index:1;}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  padding:44px 68px 86px;opacity:0;pointer-events:none;
+  transition:opacity .38s ease,transform .38s ease;transform:translateY(12px);}
+.slide.active{opacity:1;pointer-events:all;transform:translateY(0);}
+.slide.exit{opacity:0;transform:translateY(-12px);}
+.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--cyan),var(--teal));transition:width .38s ease;z-index:100;}
+.slide-num{position:fixed;top:17px;right:24px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);letter-spacing:.1em;z-index:100;}
+.content{width:100%;max-width:1120px;}
+.label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:13px;}
+.label.blue{color:var(--blue);}.label.green{color:var(--green);}.label.cyan{color:var(--cyan);}
+.label.purple{color:var(--purple);}.label.pink{color:var(--pink);}.label.orange{color:var(--orange);}
+.label.teal{color:var(--teal);}
+h1{font-family:'DM Serif Display',serif;font-size:clamp(2.6rem,5vw,4.6rem);font-weight:400;line-height:1.05;letter-spacing:-.02em;margin-bottom:13px;}
+h2{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3.8vw,3rem);font-weight:400;line-height:1.1;margin-bottom:11px;}
+.lead{font-size:clamp(.95rem,1.65vw,1.28rem);color:var(--text2);font-weight:300;line-height:1.65;margin-bottom:18px;}
+.hl-gold{color:var(--gold2);}.hl-blue{color:var(--blue);}.hl-green{color:var(--green);}.hl-cyan{color:var(--cyan);}
+.hl-red{color:var(--red);}.hl-purple{color:var(--purple);}.hl-pink{color:var(--pink);}.hl-orange{color:var(--orange);}.hl-teal{color:var(--teal);}
+.grid{display:grid;gap:2px;width:100%;}
+.g2{grid-template-columns:1fr 1fr;}.g3{grid-template-columns:1fr 1fr 1fr;}.g4{grid-template-columns:repeat(4,1fr);}
+.card{background:var(--surface);border:1px solid var(--border);padding:16px 20px;position:relative;}
+.card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.card.gold::after{background:var(--gold);}.card.blue::after{background:var(--blue);}
+.card.green::after{background:var(--green);}.card.red::after{background:var(--red);}
+.card.purple::after{background:var(--purple);}.card.cyan::after{background:var(--cyan);}
+.card.pink::after{background:var(--pink);}.card.orange::after{background:var(--orange);}.card.teal::after{background:var(--teal);}
+.card-title{font-family:'DM Mono',monospace;font-size:clamp(.68rem,1.05vw,.88rem);font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:7px;}
+.card-body{font-size:clamp(.82rem,1.25vw,1rem);color:var(--text2);line-height:1.6;font-weight:300;}
+.card-body strong{color:var(--text);font-weight:500;}
+.info-box{border-left:3px solid var(--blue);padding:11px 18px;background:rgba(74,158,255,.04);border-top:1px solid rgba(74,158,255,.08);border-right:1px solid rgba(74,158,255,.08);border-bottom:1px solid rgba(74,158,255,.08);margin-top:12px;}
+.info-box p{font-size:clamp(.85rem,1.35vw,1.05rem);color:var(--text2);line-height:1.6;}
+.info-box strong{color:var(--blue);}
+.gold-box{border-left:3px solid var(--gold);padding:11px 18px;background:rgba(201,168,76,.04);border-top:1px solid rgba(201,168,76,.08);border-right:1px solid rgba(201,168,76,.08);border-bottom:1px solid rgba(201,168,76,.08);margin-top:12px;}
+.gold-box p{font-size:clamp(.85rem,1.35vw,1.05rem);color:var(--text2);line-height:1.6;}
+.gold-box strong{color:var(--gold2);}
+.cyan-box{border-left:3px solid var(--cyan);padding:11px 18px;background:rgba(34,211,238,.04);border-top:1px solid rgba(34,211,238,.08);border-right:1px solid rgba(34,211,238,.08);border-bottom:1px solid rgba(34,211,238,.08);margin-top:12px;}
+.cyan-box p{font-size:clamp(.85rem,1.35vw,1.05rem);color:var(--text2);line-height:1.6;}
+.cyan-box strong{color:var(--cyan);}
+.steps{display:flex;flex-direction:column;gap:7px;width:100%;}
+.step-row{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);padding:12px 16px;}
+.step-n{font-family:'DM Mono',monospace;font-size:clamp(.72rem,1.1vw,.88rem);color:var(--gold);flex-shrink:0;min-width:22px;padding-top:1px;}
+.step-text{font-size:clamp(.88rem,1.4vw,1.1rem);color:var(--text2);line-height:1.6;font-weight:300;}
+.step-text strong{color:var(--text);font-weight:500;}
+.summary-table{border-collapse:collapse;width:100%;}
+.summary-table th{background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.18);padding:9px 14px;text-align:left;font-family:'DM Mono',monospace;font-size:clamp(.62rem,.95vw,.78rem);color:var(--cyan);font-weight:500;letter-spacing:.08em;text-transform:uppercase;}
+.summary-table td{border:1px solid var(--border);padding:10px 14px;background:var(--surface);font-size:clamp(.8rem,1.22vw,.98rem);color:var(--text2);vertical-align:top;}
+.summary-table tr:hover td{background:var(--surface2);}
+.summary-table td:first-child{font-family:'DM Mono',monospace;font-weight:700;font-size:clamp(.85rem,1.3vw,1rem);color:var(--cyan);}
+.nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;z-index:100;background:rgba(7,9,15,.92);backdrop-filter:blur(16px);border:1px solid var(--border2);padding:9px 18px;}
+.nav-btn{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);background:none;border:1px solid var(--border2);padding:6px 13px;cursor:pointer;transition:all .2s;}
+.nav-btn:hover{color:var(--gold);border-color:var(--gold);background:rgba(201,168,76,.05);}
+.nav-btn:disabled{opacity:.25;cursor:not-allowed;}
+.nav-dots{display:flex;gap:4px;flex-wrap:wrap;max-width:300px;justify-content:center;}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--border2);cursor:pointer;transition:all .2s;}
+.dot.active{background:var(--gold);transform:scale(1.4);}
+.nav-sep{width:1px;height:16px;background:var(--border2);}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="slide-num" id="slideNum">01 / 10</div>
+<div class="deck">
+
+<!-- ═══ S1 TITLE ═══ -->
+<div class="slide active">
+  <div class="content">
+    <div class="label">// A1.3.1–A1.3.4 · Operating Systems</div>
+    <h1>Operating<br><span class="hl-blue">Systems</span></h1>
+    <p style="font-family:'DM Mono',monospace;font-size:clamp(.82rem,1.3vw,1rem);color:var(--text3);margin-bottom:18px;">Summary Lesson</p>
+    <div class="gold-box"><p><strong>👉 Guiding Question:</strong> How does software manage hardware, processes, and devices?</p></div>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:18px;">
+      <div style="padding-left:11px;border-left:2px solid var(--blue);"><div style="font-family:'DM Mono',monospace;font-size:.95rem;">A1.3.1</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">ROLE OF OS</div></div>
+      <div style="padding-left:11px;border-left:2px solid var(--cyan);"><div style="font-family:'DM Mono',monospace;font-size:.95rem;">A1.3.2</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">FUNCTIONS OF OS</div></div>
+      <div style="padding-left:11px;border-left:2px solid var(--green);"><div style="font-family:'DM Mono',monospace;font-size:.95rem;">A1.3.3</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">SCHEDULING</div></div>
+      <div style="padding-left:11px;border-left:2px solid var(--teal);"><div style="font-family:'DM Mono',monospace;font-size:.95rem;">A1.3.4</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">INTERRUPTS & POLLING</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S2 ROLE OF OS ═══ -->
+<div class="slide">
+  <div class="content" style="max-width:1000px;">
+    <div class="label blue">// A1.3.1 · Role of the OS</div>
+    <h2>What Does an <span class="hl-blue">OS</span> Do?</h2>
+    <p class="lead" style="margin-bottom:12px;">The OS is the software layer between the user and hardware. It manages resources and provides services for all programs.</p>
+    <div class="grid g4" style="gap:2px;margin-bottom:10px;">
+      <div class="card blue">
+        <div class="card-title">CPU Management</div>
+        <div class="card-body">Allocates CPU time to processes efficiently.</div>
+      </div>
+      <div class="card cyan">
+        <div class="card-title">Memory Management</div>
+        <div class="card-body">Allocates/de-allocates RAM; manages virtual memory.</div>
+      </div>
+      <div class="card teal">
+        <div class="card-title">Storage Management</div>
+        <div class="card-body">Organizes data on disks; handles file systems.</div>
+      </div>
+      <div class="card green">
+        <div class="card-title">Device Management</div>
+        <div class="card-body">Controls hardware via device drivers.</div>
+      </div>
+    </div>
+    <div class="info-box"><p>Well-known operating systems: <strong>Windows, macOS, Linux</strong> (desktop) · <strong>Android, iOS</strong> (mobile). Each abstracts hardware so apps don't need to know the hardware details.</p></div>
+  </div>
+</div>
+
+<!-- ═══ S3 OS FUNCTIONS ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label blue">// A1.3.2 · OS Functions — Overview</div>
+    <h2>7 Key <span class="hl-cyan">Functions</span></h2>
+    <div class="grid g3" style="gap:2px;">
+      <div class="card blue">
+        <div class="card-title">Memory Management</div>
+        <div class="card-body">Loads apps into RAM. Uses <strong>virtual memory</strong> (disk space acting as RAM) when RAM runs low.</div>
+      </div>
+      <div class="card cyan">
+        <div class="card-title">File Management</div>
+        <div class="card-body">Hierarchical directory trees. Create, read, write, delete, rename files. <strong>Defragmentation</strong> keeps disks fast.</div>
+      </div>
+      <div class="card teal">
+        <div class="card-title">Device Management</div>
+        <div class="card-body">Device <strong>drivers</strong> bridge OS ↔ hardware. Uses <strong>buffering, caching, spooling</strong>. Plug and Play auto-installs.</div>
+      </div>
+      <div class="card green">
+        <div class="card-title">Scheduling</div>
+        <div class="card-body">Decides which process runs on CPU and when. Enables multitasking. (Detail on next slides.)</div>
+      </div>
+      <div class="card gold">
+        <div class="card-title">Security</div>
+        <div class="card-body"><strong>Authentication</strong> (login, biometrics), <strong>encryption</strong>, audit logs, malware protection (antivirus, firewall, IDS).</div>
+      </div>
+      <div class="card orange">
+        <div class="card-title">Accounting</div>
+        <div class="card-body">Tracks CPU, memory, disk, network usage per process/user. Used for billing, quotas, performance monitoring.</div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">GUI + Networking + Virtualization</div>
+        <div class="card-body">Visual interface (windows, icons, menus). Manages network connections (TCP/IP). Runs multiple <strong>VMs</strong> via hypervisor.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S4 MEMORY MANAGEMENT ═══ -->
+<div class="slide">
+  <div class="content" style="max-width:980px;">
+    <div class="label cyan">// A1.3.2 · Memory Management</div>
+    <h2>Memory Management <span class="hl-cyan">in Depth</span></h2>
+    <div class="grid g2" style="gap:10px;align-items:start;">
+      <div>
+        <div class="steps">
+          <div class="step-row"><div class="step-n">01</div><div class="step-text">App launches → OS locates the <strong>.exe / .app file</strong> on disk</div></div>
+          <div class="step-row"><div class="step-n">02</div><div class="step-text">OS <strong>allocates RAM</strong> for code, data, and resources</div></div>
+          <div class="step-row"><div class="step-n">03</div><div class="step-text">OS <strong>isolates each process</strong> in its own memory space — no interference</div></div>
+          <div class="step-row"><div class="step-n">04</div><div class="step-text">If RAM fills up: OS uses <strong>virtual memory</strong> — spills low-priority processes to disk</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="card cyan">
+          <div class="card-title">Virtual Memory</div>
+          <div class="card-body">Part of the HDD/SSD is used as overflow RAM. <strong>Much slower</strong> than real RAM, but keeps the system running. High-priority processes stay in RAM; low-priority move to disk.</div>
+        </div>
+        <div class="gold-box" style="margin-top:6px;"><p><strong>Analogy:</strong> RAM is your desk — fast, limited space. Virtual memory is a filing cabinet — slower, but you can store more.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S5 SCHEDULING PART 1 ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label green">// A1.3.3 · Scheduling — Part 1</div>
+    <h2>FCFS & <span class="hl-green">Round Robin</span></h2>
+    <div class="grid g2" style="gap:8px;align-items:start;">
+      <!-- FCFS -->
+      <div>
+        <div class="card blue" style="margin-bottom:6px;">
+          <div class="card-title">First Come First Served (FCFS)</div>
+          <div class="card-body">Processes execute <strong>in arrival order</strong>. Simple, non-pre-emptive — a process runs until complete before the next starts.</div>
+        </div>
+        <table style="border-collapse:collapse;width:100%;font-family:'DM Mono',monospace;font-size:.82rem;">
+          <tr>
+            <td style="background:rgba(74,158,255,.08);border:1px solid rgba(74,158,255,.2);padding:7px 10px;color:var(--blue);font-weight:500;">✓ Advantages</td>
+            <td style="background:rgba(255,107,107,.06);border:1px solid rgba(255,107,107,.18);padding:7px 10px;color:var(--red);font-weight:500;">✗ Disadvantages</td>
+          </tr>
+          <tr>
+            <td style="background:var(--surface);border:1px solid var(--border2);padding:7px 10px;color:var(--text2);">Simple to implement<br>Fair arrival order</td>
+            <td style="background:var(--surface);border:1px solid var(--border2);padding:7px 10px;color:var(--text2);">Convoy effect — short jobs stuck behind long ones<br>Higher average wait times</td>
+          </tr>
+        </table>
+      </div>
+      <!-- Round Robin -->
+      <div>
+        <div class="card green" style="margin-bottom:6px;">
+          <div class="card-title">Round Robin (RR)</div>
+          <div class="card-body">Each process gets a fixed <strong>time quantum</strong>. After it expires, the process goes to the back of the queue. <strong>Pre-emptive</strong> — no process monopolizes the CPU.</div>
+        </div>
+        <table style="border-collapse:collapse;width:100%;font-family:'DM Mono',monospace;font-size:.82rem;">
+          <tr>
+            <td style="background:rgba(61,214,140,.08);border:1px solid rgba(61,214,140,.2);padding:7px 10px;color:var(--green);font-weight:500;">✓ Advantages</td>
+            <td style="background:rgba(255,107,107,.06);border:1px solid rgba(255,107,107,.18);padding:7px 10px;color:var(--red);font-weight:500;">✗ Disadvantages</td>
+          </tr>
+          <tr>
+            <td style="background:var(--surface);border:1px solid var(--border2);padding:7px 10px;color:var(--text2);">Fair CPU sharing<br>High responsiveness</td>
+            <td style="background:var(--surface);border:1px solid var(--border2);padding:7px 10px;color:var(--text2);">Quantum choice is critical<br>High context-switching overhead if quantum too short</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="cyan-box" style="margin-top:10px;"><p><strong>Key term — Context switch:</strong> When the CPU saves a process's state and loads another. Necessary for multitasking but adds overhead.</p></div>
+  </div>
+</div>
+
+<!-- ═══ S6 SCHEDULING PART 2 ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label green">// A1.3.3 · Scheduling — Part 2</div>
+    <h2>Priority & <span class="hl-gold">Multilevel Queue</span></h2>
+    <div class="grid g2" style="gap:8px;align-items:start;">
+      <!-- Priority -->
+      <div>
+        <div class="card gold" style="margin-bottom:6px;">
+          <div class="card-title">Priority Scheduling</div>
+          <div class="card-body">Each process has a priority. <strong>Highest priority runs first.</strong> Priority can be static or dynamic. <strong>Ageing</strong> gradually increases waiting process priority to prevent starvation.</div>
+        </div>
+        <table style="border-collapse:collapse;width:100%;font-family:'DM Mono',monospace;font-size:.82rem;">
+          <tr>
+            <td style="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);padding:7px 10px;color:var(--gold2);font-weight:500;">✓ Advantages</td>
+            <td style="background:rgba(255,107,107,.06);border:1px solid rgba(255,107,107,.18);padding:7px 10px;color:var(--red);font-weight:500;">✗ Disadvantages</td>
+          </tr>
+          <tr>
+            <td style="background:var(--surface);border:1px solid var(--border2);padding:7px 10px;color:var(--text2);">Critical tasks run immediately<br>Flexible, dynamic priority</td>
+            <td style="background:var(--surface);border:1px solid var(--border2);padding:7px 10px;color:var(--text2);"><strong>Starvation</strong> of low-priority processes<br>Priority inversion possible</td>
+          </tr>
+        </table>
+      </div>
+      <!-- Multilevel Queue -->
+      <div>
+        <div class="card orange" style="margin-bottom:6px;">
+          <div class="card-title">Multilevel Queue Scheduling</div>
+          <div class="card-body">Ready queue <strong>split into multiple queues</strong> (e.g. interactive, batch, background). Each queue has its own algorithm and priority level.</div>
+        </div>
+        <table style="border-collapse:collapse;width:100%;font-family:'DM Mono',monospace;font-size:.82rem;">
+          <tr>
+            <td style="background:rgba(251,146,60,.08);border:1px solid rgba(251,146,60,.2);padding:7px 10px;color:var(--orange);font-weight:500;">✓ Advantages</td>
+            <td style="background:rgba(255,107,107,.06);border:1px solid rgba(255,107,107,.18);padding:7px 10px;color:var(--red);font-weight:500;">✗ Disadvantages</td>
+          </tr>
+          <tr>
+            <td style="background:var(--surface);border:1px solid var(--border2);padding:7px 10px;color:var(--text2);">Tailored algorithms per queue<br>Responsive for interactive tasks</td>
+            <td style="background:var(--surface);border:1px solid var(--border2);padding:7px 10px;color:var(--text2);">Low queues can starve<br>Processes locked into queues</td>
+          </tr>
+        </table>
+        <div style="background:var(--surface2);border:1px solid var(--border2);padding:8px 12px;margin-top:4px;font-family:'DM Mono',monospace;font-size:.75rem;color:var(--text3);">
+          Q1 HIGH → Interactive → Round Robin<br>
+          Q2 MED&nbsp; → Batch &nbsp;&nbsp;&nbsp;&nbsp;→ FCFS<br>
+          Q3 LOW&nbsp; → Background → FCFS
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S7 INTERRUPTS VS POLLING ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label teal">// A1.3.4 · Interrupt Handling vs Polling</div>
+    <h2>Interrupts vs <span class="hl-teal">Polling</span></h2>
+    <p class="lead" style="margin-bottom:10px;">Two ways for the CPU to find out when a device needs attention.</p>
+    <table class="summary-table">
+      <thead>
+        <tr><th>Criteria</th><th>Interrupt Handling</th><th>Polling</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Mechanism</td>
+          <td>Device <strong style="color:var(--teal);">signals CPU</strong> when it needs service → CPU pauses, runs ISR, resumes</td>
+          <td>CPU <strong style="color:var(--orange);">repeatedly checks</strong> each device at set intervals</td>
+        </tr>
+        <tr>
+          <td>Best for</td>
+          <td>Unpredictable, infrequent events (keyboard, network packet)</td>
+          <td>Regular, predictable events (climate sensor, data logger)</td>
+        </tr>
+        <tr>
+          <td>CPU overhead</td>
+          <td>Low when events are rare; high if interrupts are very frequent</td>
+          <td>High — CPU checks constantly even when nothing happens</td>
+        </tr>
+        <tr>
+          <td>Power use</td>
+          <td>More efficient — CPU idles between events</td>
+          <td>Less efficient — CPU always active</td>
+        </tr>
+        <tr>
+          <td>Latency</td>
+          <td>Immediate response; variable if many interrupts</td>
+          <td>Controlled, predictable response time</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="gold-box" style="margin-top:10px;"><p><strong>Analogy:</strong> Interrupts = doorbell (acts when something happens). Polling = checking the door every 5 minutes whether someone is there or not.</p></div>
+  </div>
+</div>
+
+<!-- ═══ S8 SCHEDULING QUICK REF ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label gold">// A1.3.3 · Quick Reference</div>
+    <h2>Scheduling — <span class="hl-gold">At a Glance</span></h2>
+    <table class="summary-table">
+      <thead>
+        <tr><th>Algorithm</th><th>How it works</th><th>Pre-emptive?</th><th>Main risk</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:var(--blue);">FCFS</td>
+          <td>Run in arrival order, each to completion</td>
+          <td style="font-family:'DM Mono',monospace;color:var(--red);">No</td>
+          <td>Convoy effect — long jobs block short ones</td>
+        </tr>
+        <tr>
+          <td style="color:var(--green);">Round Robin</td>
+          <td>Fixed time quantum, then back of queue</td>
+          <td style="font-family:'DM Mono',monospace;color:var(--green);">Yes</td>
+          <td>Too-short quantum → high context-switch overhead</td>
+        </tr>
+        <tr>
+          <td style="color:var(--gold2);">Priority</td>
+          <td>Highest priority runs first; ageing prevents starvation</td>
+          <td style="font-family:'DM Mono',monospace;color:var(--green);">Yes</td>
+          <td>Starvation of low-priority; priority inversion</td>
+        </tr>
+        <tr>
+          <td style="color:var(--orange);">Multilevel Queue</td>
+          <td>Separate queues per process type, each with own algorithm</td>
+          <td style="font-family:'DM Mono',monospace;color:var(--green);">Yes</td>
+          <td>Lower queues starve; processes locked into queues</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="gold-box" style="margin-top:12px;"><p><strong>Common mistake:</strong> Context switching enables multitasking but adds overhead — too much switching reduces performance.</p></div>
+  </div>
+</div>
+
+<!-- ═══ S9 INTERRUPTS REAL EXAMPLES ═══ -->
+<div class="slide">
+  <div class="content" style="max-width:980px;">
+    <div class="label teal">// A1.3.4 · Real-World Examples</div>
+    <h2>When to Use <span class="hl-teal">Each</span>?</h2>
+    <div class="grid g2" style="gap:8px;">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:.7rem;color:var(--teal);letter-spacing:.15em;margin-bottom:6px;">USE INTERRUPTS WHEN…</div>
+        <div class="steps" style="gap:5px;">
+          <div class="step-row" style="border-color:rgba(34,211,238,.2);">
+            <div class="step-n" style="color:var(--teal);">→</div>
+            <div class="step-text"><strong>Keyboard / Mouse:</strong> each keystroke fires an interrupt for instant response</div>
+          </div>
+          <div class="step-row" style="border-color:rgba(34,211,238,.2);">
+            <div class="step-n" style="color:var(--teal);">→</div>
+            <div class="step-text"><strong>Network packet arrives:</strong> NIC interrupts CPU to process data immediately</div>
+          </div>
+          <div class="step-row" style="border-color:rgba(34,211,238,.2);">
+            <div class="step-n" style="color:var(--teal);">→</div>
+            <div class="step-text"><strong>Disk I/O completes:</strong> disk signals CPU so it can multitask during the wait</div>
+          </div>
+          <div class="step-row" style="border-color:rgba(34,211,238,.2);">
+            <div class="step-n" style="color:var(--teal);">→</div>
+            <div class="step-text"><strong>Airbag sensor:</strong> collision detection needs an immediate, critical response</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:.7rem;color:var(--orange);letter-spacing:.15em;margin-bottom:6px;">USE POLLING WHEN…</div>
+        <div class="steps" style="gap:5px;">
+          <div class="step-row" style="border-color:rgba(251,146,60,.2);">
+            <div class="step-n" style="color:var(--orange);">→</div>
+            <div class="step-text"><strong>Temperature sensor:</strong> checked at regular intervals in climate control</div>
+          </div>
+          <div class="step-row" style="border-color:rgba(251,146,60,.2);">
+            <div class="step-n" style="color:var(--orange);">→</div>
+            <div class="step-text"><strong>Data logger:</strong> writes to disk at fixed intervals — polling is simpler</div>
+          </div>
+          <div class="step-row" style="border-color:rgba(251,146,60,.2);">
+            <div class="step-n" style="color:var(--orange);">→</div>
+            <div class="step-text"><strong>Industrial robot:</strong> performs checks at precise, predictable intervals</div>
+          </div>
+          <div class="step-row" style="border-color:rgba(251,146,60,.2);">
+            <div class="step-n" style="color:var(--orange);">→</div>
+            <div class="step-text"><strong>Simple kiosk:</strong> low activity — polling is sufficient and easier to implement</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="gold-box" style="margin-top:10px;"><p><strong>Key point:</strong> Neither is universally better. Context determines the right choice — event frequency, power source, and response time requirements all matter.</p></div>
+  </div>
+</div>
+
+<!-- ═══ S10 SUMMARY ═══ -->
+<div class="slide">
+  <div class="content" style="max-width:980px;">
+    <div class="label">// Summary</div>
+    <h2>What We <span class="hl-gold">Covered</span></h2>
+    <div class="grid g2" style="gap:2px;margin-bottom:10px;">
+      <div class="card blue">
+        <div class="card-title">A1.3.1–2 · Role & Functions</div>
+        <div class="card-body">OS manages CPU, memory, files, devices, security, accounting, GUI, networking, virtualization. Acts as intermediary between user and hardware.</div>
+      </div>
+      <div class="card cyan">
+        <div class="card-title">A1.3.2 · Memory Management</div>
+        <div class="card-body">Loads apps into RAM, isolates processes, uses <strong>virtual memory</strong> (disk) as overflow. Slower but keeps system running under load.</div>
+      </div>
+      <div class="card green">
+        <div class="card-title">A1.3.3 · Scheduling</div>
+        <div class="card-body"><strong>FCFS</strong> — simple, convoy effect.<br><strong>Round Robin</strong> — fair, time quantum.<br><strong>Priority</strong> — critical tasks first, starvation risk.<br><strong>MLQ</strong> — queues per process type.</div>
+      </div>
+      <div class="card teal">
+        <div class="card-title">A1.3.4 · Interrupts vs Polling</div>
+        <div class="card-body"><strong>Interrupts:</strong> device-driven, efficient for unpredictable events, power-efficient.<br><strong>Polling:</strong> CPU-driven, predictable latency, higher overhead. Context determines the right choice.</div>
+      </div>
+    </div>
+    <div class="gold-box"><p><strong>Big picture:</strong> The OS is the invisible manager — it handles every resource, keeps processes fair, and bridges software to hardware.</p></div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="go(-1)" disabled>← prev</button>
+  <div class="nav-sep"></div>
+  <div class="nav-dots" id="dots"></div>
+  <div class="nav-sep"></div>
+  <button class="nav-btn" id="nextBtn" onclick="go(1)">next →</button>
+</nav>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let cur = 0;
+
+document.getElementById('slideNum').textContent = `01 / ${String(total).padStart(2,'0')}`;
+
+const dotsEl = document.getElementById('dots');
+slides.forEach((_,i) => {
+  const d = document.createElement('span');
+  d.className = 'dot' + (i===0?' active':'');
+  d.onclick = () => show(i);
+  dotsEl.appendChild(d);
+});
+
+function show(n) {
+  slides[cur].classList.remove('active');
+  slides[cur].classList.add('exit');
+  setTimeout(() => slides[cur].classList.remove('exit'), 400);
+  cur = n;
+  slides[cur].classList.add('active');
+  document.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('active', i===cur));
+  document.getElementById('progress').style.width = ((cur+1)/total*100)+'%';
+  document.getElementById('slideNum').textContent = `${String(cur+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`;
+  document.getElementById('prevBtn').disabled = cur === 0;
+  document.getElementById('nextBtn').disabled = cur === total-1;
+}
+
+function go(dir) { if(cur+dir>=0 && cur+dir<total) show(cur+dir); }
+
+document.addEventListener('keydown', e => {
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') go(1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp') go(-1);
+});
+
+document.getElementById('progress').style.width = (1/total*100)+'%';
+document.getElementById('prevBtn').disabled = true;
+</script>
+</body>
+</html>

@@ -1,0 +1,305 @@
+================================================================================
+B2 PROGRAMMING — LOOPS IN CONTEXT  |  INDIVIDUAL WORKSHEET
+IB Computer Science SL  |  B2.3.3 Iteration + Review
+================================================================================
+Name: _________________________________________  Date: ________________________
+
+Instructions: Complete all activities independently. Show all working.
+Topics: for loops  ·  while loops  ·  variables  ·  conditionals
+Estimated time: ~45 minutes
+================================================================================
+
+
+--------------------------------------------------------------------------------
+ACTIVITY 1 — PREDICT THE OUTPUT                                [ ~10 minutes ]
+--------------------------------------------------------------------------------
+
+Write exactly what gets printed. If there is an error, write ERROR and explain.
+
+─────────────────────────────────
+Program A
+
+    for i in range(5):
+        print(i * 2)
+
+    Output (list every printed line):
+
+    _______   _______   _______   _______   _______
+
+─────────────────────────────────
+Program B
+
+    total = 0
+    scores = [85, 72, 91, 68]
+
+    for score in scores:
+        total = total + score
+        if score >= 80:
+            print("High:", score)
+
+    print("Total:", total)
+
+    Output (list every printed line in order):
+
+    Line 1: ___________________________________________________________________
+
+    Line 2: ___________________________________________________________________
+
+    Line 3: ___________________________________________________________________
+
+─────────────────────────────────
+Program C
+
+    n = 1
+    while n <= 4:
+        print(n * n)
+        n = n + 1
+
+    Output (list every printed line):
+
+    _______   _______   _______   _______
+
+    After the loop ends, what is the value of n?  _______
+
+─────────────────────────────────
+Program D
+
+    found = False
+    target = 7
+    for i in range(1, 10):
+        if i == target:
+            found = True
+    print(found)
+
+    Output: ___________________________________________________________________
+
+    What is the data type of  found ?  ______________________
+
+    Could the loop be improved to stop as soon as target is found?
+    How? (one sentence)
+
+    ________________________________________________________________________
+
+
+--------------------------------------------------------------------------------
+ACTIVITY 2 — TRACE TABLE                                       [ ~15 minutes ]
+--------------------------------------------------------------------------------
+
+─────────────────────────────────
+Trace 2A  —  while loop with accumulator
+
+    n = 1
+    total = 0
+    while n <= 5:
+        total = total + n
+        n = n + 1
+    print(total)
+
+Fill in every cell. Write the value AFTER each statement executes.
+If the condition is checked, write T (True) or F (False) in the condition column.
+
+    Iteration | n   | total | n <= 5 | Action
+    ─────────────────────────────────────────────────────────────
+    (start)   | 1   | 0     |        |
+    1         |     |       |   T    | total = 0 + 1 = 1 ,  n = 2
+    2         |     |       |        |
+    3         |     |       |        |
+    4         |     |       |        |
+    5         |     |       |        |
+    (exit)    |     |       |   F    | loop ends
+              |     |       |        | print( _______ )
+
+In plain English, what does this program calculate?
+
+    ________________________________________________________________________
+
+─────────────────────────────────
+Trace 2B  —  for loop with selection
+
+    grade = ""
+    score = 74
+
+    for attempt in range(3):
+        if score >= 80:
+            grade = "A"
+        elif score >= 60:
+            grade = "B"
+        else:
+            grade = "C"
+        score = score - 5
+
+    print(grade, score)
+
+Fill in the trace table:
+
+    attempt | score (start of iteration) | Condition met | grade | score (end)
+    ──────────────────────────────────────────────────────────────────────────
+    0       | 74                         |               |       |
+    1       |                            |               |       |
+    2       |                            |               |       |
+            | (loop ends)
+
+    print output: ____________________________
+
+After the loop, is this value of grade correct for the final score?
+Explain in one sentence.
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+
+--------------------------------------------------------------------------------
+ACTIVITY 3 — FILL IN THE BLANK                                 [ ~10 minutes ]
+--------------------------------------------------------------------------------
+
+Complete the program by filling in each blank. Each blank is one value,
+one keyword, or one short expression.
+
+The program counts how many numbers from 1 to 20 are divisible by 3.
+
+    count = _______
+
+    for i in range( _______ , _______ ):
+
+        if i _______ 3 == 0:
+
+            count = count + _______
+
+    print("Divisible by 3:", _______ )
+
+Write the expected output:  ___________________________________________________
+
+Now adapt the program: change it so it counts numbers divisible by BOTH 3 AND 5.
+Write only the changed if-condition below.
+
+    if ________________________________________________________________________:
+
+
+─────────────────────────────────
+Complete this second program.
+
+The program asks for a PIN and gives the user 3 attempts before locking them out.
+
+    PIN = "4829"
+    attempts = _______
+    locked = _______
+
+    while attempts _______ 3 and not locked:
+
+        guess = input("Enter PIN: ")
+        attempts = _______________________
+
+        if guess _______ PIN:
+
+            print("Access granted")
+            locked = _______
+
+        else:
+
+            print("Incorrect. Attempts used:", _______ )
+
+    if not locked:
+
+        print("Account locked.")
+
+There is a logic error in the last two lines. Identify and correct it.
+
+    Error: ____________________________________________________________________
+
+    ________________________________________________________________________
+
+    Corrected lines:
+
+    ___________________________________________________________________________
+
+    ___________________________________________________________________________
+
+
+--------------------------------------------------------------------------------
+ACTIVITY 4 — WRITE IT YOURSELF                                 [ ~10 minutes ]
+--------------------------------------------------------------------------------
+
+Write a complete Python program for the specification below.
+
+SPECIFICATION:
+  A fitness app tracks a user's daily step count for one week (7 days).
+    — Use a loop to collect the step count for each day (integer)
+    — Count how many days the user hit their goal of 10,000 steps or more
+    — After all 7 days, print the total steps, the daily average, and the
+      number of goal days
+    — The input must be protected by a try/except: if the user enters a
+      non-integer value, print "Invalid entry — recorded as 0" and treat
+      that day's count as 0
+
+Write your program in the space below. Use correct indentation.
+
+    total_steps = _______
+    goal_days = _______
+
+    for day in range( _______ ):
+
+        try:
+
+            ___________________________________________________________________
+
+            ___________________________________________________________________
+
+        except ____________________________:
+
+            ___________________________________________________________________
+
+            ___________________________________________________________________
+
+        if _______ >= 10000:
+
+            goal_days = ________________________________________________________
+
+        total_steps = __________________________________________________________
+
+    average = _________________________________________________________________
+
+    print("Total steps:", _____________________________________________________ )
+
+    print("Daily average:", ____________________________________________________ )
+
+    print("Goal days:", ________________________________________________________ )
+
+
+Write the expected output if the user enters these values in order:
+    12000, 8500, "rest", 10500, 9800, 11200, 7300
+
+    Total steps: ______________________________________________________________
+
+    Daily average: ____________________________________________________________
+
+    Goal days: ________________________________________________________________
+
+State why  total_steps  must be initialised to 0 before the loop begins:
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+
+--------------------------------------------------------------------------------
+REFLECTION                                                     [ ~2 minutes ]
+--------------------------------------------------------------------------------
+
+Circle one for each:
+
+  Confidence with for loops (counted):              1   2   3   4   5
+  Confidence with while loops (conditional):        1   2   3   4   5
+  Confidence using conditionals inside loops:       1   2   3   4   5
+  Confidence reading a trace table:                 1   2   3   4   5
+
+One thing I want to review before the test:
+
+    ________________________________________________________________________
+
+    ________________________________________________________________________
+
+
+================================================================================
+END OF INDIVIDUAL WORKSHEET
+================================================================================

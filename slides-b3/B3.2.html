@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B3.2 — Fundamentals of OOP for Multiple Classes (HL)</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Serif+Display&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07090f;
+  --surface: #0e1117;
+  --surface2: #151923;
+  --border: #1e2535;
+  --border2: #2a3448;
+  --gold: #c9a84c;
+  --gold2: #e8c97a;
+  --blue: #4a9eff;
+  --green: #3dd68c;
+  --red: #ff6b6b;
+  --purple: #9b8afb;
+  --cyan: #22d3ee;
+  --orange: #fb923c;
+  --text: #dde4f0;
+  --text2: #7a8ba8;
+  --text3: #3d4f6a;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; }
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(155,138,251,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(155,138,251,0.03) 1px, transparent 1px),
+    linear-gradient(rgba(155,138,251,0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(155,138,251,0.01) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+  pointer-events: none; z-index: 0;
+}
+.deck { position: relative; width: 100vw; height: 100vh; z-index: 1; }
+.slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 50px 72px 92px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.38s ease, transform 0.38s ease;
+  transform: translateY(12px);
+}
+.slide.active { opacity: 1; pointer-events: all; transform: translateY(0); }
+.slide.exit { opacity: 0; transform: translateY(-12px); }
+.slide.scroll-slide {
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-top: 64px;
+  padding-bottom: 132px;
+}
+.slide.scroll-slide::-webkit-scrollbar { width: 10px; }
+.slide.scroll-slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
+.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(14,17,23,0.3); }
+.progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--purple), var(--blue)); transition: width 0.38s ease; z-index: 100; }
+.slide-num { position: fixed; top: 17px; right: 24px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
+.content { width: 100%; max-width: 1120px; }
+.label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--purple); margin-bottom: 14px; }
+.label.blue { color: var(--blue); } .label.green { color: var(--green); } .label.gold { color: var(--gold); } .label.cyan { color: var(--cyan); } .label.orange { color: var(--orange); } .label.red { color: var(--red); }
+h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.8rem,5.5vw,4.8rem); font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
+h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem); font-weight: 400; line-height: 1.1; margin-bottom: 12px; }
+.lead { font-size: clamp(1rem,1.75vw,1.35rem); color: var(--text2); font-weight: 300; line-height: 1.65; margin-bottom: 24px; }
+.hl-gold { color: var(--gold2); } .hl-blue { color: var(--blue); } .hl-green { color: var(--green); } .hl-purple { color: var(--purple); } .hl-cyan { color: var(--cyan); } .hl-red { color: var(--red); } .hl-orange { color: var(--orange); }
+.grid { display: grid; gap: 2px; width: 100%; }
+.g2 { grid-template-columns: 1fr 1fr; } .g3 { grid-template-columns: 1fr 1fr 1fr; } .g4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+.card { background: var(--surface); border: 1px solid var(--border); padding: 18px 22px; position: relative; overflow: hidden; }
+.card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.card.gold::after { background: var(--gold); } .card.blue::after { background: var(--blue); }
+.card.green::after { background: var(--green); } .card.red::after { background: var(--red); }
+.card.purple::after { background: var(--purple); } .card.cyan::after { background: var(--cyan); }
+.card.orange::after { background: var(--orange); }
+.card-title { font-family: 'DM Mono', monospace; font-size: clamp(0.7rem,1.1vw,0.9rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.card-body { font-size: clamp(0.85rem,1.3vw,1.05rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
+.card-body strong { color: var(--text); font-weight: 500; }
+.info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(74,158,255,0.04); border-top: 1px solid rgba(74,158,255,0.08); border-right: 1px solid rgba(74,158,255,0.08); border-bottom: 1px solid rgba(74,158,255,0.08); margin-top: 14px; }
+.info-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.info-box strong { color: var(--blue); }
+.gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(201,168,76,0.04); border-top: 1px solid rgba(201,168,76,0.08); border-right: 1px solid rgba(201,168,76,0.08); border-bottom: 1px solid rgba(201,168,76,0.08); margin-top: 14px; }
+.gold-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.gold-box strong { color: var(--gold2); }
+.purple-box { border-left: 3px solid var(--purple); padding: 13px 20px; background: rgba(155,138,251,0.04); border-top: 1px solid rgba(155,138,251,0.08); border-right: 1px solid rgba(155,138,251,0.08); border-bottom: 1px solid rgba(155,138,251,0.08); margin-top: 14px; }
+.purple-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.purple-box strong { color: var(--purple); }
+.cyan-box { border-left: 3px solid var(--cyan); padding: 13px 20px; background: rgba(34,211,238,0.04); border-top: 1px solid rgba(34,211,238,0.08); border-right: 1px solid rgba(34,211,238,0.08); border-bottom: 1px solid rgba(34,211,238,0.08); margin-top: 14px; }
+.cyan-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.cyan-box strong { color: var(--cyan); }
+.green-box { border-left: 3px solid var(--green); padding: 13px 20px; background: rgba(61,214,140,0.04); border-top: 1px solid rgba(61,214,140,0.08); border-right: 1px solid rgba(61,214,140,0.08); border-bottom: 1px solid rgba(61,214,140,0.08); margin-top: 14px; }
+.green-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.green-box strong { color: var(--green); }
+.red-box { border-left: 3px solid var(--red); padding: 13px 20px; background: rgba(255,107,107,0.04); border-top: 1px solid rgba(255,107,107,0.08); border-right: 1px solid rgba(255,107,107,0.08); border-bottom: 1px solid rgba(255,107,107,0.08); margin-top: 14px; }
+.red-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.red-box strong { color: var(--red); }
+.divider { width: 100%; height: 1px; background: var(--border); margin: 14px 0; }
+.steps { display: flex; flex-direction: column; gap: 2px; }
+.step-row { display: flex; align-items: flex-start; gap: 18px; background: var(--surface); border: 1px solid var(--border); padding: 13px 18px; }
+.step-n { font-family: 'DM Mono', monospace; font-size: clamp(0.85rem,1.4vw,1.1rem); color: var(--purple); min-width: 28px; flex-shrink: 0; font-weight: 500; padding-top: 2px; }
+.step-text { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.5; font-weight: 300; }
+.step-text strong { color: var(--text); font-weight: 500; }
+.tag { display: inline-block; font-family: 'DM Mono', monospace; font-size: 9px; padding: 2px 7px; border-radius: 2px; letter-spacing: 0.06em; vertical-align: middle; margin-left: 4px; }
+.tag.sl { background: rgba(61,214,140,0.1); color: var(--green); border: 1px solid rgba(61,214,140,0.25); }
+.tag.hl { background: rgba(155,138,251,0.1); color: var(--purple); border: 1px solid rgba(155,138,251,0.25); }
+/* Code blocks */
+.code-block { background: #0a0c12; border: 1px solid var(--border2); padding: 16px 20px; font-family: 'DM Mono', monospace; font-size: clamp(0.72rem,1.1vw,0.9rem); line-height: 1.7; color: var(--text2); margin-top: 10px; overflow-x: auto; }
+.code-block .kw { color: var(--purple); }
+.code-block .fn { color: var(--blue); }
+.code-block .str { color: var(--green); }
+.code-block .cm { color: var(--text3); font-style: italic; }
+.code-block .num { color: var(--orange); }
+.code-block .cls { color: var(--gold2); }
+/* UML table */
+.uml-table { width: 100%; border-collapse: collapse; font-family: 'DM Mono', monospace; font-size: clamp(0.78rem,1.2vw,0.95rem); }
+.uml-table td { border: 1px solid var(--border2); padding: 10px 16px; background: var(--surface); }
+.uml-table .uml-head { background: var(--surface2); color: var(--gold2); font-weight: 500; text-align: center; letter-spacing: 0.08em; font-size: 1.05em; }
+.uml-table .uml-attr { color: var(--cyan); }
+.uml-table .uml-method { color: var(--blue); }
+.uml-table .uml-priv { color: var(--red); }
+.uml-table .uml-pub { color: var(--green); }
+.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; }
+.nav-btn { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; }
+.nav-btn:hover { color: var(--purple); border-color: var(--purple); background: rgba(155,138,251,0.05); }
+.nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+.nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 240px; justify-content: center; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); cursor: pointer; transition: all 0.2s; }
+.dot.active { background: var(--purple); transform: scale(1.4); }
+.nav-sep { width: 1px; height: 18px; background: var(--border2); }
+/* UML Diagram Styles */
+.uml-diagram { display: flex; align-items: flex-start; justify-content: center; gap: 40px; flex-wrap: wrap; margin-top: 16px; }
+.uml-class { background: var(--surface); border: 1px solid var(--border2); min-width: 180px; text-align: center; font-family: 'DM Mono', monospace; font-size: 0.78rem; }
+.uml-class-name { background: var(--surface2); padding: 8px 14px; color: var(--gold2); font-weight: 500; border-bottom: 1px solid var(--border2); letter-spacing: 0.06em; }
+.uml-class-body { padding: 8px 14px; text-align: left; border-bottom: 1px solid var(--border); color: var(--cyan); line-height: 1.8; }
+.uml-class-methods { padding: 8px 14px; text-align: left; color: var(--blue); line-height: 1.8; }
+.uml-arrow { display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--text3); }
+.uml-arrow span { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--text3); letter-spacing: 0.1em; margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="slide-num" id="slideNum">01 / 17</div>
+<div class="deck">
+
+<!-- ═══════════════════════════════════════════════ S1: TITLE -->
+<div class="slide active">
+  <div class="content">
+    <div class="label">// B3.2 · Object-Oriented Programming (HL)</div>
+    <h1>OOP for<br><span class="hl-purple">Multiple Classes</span></h1>
+    <p style="font-family:'DM Mono',monospace;font-size:clamp(0.85rem,1.4vw,1.1rem);color:var(--text3);margin-bottom:20px;">Theme B3 · IB Computer Science HL</p>
+    <div class="gold-box">
+      <p><strong>👉 Guiding Question:</strong> Is object-oriented programming an appropriate paradigm for solving complex problems involving multiple interacting classes?</p>
+    </div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:20px;">
+      <div style="padding-left:12px;border-left:2px solid var(--blue);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Inheritance</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">CODE REUSABILITY</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--purple);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Polymorphism</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">MANY FORMS</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--cyan);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Abstraction</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">ABSTRACT CLASSES</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--green);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Composition</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">HAS-A RELATIONSHIPS</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--orange);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Design Patterns</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">PROVEN SOLUTIONS</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S2: IB SPEC -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// IB Specification · B3.2</div>
+    <h2>What IB Requires</h2>
+    <div class="steps">
+      <div class="step-row">
+        <div class="step-n">3.2.1</div>
+        <div class="step-text"><strong>Explain and apply</strong> the concept of inheritance in OOP to promote code reusability <span class="tag hl">HL</span><br>
+        <span style="font-size:0.88em;color:var(--text3);">Parent/child classes, extends keyword, super(), access modifiers (private, public, protected)</span></div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">3.2.2</div>
+        <div class="step-text"><strong>Construct</strong> code to model polymorphism and its various forms, such as method overriding <span class="tag hl">HL</span><br>
+        <span style="font-size:0.88em;color:var(--text3);">Dynamic (runtime) polymorphism via overriding; static (compile-time) polymorphism via overloading</span></div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">3.2.3</div>
+        <div class="step-text"><strong>Explain</strong> the concept of abstraction in OOP <span class="tag hl">HL</span><br>
+        <span style="font-size:0.88em;color:var(--text3);">Abstract classes as templates that cannot be instantiated; enforcing a common interface for subclasses</span></div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">3.2.4</div>
+        <div class="step-text"><strong>Explain</strong> the role of composition and aggregation in class relationships <span class="tag hl">HL</span><br>
+        <span style="font-size:0.88em;color:var(--text3);">Composition: strong "has-a" (lifecycle dependent); Aggregation: weak "has-a" (independent lifecycle)</span></div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">3.2.5</div>
+        <div class="step-text"><strong>Explain</strong> commonly used design patterns in OOP <span class="tag hl">HL</span><br>
+        <span style="font-size:0.88em;color:var(--text3);">Singleton, Factory, and Observer patterns — purpose, structure, and real-world application</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S3: INHERITANCE CONCEPT -->
+<div class="slide">
+  <div class="content">
+    <div class="label blue">// B3.2.1 · Inheritance</div>
+    <h2>What is <span class="hl-blue">Inheritance</span>?</h2>
+    <p class="lead">Inheritance allows a class (child/subclass) to <strong class="hl-blue">acquire the properties and methods</strong> of another class (parent/superclass), promoting code reuse and hierarchical organization.</p>
+    <div class="grid g2" style="gap:2px;margin-bottom:14px;">
+      <div class="card blue">
+        <div class="card-title">The "is-a" Relationship</div>
+        <div class="card-body">A <strong>Customer</strong> <em>is a</em> Person. An <strong>Employee</strong> <em>is a</em> Person. Both inherit name, phone, email, and address from Person — and then add their own specialized fields.</div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">Why It Matters</div>
+        <div class="card-body"><strong>Write once, reuse everywhere.</strong> Common code lives in the parent class. Subclasses only define what makes them different. Changes to shared behavior only need to be made in one place.</div>
+      </div>
+    </div>
+    <div class="uml-diagram">
+      <div class="uml-class">
+        <div class="uml-class-name">Person</div>
+        <div class="uml-class-body">- name: str<br>- phone: str<br>- email: str<br>- address: str</div>
+        <div class="uml-class-methods">+ __str__(): str</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;justify-content:center;">
+        <div style="color:var(--text3);font-size:1.5rem;">△</div>
+        <div style="font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--text3);">inherits</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div class="uml-class">
+          <div class="uml-class-name" style="color:var(--blue);">Customer</div>
+          <div class="uml-class-body">- membership: int<br>- points: int<br>- signup: date</div>
+          <div class="uml-class-methods">+ __str__(): str</div>
+        </div>
+        <div class="uml-class">
+          <div class="uml-class-name" style="color:var(--green);">Employee</div>
+          <div class="uml-class-body">- salary: float<br>- bankaccount: str<br>- supervisor: Person</div>
+          <div class="uml-class-methods">+ __str__(): str</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S4: INHERITANCE CODE -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label blue">// B3.2.1 · Inheritance in Code</div>
+    <h2>Inheritance — <span class="hl-blue">Python</span></h2>
+    <div class="code-block"><span class="kw">class</span> <span class="cls">Person</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name, phone, email, address):
+        self.name = name
+        self.phone = phone
+        self.email = email
+        self.address = address
+
+    <span class="kw">def</span> <span class="fn">__str__</span>(self):
+        <span class="kw">return</span> <span class="str">"Person: "</span> + self.name
+
+<span class="cm"># Customer INHERITS Person using parentheses</span>
+<span class="kw">class</span> <span class="cls">Customer</span>(<span class="cls">Person</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name, phone, email, address, membership, points, signup):
+        <span class="cm"># MUST call parent constructor first</span>
+        <span class="fn">super</span>().<span class="fn">__init__</span>(name, phone, email, address)
+        self.membership = membership
+        self.points = points
+        self.signup = signup
+
+    <span class="kw">def</span> <span class="fn">__str__</span>(self):   <span class="cm"># overrides parent's __str__</span>
+        <span class="kw">return</span> <span class="str">"Customer: "</span> + self.name + <span class="str">" has "</span> + str(self.points) + <span class="str">" points."</span></div>
+    <div class="steps" style="margin-top:14px;">
+      <div class="step-row">
+        <div class="step-n" style="color:var(--blue);">①</div>
+        <div class="step-text"><strong>class Customer(Person)</strong> — the parentheses declare the parent class</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--blue);">②</div>
+        <div class="step-text"><strong>super().__init__(...)</strong> — must be the first line in the child constructor to initialize inherited attributes</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--blue);">③</div>
+        <div class="step-text">Child class then adds its <strong>own unique attributes</strong> after calling super()</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S5: ACCESS MODIFIERS -->
+<div class="slide">
+  <div class="content">
+    <div class="label blue">// B3.2.1 · Access Modifiers in Inheritance</div>
+    <h2>Access <span class="hl-blue">Modifiers</span></h2>
+    <p class="lead">Access modifiers control which members of a parent class are accessible in subclasses. This becomes critical when designing class hierarchies.</p>
+    <div class="grid g3" style="gap:2px;margin-bottom:14px;">
+      <div class="card red">
+        <div class="card-title" style="color:var(--red);">private</div>
+        <div class="card-body"><strong>Not inherited.</strong> Only accessible within the class that declares it. Subclasses cannot directly access private members — they must use getters/setters.</div>
+      </div>
+      <div class="card green">
+        <div class="card-title" style="color:var(--green);">public</div>
+        <div class="card-body"><strong>Fully inherited.</strong> Accessible everywhere — inside the class, in subclasses, and from outside code. No restrictions.</div>
+      </div>
+      <div class="card cyan">
+        <div class="card-title" style="color:var(--cyan);">protected</div>
+        <div class="card-body"><strong>Inherited but not public.</strong> Accessible within the class and all subclasses, but not from outside code. The "middle ground" — common in Java inheritance hierarchies.</div>
+      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>Python note:</strong> Python uses naming conventions rather than keywords. <code>_name</code> (single underscore) signals "protected" by convention; <code>__name</code> (double underscore) triggers name-mangling and behaves like private. Java uses explicit <code>private</code>, <code>protected</code>, and <code>public</code> keywords.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S6: POLYMORPHISM CONCEPT -->
+<div class="slide">
+  <div class="content">
+    <div class="label purple">// B3.2.2 · Polymorphism</div>
+    <h2>What is <span class="hl-purple">Polymorphism</span>?</h2>
+    <p class="lead">Polymorphism means <em>"many forms"</em>. Related objects can respond to the <strong class="hl-purple">same method call</strong> in different ways, depending on their actual class.</p>
+    <div class="grid g2" style="gap:2px;margin-bottom:14px;">
+      <div class="card purple">
+        <div class="card-title">Dynamic (Runtime) Polymorphism</div>
+        <div class="card-body">Achieved through <strong>method overriding</strong>. A subclass provides a different implementation of a method that already exists in the parent. The correct version is selected at runtime.<br><br><em>Example: Customer and Employee both override <code>__str__()</code> from Person.</em></div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Static (Compile-time) Polymorphism</div>
+        <div class="card-body">Achieved through <strong>method overloading</strong> — same method name but different parameters. Resolved at compile time. More common in Java; Python uses default arguments to simulate this.<br><br><em>Example: <code>add(int a, int b)</code> vs <code>add(double a, double b)</code></em></div>
+      </div>
+    </div>
+    <div class="purple-box">
+      <p><strong>Key insight:</strong> Overriding = subclass redefines a parent's method with the same name and signature. Overloading = same class has multiple methods with the same name but different parameters. These are different concepts.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S7: METHOD OVERRIDING -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label purple">// B3.2.2 · Method Overriding</div>
+    <h2>Overriding — <span class="hl-purple">in Practice</span></h2>
+    <p style="font-size:clamp(0.9rem,1.5vw,1.15rem);color:var(--text2);margin-bottom:14px;font-weight:300;">When <code>print(obj)</code> is called, Python calls <code>__str__()</code>. Each class has its own version — the correct one runs automatically.</p>
+    <div class="code-block"><span class="cm"># Main code using polymorphism</span>
+p = <span class="cls">Person</span>(<span class="str">"Jordan McFly"</span>, <span class="str">"555-1234"</span>, <span class="str">"jordan@example.com"</span>, <span class="str">"1885 Brown Estate"</span>)
+c = <span class="cls">Customer</span>(<span class="str">"Skyler Serenity"</span>, <span class="str">"555-2345"</span>, <span class="str">"skyler@example.com"</span>, <span class="str">"1701 Asimov Plaza"</span>, <span class="num">1</span>, <span class="num">0</span>, <span class="str">"2024-01-15"</span>)
+e = <span class="cls">Employee</span>(<span class="str">"Avery Shephard"</span>, <span class="str">"555-3456"</span>, <span class="str">"avery@example.com"</span>, <span class="str">"1955 Lone Pine Mall"</span>, <span class="num">75000</span>, <span class="str">"123-456-888"</span>, p)
+
+<span class="fn">print</span>(p)   <span class="cm"># → Person: Jordan McFly</span>
+<span class="fn">print</span>(c)   <span class="cm"># → Customer: Skyler Serenity has 0 points.</span>
+<span class="fn">print</span>(e)   <span class="cm"># → Employee: Avery Shephard earns $75000</span></div>
+    <div class="steps" style="margin-top:14px;">
+      <div class="step-row">
+        <div class="step-n" style="color:var(--purple);">①</div>
+        <div class="step-text">Each object's <strong>actual class</strong> determines which <code>__str__()</code> runs — not the variable type</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--purple);">②</div>
+        <div class="step-text">If a subclass does <strong>not</strong> override the method, it falls back to the parent's version</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--purple);">③</div>
+        <div class="step-text">Real-world benefit: GUI toolkits (password, date, file inputs) share a base TextInput, each overriding only what differs</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S8: ABSTRACTION CONCEPT -->
+<div class="slide">
+  <div class="content">
+    <div class="label cyan">// B3.2.3 · Abstraction</div>
+    <h2>Abstract <span class="hl-cyan">Classes</span></h2>
+    <p class="lead">An <strong class="hl-cyan">abstract class</strong> is a template that <strong>cannot be instantiated directly</strong>. It defines methods that all subclasses must implement — enforcing a consistent interface.</p>
+    <div class="grid g2" style="gap:2px;margin-bottom:14px;">
+      <div class="card cyan">
+        <div class="card-title">When to Use Abstract Classes</div>
+        <div class="card-body">When all subclasses <strong>must</strong> have certain methods, but the implementation differs for each subclass. The abstract class provides the contract — subclasses provide the implementation.<br><br><em>Example: All 2D shapes must have <code>getArea()</code> and <code>getPerimeter()</code>, but rectangles and circles calculate them differently.</em></div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">Key Rules</div>
+        <div class="card-body">
+          <strong>Cannot instantiate</strong> an abstract class directly<br>
+          <strong>Must override</strong> all abstract methods in subclasses<br>
+          <strong>Can contain</strong> both abstract and concrete (implemented) methods<br>
+          <strong>Python:</strong> use <code>ABC</code> and <code>@abstractmethod</code><br>
+          <strong>Java:</strong> use <code>abstract class</code> and <code>abstract</code> methods
+        </div>
+      </div>
+    </div>
+    <div class="cyan-box">
+      <p><strong>Benefit:</strong> Any code that works with a <code>Shape</code> object is guaranteed that <code>getArea()</code> and <code>getPerimeter()</code> exist — even if it doesn't know whether the shape is a Circle, Rectangle, or Triangle.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S9: ABSTRACTION CODE -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label cyan">// B3.2.3 · Abstract Class in Python</div>
+    <h2>Abstract Class — <span class="hl-cyan">Code</span></h2>
+    <div class="code-block"><span class="kw">from</span> abc <span class="kw">import</span> ABC, abstractmethod
+<span class="kw">import</span> math
+
+<span class="kw">class</span> <span class="cls">Shape</span>(ABC):          <span class="cm"># ABC = Abstract Base Class</span>
+    <span class="kw">@abstractmethod</span>
+    <span class="kw">def</span> <span class="fn">get_area</span>(self): ...
+
+    <span class="kw">@abstractmethod</span>
+    <span class="kw">def</span> <span class="fn">get_perimeter</span>(self): ...
+
+<span class="kw">class</span> <span class="cls">Rectangle</span>(<span class="cls">Shape</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, width, height):
+        self.width = width
+        self.height = height
+
+    <span class="kw">def</span> <span class="fn">get_area</span>(self):
+        <span class="kw">return</span> self.width * self.height
+
+    <span class="kw">def</span> <span class="fn">get_perimeter</span>(self):
+        <span class="kw">return</span> <span class="num">2</span> * (self.width + self.height)
+
+<span class="kw">class</span> <span class="cls">Circle</span>(<span class="cls">Shape</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, radius):
+        self.radius = radius
+
+    <span class="kw">def</span> <span class="fn">get_area</span>(self):
+        <span class="kw">return</span> math.pi * self.radius ** <span class="num">2</span>
+
+    <span class="kw">def</span> <span class="fn">get_perimeter</span>(self):
+        <span class="kw">return</span> <span class="num">2</span> * math.pi * self.radius
+
+<span class="cm"># Polymorphism + Abstraction working together</span>
+shapes = [<span class="cls">Rectangle</span>(<span class="num">10</span>, <span class="num">4</span>), <span class="cls">Circle</span>(<span class="num">5</span>)]
+<span class="kw">for</span> s <span class="kw">in</span> shapes:
+    <span class="fn">print</span>(s.<span class="fn">get_area</span>(), s.<span class="fn">get_perimeter</span>())</div>
+    <div class="red-box" style="margin-top:12px;">
+      <p><strong>Common error:</strong> Trying to instantiate an abstract class — <code>s = Shape()</code> — raises a <code>TypeError</code>. Abstract classes exist only to be extended, not instantiated.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S10: COMPOSITION VS AGGREGATION CONCEPT -->
+<div class="slide">
+  <div class="content">
+    <div class="label green">// B3.2.4 · Composition &amp; Aggregation</div>
+    <h2>Composition vs <span class="hl-green">Aggregation</span></h2>
+    <p class="lead">Both describe "has-a" relationships between objects — the key difference is <strong class="hl-green">lifecycle dependency</strong>.</p>
+    <div class="grid g2" style="gap:2px;margin-bottom:14px;">
+      <div class="card red">
+        <div class="card-title" style="color:var(--red);">Composition — Strong "has-a"</div>
+        <div class="card-body">The contained objects <strong>cannot exist independently</strong> of the container. If the container is destroyed, the parts are destroyed too — a "death relationship".<br><br>
+        <strong>Car → Engine</strong> (engine doesn't function outside the car)<br>
+        <strong>House → Room</strong> (rooms cease to exist if house is demolished)<br>
+        <strong>Human → Heart</strong> (heart cannot live outside the body)</div>
+      </div>
+      <div class="card green">
+        <div class="card-title" style="color:var(--green);">Aggregation — Weak "has-a"</div>
+        <div class="card-body">The contained objects <strong>can exist independently</strong>. The container references the object but doesn't own its lifecycle.<br><br>
+        <strong>University → Student</strong> (student continues after university closes)<br>
+        <strong>Library → Books</strong> (books exist independently of the library)<br>
+        <strong>Playlist → Song</strong> (song exists outside the playlist)</div>
+      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>UML notation:</strong> Composition uses a <em>filled diamond</em> (◆) on the container end. Aggregation uses an <em>open diamond</em> (◇). Both point from container to contained class.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S11: COMPOSITION CODE -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label green">// B3.2.4 · Composition in Code</div>
+    <h2>Composition — <span class="hl-green">Example</span></h2>
+    <div class="code-block"><span class="kw">class</span> <span class="cls">Engine</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, horsepower):
+        self.horsepower = horsepower
+
+    <span class="kw">def</span> <span class="fn">start</span>(self):
+        <span class="kw">return</span> <span class="str">f"Engine ({self.horsepower}hp) started"</span>
+
+<span class="cm"># Car COMPOSES Engine — Car creates and owns the Engine</span>
+<span class="kw">class</span> <span class="cls">Car</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, make, horsepower):
+        self.make = make
+        self.engine = <span class="cls">Engine</span>(horsepower)  <span class="cm"># Engine is created inside Car</span>
+
+    <span class="kw">def</span> <span class="fn">drive</span>(self):
+        <span class="kw">return</span> <span class="str">f"{self.make}: "</span> + self.engine.<span class="fn">start</span>()
+
+my_car = <span class="cls">Car</span>(<span class="str">"Tesla"</span>, <span class="num">300</span>)
+<span class="fn">print</span>(my_car.<span class="fn">drive</span>())   <span class="cm"># Tesla: Engine (300hp) started</span>
+<span class="cm"># When my_car is deleted, its Engine is also gone</span></div>
+    <div class="steps" style="margin-top:14px;">
+      <div class="step-row">
+        <div class="step-n" style="color:var(--green);">①</div>
+        <div class="step-text"><strong>Composition:</strong> Engine is created inside the Car constructor — the Car owns it</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--cyan);">②</div>
+        <div class="step-text"><strong>Aggregation:</strong> Would pass an already-existing object in — e.g. <code>Car(make, existing_engine)</code> — the Engine can exist independently</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--gold);">③</div>
+        <div class="step-text">Both let one class use another class as a field — choose based on whether the contained object can exist on its own</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S12: DESIGN PATTERNS OVERVIEW -->
+<div class="slide">
+  <div class="content">
+    <div class="label orange">// B3.2.5 · Design Patterns</div>
+    <h2>Design <span class="hl-orange">Patterns</span></h2>
+    <p class="lead">Design patterns are <strong class="hl-orange">proven, reusable solutions</strong> to recurring software design problems. They are best practices from experienced OOP developers — not code, but templates for solving common problems.</p>
+    <div class="grid g3" style="gap:2px;margin-bottom:14px;">
+      <div class="card gold">
+        <div class="card-title" style="color:var(--gold2);">Singleton</div>
+        <div class="card-body">Ensures a class has <strong>only one instance</strong> and provides global access to it.<br><br>Use for: database connections, settings managers, logging systems.</div>
+      </div>
+      <div class="card orange">
+        <div class="card-title" style="color:var(--orange);">Factory</div>
+        <div class="card-body">Provides an <strong>interface for creating objects</strong> without specifying the exact class. A factory decides which class to instantiate.<br><br>Use for: UI elements, document exporters, payment gateways.</div>
+      </div>
+      <div class="card blue">
+        <div class="card-title" style="color:var(--blue);">Observer</div>
+        <div class="card-body">One object (subject) <strong>notifies many observers</strong> when its state changes — a subscription model.<br><br>Use for: event listeners, news feeds, stock price alerts.</div>
+      </div>
+    </div>
+    <div class="gold-box">
+      <p><strong>Why learn patterns?</strong> Design patterns give you a shared vocabulary — when you say "use a singleton here", every developer on the team immediately understands the structure and intent.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S13: SINGLETON PATTERN -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label gold">// B3.2.5 · Singleton Pattern</div>
+    <h2>Singleton — <span class="hl-gold">One Instance Only</span></h2>
+    <p style="font-size:clamp(0.9rem,1.5vw,1.15rem);color:var(--text2);margin-bottom:14px;font-weight:300;">Only one instance of the class ever exists. Every call to "get the instance" returns the same object.</p>
+    <div class="code-block"><span class="kw">class</span> <span class="cls">DatabaseConnection</span>:
+    _instance = <span class="kw">None</span>   <span class="cm"># class-level variable holds the single instance</span>
+
+    <span class="kw">def</span> <span class="fn">__new__</span>(cls):
+        <span class="kw">if</span> cls._instance <span class="kw">is None</span>:
+            cls._instance = <span class="fn">super</span>().<span class="fn">__new__</span>(cls)
+            cls._instance.connected = <span class="kw">False</span>
+        <span class="kw">return</span> cls._instance
+
+    <span class="kw">def</span> <span class="fn">connect</span>(self, url):
+        self.url = url
+        self.connected = <span class="kw">True</span>
+        <span class="fn">print</span>(<span class="str">f"Connected to {url}"</span>)
+
+<span class="cm"># Test: both variables point to the SAME object</span>
+db1 = <span class="cls">DatabaseConnection</span>()
+db2 = <span class="cls">DatabaseConnection</span>()
+<span class="fn">print</span>(db1 <span class="kw">is</span> db2)   <span class="cm"># → True</span>
+db1.<span class="fn">connect</span>(<span class="str">"mysql://localhost/school"</span>)
+<span class="fn">print</span>(db2.url)       <span class="cm"># → mysql://localhost/school</span></div>
+    <div class="steps" style="margin-top:12px;">
+      <div class="step-row">
+        <div class="step-n" style="color:var(--gold);">①</div>
+        <div class="step-text"><code>__new__</code> controls object creation — if an instance exists, return it; otherwise create one</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--gold);">②</div>
+        <div class="step-text">Guarantees that all parts of a program share one database connection — no wasted resources</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S14: FACTORY PATTERN -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label orange">// B3.2.5 · Factory Pattern</div>
+    <h2>Factory — <span class="hl-orange">Object Creation Interface</span></h2>
+    <p style="font-size:clamp(0.9rem,1.5vw,1.15rem);color:var(--text2);margin-bottom:14px;font-weight:300;">A factory function/class creates objects without exposing the instantiation logic. The caller says <em>what</em> it wants; the factory decides <em>how</em> to create it.</p>
+    <div class="code-block"><span class="kw">class</span> <span class="cls">PrimaryButton</span>:
+    <span class="kw">def</span> <span class="fn">render</span>(self): <span class="kw">return</span> <span class="str">"[PRIMARY BUTTON]"</span>
+
+<span class="kw">class</span> <span class="cls">DangerButton</span>:
+    <span class="kw">def</span> <span class="fn">render</span>(self): <span class="kw">return</span> <span class="str">"[DANGER BUTTON]"</span>
+
+<span class="kw">class</span> <span class="cls">GhostButton</span>:
+    <span class="kw">def</span> <span class="fn">render</span>(self): <span class="kw">return</span> <span class="str">"[GHOST BUTTON]"</span>
+
+<span class="cm"># Factory function — caller doesn't need to know class names</span>
+<span class="kw">def</span> <span class="fn">create_button</span>(style):
+    buttons = {
+        <span class="str">"primary"</span>: <span class="cls">PrimaryButton</span>,
+        <span class="str">"danger"</span>:  <span class="cls">DangerButton</span>,
+        <span class="str">"ghost"</span>:   <span class="cls">GhostButton</span>
+    }
+    <span class="kw">return</span> buttons[style]()
+
+btn = <span class="fn">create_button</span>(<span class="str">"danger"</span>)
+<span class="fn">print</span>(btn.<span class="fn">render</span>())   <span class="cm"># → [DANGER BUTTON]</span></div>
+    <div class="info-box" style="margin-top:12px;">
+      <p><strong>Use case:</strong> Adding a new button type only requires adding a new class and updating the factory dictionary — the rest of the codebase is unaffected. This makes systems easy to extend.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S15: OBSERVER PATTERN -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label blue">// B3.2.5 · Observer Pattern</div>
+    <h2>Observer — <span class="hl-blue">Subscribe &amp; Notify</span></h2>
+    <p style="font-size:clamp(0.9rem,1.5vw,1.15rem);color:var(--text2);margin-bottom:14px;font-weight:300;">One <strong>Subject</strong> maintains a list of <strong>Observers</strong>. When the subject's state changes, it notifies all subscribed observers automatically.</p>
+    <div class="code-block"><span class="kw">class</span> <span class="cls">StockTicker</span>:       <span class="cm"># Subject</span>
+    <span class="kw">def</span> <span class="fn">__init__</span>(self):
+        self._observers = []
+        self._price = <span class="num">0</span>
+
+    <span class="kw">def</span> <span class="fn">subscribe</span>(self, observer):
+        self._observers.<span class="fn">append</span>(observer)
+
+    <span class="kw">def</span> <span class="fn">set_price</span>(self, price):
+        self._price = price
+        self.<span class="fn">_notify_all</span>()      <span class="cm"># automatically notify all observers</span>
+
+    <span class="kw">def</span> <span class="fn">_notify_all</span>(self):
+        <span class="kw">for</span> obs <span class="kw">in</span> self._observers:
+            obs.<span class="fn">update</span>(self._price)
+
+<span class="kw">class</span> <span class="cls">PhoneAlert</span>:          <span class="cm"># Observer</span>
+    <span class="kw">def</span> <span class="fn">update</span>(self, price):
+        <span class="fn">print</span>(<span class="str">f"📱 Alert: stock is now ${price}"</span>)
+
+<span class="kw">class</span> <span class="cls">EmailAlert</span>:          <span class="cm"># Observer</span>
+    <span class="kw">def</span> <span class="fn">update</span>(self, price):
+        <span class="fn">print</span>(<span class="str">f"📧 Email: stock is now ${price}"</span>)
+
+ticker = <span class="cls">StockTicker</span>()
+ticker.<span class="fn">subscribe</span>(<span class="cls">PhoneAlert</span>())
+ticker.<span class="fn">subscribe</span>(<span class="cls">EmailAlert</span>())
+ticker.<span class="fn">set_price</span>(<span class="num">142.50</span>)
+<span class="cm"># → 📱 Alert: stock is now $142.5</span>
+<span class="cm"># → 📧 Email: stock is now $142.5</span></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S16: RELATIONSHIPS SUMMARY -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Summary · OOP Relationships</div>
+    <h2>Class Relationships — <span class="hl-gold">Compared</span></h2>
+    <div class="steps">
+      <div class="step-row">
+        <div class="step-n" style="color:var(--blue);">IS-A</div>
+        <div class="step-text"><strong>Inheritance</strong> — Dog is-a Animal. Child class extends parent class. Use <code>class Dog(Animal)</code>. Promotes code reuse; parent changes affect all children.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--red);">HAS-A<br><span style="font-size:0.7em;color:var(--red);">strong</span></div>
+        <div class="step-text"><strong>Composition</strong> — Car has-a Engine (strong). The engine is created and destroyed with the car. The contained object <em>cannot</em> exist independently.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--green);">HAS-A<br><span style="font-size:0.7em;color:var(--green);">weak</span></div>
+        <div class="step-text"><strong>Aggregation</strong> — University has-a Student (weak). The student continues to exist even if the university closes. The contained object <em>can</em> exist independently.</div>
+      </div>
+    </div>
+    <div class="grid g3" style="gap:2px;margin-top:14px;">
+      <div class="card gold">
+        <div class="card-title" style="color:var(--gold2);">Singleton</div>
+        <div class="card-body">One instance only, globally shared. Database connections, app settings.</div>
+      </div>
+      <div class="card orange">
+        <div class="card-title" style="color:var(--orange);">Factory</div>
+        <div class="card-body">Centralized object creation. Easy to add new types without changing callers.</div>
+      </div>
+      <div class="card blue">
+        <div class="card-title" style="color:var(--blue);">Observer</div>
+        <div class="card-body">One-to-many notification. Subject changes → all observers auto-notified.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S17: EXAM TIPS -->
+<div class="slide">
+  <div class="content">
+    <div class="label gold">// Exam Strategy · B3.2</div>
+    <h2>Key Exam <span class="hl-gold">Points</span></h2>
+    <div class="steps">
+      <div class="step-row">
+        <div class="step-n" style="color:var(--gold);">①</div>
+        <div class="step-text"><strong>Inheritance vs Composition:</strong> Use inheritance for <em>is-a</em> relationships. Use composition for <em>has-a</em> relationships. Don't inherit just to reuse code if there is no logical is-a relationship.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--gold);">②</div>
+        <div class="step-text"><strong>Overriding vs Overloading:</strong> Overriding = subclass redefines parent method (same signature, different class). Overloading = same class, same name, different parameters.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--gold);">③</div>
+        <div class="step-text"><strong>Abstract classes:</strong> Cannot be instantiated. Must override all abstract methods in subclasses or the subclass is also abstract. Enforces a "contract".</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--gold);">④</div>
+        <div class="step-text"><strong>Access modifiers in inheritance:</strong> <code>private</code> — not inherited directly; <code>protected</code> — accessible in subclasses but not externally; <code>public</code> — accessible everywhere.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--gold);">⑤</div>
+        <div class="step-text"><strong>Design patterns:</strong> Name the pattern, state its purpose, and give a real-world context. Don't just describe the code — explain <em>why</em> this pattern is appropriate for the scenario.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- NAVIGATION -->
+<nav class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="move(-1)" disabled>← Prev</button>
+  <div class="nav-sep"></div>
+  <div class="nav-dots" id="dots"></div>
+  <div class="nav-sep"></div>
+  <button class="nav-btn" id="nextBtn" onclick="move(1)">Next →</button>
+</nav>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let cur = 0;
+
+const dotsEl = document.getElementById('dots');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const progress = document.getElementById('progress');
+const slideNum = document.getElementById('slideNum');
+
+slides.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+});
+
+function goTo(n) {
+  slides[cur].classList.remove('active');
+  slides[cur].classList.add('exit');
+  setTimeout(() => slides[cur < n ? cur : n + 1]?.classList.remove('exit'), 400);
+  // remove exit after anim
+  const old = cur;
+  cur = n;
+  slides[old].classList.remove('active');
+  slides[cur].classList.add('active');
+  dotsEl.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+  prevBtn.disabled = cur === 0;
+  nextBtn.disabled = cur === total - 1;
+  progress.style.width = ((cur + 1) / total * 100) + '%';
+  slideNum.textContent = String(cur + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+  if (slides[cur].classList.contains('scroll-slide')) slides[cur].scrollTop = 0;
+}
+
+function move(dir) { if (cur + dir >= 0 && cur + dir < total) goTo(cur + dir); }
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') move(1);
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') move(-1);
+});
+
+// init progress
+progress.style.width = (1 / total * 100) + '%';
+</script>
+</body>
+</html>

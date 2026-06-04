@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A1.2.3–5 — Logic Gates & Truth Tables</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Serif+Display&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07090f; --surface: #0e1117; --surface2: #151923;
+  --border: #1e2535; --border2: #2a3448;
+  --gold: #c9a84c; --gold2: #e8c97a;
+  --blue: #4a9eff; --green: #3dd68c; --red: #ff6b6b;
+  --purple: #9b8afb; --cyan: #22d3ee; --orange: #fb923c;
+  --pink: #f472b6; --teal: #2dd4bf;
+  --text: #dde4f0; --text2: #7a8ba8; --text3: #3d4f6a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;height:100%;overflow:hidden;}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;}
+body::before{content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(74,158,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,.03) 1px,transparent 1px),linear-gradient(rgba(74,158,255,.01) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,.01) 1px,transparent 1px);
+  background-size:80px 80px,80px 80px,16px 16px,16px 16px;pointer-events:none;z-index:0;}
+.deck{position:relative;width:100vw;height:100vh;z-index:1;}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  padding:44px 68px 86px;opacity:0;pointer-events:none;
+  transition:opacity .38s ease,transform .38s ease;transform:translateY(12px);}
+.slide.active{opacity:1;pointer-events:all;transform:translateY(0);}
+.slide.exit{opacity:0;transform:translateY(-12px);}
+.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--green),var(--cyan),var(--purple));transition:width .38s ease;z-index:100;}
+.slide-num{position:fixed;top:17px;right:24px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);letter-spacing:.1em;z-index:100;}
+.content{width:100%;max-width:1120px;}
+.label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:13px;}
+.label.blue{color:var(--blue);}.label.green{color:var(--green);}.label.cyan{color:var(--cyan);}
+.label.purple{color:var(--purple);}.label.pink{color:var(--pink);}.label.orange{color:var(--orange);}
+.label.teal{color:var(--teal);}
+h1{font-family:'DM Serif Display',serif;font-size:clamp(2.6rem,5vw,4.6rem);font-weight:400;line-height:1.05;letter-spacing:-.02em;margin-bottom:13px;}
+h2{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3.8vw,3rem);font-weight:400;line-height:1.1;margin-bottom:11px;}
+.lead{font-size:clamp(.95rem,1.65vw,1.28rem);color:var(--text2);font-weight:300;line-height:1.65;margin-bottom:18px;}
+.hl-gold{color:var(--gold2);}.hl-blue{color:var(--blue);}.hl-green{color:var(--green);}.hl-cyan{color:var(--cyan);}
+.hl-red{color:var(--red);}.hl-purple{color:var(--purple);}.hl-pink{color:var(--pink);}.hl-orange{color:var(--orange);}.hl-teal{color:var(--teal);}
+.grid{display:grid;gap:2px;width:100%;}
+.g2{grid-template-columns:1fr 1fr;}.g3{grid-template-columns:1fr 1fr 1fr;}.g4{grid-template-columns:repeat(4,1fr);}
+.card{background:var(--surface);border:1px solid var(--border);padding:16px 20px;position:relative;}
+.card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.card.gold::after{background:var(--gold);}.card.blue::after{background:var(--blue);}
+.card.green::after{background:var(--green);}.card.red::after{background:var(--red);}
+.card.purple::after{background:var(--purple);}.card.cyan::after{background:var(--cyan);}
+.card.pink::after{background:var(--pink);}.card.orange::after{background:var(--orange);}.card.teal::after{background:var(--teal);}
+.card-title{font-family:'DM Mono',monospace;font-size:clamp(.68rem,1.05vw,.88rem);font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:7px;}
+.card-body{font-size:clamp(.82rem,1.25vw,1rem);color:var(--text2);line-height:1.6;font-weight:300;}
+.card-body strong{color:var(--text);font-weight:500;}
+.info-box{border-left:3px solid var(--blue);padding:11px 18px;background:rgba(74,158,255,.04);border-top:1px solid rgba(74,158,255,.08);border-right:1px solid rgba(74,158,255,.08);border-bottom:1px solid rgba(74,158,255,.08);margin-top:12px;}
+.info-box p{font-size:clamp(.85rem,1.35vw,1.05rem);color:var(--text2);line-height:1.6;}
+.info-box strong{color:var(--blue);}
+.gold-box{border-left:3px solid var(--gold);padding:11px 18px;background:rgba(201,168,76,.04);border-top:1px solid rgba(201,168,76,.08);border-right:1px solid rgba(201,168,76,.08);border-bottom:1px solid rgba(201,168,76,.08);margin-top:12px;}
+.gold-box p{font-size:clamp(.85rem,1.35vw,1.05rem);color:var(--text2);line-height:1.6;}
+.gold-box strong{color:var(--gold2);}
+.cyan-box{border-left:3px solid var(--cyan);padding:11px 18px;background:rgba(34,211,238,.04);border-top:1px solid rgba(34,211,238,.08);border-right:1px solid rgba(34,211,238,.08);border-bottom:1px solid rgba(34,211,238,.08);margin-top:12px;}
+.cyan-box p{font-size:clamp(.85rem,1.35vw,1.05rem);color:var(--text2);line-height:1.6;}
+.cyan-box strong{color:var(--cyan);}
+.green-box{border-left:3px solid var(--green);padding:11px 18px;background:rgba(61,214,140,.04);border-top:1px solid rgba(61,214,140,.08);border-right:1px solid rgba(61,214,140,.08);border-bottom:1px solid rgba(61,214,140,.08);margin-top:12px;}
+.green-box p{font-size:clamp(.85rem,1.35vw,1.05rem);color:var(--text2);line-height:1.6;}
+.green-box strong{color:var(--green);}
+.purple-box{border-left:3px solid var(--purple);padding:11px 18px;background:rgba(155,138,251,.04);border-top:1px solid rgba(155,138,251,.08);border-right:1px solid rgba(155,138,251,.08);border-bottom:1px solid rgba(155,138,251,.08);margin-top:12px;}
+.purple-box p{font-size:clamp(.85rem,1.35vw,1.05rem);color:var(--text2);line-height:1.6;}
+.purple-box strong{color:var(--purple);}
+/* truth table */
+.tt{border-collapse:collapse;width:100%;}
+.tt th{background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.18);padding:7px 10px;text-align:center;font-family:'DM Mono',monospace;font-size:clamp(.65rem,1vw,.82rem);color:var(--cyan);letter-spacing:.06em;font-weight:500;}
+.tt td{border:1px solid var(--border2);padding:8px 10px;text-align:center;font-family:'DM Mono',monospace;font-size:clamp(.9rem,1.4vw,1.1rem);font-weight:500;background:var(--surface);color:var(--text);}
+.tt td.one{background:rgba(61,214,140,.10);color:var(--green);}
+.tt td.zero{background:rgba(34,211,238,.04);color:var(--text3);}
+/* gate symbol */
+.gate-sym{font-family:'DM Mono',monospace;font-size:clamp(.7rem,1.2vw,1rem);padding:4px 12px;border-radius:2px;display:inline-block;margin-bottom:6px;letter-spacing:.08em;font-weight:500;}
+/* bool badge */
+.bool{font-family:'DM Mono',monospace;font-size:clamp(.75rem,1.2vw,.95rem);color:var(--gold2);background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);padding:4px 12px;display:inline-block;margin-top:5px;}
+/* steps */
+.steps{display:flex;flex-direction:column;gap:7px;width:100%;}
+.step-row{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);padding:12px 16px;}
+.step-n{font-family:'DM Mono',monospace;font-size:clamp(.72rem,1.1vw,.88rem);color:var(--gold);flex-shrink:0;min-width:22px;padding-top:1px;}
+.step-text{font-size:clamp(.88rem,1.4vw,1.1rem);color:var(--text2);line-height:1.6;font-weight:300;}
+.step-text strong{color:var(--text);font-weight:500;}
+/* chain */
+.chain{display:flex;align-items:center;flex-wrap:wrap;margin:10px 0;}
+.chain-box{background:var(--surface);border:1px solid var(--border2);padding:9px 14px;text-align:center;}
+.chain-box .c-top{font-family:'DM Mono',monospace;font-size:clamp(.58rem,.9vw,.75rem);color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;}
+.chain-box .c-val{font-family:'DM Mono',monospace;font-size:clamp(.85rem,1.5vw,1.2rem);font-weight:700;}
+.chain-arrow{color:var(--gold);font-size:1.2rem;padding:0 7px;display:flex;align-items:center;flex-shrink:0;}
+/* divider */
+.divider{width:100%;height:1px;background:var(--border);margin:12px 0;}
+/* summary table */
+.summary-table{border-collapse:collapse;width:100%;}
+.summary-table th{background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.18);padding:10px 14px;text-align:left;font-family:'DM Mono',monospace;font-size:clamp(.62rem,.95vw,.78rem);color:var(--cyan);font-weight:500;letter-spacing:.08em;text-transform:uppercase;}
+.summary-table td{border:1px solid var(--border);padding:11px 14px;background:var(--surface);font-size:clamp(.82rem,1.25vw,1rem);color:var(--text2);vertical-align:middle;}
+.summary-table tr:hover td{background:var(--surface2);}
+/* nav */
+.nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;z-index:100;background:rgba(7,9,15,.92);backdrop-filter:blur(16px);border:1px solid var(--border2);padding:9px 18px;}
+.nav-btn{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);background:none;border:1px solid var(--border2);padding:6px 13px;cursor:pointer;transition:all .2s;}
+.nav-btn:hover{color:var(--gold);border-color:var(--gold);background:rgba(201,168,76,.05);}
+.nav-btn:disabled{opacity:.25;cursor:not-allowed;}
+.nav-dots{display:flex;gap:4px;flex-wrap:wrap;max-width:260px;justify-content:center;}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--border2);cursor:pointer;transition:all .2s;}
+.dot.active{background:var(--gold);transform:scale(1.4);}
+.nav-sep{width:1px;height:16px;background:var(--border2);}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="slide-num" id="slideNum">01 / 12</div>
+<div class="deck">
+
+<!-- ═══ S1 TITLE ═══ -->
+<div class="slide active">
+  <div class="content">
+    <div class="label">// A1.2.3–A1.2.5 · Logic Gates & Truth Tables</div>
+    <h1>Logic Gates &<br><span class="hl-green">Truth Tables</span></h1>
+    <p style="font-family:'DM Mono',monospace;font-size:clamp(.82rem,1.3vw,1rem);color:var(--text3);margin-bottom:18px;">Summary Lesson</p>
+    <div class="gold-box"><p><strong>👉 Guiding Question:</strong> How do computers make decisions using logic?</p></div>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:18px;">
+      <div style="padding-left:11px;border-left:2px solid var(--green);"><div style="font-family:'DM Mono',monospace;font-size:.95rem;">A1.2.3</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">LOGIC GATES</div></div>
+      <div style="padding-left:11px;border-left:2px solid var(--cyan);"><div style="font-family:'DM Mono',monospace;font-size:.95rem;">A1.2.4</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">TRUTH TABLES</div></div>
+      <div style="padding-left:11px;border-left:2px solid var(--purple);"><div style="font-family:'DM Mono',monospace;font-size:.95rem;">A1.2.5</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">LOGIC DIAGRAMS</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S2 WHAT ARE LOGIC GATES ═══ -->
+<div class="slide">
+  <div class="content" style="max-width:960px;">
+    <div class="label green">// A1.2.3 · Logic Gates</div>
+    <h2>What are <span class="hl-green">Logic Gates</span>?</h2>
+    <p class="lead" style="margin-bottom:14px;">Logic gates are the fundamental building blocks of digital circuits. They take binary inputs and produce a binary output based on a logical rule.</p>
+    <div class="grid g3" style="gap:2px;">
+      <div class="card green">
+        <div class="card-title">Made of Transistors</div>
+        <div class="card-body">Each gate is built from <strong>transistors</strong> acting as electronic switches — allowing or blocking current flow.</div>
+      </div>
+      <div class="card cyan">
+        <div class="card-title">Binary In / Out</div>
+        <div class="card-body">Inputs and outputs are always <strong>0</strong> (low / off) or <strong>1</strong> (high / on). No in-between.</div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">Two Categories</div>
+        <div class="card-body"><strong>Basic:</strong> AND, OR, NOT<br><strong>Derived:</strong> NAND, NOR, XOR, XNOR</div>
+      </div>
+    </div>
+    <div class="chain" style="margin-top:16px;">
+      <div class="chain-box"><div class="c-top">Input A</div><div class="c-val" style="color:var(--green);">1</div></div>
+      <div class="chain-arrow">+</div>
+      <div class="chain-box"><div class="c-top">Input B</div><div class="c-val" style="color:var(--green);">0</div></div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-box" style="border-color:var(--cyan);"><div class="c-top">Logic Gate</div><div class="c-val" style="color:var(--cyan);font-size:.9rem;">AND / OR / NOT…</div></div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-box" style="border-color:var(--gold);"><div class="c-top">Output X</div><div class="c-val" style="color:var(--gold2);">0 or 1</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S3 BASIC GATES ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label green">// Basic Gates</div>
+    <h2>AND · OR · <span class="hl-cyan">NOT</span></h2>
+    <div class="grid g3" style="gap:8px;align-items:start;">
+      <!-- AND -->
+      <div>
+        <div class="card green" style="margin-bottom:4px;">
+          <div class="card-title">AND Gate</div>
+          <div class="card-body">Output is <strong>1 only if BOTH inputs are 1</strong>.<br><span class="bool">X = A · B</span></div>
+        </div>
+        <table class="tt">
+          <thead><tr><th>A</th><th>B</th><th>X</th></tr></thead>
+          <tbody>
+            <tr><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td></tr>
+            <tr><td class="zero">0</td><td class="one">1</td><td class="zero">0</td></tr>
+            <tr><td class="one">1</td><td class="zero">0</td><td class="zero">0</td></tr>
+            <tr><td class="one">1</td><td class="one">1</td><td class="one">1</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- OR -->
+      <div>
+        <div class="card cyan" style="margin-bottom:4px;">
+          <div class="card-title">OR Gate</div>
+          <div class="card-body">Output is <strong>1 if AT LEAST ONE input is 1</strong>.<br><span class="bool">X = A + B</span></div>
+        </div>
+        <table class="tt">
+          <thead><tr><th>A</th><th>B</th><th>X</th></tr></thead>
+          <tbody>
+            <tr><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td></tr>
+            <tr><td class="zero">0</td><td class="one">1</td><td class="one">1</td></tr>
+            <tr><td class="one">1</td><td class="zero">0</td><td class="one">1</td></tr>
+            <tr><td class="one">1</td><td class="one">1</td><td class="one">1</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- NOT -->
+      <div>
+        <div class="card purple" style="margin-bottom:4px;">
+          <div class="card-title">NOT Gate (Inverter)</div>
+          <div class="card-body">Output is <strong>the OPPOSITE of the input</strong>. Single input only.<br><span class="bool">X = Ā</span></div>
+        </div>
+        <table class="tt">
+          <thead><tr><th>A</th><th>X</th></tr></thead>
+          <tbody>
+            <tr><td class="zero">0</td><td class="one">1</td></tr>
+            <tr><td class="one">1</td><td class="zero">0</td></tr>
+          </tbody>
+        </table>
+        <div class="gold-box" style="margin-top:6px;"><p><strong>Tip:</strong> A bubble (◦) on a gate symbol always means NOT / inversion.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S4 DERIVED GATES 1 ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label orange">// Derived Gates · Part 1</div>
+    <h2>NAND · <span class="hl-orange">NOR</span></h2>
+    <p class="lead" style="margin-bottom:10px;">Derived gates combine basic gates. Think of them as AND/OR with a NOT applied to the output.</p>
+    <div class="grid g2" style="gap:8px;align-items:start;">
+      <!-- NAND -->
+      <div>
+        <div class="card orange" style="margin-bottom:4px;">
+          <div class="card-title">NAND Gate — NOT AND</div>
+          <div class="card-body">= AND gate + NOT gate on output.<br>Output is <strong>0 ONLY when BOTH inputs are 1</strong>.<br><span class="bool">X = <span style="text-decoration:overline;">A · B</span></span></div>
+        </div>
+        <table class="tt">
+          <thead><tr><th>A</th><th>B</th><th>X</th></tr></thead>
+          <tbody>
+            <tr><td class="zero">0</td><td class="zero">0</td><td class="one">1</td></tr>
+            <tr><td class="zero">0</td><td class="one">1</td><td class="one">1</td></tr>
+            <tr><td class="one">1</td><td class="zero">0</td><td class="one">1</td></tr>
+            <tr><td class="one">1</td><td class="one">1</td><td class="zero">0</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- NOR -->
+      <div>
+        <div class="card red" style="margin-bottom:4px;">
+          <div class="card-title">NOR Gate — NOT OR</div>
+          <div class="card-body">= OR gate + NOT gate on output.<br>Output is <strong>1 ONLY when BOTH inputs are 0</strong>.<br><span class="bool">X = <span style="text-decoration:overline;">A + B</span></span></div>
+        </div>
+        <table class="tt">
+          <thead><tr><th>A</th><th>B</th><th>X</th></tr></thead>
+          <tbody>
+            <tr><td class="zero">0</td><td class="zero">0</td><td class="one">1</td></tr>
+            <tr><td class="zero">0</td><td class="one">1</td><td class="zero">0</td></tr>
+            <tr><td class="one">1</td><td class="zero">0</td><td class="zero">0</td></tr>
+            <tr><td class="one">1</td><td class="one">1</td><td class="zero">0</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="cyan-box" style="margin-top:10px;"><p><strong>Memory trick:</strong> NAND and NOR are the "opposites" — flip every output of AND and OR respectively.</p></div>
+  </div>
+</div>
+
+<!-- ═══ S5 DERIVED GATES 2 ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label purple">// Derived Gates · Part 2</div>
+    <h2>XOR · <span class="hl-purple">XNOR</span></h2>
+    <p class="lead" style="margin-bottom:10px;">XOR and XNOR care about whether the inputs are the <em>same or different</em>.</p>
+    <div class="grid g2" style="gap:8px;align-items:start;">
+      <!-- XOR -->
+      <div>
+        <div class="card purple" style="margin-bottom:4px;">
+          <div class="card-title">XOR Gate — Exclusive OR</div>
+          <div class="card-body">Output is <strong>1 when inputs are DIFFERENT</strong>.<br>Both same → 0. Mixed → 1.<br><span class="bool">X = A ⊕ B</span></div>
+        </div>
+        <table class="tt">
+          <thead><tr><th>A</th><th>B</th><th>X</th></tr></thead>
+          <tbody>
+            <tr><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td></tr>
+            <tr><td class="zero">0</td><td class="one">1</td><td class="one">1</td></tr>
+            <tr><td class="one">1</td><td class="zero">0</td><td class="one">1</td></tr>
+            <tr><td class="one">1</td><td class="one">1</td><td class="zero">0</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- XNOR -->
+      <div>
+        <div class="card teal" style="margin-bottom:4px;">
+          <div class="card-title">XNOR Gate — Exclusive NOR</div>
+          <div class="card-body">= XOR + NOT. Output is <strong>1 when inputs are the SAME</strong>.<br>Both same → 1. Mixed → 0.<br><span class="bool">X = <span style="text-decoration:overline;">A ⊕ B</span></span></div>
+        </div>
+        <table class="tt">
+          <thead><tr><th>A</th><th>B</th><th>X</th></tr></thead>
+          <tbody>
+            <tr><td class="zero">0</td><td class="zero">0</td><td class="one">1</td></tr>
+            <tr><td class="zero">0</td><td class="one">1</td><td class="zero">0</td></tr>
+            <tr><td class="one">1</td><td class="zero">0</td><td class="zero">0</td></tr>
+            <tr><td class="one">1</td><td class="one">1</td><td class="one">1</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S6 GATE SUMMARY ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label gold">// Quick Reference</div>
+    <h2>All 7 Gates — <span class="hl-gold">At a Glance</span></h2>
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>Gate</th>
+          <th>Rule (when does output = 1?)</th>
+          <th>Boolean</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:var(--green);">AND</td>
+          <td style="color:var(--text2);">Both inputs = 1</td>
+          <td><span class="bool" style="margin:0;">X = A · B</span></td>
+          <td style="color:var(--text3);font-family:'DM Mono',monospace;font-size:.78rem;">Basic</td>
+        </tr>
+        <tr>
+          <td style="color:var(--cyan);">OR</td>
+          <td style="color:var(--text2);">At least one input = 1</td>
+          <td><span class="bool" style="margin:0;">X = A + B</span></td>
+          <td style="color:var(--text3);font-family:'DM Mono',monospace;font-size:.78rem;">Basic</td>
+        </tr>
+        <tr>
+          <td style="color:var(--purple);">NOT</td>
+          <td style="color:var(--text2);">Input = 0</td>
+          <td><span class="bool" style="margin:0;">X = Ā</span></td>
+          <td style="color:var(--text3);font-family:'DM Mono',monospace;font-size:.78rem;">Basic</td>
+        </tr>
+        <tr>
+          <td style="color:var(--orange);">NAND</td>
+          <td style="color:var(--text2);">NOT both inputs = 1 (opposite of AND)</td>
+          <td><span class="bool" style="margin:0;">X = <span style="text-decoration:overline;">A·B</span></span></td>
+          <td style="color:var(--text3);font-family:'DM Mono',monospace;font-size:.78rem;">Derived</td>
+        </tr>
+        <tr>
+          <td style="color:var(--red);">NOR</td>
+          <td style="color:var(--text2);">Both inputs = 0 (opposite of OR)</td>
+          <td><span class="bool" style="margin:0;">X = <span style="text-decoration:overline;">A+B</span></span></td>
+          <td style="color:var(--text3);font-family:'DM Mono',monospace;font-size:.78rem;">Derived</td>
+        </tr>
+        <tr>
+          <td style="color:var(--purple);">XOR</td>
+          <td style="color:var(--text2);">Inputs are different</td>
+          <td><span class="bool" style="margin:0;">X = A ⊕ B</span></td>
+          <td style="color:var(--text3);font-family:'DM Mono',monospace;font-size:.78rem;">Derived</td>
+        </tr>
+        <tr>
+          <td style="color:var(--teal);">XNOR</td>
+          <td style="color:var(--text2);">Inputs are the same</td>
+          <td><span class="bool" style="margin:0;">X = <span style="text-decoration:overline;">A⊕B</span></span></td>
+          <td style="color:var(--text3);font-family:'DM Mono',monospace;font-size:.78rem;">Derived</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══ S7 TRUTH TABLES INTRO ═══ -->
+<div class="slide">
+  <div class="content" style="max-width:960px;">
+    <div class="label cyan">// A1.2.4 · Truth Tables</div>
+    <h2>Building a <span class="hl-cyan">Truth Table</span></h2>
+    <p class="lead" style="margin-bottom:12px;">A truth table lists every possible input combination and its output. For <strong style="color:var(--text);">n inputs</strong>, there are always <strong style="color:var(--cyan);">2ⁿ rows</strong>.</p>
+    <div class="steps">
+      <div class="step-row">
+        <div class="step-n">01</div>
+        <div class="step-text">Count inputs → calculate rows: <strong>1 input = 2 rows, 2 inputs = 4 rows, 3 inputs = 8 rows</strong></div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">02</div>
+        <div class="step-text">Fill the <strong>rightmost input column</strong> alternating 0, 1, 0, 1…</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">03</div>
+        <div class="step-text">Fill the <strong>next column</strong> alternating every 2 rows: 0, 0, 1, 1, 0, 0, 1, 1…</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">04</div>
+        <div class="step-text">Fill the <strong>leftmost column</strong> alternating every 4 rows: 0, 0, 0, 0, 1, 1, 1, 1…</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">05</div>
+        <div class="step-text">Add <strong>intermediate columns</strong> (P, Q, R…) for each sub-result, then fill the final output column X</div>
+      </div>
+    </div>
+    <div class="gold-box" style="margin-top:10px;"><p><strong>Key point:</strong> Every possible combination of 0s and 1s must appear exactly once.</p></div>
+  </div>
+</div>
+
+<!-- ═══ S8 TRUTH TABLE EXAMPLE ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label cyan">// A1.2.4 · Worked Example</div>
+    <h2>Truth Table <span class="hl-cyan">Worked Example</span></h2>
+    <p class="lead" style="margin-bottom:10px;">Circuit: <span class="bool" style="margin:0 6px;">P = A AND B</span> <span class="bool" style="margin:0 6px;">Q = B NOR C</span> <span class="bool" style="margin:0 6px;">R = P OR Q</span> <span class="bool" style="margin:0 6px;">X = C XOR R</span></p>
+    <table class="tt">
+      <thead><tr><th>A</th><th>B</th><th>C</th><th>P (A·B)</th><th>Q (B NOR C)</th><th>R (P OR Q)</th><th>X (C XOR R)</th></tr></thead>
+      <tbody>
+        <tr><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="one">1</td><td class="one">1</td><td class="one">1</td></tr>
+        <tr><td class="zero">0</td><td class="zero">0</td><td class="one">1</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="one">1</td></tr>
+        <tr><td class="zero">0</td><td class="one">1</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td></tr>
+        <tr><td class="zero">0</td><td class="one">1</td><td class="one">1</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="one">1</td></tr>
+        <tr><td class="one">1</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="one">1</td><td class="one">1</td><td class="one">1</td></tr>
+        <tr><td class="one">1</td><td class="zero">0</td><td class="one">1</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="one">1</td></tr>
+        <tr><td class="one">1</td><td class="one">1</td><td class="zero">0</td><td class="one">1</td><td class="zero">0</td><td class="one">1</td><td class="one">1</td></tr>
+        <tr><td class="one">1</td><td class="one">1</td><td class="one">1</td><td class="one">1</td><td class="zero">0</td><td class="one">1</td><td class="zero">0</td></tr>
+      </tbody>
+    </table>
+    <div class="cyan-box" style="margin-top:8px;"><p><strong>Strategy:</strong> always fill intermediate columns first (P, Q, R…) before tackling the final output X.</p></div>
+  </div>
+</div>
+
+<!-- ═══ S9 TRUTH TABLE FROM PROBLEM DESCRIPTION ═══ -->
+<div class="slide">
+  <div class="content" style="max-width:1000px;">
+    <div class="label cyan">// A1.2.4 · From Problem Description</div>
+    <h2>Problem → <span class="hl-cyan">Truth Table</span></h2>
+    <p class="lead" style="margin-bottom:10px;"><em>Example: A baby alarm goes off when the alarm is switched on AND the baby is crying OR the room is too cold.</em></p>
+    <div class="grid g2" style="gap:10px;align-items:start;">
+      <div>
+        <div class="steps">
+          <div class="step-row"><div class="step-n">01</div><div class="step-text">Identify inputs: <strong>A</strong> = alarm switch, <strong>B</strong> = baby crying, <strong>C</strong> = room cold</div></div>
+          <div class="step-row"><div class="step-n">02</div><div class="step-text">Identify logic: alarm = <strong>A AND (B OR C)</strong></div></div>
+          <div class="step-row"><div class="step-n">03</div><div class="step-text">Add intermediate: <strong>P = B OR C</strong>, then <strong>X = A AND P</strong></div></div>
+        </div>
+        <div class="green-box" style="margin-top:8px;"><p><strong>Order of operations (Boolean):</strong><br>NOT → AND → OR (like BODMAS for logic)</p></div>
+      </div>
+      <table class="tt" style="align-self:start;">
+        <thead><tr><th>A</th><th>B</th><th>C</th><th>P (B OR C)</th><th>X (A AND P)</th></tr></thead>
+        <tbody>
+          <tr><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td></tr>
+          <tr><td class="zero">0</td><td class="zero">0</td><td class="one">1</td><td class="one">1</td><td class="zero">0</td></tr>
+          <tr><td class="zero">0</td><td class="one">1</td><td class="zero">0</td><td class="one">1</td><td class="zero">0</td></tr>
+          <tr><td class="zero">0</td><td class="one">1</td><td class="one">1</td><td class="one">1</td><td class="zero">0</td></tr>
+          <tr><td class="one">1</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td></tr>
+          <tr><td class="one">1</td><td class="zero">0</td><td class="one">1</td><td class="one">1</td><td class="one">1</td></tr>
+          <tr><td class="one">1</td><td class="one">1</td><td class="zero">0</td><td class="one">1</td><td class="one">1</td></tr>
+          <tr><td class="one">1</td><td class="one">1</td><td class="one">1</td><td class="one">1</td><td class="one">1</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S10 KARNAUGH MAPS ═══ -->
+<div class="slide">
+  <div class="content" style="max-width:980px;">
+    <div class="label gold">// A1.2.4 · K-Maps</div>
+    <h2>Karnaugh Maps — <span class="hl-gold">Simplifying</span> Expressions</h2>
+    <p class="lead" style="margin-bottom:10px;">K-maps let you visually simplify Boolean expressions — reducing the number of gates needed.</p>
+    <div class="grid g2" style="gap:10px;align-items:start;">
+      <div>
+        <div class="card gold" style="margin-bottom:6px;">
+          <div class="card-title">The Big Idea</div>
+          <div class="card-body">Plot the 1s from your truth table onto a grid. <strong>Group adjacent 1s</strong> in powers of 2 (1, 2, 4, 8…). Each group simplifies to a shorter expression.</div>
+        </div>
+        <div class="card cyan">
+          <div class="card-title">Key Rules</div>
+          <div class="card-body">
+            • Groups must be <strong>powers of 2</strong> in size<br>
+            • Groups must be <strong>rectangular / square</strong><br>
+            • Groups can <strong>wrap around edges</strong><br>
+            • Groups can <strong>overlap</strong><br>
+            • Aim for the <strong>fewest, largest</strong> groups<br>
+            • Use <strong>Gray code</strong> for column headings (00, 01, 11, 10)
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card purple">
+          <div class="card-title">Reading a Group</div>
+          <div class="card-body">Look at each variable across the group:<br>• If the variable <strong>stays the same</strong> → keep it<br>• If the variable <strong>changes</strong> → discard it<br><br>Then combine groups with OR ( + )</div>
+        </div>
+        <div class="gold-box" style="margin-top:6px;"><p><strong>Example:</strong> K-map of A·B·C + A·B·C̄ + Ā·B·C simplifies to B·C + A·C</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S11 LOGIC DIAGRAMS ═══ -->
+<div class="slide">
+  <div class="content" style="max-width:980px;">
+    <div class="label purple">// A1.2.5 · Logic Diagrams</div>
+    <h2>Drawing <span class="hl-purple">Logic Diagrams</span></h2>
+    <p class="lead" style="margin-bottom:10px;">Convert a Boolean expression into a circuit diagram step by step.</p>
+    <div class="grid g2" style="gap:10px;align-items:start;">
+      <div>
+        <div class="steps">
+          <div class="step-row"><div class="step-n">01</div><div class="step-text"><strong>Identify inputs</strong> — draw a line for each variable (A, B, C…)</div></div>
+          <div class="step-row"><div class="step-n">02</div><div class="step-text"><strong>Work inside brackets first</strong> — add gates for innermost expressions</div></div>
+          <div class="step-row"><div class="step-n">03</div><div class="step-text"><strong>Apply NOT gates</strong> to inverted variables (Ā, B̄…) before connecting them</div></div>
+          <div class="step-row"><div class="step-n">04</div><div class="step-text"><strong>Connect sub-expressions</strong> using AND / OR / XOR gates as indicated</div></div>
+          <div class="step-row"><div class="step-n">05</div><div class="step-text"><strong>Final gate</strong> produces output X or Y</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="card purple" style="margin-bottom:6px;">
+          <div class="card-title">Example: Y = (A · B) + (Ā · B̄)</div>
+          <div class="card-body">
+            1. AND gate: A, B → output P<br>
+            2. NOT gate on A → Ā<br>
+            3. NOT gate on B → B̄<br>
+            4. AND gate: Ā, B̄ → output Q<br>
+            5. OR gate: P, Q → output Y
+          </div>
+        </div>
+        <div class="cyan-box" style="margin-top:0;"><p><strong>Tip:</strong> Simplify with a K-map first — fewer gates = a cleaner, more efficient diagram.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S12 SUMMARY ═══ -->
+<div class="slide">
+  <div class="content" style="max-width:980px;">
+    <div class="label">// Summary</div>
+    <h2>What We <span class="hl-gold">Covered</span></h2>
+    <div class="grid g3" style="gap:2px;margin-bottom:12px;">
+      <div class="card green">
+        <div class="card-title">A1.2.3 · Logic Gates</div>
+        <div class="card-body"><strong>Basic:</strong> AND, OR, NOT<br><strong>Derived:</strong> NAND, NOR, XOR, XNOR<br>Each has a Boolean symbol and truth table.</div>
+      </div>
+      <div class="card cyan">
+        <div class="card-title">A1.2.4 · Truth Tables</div>
+        <div class="card-body"><strong>2ⁿ rows</strong> for n inputs. Fill inputs systematically. Use intermediate columns. Can model real problems (baby alarm, traffic lights…).</div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">A1.2.5 · Logic Diagrams</div>
+        <div class="card-body">Translate Boolean expressions into gate diagrams. Work from innermost brackets outward. K-maps simplify first.</div>
+      </div>
+    </div>
+    <div class="gold-box"><p><strong>Big picture:</strong> Logic gates → truth tables → Boolean algebra → diagrams. They're all different views of the same underlying logic.</p></div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="go(-1)" disabled>← prev</button>
+  <div class="nav-sep"></div>
+  <div class="nav-dots" id="dots"></div>
+  <div class="nav-sep"></div>
+  <button class="nav-btn" id="nextBtn" onclick="go(1)">next →</button>
+</nav>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let cur = 0;
+
+document.getElementById('slideNum').textContent = `01 / ${String(total).padStart(2,'0')}`;
+
+const dotsEl = document.getElementById('dots');
+slides.forEach((_,i) => {
+  const d = document.createElement('span');
+  d.className = 'dot' + (i===0?' active':'');
+  d.onclick = () => show(i);
+  dotsEl.appendChild(d);
+});
+
+function show(n) {
+  slides[cur].classList.remove('active');
+  slides[cur].classList.add('exit');
+  setTimeout(() => slides[cur].classList.remove('exit'), 400);
+  cur = n;
+  slides[cur].classList.add('active');
+  document.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('active', i===cur));
+  document.getElementById('progress').style.width = ((cur+1)/total*100)+'%';
+  document.getElementById('slideNum').textContent = `${String(cur+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`;
+  document.getElementById('prevBtn').disabled = cur === 0;
+  document.getElementById('nextBtn').disabled = cur === total-1;
+}
+
+function go(dir) { if(cur+dir>=0 && cur+dir<total) show(cur+dir); }
+
+document.addEventListener('keydown', e => {
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') go(1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp') go(-1);
+});
+
+document.getElementById('progress').style.width = (1/total*100)+'%';
+document.getElementById('prevBtn').disabled = true;
+</script>
+</body>
+</html>

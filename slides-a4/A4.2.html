@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A4.2 — Data Preprocessing · HL</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Serif+Display&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07090f;
+  --surface: #0e1117;
+  --surface2: #151923;
+  --border: #1e2535;
+  --border2: #2a3448;
+  --gold: #c9a84c;
+  --gold2: #e8c97a;
+  --blue: #4a9eff;
+  --green: #3dd68c;
+  --red: #ff6b6b;
+  --purple: #9b8afb;
+  --cyan: #22d3ee;
+  --orange: #fb923c;
+  --text: #dde4f0;
+  --text2: #7a8ba8;
+  --text3: #3d4f6a;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; }
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(34,211,238,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34,211,238,0.025) 1px, transparent 1px),
+    linear-gradient(rgba(34,211,238,0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34,211,238,0.01) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+  pointer-events: none; z-index: 0;
+}
+.deck { position: relative; width: 100vw; height: 100vh; z-index: 1; }
+.slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 50px 72px 92px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.38s ease, transform 0.38s ease;
+  transform: translateY(12px);
+}
+.slide.active { opacity: 1; pointer-events: all; transform: translateY(0); }
+.slide.exit { opacity: 0; transform: translateY(-12px); }
+.slide.scroll-slide {
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-top: 64px;
+  padding-bottom: 132px;
+}
+.slide.scroll-slide::-webkit-scrollbar { width: 10px; }
+.slide.scroll-slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
+.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(14,17,23,0.3); }
+.progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--cyan), var(--blue)); transition: width 0.38s ease; z-index: 100; }
+.slide-num { position: fixed; top: 17px; right: 24px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
+.content { width: 100%; max-width: 1120px; }
+.label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cyan); margin-bottom: 14px; }
+.label.blue { color: var(--blue); } .label.green { color: var(--green); } .label.orange { color: var(--orange); } .label.gold { color: var(--gold); } .label.red { color: var(--red); } .label.purple { color: var(--purple); }
+h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.8rem,5.5vw,4.8rem); font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
+h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem); font-weight: 400; line-height: 1.1; margin-bottom: 12px; }
+.lead { font-size: clamp(1rem,1.75vw,1.35rem); color: var(--text2); font-weight: 300; line-height: 1.65; margin-bottom: 24px; }
+.hl-gold { color: var(--gold2); } .hl-blue { color: var(--blue); } .hl-green { color: var(--green); } .hl-purple { color: var(--purple); } .hl-cyan { color: var(--cyan); } .hl-red { color: var(--red); } .hl-orange { color: var(--orange); }
+.grid { display: grid; gap: 2px; width: 100%; }
+.g2 { grid-template-columns: 1fr 1fr; } .g3 { grid-template-columns: 1fr 1fr 1fr; } .g4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+.card { background: var(--surface); border: 1px solid var(--border); padding: 18px 22px; position: relative; overflow: hidden; }
+.card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.card.gold::after { background: var(--gold); } .card.blue::after { background: var(--blue); }
+.card.green::after { background: var(--green); } .card.red::after { background: var(--red); }
+.card.purple::after { background: var(--purple); } .card.cyan::after { background: var(--cyan); }
+.card.orange::after { background: var(--orange); }
+.card-title { font-family: 'DM Mono', monospace; font-size: clamp(0.7rem,1.1vw,0.9rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.card-body { font-size: clamp(0.85rem,1.3vw,1.05rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
+.card-body strong { color: var(--text); font-weight: 500; }
+.info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(74,158,255,0.04); border-top: 1px solid rgba(74,158,255,0.08); border-right: 1px solid rgba(74,158,255,0.08); border-bottom: 1px solid rgba(74,158,255,0.08); margin-top: 14px; }
+.info-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.info-box strong { color: var(--blue); }
+.gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(201,168,76,0.04); border-top: 1px solid rgba(201,168,76,0.08); border-right: 1px solid rgba(201,168,76,0.08); border-bottom: 1px solid rgba(201,168,76,0.08); margin-top: 14px; }
+.gold-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.gold-box strong { color: var(--gold2); }
+.cyan-box { border-left: 3px solid var(--cyan); padding: 13px 20px; background: rgba(34,211,238,0.04); border-top: 1px solid rgba(34,211,238,0.08); border-right: 1px solid rgba(34,211,238,0.08); border-bottom: 1px solid rgba(34,211,238,0.08); margin-top: 14px; }
+.cyan-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.cyan-box strong { color: var(--cyan); }
+.purple-box { border-left: 3px solid var(--purple); padding: 13px 20px; background: rgba(155,138,251,0.04); border-top: 1px solid rgba(155,138,251,0.08); border-right: 1px solid rgba(155,138,251,0.08); border-bottom: 1px solid rgba(155,138,251,0.08); margin-top: 14px; }
+.purple-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.purple-box strong { color: var(--purple); }
+.red-box { border-left: 3px solid var(--red); padding: 13px 20px; background: rgba(255,107,107,0.04); border-top: 1px solid rgba(255,107,107,0.08); border-right: 1px solid rgba(255,107,107,0.08); border-bottom: 1px solid rgba(255,107,107,0.08); margin-top: 14px; }
+.red-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.red-box strong { color: var(--red); }
+.green-box { border-left: 3px solid var(--green); padding: 13px 20px; background: rgba(61,214,140,0.04); border-top: 1px solid rgba(61,214,140,0.08); border-right: 1px solid rgba(61,214,140,0.08); border-bottom: 1px solid rgba(61,214,140,0.08); margin-top: 14px; }
+.green-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.green-box strong { color: var(--green); }
+.steps { display: flex; flex-direction: column; gap: 2px; }
+.step-row { display: flex; align-items: flex-start; gap: 18px; background: var(--surface); border: 1px solid var(--border); padding: 13px 18px; }
+.step-n { font-family: 'DM Mono', monospace; font-size: clamp(0.85rem,1.4vw,1.1rem); color: var(--cyan); min-width: 36px; flex-shrink: 0; font-weight: 500; padding-top: 2px; }
+.step-text { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.5; font-weight: 300; }
+.step-text strong { color: var(--text); font-weight: 500; }
+.comparison-table { width: 100%; border-collapse: collapse; }
+.comparison-table th { font-family: 'DM Mono', monospace; font-size: clamp(0.65rem,1vw,0.82rem); letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); padding: 9px 14px; text-align: left; border-bottom: 1px solid var(--border2); background: var(--surface); }
+.comparison-table td { padding: 11px 14px; font-size: clamp(0.82rem,1.3vw,1.02rem); border-bottom: 1px solid var(--border); color: var(--text2); background: var(--surface); line-height: 1.5; vertical-align: top; }
+.comparison-table tr:last-child td { border-bottom: none; }
+.comparison-table tr:hover td { background: var(--surface2); }
+.comparison-table td:first-child { font-family: 'DM Mono', monospace; font-size: 0.88em; color: var(--cyan); font-weight: 500; }
+.hl-badge { display: inline-block; font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--orange); padding: 2px 8px; background: rgba(251,146,60,0.1); border: 1px solid rgba(251,146,60,0.25); border-radius: 2px; margin-left: 8px; vertical-align: middle; }
+.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; }
+.nav-btn { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; }
+.nav-btn:hover { color: var(--cyan); border-color: var(--cyan); background: rgba(34,211,238,0.05); }
+.nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+.nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 260px; justify-content: center; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); cursor: pointer; transition: all 0.2s; }
+.dot.active { background: var(--cyan); transform: scale(1.4); }
+.nav-sep { width: 1px; height: 18px; background: var(--border2); }
+.pipeline { display: flex; align-items: center; gap: 0; flex-wrap: wrap; }
+.pipe-step { background: var(--surface); border: 1px solid var(--border); padding: 10px 16px; font-family: 'DM Mono', monospace; font-size: 0.78rem; text-align: center; min-width: 100px; }
+.pipe-arrow { font-family: 'DM Mono', monospace; color: var(--text3); padding: 0 6px; font-size: 1.1rem; }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="slide-num" id="slideNum">01 / 14</div>
+<div class="deck">
+
+<!-- ═══════════════════════════════════════════════ S1: TITLE -->
+<div class="slide active">
+  <div class="content">
+    <div class="label">// A4.2 · Data Preprocessing <span class="hl-badge">HL Only</span></div>
+    <h1>Data<br><span class="hl-cyan">Preprocessing</span></h1>
+    <p style="font-family:'DM Mono',monospace;font-size:clamp(0.85rem,1.4vw,1.1rem);color:var(--text3);margin-bottom:20px;">Theme A4 · IB Computer Science HL</p>
+    <div class="gold-box">
+      <p><strong>👉 Guiding Question:</strong> Why does data quality determine the quality of a machine learning model — and how do we prepare raw data before training begins?</p>
+    </div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:20px;">
+      <div style="padding-left:12px;border-left:2px solid var(--cyan);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Clean</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">DATA CLEANING</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--blue);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Select</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">FEATURE SELECTION</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--purple);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Reduce</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">DIMENSIONALITY</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--green);"><div style="font-family:'DM Mono',monospace;font-size:1rem;">Normalize</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">SCALE &amp; STANDARDIZE</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S2: IB SPEC -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// IB Specification · A4.2</div>
+    <h2>What IB Requires <span class="hl-badge">HL Only</span></h2>
+    <div class="steps">
+      <div class="step-row"><div class="step-n">4.2.1</div><div class="step-text"><strong>Describe</strong> the significance of data cleaning — impact on model performance, techniques for handling outliers, duplicates, missing data, normalization and standardization</div></div>
+      <div class="step-row"><div class="step-n">4.2.2</div><div class="step-text"><strong>Describe</strong> the role of feature selection — identifying and retaining the most informative attributes; filter, wrapper, and embedded strategies</div></div>
+      <div class="step-row"><div class="step-n">4.2.3</div><div class="step-text"><strong>Describe</strong> the importance of dimensionality reduction — the curse of dimensionality, reducing variables while preserving relevant aspects of the data</div></div>
+    </div>
+    <div class="cyan-box" style="margin-top:14px;">
+      <p><strong>Note:</strong> Statistical techniques such as PCA (Principal Component Analysis) and LDA (Linear Discriminant Analysis) are <strong>beyond the scope</strong> of this course — you only need to understand <em>why</em> dimensionality reduction matters.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S3: WHY PREPROCESSING MATTERS -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Motivation · Why Preprocessing?</div>
+    <h2>Garbage In, <span class="hl-red">Garbage Out</span></h2>
+    <p class="lead">Machine learning models learn patterns from data. If the data is noisy, incomplete, or biased — the model will learn <em>those flaws</em>, not the underlying truth.</p>
+    <div class="grid g3" style="margin-bottom:14px;">
+      <div class="card red">
+        <div class="card-title">Raw Data Problems</div>
+        <div class="card-body">
+          Missing values (null / NaN)<br>
+          Duplicate records<br>
+          Outliers and anomalies<br>
+          Wrong formats / typos<br>
+          Irrelevant features (noise)
+        </div>
+      </div>
+      <div class="card cyan">
+        <div class="card-title">Preprocessing Steps</div>
+        <div class="card-body">
+          <strong>1. Data Cleaning</strong> — fix / remove bad data<br>
+          <strong>2. Feature Selection</strong> — keep only useful columns<br>
+          <strong>3. Dimensionality Reduction</strong> — compress features<br>
+          <strong>4. Normalization</strong> — scale values consistently
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">Result</div>
+        <div class="card-body">
+          Higher model accuracy<br>
+          Faster training<br>
+          Better generalization to new data<br>
+          Reduced overfitting<br>
+          More interpretable results
+        </div>
+      </div>
+    </div>
+    <div class="gold-box">
+      <p><strong>Rule of thumb:</strong> Data scientists spend up to <strong>80% of their time</strong> on data preprocessing — it is the most critical phase of any ML pipeline.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S4: DATA QUALITY & MODEL PERFORMANCE -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A4.2.1 · Data Cleaning</div>
+    <h2>Impact of <span class="hl-cyan">Data Quality</span> on Model Performance</h2>
+    <p class="lead" style="margin-bottom:16px;">The training data is the model's entire "world view." Poor quality data leads directly to poor predictions.</p>
+    <div class="grid g2" style="margin-bottom:14px;">
+      <div class="card red">
+        <div class="card-title">Low Quality Data → Poor Model</div>
+        <div class="card-body">
+          <strong>Missing values</strong> cause incorrect averages and biased predictions<br><br>
+          <strong>Outliers</strong> pull regression lines away from the true trend<br><br>
+          <strong>Duplicates</strong> make the model over-weight certain patterns<br><br>
+          <strong>Inconsistent formats</strong> (e.g. "01/05" vs "May 1st") break feature parsing
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">High Quality Data → Better Model</div>
+        <div class="card-body">
+          <strong>Complete data</strong> ensures all patterns are represented<br><br>
+          <strong>Consistent values</strong> allow reliable comparisons across rows<br><br>
+          <strong>Accurate labels</strong> (for supervised learning) ensure correct targets<br><br>
+          <strong>Representative data</strong> reduces bias in the trained model
+        </div>
+      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>Real example:</strong> A medical diagnosis model trained on patient records with 30% missing test results will systematically misclassify patients whose results are absent — regardless of how sophisticated the algorithm is.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S5: DATA CLEANING TECHNIQUES -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:1120px;margin:0 auto;">
+    <div class="label">// A4.2.1 · Data Cleaning Techniques</div>
+    <h2>Fixing <span class="hl-cyan">Dirty Data</span></h2>
+    <table class="comparison-table" style="margin-bottom:14px;">
+      <tr>
+        <th>Problem</th>
+        <th>Technique</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td>Outliers</td>
+        <td>Remove if data entry error; cap/transform if genuine extreme value; use robust algorithms</td>
+        <td>A patient's age recorded as 999 → clearly an error; remove the row</td>
+      </tr>
+      <tr>
+        <td>Duplicate records</td>
+        <td>Remove or consolidate duplicates based on unique identifiers</td>
+        <td>Same customer appearing twice in a sales database with slightly different spellings</td>
+      </tr>
+      <tr>
+        <td>Incorrect / inconsistent data</td>
+        <td>Validate against rules; standardize formats (dates, units, categories)</td>
+        <td>Height recorded in both cm and inches → convert all to cm</td>
+      </tr>
+      <tr>
+        <td>Irrelevant features</td>
+        <td>Filter out columns that add noise but no predictive signal</td>
+        <td>Removing a customer's "ID number" from a churn prediction model</td>
+      </tr>
+      <tr>
+        <td>Improperly formatted data</td>
+        <td>Parse and transform strings, dates, categories into correct types</td>
+        <td>"True" / "False" strings → boolean 1 / 0</td>
+      </tr>
+      <tr>
+        <td>Missing data — Imputation</td>
+        <td>Replace missing values with mean, median, or mode; or use a predictive model to estimate the value</td>
+        <td>Missing age → replace with the median age of all patients</td>
+      </tr>
+      <tr>
+        <td>Missing data — Deletion</td>
+        <td>Remove rows or columns with too many missing values (if data is plentiful)</td>
+        <td>A column with 70% missing values contributes little — drop it</td>
+      </tr>
+    </table>
+    <div class="cyan-box">
+      <p><strong>Imputation vs Deletion:</strong> Imputation preserves data volume (important with small datasets) but may introduce bias. Deletion is simpler but wastes data. The choice depends on <em>how much</em> data is missing and <em>why</em>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S6: NORMALIZATION & STANDARDIZATION -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A4.2.1 · Scaling</div>
+    <h2><span class="hl-blue">Normalization</span> vs <span class="hl-green">Standardization</span></h2>
+    <p class="lead" style="margin-bottom:14px;">Features with very different numeric ranges can cause ML algorithms to unfairly weight larger-valued features. Scaling puts everything on the same level.</p>
+    <div class="grid g2" style="margin-bottom:14px;">
+      <div class="card blue">
+        <div class="card-title">Normalization (Min-Max Scaling)</div>
+        <div class="card-body">
+          Rescales values to a fixed range — usually <strong>[0, 1]</strong><br><br>
+          <strong>Formula:</strong> x' = (x − x<sub>min</sub>) / (x<sub>max</sub> − x<sub>min</sub>)<br><br>
+          <strong>Best for:</strong> when the distribution is unknown or not Gaussian; image pixel values (0–255 → 0–1)<br><br>
+          <strong>Risk:</strong> sensitive to outliers — one extreme value compresses all others
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">Standardization (Z-Score Scaling)</div>
+        <div class="card-body">
+          Rescales so that values have <strong>mean = 0</strong> and <strong>standard deviation = 1</strong><br><br>
+          <strong>Formula:</strong> x' = (x − μ) / σ<br><br>
+          <strong>Best for:</strong> when data follows a roughly Gaussian (bell curve) distribution; algorithms like SVM, linear regression<br><br>
+          <strong>Advantage:</strong> less sensitive to outliers than min-max normalization
+        </div>
+      </div>
+    </div>
+    <div class="gold-box">
+      <p><strong>Example:</strong> A dataset has age (20–80) and salary (30,000–200,000). Without scaling, a K-NN classifier will treat salary differences as far more important than age differences — purely because of the numeric scale.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S7: FEATURE SELECTION INTRO -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A4.2.2 · Feature Selection</div>
+    <h2>Choosing the <span class="hl-blue">Right Features</span></h2>
+    <p class="lead">A feature is any measurable attribute used as input to the model. Not all features are equally useful — some add noise, some are redundant, some are irrelevant.</p>
+    <div class="grid g2" style="margin-bottom:14px;">
+      <div class="card cyan">
+        <div class="card-title">What is Feature Selection?</div>
+        <div class="card-body">
+          The process of <strong>identifying and retaining only the most informative attributes</strong> from the dataset before training.<br><br>
+          Reduces model complexity, speeds up training, and often <strong>improves accuracy</strong> by removing misleading signals.
+        </div>
+      </div>
+      <div class="card red">
+        <div class="card-title">Why Too Many Features is Bad</div>
+        <div class="card-body">
+          <strong>Overfitting:</strong> model memorizes noise alongside real patterns<br><br>
+          <strong>Slow training:</strong> more features = exponentially more computation<br><br>
+          <strong>Interpretability:</strong> harder to understand a model with 500 inputs vs 10
+        </div>
+      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>Example:</strong> Predicting house prices. Features might include: square footage, number of bedrooms, postcode, owner's favourite colour. Square footage is highly relevant; owner's favourite colour is <em>not</em> — it should be removed.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S8: FEATURE SELECTION STRATEGIES -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A4.2.2 · Feature Selection Strategies</div>
+    <h2>Three Strategies <span class="hl-blue">Compared</span></h2>
+    <div class="steps" style="margin-bottom:14px;">
+      <div class="step-row">
+        <div class="step-n" style="color:var(--cyan);">Filter</div>
+        <div class="step-text">
+          <strong>Filter Methods</strong> — evaluate each feature <em>independently</em> of the learning algorithm, using statistical measures (e.g. correlation, chi-squared test).<br>
+          ✅ Fast and computationally cheap &nbsp; ❌ Ignores interactions between features<br>
+          <em>Example: Remove any feature with correlation &lt; 0.1 to the target variable.</em>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--blue);">Wrapper</div>
+        <div class="step-text">
+          <strong>Wrapper Methods</strong> — use the actual ML model to evaluate subsets of features. Try combinations, keep the best-performing subset.<br>
+          ✅ Considers feature interactions &nbsp; ❌ Very slow for large feature sets<br>
+          <em>Example: Forward selection — start with 0 features, add one at a time, keep if accuracy improves.</em>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-n" style="color:var(--purple);">Embedded</div>
+        <div class="step-text">
+          <strong>Embedded Methods</strong> — feature selection is built into the model training process itself.<br>
+          ✅ Efficient — no separate selection step &nbsp; ✅ Considers interactions<br>
+          <em>Example: Decision trees rank features by importance during training; low-importance branches are pruned.</em>
+        </div>
+      </div>
+    </div>
+    <div class="gold-box">
+      <p><strong>IB Focus:</strong> Know the name of each method, roughly how it works, and one advantage and disadvantage for each.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S9: DIMENSIONALITY REDUCTION INTRO -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A4.2.3 · Dimensionality Reduction</div>
+    <h2>The <span class="hl-purple">Curse of</span> Dimensionality</h2>
+    <p class="lead">A "dimension" = one feature (one column in the dataset). As the number of features grows, data becomes increasingly <em>sparse</em> — and models struggle to find meaningful patterns.</p>
+    <div class="grid g3" style="margin-bottom:14px;">
+      <div class="card purple">
+        <div class="card-title">Overfitting</div>
+        <div class="card-body">
+          With many features, the model can fit the training data perfectly by memorizing noise — but performs poorly on new data.
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Computational Complexity</div>
+        <div class="card-body">
+          More features = more calculations per training step. Training time can grow exponentially with dimensionality.
+        </div>
+      </div>
+      <div class="card red">
+        <div class="card-title">Data Sparsity</div>
+        <div class="card-body">
+          In high-dimensional space, data points are far apart. Distance-based algorithms (like K-NN) lose effectiveness when all points seem equally distant.
+        </div>
+      </div>
+    </div>
+    <div class="grid g2" style="margin-bottom:0;">
+      <div class="card orange">
+        <div class="card-title">Memory Usage</div>
+        <div class="card-body">High-dimensional datasets consume significantly more RAM and storage — limiting what hardware can process.</div>
+      </div>
+      <div class="card cyan">
+        <div class="card-title">Data Visualization</div>
+        <div class="card-body">Humans can visualize 2D or 3D space. Beyond 3 dimensions, we cannot directly inspect or verify patterns in the data.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S10: DIMENSIONALITY REDUCTION SOLUTION -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// A4.2.3 · Dimensionality Reduction</div>
+    <h2>Reducing Dimensions <span class="hl-purple">Without Losing Information</span></h2>
+    <p class="lead" style="margin-bottom:16px;">Dimensionality reduction compresses the dataset from many features into fewer, while preserving the most important variation in the data.</p>
+    <div class="grid g2" style="margin-bottom:14px;">
+      <div class="card purple">
+        <div class="card-title">Feature Selection (vs) Feature Extraction</div>
+        <div class="card-body">
+          <strong>Feature Selection</strong> — choose a subset of <em>existing</em> features and discard the rest<br><br>
+          <strong>Feature Extraction</strong> — create new combined features that capture the same information in fewer dimensions (e.g., PCA — note: PCA/LDA details are <em>beyond IB scope</em>)<br><br>
+          Both reduce the number of input dimensions.
+        </div>
+      </div>
+      <div class="card cyan">
+        <div class="card-title">What Gets Preserved</div>
+        <div class="card-body">
+          The goal is to retain the <strong>most informative aspects</strong> of the data — the patterns and variations that allow the model to distinguish between classes or predict outcomes.<br><br>
+          Some information loss is acceptable if the remaining features are still representative.
+        </div>
+      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>Sample size consideration:</strong> As dimensions increase, exponentially more training samples are needed to maintain the same statistical confidence. Reducing dimensions lowers this requirement.</p>
+    </div>
+    <div class="gold-box">
+      <p><strong>IB Note:</strong> You need to describe <em>why</em> dimensionality reduction is important (curse of dimensionality, overfitting, speed) — not the mathematical details of PCA or LDA.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S11: THE ML PIPELINE -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Putting It All Together</div>
+    <h2>The ML <span class="hl-green">Preprocessing Pipeline</span></h2>
+    <p class="lead" style="margin-bottom:20px;">Preprocessing steps are not isolated — they form a sequential pipeline applied before model training.</p>
+    <div style="overflow-x:auto;margin-bottom:18px;">
+      <div class="pipeline" style="justify-content:center;">
+        <div class="pipe-step" style="border-color:var(--red);color:var(--red);">Raw Data</div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step" style="border-color:var(--cyan);color:var(--cyan);">Data Cleaning</div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step" style="border-color:var(--blue);color:var(--blue);">Feature Selection</div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step" style="border-color:var(--purple);color:var(--purple);">Dim. Reduction</div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step" style="border-color:var(--green);color:var(--green);">Normalization</div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step" style="border-color:var(--gold);color:var(--gold);">Model Training</div>
+      </div>
+    </div>
+    <div class="grid g2" style="margin-bottom:14px;">
+      <div class="card cyan">
+        <div class="card-title">Order Matters</div>
+        <div class="card-body">
+          Clean before selecting — you don't want outliers to distort correlation scores.<br>
+          Select features before reducing dimensions — dimensionality reduction is most effective on relevant features.<br>
+          Normalize after selection — to ensure consistent scales.
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">Train / Test Split</div>
+        <div class="card-body">
+          Preprocessing should be <strong>fitted on training data only</strong> — then applied to test data.<br><br>
+          Example: compute the mean for imputation using only training rows; apply that same mean to fill gaps in test rows. This prevents <strong>data leakage</strong>.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S12: REAL WORLD EXAMPLE -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Worked Example</div>
+    <h2>Case Study: <span class="hl-gold">Hospital Patient Data</span></h2>
+    <p class="lead" style="margin-bottom:14px;">Goal: predict whether a patient will be readmitted within 30 days.</p>
+    <div class="steps">
+      <div class="step-row">
+        <div class="step-n">1</div>
+        <div class="step-text"><strong>Raw problems found:</strong> 15% of blood pressure readings missing; patient ID numbers present; age recorded as "999" for 3 rows; some records duplicated from system migration.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">2</div>
+        <div class="step-text"><strong>Data Cleaning:</strong> Remove rows with age = 999 (clearly erroneous). Drop exact duplicate records. Impute missing blood pressure values with the median for patients of the same age group.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">3</div>
+        <div class="step-text"><strong>Feature Selection (Filter):</strong> Compute correlation of each feature with the readmission label. Drop "patient ID" (no predictive value). Drop "hospital name" (irrelevant for clinical prediction). Retain age, diagnosis codes, number of prior visits, blood pressure.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">4</div>
+        <div class="step-text"><strong>Normalization:</strong> Age (0–120) and prior visits (0–30) are on different scales. Apply min-max normalization to bring both to [0, 1] range so neither dominates the model.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">5</div>
+        <div class="step-text"><strong>Result:</strong> Clean, consistently scaled, 8-feature dataset ready for training — instead of the original 45-feature, noisy, incomplete raw file.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S13: EXAM REVIEW -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// Exam Review · A4.2</div>
+    <h2>Key Concepts <span class="hl-gold">Summary</span></h2>
+    <div class="grid g3" style="margin-bottom:14px;">
+      <div class="card cyan">
+        <div class="card-title">Data Cleaning (4.2.1)</div>
+        <div class="card-body">
+          Outliers → remove or cap<br>
+          Duplicates → remove/consolidate<br>
+          Missing data → imputation or deletion<br>
+          Normalization → min-max [0,1]<br>
+          Standardization → mean=0, σ=1<br>
+          Bad formats → parse &amp; transform
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Feature Selection (4.2.2)</div>
+        <div class="card-body">
+          Identify most informative features<br>
+          <strong>Filter:</strong> statistical measure (fast, no interactions)<br>
+          <strong>Wrapper:</strong> model-based subsets (slow, thorough)<br>
+          <strong>Embedded:</strong> built into training (efficient)<br>
+          Reduces overfitting + training time
+        </div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">Dimensionality Reduction (4.2.3)</div>
+        <div class="card-body">
+          Curse of dimensionality concerns:<br>
+          • Overfitting<br>
+          • Computation complexity<br>
+          • Data sparsity<br>
+          • Memory usage<br>
+          • Distance metric ineffectiveness<br>
+          PCA/LDA: beyond IB scope
+        </div>
+      </div>
+    </div>
+    <div class="red-box">
+      <p><strong>Common Exam Mistake:</strong> Confusing normalization (rescale to [0,1]) and standardization (rescale to mean=0, σ=1). Know both formulas conceptually and when to use each.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S14: NEXT STEPS -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// What's Next</div>
+    <h2>Up Next: <span class="hl-orange">A4.3</span></h2>
+    <p class="lead" style="margin-bottom:20px;">Now that the data is clean and prepared, we explore the actual machine learning algorithms — from linear regression to neural networks.</p>
+    <div class="grid g2" style="margin-bottom:14px;">
+      <div class="card orange">
+        <div class="card-title">A4.3 · ML Approaches (HL)</div>
+        <div class="card-body">
+          Linear regression · K-NN · Decision trees<br>
+          Evaluation: accuracy, precision, recall, F1<br>
+          Hyperparameter tuning · overfitting<br>
+          Clustering · Association rules<br>
+          Reinforcement learning · Genetic algorithms<br>
+          ANNs · CNNs
+        </div>
+      </div>
+      <div class="card gold">
+        <div class="card-title">Review Checklist · A4.2</div>
+        <div class="card-body">
+          ☐ Explain why data quality matters for ML<br>
+          ☐ List 5 data cleaning techniques<br>
+          ☐ Distinguish normalization vs standardization<br>
+          ☐ Compare filter, wrapper, embedded methods<br>
+          ☐ List 4 aspects of the curse of dimensionality<br>
+          ☐ Explain what dimensionality reduction preserves
+        </div>
+      </div>
+    </div>
+    <div class="cyan-box">
+      <p><strong>Linking Question:</strong> How does the quality of data stored in a database (A3) affect the quality of a machine learning model trained on that data (A4)?</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>← Prev</button>
+  <div class="nav-sep"></div>
+  <div class="nav-dots" id="navDots"></div>
+  <div class="nav-sep"></div>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+</div>
+
+<script>
+  let cur = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const prog = document.getElementById('progress');
+  const slideNum = document.getElementById('slideNum');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const dotsEl = document.getElementById('navDots');
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  }
+  function goTo(n) {
+    slides[cur].classList.remove('active');
+    slides[cur].classList.add('exit');
+    const old = cur;
+    slides[old].scrollTop = 0;
+    setTimeout(() => slides[old].classList.remove('exit'), 380);
+    cur = n;
+    slides[cur].scrollTop = 0;
+    slides[cur].classList.add('active');
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+    prog.style.width = ((cur + 1) / total * 100) + '%';
+    slideNum.textContent = String(cur + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+    prevBtn.disabled = cur === 0;
+    nextBtn.disabled = cur === total - 1;
+  }
+  function changeSlide(d) { const n = cur + d; if (n >= 0 && n < total) goTo(n); }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') changeSlide(1);
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+  });
+  prog.style.width = (1 / total * 100) + '%';
+</script>
+</body>
+</html>
