@@ -364,6 +364,62 @@
     border-radius: 2px;
   }
 
+
+
+  .category-lead {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 28px;
+  }
+
+  .category-lead .section-desc {
+    margin-bottom: 0;
+    max-width: 620px;
+  }
+
+  .category-code {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(2.4rem, 6vw, 4.8rem);
+    line-height: 0.9;
+    font-weight: 700;
+    color: rgba(232, 232, 240, 0.08);
+  }
+
+  .topic-card .card-desc {
+    min-height: 68px;
+  }
+
+  .topic-count {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .support-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+
+  .compact-card {
+    min-height: 230px;
+  }
+
+  @media (max-width: 700px) {
+    .category-lead {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .category-code {
+      font-size: 2rem;
+      color: var(--text3);
+    }
+  }
+
   /* FOOTER */
   footer {
     padding: 40px 0;
@@ -384,9 +440,137 @@
     h1 { font-size: 2.4rem; }
     header { padding: 50px 0 40px; }
   }
+
+
+/* COURSE NAVIGATION */
+.course-nav {
+  position: fixed;
+  top: 10px;
+  left: 14px;
+  right: 14px;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 4px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(7, 9, 15, 0.84);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.26);
+  font-family: 'DM Mono', 'Space Mono', monospace;
+  scrollbar-width: none;
+}
+.course-nav::-webkit-scrollbar { display: none; }
+.course-nav a {
+  color: var(--text2, #94a3b8);
+  text-decoration: none;
+  white-space: nowrap;
+  line-height: 1;
+}
+.course-home,
+.course-group-label,
+.course-link {
+  min-height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+}
+.course-home {
+  padding: 0 11px;
+  background: rgba(34, 211, 238, 0.1);
+  color: var(--cyan, var(--accent, #22d3ee));
+  border: 1px solid rgba(34, 211, 238, 0.24);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.course-group {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  background: rgba(15, 23, 42, 0.58);
+  border-radius: 4px;
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+.course-group-label {
+  min-width: 32px;
+  padding: 0 9px;
+  color: var(--text, #e5e7eb);
+  background: rgba(255, 255, 255, 0.06);
+  border-right: 1px solid rgba(148, 163, 184, 0.14);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.course-links {
+  display: inline-flex;
+  align-items: center;
+}
+.course-link {
+  padding: 0 9px;
+  color: var(--text2, #94a3b8);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+.course-link:hover,
+.course-link.current,
+.course-home:hover,
+.course-home.current {
+  color: var(--text, #f8fafc);
+  background: rgba(255, 255, 255, 0.1);
+}
+.course-nav ~ .slide-num { top: 56px !important; }
+@media (max-width: 720px) {
+  .course-nav {
+    top: 8px;
+    left: 8px;
+    right: 8px;
+  }
+  .course-home { padding: 0 9px; }
+  .course-link { padding: 0 8px; }
+}
+
 </style>
 </head>
 <body>
+
+<nav class="course-nav" aria-label="Course navigation">
+  <a class="course-home current" href="./index.html">IB CS</a>
+  <div class="course-group">
+    <a class="course-group-label" href="./index.html#theme-a">A</a>
+    <div class="course-links">
+      <a class="course-link" href="./slides-a1/A1_1.html">A1</a>
+      <a class="course-link" href="./slides-a2/A2.1.html">A2</a>
+      <a class="course-link" href="./slides-a3/A3.1.html">A3</a>
+      <a class="course-link" href="./slides-a4/A4.1.html">A4</a>
+    </div>
+  </div>
+  <div class="course-group">
+    <a class="course-group-label" href="./index.html#theme-b">B</a>
+    <div class="course-links">
+      <a class="course-link" href="./slides-b2/B1.1.html">B1</a>
+      <a class="course-link" href="./slides-b2/ProgrammingFundamentals_Part1.1.html">B2</a>
+      <a class="course-link" href="./slides-b3/B3.1.html">B3</a>
+      <a class="course-link" href="./slides-b4/B4.1.html">B4</a>
+    </div>
+  </div>
+  <div class="course-group">
+    <a class="course-group-label" href="./index.html#internal-assessment">IA</a>
+    <div class="course-links">
+      <a class="course-link" href="./slides-ia/IA.html">Guide</a>
+      <a class="course-link" href="./slides-casestudy/CaseStudy.html">Case</a>
+      <a class="course-link" href="./slides-assessment/index.html">Assess</a>
+      <a class="course-link" href="./orientation/index.html">Orient</a>
+    </div>
+  </div>
+</nav>
 
 <div class="glow" style="width:600px;height:600px;background:radial-gradient(circle,rgba(0,229,255,0.05) 0%,transparent 70%);top:-150px;left:-150px;"></div>
 <div class="glow" style="width:500px;height:500px;background:radial-gradient(circle,rgba(124,58,237,0.05) 0%,transparent 70%);top:200px;right:-100px;"></div>
@@ -418,379 +602,89 @@
   </div>
 </header>
 
-<!-- 오리엔테이션 -->
-<section>
-  <div class="container">
-    <div class="section-label">// 01 · 오리엔테이션</div>
-    <h2>과정 안내</h2>
-  
-        <a class="link-card" href="./orientation/index.html">
-          <div class="card-top">
-            <div class="card-icon">🌐</div>
-            <span class="card-arrow">→</span>
-          </div>
-          <span class="card-tag">Orientation</span>
-          <div class="card-title">IB CS 2027 Orientation</div>
-          <div class="card-desc">Course structure, Theme A·B, assessment breakdown, and semester roadmap in English.</div>
-          <div class="card-meta">orientation/</div>
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- 수행평가 -->
-<section>
+<!-- Theme A -->
+<section id="theme-a">
   <div class="container">
-    <div class="section-label">// 02 · 수행평가</div>
-    <h2>평가 안내</h2>
-    <p class="section-desc">각 수행평가의 과제 설명과 채점 기준을 확인하세요.</p>
+    <div class="category-lead">
+      <div>
+        <div class="section-label">// A · Concepts of Computer Science</div>
+        <h2>Theme A</h2>
+        <p class="section-desc">Core concepts students revisit throughout the course: systems, networks, databases, and machine learning.</p>
+      </div>
+      <div class="category-code">A1-A4</div>
+    </div>
     <div class="cards-grid">
       <div class="v-cyan">
-        <a class="link-card" href="./slides-assessment/index.html">
+        <div class="link-card link-card-group topic-card">
           <div class="card-top">
-            <div class="card-icon">🖥️</div>
+            <div class="card-icon">A1</div>
             <span class="card-arrow">→</span>
           </div>
-          <span class="card-tag">수행평가 안내 · 40 + 30 + 30점</span>
-          <div class="card-title">수행평가 전체 안내 슬라이드</div>
-          <div class="card-desc">세 가지 수행평가의 과제 설명, 채점 기준, AI 활용 방침을 슬라이드로 확인합니다.</div>
-          <div class="card-meta">slides-assessment/ · 10 slides</div>
-        </a>
-      </div>
-      <div class="v-amber">
-        <a class="link-card" href="./slides-a1/Assessment1.html">
-          <div class="card-top">
-            <div class="card-icon">📋</div>
-            <span class="card-arrow">→</span>
+          <span class="card-tag">Theme A1</span>
+          <div class="card-title">Computer Systems</div>
+          <div class="card-desc">Hardware, data representation, logic gates, operating systems, control systems, and translation.</div>
+          <div class="lesson-stack">
+            <a class="lesson-link" href="./slides-a1/A1_1.html"><div class="lesson-copy"><span class="lesson-kicker">A1.1</span><span class="lesson-title">Computer Hardware &amp; Operation</span></div><span class="lesson-arrow">→</span></a>
+            <a class="lesson-link" href="./slides-a1/A1.2.1.html"><div class="lesson-copy"><span class="lesson-kicker">A1.2.1</span><span class="lesson-title">Binary + Hexadecimal</span></div><span class="lesson-arrow">→</span></a>
+            <a class="lesson-link" href="./slides-a1/A1.2.2.html"><div class="lesson-copy"><span class="lesson-kicker">A1.2.2</span><span class="lesson-title">Data Representation</span></div><span class="lesson-arrow">→</span></a>
+            <a class="lesson-link" href="./slides-a1/A1.2.3-5.html"><div class="lesson-copy"><span class="lesson-kicker">A1.2.3-5</span><span class="lesson-title">Logic Gates &amp; Truth Tables</span></div><span class="lesson-arrow">→</span></a>
+            <a class="lesson-link" href="./slides-a1/A1.3.html"><div class="lesson-copy"><span class="lesson-kicker">A1.3</span><span class="lesson-title">Operating Systems &amp; Control Systems</span></div><span class="lesson-arrow">→</span></a>
+            <a class="lesson-link" href="./slides-a1/A1.1_HL.html"><div class="lesson-copy"><span class="lesson-kicker">A1.1 · HL</span><span class="lesson-title">Pipelining in Multi-Core Architectures</span></div><span class="lesson-arrow">→</span></a>
+            <a class="lesson-link" href="./slides-a1/A1.3_HL.html"><div class="lesson-copy"><span class="lesson-kicker">A1.3 · HL</span><span class="lesson-title">Multitasking, Resource Allocation &amp; Control Systems</span></div><span class="lesson-arrow">→</span></a>
+            <a class="lesson-link" href="./slides-a1/A1.4.html"><div class="lesson-copy"><span class="lesson-kicker">A1.4 · HL</span><span class="lesson-title">Translation: Compilers &amp; Interpreters</span></div><span class="lesson-arrow">→</span></a>
           </div>
-          <span class="card-tag">수행평가 1 · 40점</span>
-          <div class="card-title">AI 인프라 보고서 및 서술 응답</div>
-          <div class="card-desc">하드웨어 분석 보고서와 시나리오 기반 서술형 응답 안내를 바로 엽니다.</div>
-          <div class="card-meta">slides-a1/Assessment1.html</div>
-        </a>
+        </div>
       </div>
       <div class="v-purple">
-        <a class="link-card" href="./slides-assessment-2/index.html">
+        <div class="link-card link-card-group topic-card">
           <div class="card-top">
-            <div class="card-icon">🔢</div>
-            <span class="card-arrow">→</span>
-          </div>
-          <span class="card-tag">수행평가 2 · 30점</span>
-          <div class="card-title">알고리즘 이해 및 문제 상황 적용</div>
-          <div class="card-desc">알고리즘 완성 + 논술. 5월 4주. 수기 평가 · AI 전면 금지.</div>
-          <div class="card-meta">slides-assessment-2/ · 12 slides</div>
-        </a>
-      </div>
-      <div class="v-green">
-        <a class="link-card" href="./slides-assessment-3/index.html">
-          <div class="card-top">
-            <div class="card-icon">🌐</div>
-            <span class="card-arrow">→</span>
-          </div>
-          <span class="card-tag">수행평가 3 · 30점</span>
-          <div class="card-title">웹사이트 구현 및 프로그래밍 설계 보고서</div>
-          <div class="card-desc">웹사이트 제작 + 개발 보고서. 6월 3주. 코딩 AI 허용, 보고서 불가.</div>
-          <div class="card-meta">slides-assessment-3/ · 12 slides</div>
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 수업 자료 -->
-<section>
-  <div class="container">
-    <div class="section-label">// 03 · 수업 자료</div>
-    <h2>수업 슬라이드</h2>
-    <p class="section-desc">주차별 수업 자료가 업로드되면 여기에 추가됩니다.</p>
-    <div class="cards-grid">
-      <div class="v-cyan">
-  <a class="link-card" href="./slides-a1/A1_1.html">
-    <div class="card-top">
-      <div class="card-icon">💻</div>
-      <span class="card-arrow">→</span>
-    </div>
-    <span class="card-tag">Theme A1_1</span>
-    <div class="card-title">컴퓨팅 시스템 기초</div>
-  </a>
-</div>
-      <div class="v-purple">
-        <div class="link-card link-card-group">
-          <div class="card-top">
-            <div class="card-icon">💻</div>
-            <span class="card-arrow">→</span>
-          </div>
-          <span class="card-tag">Theme A1_2</span>
-          <div class="card-title">Number Systems and Data</div>
-          <div class="card-desc">Theme A1_2 now includes both the number-system foundations and the follow-up lesson on data representation.</div>
-          <div class="lesson-stack">
-            <a class="lesson-link" href="./slides-a1/A1.2.1.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">Lesson 1</span>
-                <span class="lesson-title">Binary + Hexadecimal</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
-            <a class="lesson-link" href="./slides-a1/A1.2.2.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">Lesson 2</span>
-                <span class="lesson-title">Data Representation</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
-            <a class="lesson-link" href="./slides-a1/A1.2.3-5.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">Lesson 3</span>
-                <span class="lesson-title">Logic Gates &amp; Truth Tables</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="v-amber">
-        <div class="link-card link-card-group">
-          <div class="card-top">
-            <div class="card-icon">⚙️</div>
-            <span class="card-arrow">→</span>
-          </div>
-          <span class="card-tag">Theme A1_3</span>
-          <div class="card-title">Operating Systems</div>
-          <div class="card-desc">A1.3 — Role and functions of operating systems, scheduling, polling vs interrupt handling.</div>
-          <div class="lesson-stack">
-            <a class="lesson-link" href="./slides-a1/A1.3.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">A1.3</span>
-                <span class="lesson-title">Operating Systems &amp; Control Systems</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
-            <a class="lesson-link" href="./slides-a1/A1.3_HL.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">A1.3 · HL</span>
-                <span class="lesson-title">Multitasking, Resource Allocation &amp; Control Systems (HL)</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
-            <a class="lesson-link" href="./slides-a1/A1.1_HL.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">A1.1 · HL</span>
-                <span class="lesson-title">Pipelining in Multi-Core Architectures (HL)</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
-            <a class="lesson-link" href="./slides-a1/A1.4.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">A1.4 · HL</span>
-                <span class="lesson-title">Translation — Compilers &amp; Interpreters</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="v-green">
-        <div class="link-card link-card-group">
-          <div class="card-top">
-            <div class="card-icon">🐍</div>
-            <span class="card-arrow">→</span>
-          </div>
-          <span class="card-tag">Theme B1 + B2</span>
-          <div class="card-title">Computational Thinking & Programming</div>
-          <div class="card-desc">Lessons covering B1.1 computational thinking, B2.1 fundamentals, B2.3 programming constructs, and B2.2 data structures.</div>
-          <div class="lesson-stack">
-            <a class="lesson-link" href="./slides-b2/B1.1.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">B1.1</span>
-                <span class="lesson-title">Approaches to Computational Thinking</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
-            <a class="lesson-link" href="./slides-b2/ProgrammingFundamentals_Part1.1.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">Part 1.1</span>
-                <span class="lesson-title">B2.1 + B2.3 · Variables, strings, debugging, control flow</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
-            <a class="lesson-link" href="./slides-b2/ProgrammingFundamentals_Part1.2.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">Part 1.2</span>
-                <span class="lesson-title">B2.3 · Loop examples, functions, and modularization</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
-            <a class="lesson-link" href="./slides-b2/ProgrammingFundamentals_Part2.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">Part 2</span>
-                <span class="lesson-title">B2.1 + B2.2 · Fundamentals recap, lists, stacks, queues</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- A2 Networks -->
-<section>
-  <div class="container">
-    <div class="section-label">// 04 · Theme A2</div>
-    <h2>Networks</h2>
-    <p class="section-desc">A2 — Network fundamentals, architecture, data transmission, and security.</p>
-    <div class="cards-grid">
-      <div class="v-cyan">
-        <div class="link-card link-card-group">
-          <div class="card-top">
-            <div class="card-icon">🌐</div>
+            <div class="card-icon">A2</div>
             <span class="card-arrow">→</span>
           </div>
           <span class="card-tag">Theme A2</span>
           <div class="card-title">Networks</div>
-          <div class="card-desc">A2.1–A2.4 covering network types, topologies, data transmission, IP addressing, packet switching, and security.</div>
+          <div class="card-desc">Network fundamentals, architecture, transmission, IP addressing, packet switching, and security.</div>
           <div class="lesson-stack">
-            <a class="lesson-link" href="./slides-a2/A2.1.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">A2.1</span>
-                <span class="lesson-title">Network Fundamentals</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
-            <a class="lesson-link" href="./slides-a2/A2.1_HL.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">A2.1 · HL</span>
-                <span class="lesson-title">TCP/IP Model — Layers &amp; Data Transmission (HL)</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
-            <a class="lesson-link" href="./slides-a2/A2.2.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">A2.2</span>
-                <span class="lesson-title">Network Architecture</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
-            <a class="lesson-link" href="./slides-a2/A2.3.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">A2.3</span>
-                <span class="lesson-title">Data Transmissions &amp; IP Addressing</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
-            <a class="lesson-link" href="./slides-a2/A2.4.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">A2.4</span>
-                <span class="lesson-title">Network Security &amp; Encryption</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
+            <a class="lesson-link" href="./slides-a2/A2.1.html"><div class="lesson-copy"><span class="lesson-kicker">A2.1</span><span class="lesson-title">Network Fundamentals</span></div><span class="lesson-arrow">→</span></a>
+            <a class="lesson-link" href="./slides-a2/A2.1_HL.html"><div class="lesson-copy"><span class="lesson-kicker">A2.1 · HL</span><span class="lesson-title">TCP/IP Model</span></div><span class="lesson-arrow">→</span></a>
+            <a class="lesson-link" href="./slides-a2/A2.2.html"><div class="lesson-copy"><span class="lesson-kicker">A2.2</span><span class="lesson-title">Network Architecture</span></div><span class="lesson-arrow">→</span></a>
+            <a class="lesson-link" href="./slides-a2/A2.3.html"><div class="lesson-copy"><span class="lesson-kicker">A2.3</span><span class="lesson-title">Data Transmissions &amp; IP Addressing</span></div><span class="lesson-arrow">→</span></a>
+            <a class="lesson-link" href="./slides-a2/A2.4.html"><div class="lesson-copy"><span class="lesson-kicker">A2.4</span><span class="lesson-title">Network Security &amp; Encryption</span></div><span class="lesson-arrow">→</span></a>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- A3 Databases -->
-<section>
-  <div class="container">
-    <div class="section-label">// 05 · Theme A3</div>
-    <h2>Databases</h2>
-    <p class="section-desc">A3 — Relational database fundamentals, schema design, normalization, SQL programming, and alternative databases.</p>
-    <div class="cards-grid">
-      <div class="v-purple">
-        <div class="link-card link-card-group">
+      <div class="v-amber">
+        <div class="link-card link-card-group topic-card">
           <div class="card-top">
-            <div class="card-icon">🗄️</div>
+            <div class="card-icon">A3</div>
             <span class="card-arrow">→</span>
           </div>
           <span class="card-tag">Theme A3</span>
           <div class="card-title">Databases</div>
-          <div class="card-desc">A3.1–A3.4 covering relational database features, ERD design, normalization to 3NF, SQL queries, and alternative databases (NoSQL, data warehouses, OLAP, distributed databases).</div>
+          <div class="card-desc">Relational databases, schema design, normalization, SQL, and alternative database models.</div>
           <div class="lesson-stack">
-            <a class="lesson-link" href="./slides-a3/A3.1.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">A3.1</span>
-                <span class="lesson-title">Database Fundamentals</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
-            <a class="lesson-link" href="./slides-a3/A3.2.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">A3.2</span>
-                <span class="lesson-title">Database Design &amp; Normalization</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
-            <a class="lesson-link" href="./slides-a3/A3.3.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">A3.3</span>
-                <span class="lesson-title">Database Programming (SQL)</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
-            <a class="lesson-link" href="./slides-a3/A3.4.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">A3.4 · HL</span>
-                <span class="lesson-title">Alternative Databases &amp; Data Warehouses</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
+            <a class="lesson-link" href="./slides-a3/A3.1.html"><div class="lesson-copy"><span class="lesson-kicker">A3.1</span><span class="lesson-title">Database Fundamentals</span></div><span class="lesson-arrow">→</span></a>
+            <a class="lesson-link" href="./slides-a3/A3.2.html"><div class="lesson-copy"><span class="lesson-kicker">A3.2</span><span class="lesson-title">Database Design &amp; Normalization</span></div><span class="lesson-arrow">→</span></a>
+            <a class="lesson-link" href="./slides-a3/A3.3.html"><div class="lesson-copy"><span class="lesson-kicker">A3.3</span><span class="lesson-title">Database Programming: SQL</span></div><span class="lesson-arrow">→</span></a>
+            <a class="lesson-link" href="./slides-a3/A3.4.html"><div class="lesson-copy"><span class="lesson-kicker">A3.4 · HL</span><span class="lesson-title">Alternative Databases &amp; Data Warehouses</span></div><span class="lesson-arrow">→</span></a>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- A4 Machine Learning -->
-<section>
-  <div class="container">
-    <div class="section-label">// 06 · Theme A4</div>
-    <h2>Machine Learning</h2>
-    <p class="section-desc">A4 — Machine learning types, hardware requirements, and ethical considerations.</p>
-    <div class="cards-grid">
-      <div class="v-amber">
-        <div class="link-card link-card-group">
+      <div class="v-green">
+        <div class="link-card link-card-group topic-card">
           <div class="card-top">
-            <div class="card-icon">🤖</div>
+            <div class="card-icon">A4</div>
             <span class="card-arrow">→</span>
           </div>
           <span class="card-tag">Theme A4</span>
           <div class="card-title">Machine Learning</div>
-          <div class="card-desc">A4.1 and A4.4 covering supervised, unsupervised and deep learning fundamentals, hardware requirements, and ethical implications of ML.</div>
+          <div class="card-desc">ML fundamentals, preprocessing, approaches, hardware requirements, and ethical considerations.</div>
           <div class="lesson-stack">
-            <a class="lesson-link" href="./slides-a4/A4.1.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">A4.1</span>
-                <span class="lesson-title">Machine Learning Fundamentals</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
-            <a class="lesson-link" href="./slides-a4/A4.2.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">A4.2 · HL</span>
-                <span class="lesson-title">Data Preprocessing — Cleaning, Feature Selection &amp; Dimensionality Reduction</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
-            <a class="lesson-link" href="./slides-a4/A4.3.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">A4.3 · HL</span>
-                <span class="lesson-title">Machine Learning Approaches — Regression, Classification, Clustering, Neural Networks</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
-            <a class="lesson-link" href="./slides-a4/A4.4.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">A4.4</span>
-                <span class="lesson-title">Ethical Considerations in Machine Learning</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
+            <a class="lesson-link" href="./slides-a4/A4.1.html"><div class="lesson-copy"><span class="lesson-kicker">A4.1</span><span class="lesson-title">Machine Learning Fundamentals</span></div><span class="lesson-arrow">→</span></a>
+            <a class="lesson-link" href="./slides-a4/A4.2.html"><div class="lesson-copy"><span class="lesson-kicker">A4.2 · HL</span><span class="lesson-title">Data Preprocessing</span></div><span class="lesson-arrow">→</span></a>
+            <a class="lesson-link" href="./slides-a4/A4.3.html"><div class="lesson-copy"><span class="lesson-kicker">A4.3 · HL</span><span class="lesson-title">Machine Learning Approaches</span></div><span class="lesson-arrow">→</span></a>
+            <a class="lesson-link" href="./slides-a4/A4.4.html"><div class="lesson-copy"><span class="lesson-kicker">A4.4</span><span class="lesson-title">Ethical Considerations in Machine Learning</span></div><span class="lesson-arrow">→</span></a>
           </div>
         </div>
       </div>
@@ -798,144 +692,77 @@
   </div>
 </section>
 
-<!-- B2 Algorithms & Files (additional) -->
-<section>
+<!-- Theme B -->
+<section id="theme-b">
   <div class="container">
-    <div class="section-label">// 07 · Theme B2 (continued)</div>
-    <h2>Algorithms &amp; File Processing</h2>
-    <p class="section-desc">B2.4 and B2.5 — searching, sorting, Big O notation, recursion (HL), and file input/output operations.</p>
+    <div class="category-lead">
+      <div>
+        <div class="section-label">// B · Computational Thinking and Programming</div>
+        <h2>Theme B</h2>
+        <p class="section-desc">Programming and algorithmic thinking: problem solving, Python fundamentals, data structures, OOP, and HL abstract data types.</p>
+      </div>
+      <div class="category-code">B1-B4</div>
+    </div>
     <div class="cards-grid">
       <div class="v-green">
-        <div class="link-card link-card-group">
+        <div class="link-card link-card-group topic-card">
           <div class="card-top">
-            <div class="card-icon">🔍</div>
+            <div class="card-icon">B1</div>
+            <span class="card-arrow">→</span>
+          </div>
+          <span class="card-tag">Theme B1</span>
+          <div class="card-title">Computational Thinking</div>
+          <div class="card-desc">Problem decomposition, abstraction, algorithms, flowcharts, pseudocode, and tracing.</div>
+          <div class="lesson-stack">
+            <a class="lesson-link" href="./slides-b2/B1.1.html"><div class="lesson-copy"><span class="lesson-kicker">B1.1</span><span class="lesson-title">Approaches to Computational Thinking</span></div><span class="lesson-arrow">→</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="v-cyan">
+        <div class="link-card link-card-group topic-card">
+          <div class="card-top">
+            <div class="card-icon">B2</div>
             <span class="card-arrow">→</span>
           </div>
           <span class="card-tag">Theme B2</span>
-          <div class="card-title">Algorithms &amp; File Processing</div>
-          <div class="card-desc">B2.4 covers Big O notation, linear and binary search, bubble and selection sort, and recursion (HL). B2.5 covers reading, writing, and appending text files.</div>
+          <div class="card-title">Programming, Algorithms &amp; Files</div>
+          <div class="card-desc">Variables, strings, debugging, control flow, loops, functions, lists, stacks, queues, searching, sorting, recursion, and file processing.</div>
           <div class="lesson-stack">
-            <a class="lesson-link" href="./slides-b2/B2.4.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">B2.4</span>
-                <span class="lesson-title">Programming Algorithms — Search &amp; Sort</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
-            <a class="lesson-link" href="./slides-b2/B2.4_Recursion.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">B2.4 · HL</span>
-                <span class="lesson-title">Recursion — Base Case, Factorial, Fibonacci &amp; Quicksort</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
-            <a class="lesson-link" href="./slides-b2/B2.5.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">B2.5</span>
-                <span class="lesson-title">File Processing</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
+            <a class="lesson-link" href="./slides-b2/ProgrammingFundamentals_Part1.1.html"><div class="lesson-copy"><span class="lesson-kicker">Part 1.1</span><span class="lesson-title">Variables, Strings, Debugging, Control Flow</span></div><span class="lesson-arrow">→</span></a>
+            <a class="lesson-link" href="./slides-b2/ProgrammingFundamentals_Part1.2.html"><div class="lesson-copy"><span class="lesson-kicker">Part 1.2</span><span class="lesson-title">Loops, Functions &amp; Modularization</span></div><span class="lesson-arrow">→</span></a>
+            <a class="lesson-link" href="./slides-b2/ProgrammingFundamentals_Part2.html"><div class="lesson-copy"><span class="lesson-kicker">Part 2</span><span class="lesson-title">Lists, Stacks &amp; Queues</span></div><span class="lesson-arrow">→</span></a>
+            <a class="lesson-link" href="./slides-b2/B2.4.html"><div class="lesson-copy"><span class="lesson-kicker">B2.4</span><span class="lesson-title">Search, Sort &amp; Big O</span></div><span class="lesson-arrow">→</span></a>
+            <a class="lesson-link" href="./slides-b2/B2.4_Recursion.html"><div class="lesson-copy"><span class="lesson-kicker">B2.4 · HL</span><span class="lesson-title">Recursion</span></div><span class="lesson-arrow">→</span></a>
+            <a class="lesson-link" href="./slides-b2/B2.5.html"><div class="lesson-copy"><span class="lesson-kicker">B2.5</span><span class="lesson-title">File Processing</span></div><span class="lesson-arrow">→</span></a>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- B3 Object-Oriented Programming -->
-<section>
-  <div class="container">
-    <div class="section-label">// 08 · Theme B3</div>
-    <h2>Object-Oriented Programming</h2>
-    <p class="section-desc">B3 — Classes, objects, encapsulation, UML design, constructors, static vs instance members, inheritance, polymorphism, and design patterns.</p>
-    <div class="cards-grid">
-      <div class="v-cyan">
-        <div class="link-card link-card-group">
+      <div class="v-purple">
+        <div class="link-card link-card-group topic-card">
           <div class="card-top">
-            <div class="card-icon">🧱</div>
+            <div class="card-icon">B3</div>
             <span class="card-arrow">→</span>
           </div>
           <span class="card-tag">Theme B3</span>
           <div class="card-title">Object-Oriented Programming</div>
-          <div class="card-desc">B3.1–B3.2 covering OOP fundamentals: classes, objects, UML diagrams, constructors, encapsulation, inheritance, polymorphism, abstraction, composition vs aggregation, and design patterns (singleton, factory, observer).</div>
+          <div class="card-desc">Classes, objects, UML, constructors, encapsulation, inheritance, polymorphism, abstraction, and design patterns.</div>
           <div class="lesson-stack">
-            <a class="lesson-link" href="./slides-b3/B3.1.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">B3.1</span>
-                <span class="lesson-title">Fundamentals of OOP for a Single Class</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
-            <a class="lesson-link" href="./slides-b3/B3.2.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">B3.2 · HL</span>
-                <span class="lesson-title">OOP for Multiple Classes — Inheritance, Polymorphism &amp; Design Patterns</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
+            <a class="lesson-link" href="./slides-b3/B3.1.html"><div class="lesson-copy"><span class="lesson-kicker">B3.1</span><span class="lesson-title">Fundamentals of OOP for a Single Class</span></div><span class="lesson-arrow">→</span></a>
+            <a class="lesson-link" href="./slides-b3/B3.2.html"><div class="lesson-copy"><span class="lesson-kicker">B3.2 · HL</span><span class="lesson-title">OOP for Multiple Classes</span></div><span class="lesson-arrow">→</span></a>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- B4 Abstract Data Types -->
-<section>
-  <div class="container">
-    <div class="section-label">// 09 · Theme B4</div>
-    <h2>Abstract Data Types</h2>
-    <p class="section-desc">B4 — Linked lists, binary search trees, sets, hash tables, and the principles underlying abstract data types. HL only.</p>
-    <div class="cards-grid">
-      <div class="v-green">
-        <div class="link-card link-card-group">
+      <div class="v-amber">
+        <div class="link-card link-card-group topic-card">
           <div class="card-top">
-            <div class="card-icon">🔗</div>
+            <div class="card-icon">B4</div>
             <span class="card-arrow">→</span>
           </div>
           <span class="card-tag">Theme B4 · HL</span>
           <div class="card-title">Abstract Data Types</div>
-          <div class="card-desc">B4.1 covering ADT fundamentals, singly/doubly/circular linked lists, binary search trees (BST), sets (union, intersection, difference), hash tables, collision resolution, and load factors.</div>
+          <div class="card-desc">Linked lists, binary search trees, sets, hash tables, collision resolution, load factors, and ADT selection.</div>
           <div class="lesson-stack">
-            <a class="lesson-link" href="./slides-b4/B4.1.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">B4.1 · HL</span>
-                <span class="lesson-title">Linked Lists, BSTs, Sets &amp; Hash Tables</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Case Study -->
-<section>
-  <div class="container">
-    <div class="section-label">// 10 · Case Study</div>
-    <h2>Case Study Preparation</h2>
-    <p class="section-desc">C1 — Paper 1 Section B: case study research methodology, essay strategy, marking criteria, and analysis of past case studies.</p>
-    <div class="cards-grid">
-      <div class="v-cyan">
-        <div class="link-card link-card-group">
-          <div class="card-top">
-            <div class="card-icon">🔬</div>
-            <span class="card-arrow">→</span>
-          </div>
-          <span class="card-tag">C1 · Case Study</span>
-          <div class="card-title">Case Study Preparation</div>
-          <div class="card-desc">6-step research approach, exam structure (SL &amp; HL), essay writing strategy, SL/HL marking criteria, common mistakes, top tips, and analysis of past case studies (Blockchain 2020/21, Recommendation Systems 2023, Rescue Robots 2024).</div>
-          <div class="lesson-stack">
-            <a class="lesson-link" href="./slides-casestudy/CaseStudy.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">C1</span>
-                <span class="lesson-title">Case Study — Research, Essay Strategy &amp; Past Examples</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
+            <a class="lesson-link" href="./slides-b4/B4.1.html"><div class="lesson-copy"><span class="lesson-kicker">B4.1 · HL</span><span class="lesson-title">Linked Lists, BSTs, Sets &amp; Hash Tables</span></div><span class="lesson-arrow">→</span></a>
           </div>
         </div>
       </div>
@@ -944,31 +771,140 @@
 </section>
 
 <!-- Internal Assessment -->
-<section>
+<section id="internal-assessment">
   <div class="container">
-    <div class="section-label">// 11 · Internal Assessment</div>
-    <h2>Internal Assessment</h2>
-    <p class="section-desc">C2 — IA criteria A through E: problem specification, planning, system overview, development, and evaluation. SL 30% · HL 20% of final grade.</p>
+    <div class="category-lead">
+      <div>
+        <div class="section-label">// IA · Computational Solution</div>
+        <h2>Internal Assessment</h2>
+        <p class="section-desc">The major project guide for criteria A-E, testing, development evidence, evaluation, and common mistakes.</p>
+      </div>
+      <div class="category-code">IA</div>
+    </div>
     <div class="cards-grid">
       <div class="v-amber">
-        <div class="link-card link-card-group">
+        <a class="link-card compact-card" href="./slides-ia/IA.html">
           <div class="card-top">
-            <div class="card-icon">📁</div>
+            <div class="card-icon">IA</div>
             <span class="card-arrow">→</span>
           </div>
           <span class="card-tag">C2 · Internal Assessment</span>
-          <div class="card-title">Internal Assessment Guide</div>
-          <div class="card-desc">Complete guide to the IA: submission requirements, criteria A–E with mark bands, success criteria writing, decomposition, system design, testing strategies (functional &amp; structural), algorithm justification, evaluation, and common mistakes.</div>
-          <div class="lesson-stack">
-            <a class="lesson-link" href="./slides-ia/IA.html">
-              <div class="lesson-copy">
-                <span class="lesson-kicker">C2</span>
-                <span class="lesson-title">IA Guide — Criteria A–E, Testing &amp; Evaluation</span>
-              </div>
-              <span class="lesson-arrow">→</span>
-            </a>
+          <div class="card-title">IA Guide</div>
+          <div class="card-desc">Submission requirements, mark bands, success criteria, decomposition, system overview, testing strategy, development, and evaluation.</div>
+          <div class="card-meta">slides-ia/IA.html</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Support and Assessments -->
+<section id="support">
+  <div class="container">
+    <div class="category-lead">
+      <div>
+        <div class="section-label">// Course Support</div>
+        <h2>Assessments, Case Study &amp; Extras</h2>
+        <p class="section-desc">Reference pages that support the course but do not belong inside a single A or B theme.</p>
+      </div>
+      <div class="category-code">+</div>
+    </div>
+    <div class="cards-grid support-grid">
+      <div class="v-cyan">
+        <a class="link-card compact-card" href="./orientation/index.html">
+          <div class="card-top">
+            <div class="card-icon">OR</div>
+            <span class="card-arrow">→</span>
           </div>
-        </div>
+          <span class="card-tag">Orientation</span>
+          <div class="card-title">IB CS 2027 Orientation</div>
+          <div class="card-desc">Course structure, Theme A and B, assessment breakdown, and first-semester roadmap.</div>
+          <div class="card-meta">orientation/</div>
+        </a>
+      </div>
+      <div class="v-purple">
+        <a class="link-card compact-card" href="./slides-assessment/index.html">
+          <div class="card-top">
+            <div class="card-icon">AS</div>
+            <span class="card-arrow">→</span>
+          </div>
+          <span class="card-tag">Performance Assessments</span>
+          <div class="card-title">Assessment Overview</div>
+          <div class="card-desc">The three Korean classroom performance assessments, scoring breakdowns, and AI-use policy.</div>
+          <div class="card-meta">slides-assessment/</div>
+        </a>
+      </div>
+      <div class="v-amber">
+        <a class="link-card compact-card" href="./slides-a1/Assessment1.html">
+          <div class="card-top">
+            <div class="card-icon">A1</div>
+            <span class="card-arrow">→</span>
+          </div>
+          <span class="card-tag">Assessment 1</span>
+          <div class="card-title">AI Infrastructure Report</div>
+          <div class="card-desc">Hardware analysis report and scenario-based written response guidance.</div>
+          <div class="card-meta">slides-a1/Assessment1.html</div>
+        </a>
+      </div>
+      <div class="v-green">
+        <a class="link-card compact-card" href="./slides-assessment-2/index.html">
+          <div class="card-top">
+            <div class="card-icon">A2</div>
+            <span class="card-arrow">→</span>
+          </div>
+          <span class="card-tag">Assessment 2</span>
+          <div class="card-title">Algorithm Application</div>
+          <div class="card-desc">Algorithm completion and written reasoning. Handwritten assessment with no AI use.</div>
+          <div class="card-meta">slides-assessment-2/</div>
+        </a>
+      </div>
+      <div class="v-cyan">
+        <a class="link-card compact-card" href="./slides-assessment-3/index.html">
+          <div class="card-top">
+            <div class="card-icon">A3</div>
+            <span class="card-arrow">→</span>
+          </div>
+          <span class="card-tag">Assessment 3</span>
+          <div class="card-title">Website &amp; Design Report</div>
+          <div class="card-desc">Website implementation and programming design report guidance.</div>
+          <div class="card-meta">slides-assessment-3/</div>
+        </a>
+      </div>
+      <div class="v-purple">
+        <a class="link-card compact-card" href="./slides-casestudy/CaseStudy.html">
+          <div class="card-top">
+            <div class="card-icon">CS</div>
+            <span class="card-arrow">→</span>
+          </div>
+          <span class="card-tag">C1 · Case Study</span>
+          <div class="card-title">Case Study Preparation</div>
+          <div class="card-desc">Research method, exam structure, essay strategy, marking criteria, mistakes, and past examples.</div>
+          <div class="card-meta">slides-casestudy/CaseStudy.html</div>
+        </a>
+      </div>
+      <div class="v-amber">
+        <a class="link-card compact-card" href="./slides-assessment/visiontrip.html">
+          <div class="card-top">
+            <div class="card-icon">ST</div>
+            <span class="card-arrow">→</span>
+          </div>
+          <span class="card-tag">Student Website Example</span>
+          <div class="card-title">Grossmünster Vision Trip</div>
+          <div class="card-desc">A student-built interactive website example for reference when reviewing structure, visuals, and navigation.</div>
+          <div class="card-meta">slides-assessment/visiontrip.html</div>
+        </a>
+      </div>
+      <div class="v-green">
+        <a class="link-card compact-card" href="./rice-prompt-engineering/rice-prompt-engineering.html">
+          <div class="card-top">
+            <div class="card-icon">AI</div>
+            <span class="card-arrow">→</span>
+          </div>
+          <span class="card-tag">Extra</span>
+          <div class="card-title">RICE Prompt Engineering</div>
+          <div class="card-desc">Prompt-writing support material for responsible AI-assisted learning.</div>
+          <div class="card-meta">rice-prompt-engineering/</div>
+        </a>
       </div>
     </div>
   </div>
