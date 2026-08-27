@@ -123,27 +123,28 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
 .dot.active { background: var(--orange); transform: scale(1.4); }
 .nav-sep { width: 1px; height: 18px; background: var(--border2); }
 
-
-
-
 /* COURSE NAVIGATION */
 .course-nav {
   position: fixed;
-  top: 10px;
-  left: 14px;
-  right: 14px;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 1200;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  padding: 6px;
-  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
   background: rgba(7, 9, 15, 0.9);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
   font-family: 'DM Mono', 'Space Mono', monospace;
+}
+.course-nav-inner {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
 }
 .course-nav a,
 .course-menu-button {
@@ -152,58 +153,55 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
   white-space: nowrap;
   line-height: 1;
 }
-.course-home,
-.course-menu-button,
-.course-top-link {
-  min-height: 30px;
+.course-link,
+.course-menu-button {
+  min-height: 48px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
-}
-.course-home {
-  padding: 0 12px;
-  background: rgba(34, 211, 238, 0.11);
-  color: var(--cyan, var(--accent, #22d3ee));
-  border: 1px solid rgba(34, 211, 238, 0.28);
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  font-weight: 700;
-}
-.course-menu {
-  position: relative;
-}
-.course-menu-button {
-  gap: 7px;
-  padding: 0 12px;
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  background: rgba(15, 23, 42, 0.68);
+  border: 0;
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--text2, #94a3b8);
   font: inherit;
   font-size: 10px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+.course-menu {
+  position: relative;
+}
+.course-menu-button {
+  gap: 6px;
 }
 .course-menu-button::after {
-  content: "v";
-  font-size: 8px;
+  content: "▾";
+  font-size: 10px;
   color: var(--text3, #64748b);
+  transition: transform 0.18s ease;
+}
+.course-menu.open .course-menu-button::after,
+.course-menu:focus-within .course-menu-button::after,
+.course-menu:hover .course-menu-button::after {
+  transform: rotate(180deg);
 }
 .course-dropdown {
   position: absolute;
-  top: calc(100% + 8px);
-  left: 0;
-  min-width: 260px;
+  top: calc(100% + 1px);
+  left: 50%;
+  min-width: 286px;
   display: grid;
-  gap: 4px;
+  gap: 2px;
   padding: 8px;
   border: 1px solid rgba(148, 163, 184, 0.22);
   border-radius: 6px;
-  background: rgba(8, 13, 24, 0.97);
+  background: rgba(8, 13, 24, 0.98);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
   opacity: 0;
-  transform: translateY(-4px);
+  transform: translate(-50%, -4px);
   pointer-events: none;
   transition: opacity 0.16s ease, transform 0.16s ease;
 }
@@ -211,7 +209,7 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
 .course-menu:focus-within .course-dropdown,
 .course-menu.open .course-dropdown {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate(-50%, 0);
   pointer-events: auto;
 }
 .course-dropdown a {
@@ -222,6 +220,7 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
   font-size: 10px;
   letter-spacing: 0.04em;
   line-height: 1.35;
+  text-transform: none;
 }
 .course-dropdown a:hover,
 .course-dropdown a:focus {
@@ -229,48 +228,41 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
   background: rgba(255, 255, 255, 0.08);
   outline: none;
 }
-.course-top-link {
-  padding: 0 10px;
-  border: 1px solid rgba(148, 163, 184, 0.16);
-  background: rgba(15, 23, 42, 0.5);
-  color: var(--text2, #94a3b8);
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
-}
-.course-home:hover,
-.course-home.current,
+.course-link:hover,
+.course-link:focus,
+.course-link.current,
 .course-menu-button:hover,
 .course-menu-button:focus,
-.course-menu-button.current,
-.course-top-link:hover,
-.course-top-link:focus,
-.course-top-link.current {
+.course-menu-button.current {
   color: var(--text, #f8fafc);
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(226, 232, 240, 0.28);
+  border-color: var(--accent, #22d3ee);
   outline: none;
 }
 .course-nav ~ .slide-num { top: 62px !important; }
 @media (max-width: 720px) {
-  .course-nav {
-    top: 8px;
-    left: 8px;
-    right: 8px;
-    gap: 6px;
+  .course-nav-inner {
+    width: min(100% - 18px, 680px);
+    min-height: 46px;
+    gap: 12px;
+    justify-content: center;
   }
-  .course-home,
-  .course-menu-button,
-  .course-top-link {
-    min-height: 28px;
-    padding-left: 9px;
-    padding-right: 9px;
+  .course-link,
+  .course-menu-button {
+    min-height: 36px;
+    font-size: 9px;
   }
   .course-dropdown {
-    left: auto;
-    right: 0;
-    min-width: min(280px, calc(100vw - 28px));
+    position: fixed;
+    top: 88px;
+    left: 12px;
+    right: 12px;
+    min-width: 0;
+    transform: translateY(-4px);
+  }
+  .course-menu:hover .course-dropdown,
+  .course-menu:focus-within .course-dropdown,
+  .course-menu.open .course-dropdown {
+    transform: translateY(0);
   }
 }
 
@@ -279,42 +271,33 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
 <body>
 
 
-
 <nav class="course-nav" aria-label="Course navigation">
-  <a class="course-home" href="../index.html">IB CS</a>
-  <div class="course-menu">
-    <button class="course-menu-button current" type="button" aria-expanded="false" aria-controls="course-menu-a">Theme A</button>
-    <div class="course-dropdown" id="course-menu-a">
-      <a href="../index.html#a1">A1: Computer Systems</a>
-      <a href="../index.html#a2">A2: Networks</a>
-      <a href="../index.html#a3">A3: Databases</a>
-      <a href="../index.html#a4">A4: Machine Learning</a>
+  <div class="course-nav-inner">
+    <a class="course-link" href="../index.html#course-overview">Overview</a>
+    <div class="course-menu">
+      <button class="course-menu-button current" type="button" aria-expanded="false" aria-controls="course-menu-a" data-scroll-target="theme-a">A</button>
+      <div class="course-dropdown" id="course-menu-a">
+        <a href="../index.html#a1">A1: Computer Systems</a>
+        <a href="../index.html#a2">A2: Networks</a>
+        <a href="../index.html#a3">A3: Databases</a>
+        <a href="../index.html#a4">A4: Machine Learning</a>
+      </div>
     </div>
-  </div>
-  <div class="course-menu">
-    <button class="course-menu-button" type="button" aria-expanded="false" aria-controls="course-menu-b">Theme B</button>
-    <div class="course-dropdown" id="course-menu-b">
-      <a href="../index.html#b1">B1: Computational Thinking</a>
-      <a href="../index.html#b2">B2: Programming, Algorithms and Files</a>
-      <a href="../index.html#b3">B3: Object-Oriented Programming</a>
-      <a href="../index.html#b4">B4: Abstract Data Types</a>
+    <div class="course-menu">
+      <button class="course-menu-button" type="button" aria-expanded="false" aria-controls="course-menu-b" data-scroll-target="theme-b">B</button>
+      <div class="course-dropdown" id="course-menu-b">
+        <a href="../index.html#b1">B1: Computational Thinking</a>
+        <a href="../index.html#b2">B2: Programming, Algorithms and Files</a>
+        <a href="../index.html#b3">B3: Object-Oriented Programming</a>
+        <a href="../index.html#b4">B4: Abstract Data Types</a>
+      </div>
     </div>
-  </div>
-  <a class="course-top-link" href="../index.html#internal-assessment">IA</a>
-  <a class="course-top-link" href="../index.html#orientation">Orientation</a>
-  <a class="course-top-link" href="../index.html#case-study">Case Study</a>
-  <a class="course-top-link" href="../index.html#extra-materials">Extras</a>
-  <div class="course-menu">
-    <button class="course-menu-button" type="button" aria-expanded="false" aria-controls="course-menu-semesters">Semesters</button>
-    <div class="course-dropdown" id="course-menu-semesters">
-      <a href="../index.html#semester-1">Semester 1: Current Class Materials</a>
-      <a href="../index.html#semester-2">Semester 2: Ready for Updates</a>
-      <a href="../index.html#semester-3">Semester 3: Ready for Updates</a>
-      <a href="../index.html#semester-4">Semester 4: Ready for Updates</a>
-    </div>
+    <a class="course-link" href="../index.html#internal-assessment">IA</a>
+    <a class="course-link" href="../index.html#case-study">Case Study</a>
+    <a class="course-link" href="../index.html#extra-materials">Extra</a>
+    <a class="course-link" href="../index.html#semesters">Semesters</a>
   </div>
 </nav>
-
 
 
 <div class="progress" id="progress"></div>
@@ -733,6 +716,9 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
     if (!button) return;
     button.addEventListener('click', event => {
       event.preventDefault();
+      const targetId = button.getAttribute('data-scroll-target');
+      const target = targetId ? document.getElementById(targetId) : null;
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       const isOpen = menu.classList.toggle('open');
       button.setAttribute('aria-expanded', String(isOpen));
       closeMenus(isOpen ? menu : null);

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IB Computer Science — Orientation 2027</title>
+<title>Course Overview — IB Computer Science</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -189,27 +189,28 @@
     section { padding:60px 0; }
   }
 
-
-
-
 /* COURSE NAVIGATION */
 .course-nav {
   position: fixed;
-  top: 10px;
-  left: 14px;
-  right: 14px;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 1200;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  padding: 6px;
-  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
   background: rgba(7, 9, 15, 0.9);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
   font-family: 'DM Mono', 'Space Mono', monospace;
+}
+.course-nav-inner {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
 }
 .course-nav a,
 .course-menu-button {
@@ -218,58 +219,55 @@
   white-space: nowrap;
   line-height: 1;
 }
-.course-home,
-.course-menu-button,
-.course-top-link {
-  min-height: 30px;
+.course-link,
+.course-menu-button {
+  min-height: 48px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
-}
-.course-home {
-  padding: 0 12px;
-  background: rgba(34, 211, 238, 0.11);
-  color: var(--cyan, var(--accent, #22d3ee));
-  border: 1px solid rgba(34, 211, 238, 0.28);
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  font-weight: 700;
-}
-.course-menu {
-  position: relative;
-}
-.course-menu-button {
-  gap: 7px;
-  padding: 0 12px;
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  background: rgba(15, 23, 42, 0.68);
+  border: 0;
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--text2, #94a3b8);
   font: inherit;
   font-size: 10px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+.course-menu {
+  position: relative;
+}
+.course-menu-button {
+  gap: 6px;
 }
 .course-menu-button::after {
-  content: "v";
-  font-size: 8px;
+  content: "▾";
+  font-size: 10px;
   color: var(--text3, #64748b);
+  transition: transform 0.18s ease;
+}
+.course-menu.open .course-menu-button::after,
+.course-menu:focus-within .course-menu-button::after,
+.course-menu:hover .course-menu-button::after {
+  transform: rotate(180deg);
 }
 .course-dropdown {
   position: absolute;
-  top: calc(100% + 8px);
-  left: 0;
-  min-width: 260px;
+  top: calc(100% + 1px);
+  left: 50%;
+  min-width: 286px;
   display: grid;
-  gap: 4px;
+  gap: 2px;
   padding: 8px;
   border: 1px solid rgba(148, 163, 184, 0.22);
   border-radius: 6px;
-  background: rgba(8, 13, 24, 0.97);
+  background: rgba(8, 13, 24, 0.98);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
   opacity: 0;
-  transform: translateY(-4px);
+  transform: translate(-50%, -4px);
   pointer-events: none;
   transition: opacity 0.16s ease, transform 0.16s ease;
 }
@@ -277,7 +275,7 @@
 .course-menu:focus-within .course-dropdown,
 .course-menu.open .course-dropdown {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate(-50%, 0);
   pointer-events: auto;
 }
 .course-dropdown a {
@@ -288,6 +286,7 @@
   font-size: 10px;
   letter-spacing: 0.04em;
   line-height: 1.35;
+  text-transform: none;
 }
 .course-dropdown a:hover,
 .course-dropdown a:focus {
@@ -295,48 +294,41 @@
   background: rgba(255, 255, 255, 0.08);
   outline: none;
 }
-.course-top-link {
-  padding: 0 10px;
-  border: 1px solid rgba(148, 163, 184, 0.16);
-  background: rgba(15, 23, 42, 0.5);
-  color: var(--text2, #94a3b8);
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
-}
-.course-home:hover,
-.course-home.current,
+.course-link:hover,
+.course-link:focus,
+.course-link.current,
 .course-menu-button:hover,
 .course-menu-button:focus,
-.course-menu-button.current,
-.course-top-link:hover,
-.course-top-link:focus,
-.course-top-link.current {
+.course-menu-button.current {
   color: var(--text, #f8fafc);
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(226, 232, 240, 0.28);
+  border-color: var(--accent, #22d3ee);
   outline: none;
 }
 .course-nav ~ .slide-num { top: 62px !important; }
 @media (max-width: 720px) {
-  .course-nav {
-    top: 8px;
-    left: 8px;
-    right: 8px;
-    gap: 6px;
+  .course-nav-inner {
+    width: min(100% - 18px, 680px);
+    min-height: 46px;
+    gap: 12px;
+    justify-content: center;
   }
-  .course-home,
-  .course-menu-button,
-  .course-top-link {
-    min-height: 28px;
-    padding-left: 9px;
-    padding-right: 9px;
+  .course-link,
+  .course-menu-button {
+    min-height: 36px;
+    font-size: 9px;
   }
   .course-dropdown {
-    left: auto;
-    right: 0;
-    min-width: min(280px, calc(100vw - 28px));
+    position: fixed;
+    top: 88px;
+    left: 12px;
+    right: 12px;
+    min-width: 0;
+    transform: translateY(-4px);
+  }
+  .course-menu:hover .course-dropdown,
+  .course-menu:focus-within .course-dropdown,
+  .course-menu.open .course-dropdown {
+    transform: translateY(0);
   }
 }
 
@@ -345,75 +337,59 @@
 <body>
 
 
-
 <nav class="course-nav" aria-label="Course navigation">
-  <a class="course-home" href="../index.html">IB CS</a>
-  <div class="course-menu">
-    <button class="course-menu-button" type="button" aria-expanded="false" aria-controls="course-menu-a">Theme A</button>
-    <div class="course-dropdown" id="course-menu-a">
-      <a href="../index.html#a1">A1: Computer Systems</a>
-      <a href="../index.html#a2">A2: Networks</a>
-      <a href="../index.html#a3">A3: Databases</a>
-      <a href="../index.html#a4">A4: Machine Learning</a>
+  <div class="course-nav-inner">
+    <a class="course-link current" href="../index.html#course-overview">Overview</a>
+    <div class="course-menu">
+      <button class="course-menu-button" type="button" aria-expanded="false" aria-controls="course-menu-a" data-scroll-target="theme-a">A</button>
+      <div class="course-dropdown" id="course-menu-a">
+        <a href="../index.html#a1">A1: Computer Systems</a>
+        <a href="../index.html#a2">A2: Networks</a>
+        <a href="../index.html#a3">A3: Databases</a>
+        <a href="../index.html#a4">A4: Machine Learning</a>
+      </div>
     </div>
-  </div>
-  <div class="course-menu">
-    <button class="course-menu-button" type="button" aria-expanded="false" aria-controls="course-menu-b">Theme B</button>
-    <div class="course-dropdown" id="course-menu-b">
-      <a href="../index.html#b1">B1: Computational Thinking</a>
-      <a href="../index.html#b2">B2: Programming, Algorithms and Files</a>
-      <a href="../index.html#b3">B3: Object-Oriented Programming</a>
-      <a href="../index.html#b4">B4: Abstract Data Types</a>
+    <div class="course-menu">
+      <button class="course-menu-button" type="button" aria-expanded="false" aria-controls="course-menu-b" data-scroll-target="theme-b">B</button>
+      <div class="course-dropdown" id="course-menu-b">
+        <a href="../index.html#b1">B1: Computational Thinking</a>
+        <a href="../index.html#b2">B2: Programming, Algorithms and Files</a>
+        <a href="../index.html#b3">B3: Object-Oriented Programming</a>
+        <a href="../index.html#b4">B4: Abstract Data Types</a>
+      </div>
     </div>
-  </div>
-  <a class="course-top-link" href="../index.html#internal-assessment">IA</a>
-  <a class="course-top-link current" href="../index.html#orientation">Orientation</a>
-  <a class="course-top-link" href="../index.html#case-study">Case Study</a>
-  <a class="course-top-link" href="../index.html#extra-materials">Extras</a>
-  <div class="course-menu">
-    <button class="course-menu-button" type="button" aria-expanded="false" aria-controls="course-menu-semesters">Semesters</button>
-    <div class="course-dropdown" id="course-menu-semesters">
-      <a href="../index.html#semester-1">Semester 1: Current Class Materials</a>
-      <a href="../index.html#semester-2">Semester 2: Ready for Updates</a>
-      <a href="../index.html#semester-3">Semester 3: Ready for Updates</a>
-      <a href="../index.html#semester-4">Semester 4: Ready for Updates</a>
-    </div>
+    <a class="course-link" href="../index.html#internal-assessment">IA</a>
+    <a class="course-link" href="../index.html#case-study">Case Study</a>
+    <a class="course-link" href="../index.html#extra-materials">Extra</a>
+    <a class="course-link" href="../index.html#semesters">Semesters</a>
   </div>
 </nav>
-
 
 
 <header>
   <div class="glow1"></div>
   <div class="glow2"></div>
   <div class="container">
-    <div class="badge">New Syllabus · First Assessment May 2027</div>
+    <div class="badge">Course Overview · IB Computer Science</div>
     <h1>
       <span class="ib">IB</span>
       <span class="cs">Computer Science</span>
     </h1>
-    <p class="tagline">A redesigned two-year course built around two core themes: how computing systems work, and how to solve real problems with them.</p>
-    <div class="hstats">
-      <div class="stat"><span class="stat-num">2</span><span class="stat-label">Core Themes</span></div>
-      <div class="stat"><span class="stat-num">240+</span><span class="stat-label">Hours (HL)</span></div>
-      <div class="stat"><span class="stat-num">35hrs</span><span class="stat-label">IA Allocation</span></div>
-      <div class="stat"><span class="stat-num">May 2027</span><span class="stat-label">First Exams</span></div>
-    </div>
+    <p class="tagline">Course structure, themes, assessment, and study habits for IB Computer Science.</p>
+
   </div>
   <div class="scroll-hint"><span>SCROLL</span><div class="scroll-line"></div></div>
 </header>
 
 <nav>
   <div class="container">
-    <span class="nav-logo">IB·CS·2027</span>
+    <span class="nav-logo">IB·CS</span>
     <div class="nav-links">
       <a href="#overview">Overview</a>
       <a href="#themes">Themes</a>
       <a href="#assessment">Assessment</a>
       <a href="#ia">IA</a>
-      <a href="#changes">What's New</a>
       <a href="#tips">Tips</a>
-      <a href="#schedule">Schedule</a>
     </div>
   </div>
 </nav>
@@ -423,7 +399,7 @@
   <div class="container">
     <div class="slabel">// 01 · Course Overview</div>
     <h2>Two Levels.<br>One Redesigned Course.</h2>
-    <p class="intro">The 2027 syllabus restructures IB CS into two overarching themes instead of numbered topics. Both levels share the same content — HL goes deeper and requires broader connections across the syllabus.</p>
+    <p class="intro">IB Computer Science is organized around two overarching themes. Both levels share the same content, with HL adding deeper conceptual breadth and more complex connections across the syllabus.</p>
     <div class="two-col reveal">
       <div class="lcard sl">
         <span class="level-tag">Standard Level</span>
@@ -480,7 +456,7 @@
         </div>
         <div class="sub">
           <span class="scode">A4</span>
-          <div><div class="stitle">Machine Learning <span class="tag new-tag">★ Brand New 2027</span></div><div class="sdesc">Supervised & unsupervised learning, K-NN, decision trees, neural networks (HL), bias & fairness in AI, ethical implications</div></div>
+          <div><div class="stitle">Machine Learning <span class="tag new-tag">★ Core Topic</span></div><div class="sdesc">Supervised & unsupervised learning, K-NN, decision trees, neural networks (HL), bias & fairness in AI, ethical implications</div></div>
         </div>
         <div class="theme-foot">Assessed → Paper 1 (including Case Study)</div>
       </div>
@@ -522,7 +498,7 @@
   <div class="container">
     <div class="slabel">// 03 · Assessment Structure</div>
     <h2>Two Papers.<br>One IA. No Options.</h2>
-    <p class="intro">The 2027 model has been streamlined. Paper 3 is gone. No more option papers. Both SL and HL sit the same two external papers, with HL content built into those papers at higher demand.</p>
+    <p class="intro">The current assessment model is streamlined. Paper 3 is gone. No more option papers. Both SL and HL sit the same two external papers, with HL content built into those papers at higher demand.</p>
 
     <div class="two-col assess-outer reveal">
       <div class="acol">
@@ -599,7 +575,7 @@
   <div class="container">
     <div class="slabel">// 04 · Internal Assessment</div>
     <h2>The Computational<br>Solution</h2>
-    <p class="intro">The IA is now called the <em>Computational Solution</em>. Major update for 2027: <strong>no client is required</strong> — you choose the problem yourself. The focus is the full computational thinking process from definition to ethical evaluation.</p>
+    <p class="intro">The IA is now called the <em>Computational Solution</em>. Current guide update: <strong>no client is required</strong> — you choose the problem yourself. The focus is the full computational thinking process from definition to ethical evaluation.</p>
     <div class="two-col ia-container-grid reveal">
       <div class="ia-main">
         <h3 style="font-family:var(--font-head);font-size:1.3rem;font-weight:700;margin-bottom:16px;">IA At a Glance</h3>
@@ -637,12 +613,12 @@
           </div>
         </div>
         <div class="hbox amber" style="margin-top:20px;">
-          <p><strong>★ New in 2027:</strong> Criterion E requires a mandatory <strong>ethical review</strong> — connect your solution's design and data use to privacy, bias, and societal impact as explored in Theme A4.</p>
+          <p><strong>★ Current guide:</strong> Criterion E requires a mandatory <strong>ethical review</strong> — connect your solution's design and data use to privacy, bias, and societal impact as explored in Theme A4.</p>
         </div>
       </div>
 
       <div class="ia-steps">
-        <h3 style="font-family:var(--font-head);font-size:1.1rem;font-weight:700;padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:0;">The Process (2027)</h3>
+        <h3 style="font-family:var(--font-head);font-size:1.1rem;font-weight:700;padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:0;">The Process</h3>
         <div class="istep">
           <div class="istep-num">01</div>
           <div><h4>Choose Your Own Problem</h4><p>No client required. Pick a problem you genuinely want to solve with a software solution. Confirm it has sufficient complexity to demonstrate your skills.</p></div>
@@ -672,43 +648,13 @@
   </div>
 </section>
 
-<!-- 05 WHAT'S NEW -->
-<section id="changes">
-  <div class="container">
-    <div class="slabel">// 05 · What Changed in 2027</div>
-    <h2>Old Syllabus vs.<br>New Syllabus</h2>
-    <p class="intro">If you've seen the previous IB CS curriculum, here's exactly what has changed for the first assessment in May 2027.</p>
-    <div class="twrap reveal">
-      <table>
-        <thead>
-          <tr><th>Area</th><th>Old Curriculum (last exam 2026)</th><th>New Curriculum (first exam 2027)</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Course Structure</td><td class="old">7 numbered topics</td><td class="new">2 themes: A (Concepts) + B (Computational Thinking)</td></tr>
-          <tr><td>Option Papers</td><td class="old">Options A, B, C, D — choose one</td><td class="new">Removed — all content is now in the core</td></tr>
-          <tr><td>OOP</td><td class="old">Option D only (student/school choice)</td><td class="new">Core for every student — B3</td></tr>
-          <tr><td>Databases</td><td class="old">Option A only</td><td class="new">Core for every student — A3</td></tr>
-          <tr><td>Machine Learning & AI</td><td class="old">Not in syllabus</td><td class="new">New core topic A4 — all students at SL and HL</td></tr>
-          <tr><td>GPU Architecture</td><td class="old">Not covered</td><td class="new">Now in A1 computer fundamentals (HL extended)</td></tr>
-          <tr><td>Case Study</td><td class="old">HL students only — old Paper 2</td><td class="new">Both SL and HL — now part of Paper 1</td></tr>
-          <tr><td>Paper 3 (HL)</td><td class="old">Existed — covered Topics 5, 6, 7</td><td class="new">Removed entirely</td></tr>
-          <tr><td>IA Hours</td><td class="old">30 teaching hours</td><td class="new">35 teaching hours</td></tr>
-          <tr><td>IA Client</td><td class="old">Mandatory real client required</td><td class="new">No client needed — student chooses their own problem</td></tr>
-          <tr><td>IA Video</td><td class="old">Not required</td><td class="new">Required — max 5 minutes, shows functionality & testing</td></tr>
-          <tr><td>IA Ethical Review</td><td class="old">Not required</td><td class="new">Mandatory — built into Criterion E evaluation</td></tr>
-          <tr><td>Programming Language</td><td>Java (primary)</td><td class="new">Java or Python — student's and teacher's choice</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
 
 <!-- 06 TIPS -->
 <section id="tips">
   <div class="container">
     <div class="slabel">// 06 · How to Succeed</div>
     <h2>Tips for the<br>Two Years Ahead</h2>
-    <p class="intro">The 2027 syllabus rewards computational thinkers who engage with real-world technology, write clean code, and start their IA with genuine curiosity.</p>
+    <p class="intro">The syllabus rewards computational thinkers who engage with real-world technology, write clean code, and start their IA with genuine curiosity.</p>
     <div class="tips-grid">
       <div class="tipcard reveal">
         <div class="tipn">01</div>
@@ -736,149 +682,16 @@
       </div>
     </div>
     <div class="hbox reveal" style="margin-top:32px;">
-      <p><strong>The IB Learner Profile still matters:</strong> IB CS 2027 is built for students who are <strong>inquirers</strong>, <strong>thinkers</strong>, <strong>risk-takers</strong>, and <strong>principled</strong>. The ethical dimension is no longer optional — it is built directly into how you are assessed.</p>
+      <p><strong>The IB Learner Profile still matters:</strong> IB CS is built for students who are <strong>inquirers</strong>, <strong>thinkers</strong>, <strong>risk-takers</strong>, and <strong>principled</strong>. The ethical dimension is no longer optional — it is built directly into how you are assessed.</p>
     </div>
   </div>
 </section>
 
-<!-- 07 SEMESTER SCHEDULE -->
-<section id="schedule">
-  <div class="container">
-    <div class="slabel">// 07 · Semester Schedule & Assessments</div>
-    <h2>Your First<br>Semester Roadmap</h2>
-    <p class="intro">Three sections. Each one builds directly on the last — from hardware understanding, to algorithmic thinking, to coding a real prototype, to beginning your IA.</p>
-
-    <!-- SECTION 1 -->
-    <div style="margin-bottom:2px;" class="reveal">
-      <div style="background:var(--surface);border-top:3px solid var(--accent);padding:36px;">
-        <div style="display:flex;align-items:flex-start;gap:32px;flex-wrap:wrap;">
-          <div style="flex-shrink:0;min-width:140px;">
-            <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:6px;">Weeks 1–7</div>
-            <div style="font-family:var(--font-head);font-size:2rem;font-weight:800;line-height:1;color:var(--text);">Section<br>01</div>
-          </div>
-          <div style="flex:1;min-width:260px;">
-            <h3 style="font-family:var(--font-head);font-size:1.3rem;font-weight:700;margin-bottom:6px;">Computing Fundamentals & AI</h3>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
-              <span class="tag" style="background:rgba(0,229,255,0.08);color:var(--accent);border-color:rgba(0,229,255,0.25);">A1 · Computer Fundamentals</span>
-              <span class="tag" style="background:rgba(0,229,255,0.08);color:var(--accent);border-color:rgba(0,229,255,0.25);">B1 · Computational Thinking</span>
-            </div>
-            <p style="font-size:0.88rem;color:var(--text2);margin-bottom:20px;line-height:1.7;">We begin by understanding what hardware modern AI actually runs on — CPU, NPU, HBM memory, bus speeds — then zoom out to the logic that underlies all computing: logic gates, truth tables, and the Von Neumann architecture. We close the section by connecting it all to real-world ethical questions.</p>
-
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-              <!-- FORMATIVE -->
-              <div style="background:var(--surface2);border:1px solid var(--border);padding:20px;">
-                <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text3);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:8px;">📋 Formative Task</div>
-                <div style="font-family:var(--font-head);font-size:0.95rem;font-weight:700;margin-bottom:8px;">AI Infrastructure Portfolio</div>
-                <p style="font-size:0.8rem;color:var(--text2);line-height:1.6;">Research report documenting the hardware stack for modern AI — CPU/NPU architecture, HBM memory, bus speeds, logic gates & truth tables. Includes a Social & Ethical Issues section (A1.12) covering energy consumption and the Digital Divide.</p>
-              </div>
-              <!-- SUMMATIVE -->
-              <div style="background:var(--surface2);border:1px solid var(--accent);border-left-width:3px;padding:20px;">
-                <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--accent3);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:8px;">⚡ Summative Assessment 1</div>
-                <div style="font-family:var(--font-head);font-size:0.95rem;font-weight:700;margin-bottom:8px;">The "AI Architect" Written Task</div>
-                <p style="font-size:0.8rem;color:var(--text2);line-height:1.6;margin-bottom:10px;"><strong style="color:var(--text)">Scenario:</strong> A hospital needs to implement a local AI diagnostics model with a limited budget and strict privacy laws.</p>
-                <p style="font-size:0.8rem;color:var(--text2);line-height:1.6;"><strong style="color:var(--text)">Task:</strong> Identify the necessary hardware, explain data flow using Von Neumann principles, and justify all choices based on technical and ethical constraints.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SECTION 2 -->
-    <div style="margin-bottom:2px;" class="reveal">
-      <div style="background:var(--surface);border-top:3px solid #a78bfa;padding:36px;">
-        <div style="display:flex;align-items:flex-start;gap:32px;flex-wrap:wrap;">
-          <div style="flex-shrink:0;min-width:140px;">
-            <div style="font-family:var(--font-mono);font-size:0.7rem;color:#a78bfa;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:6px;">Weeks 8–14</div>
-            <div style="font-family:var(--font-head);font-size:2rem;font-weight:800;line-height:1;color:var(--text);">Section<br>02</div>
-          </div>
-          <div style="flex:1;min-width:260px;">
-            <h3 style="font-family:var(--font-head);font-size:1.3rem;font-weight:700;margin-bottom:6px;">Computational Logic & Python Prototype</h3>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
-              <span class="tag" style="background:rgba(124,58,237,0.1);color:#a78bfa;border-color:rgba(124,58,237,0.3);">B1 · Computational Thinking</span>
-              <span class="tag" style="background:rgba(124,58,237,0.1);color:#a78bfa;border-color:rgba(124,58,237,0.3);">B2 · Programming</span>
-            </div>
-            <p style="font-size:0.88rem;color:var(--text2);margin-bottom:14px;line-height:1.7;">The philosophy here is <em style="color:var(--text)">Dissection Before Coding</em>. Before you touch a keyboard, you must break the problem apart. Decompose it into modules. Use Abstraction to decide which variables actually matter. Only then do you write code.</p>
-
-            <div style="background:var(--surface2);border:1px solid var(--border);padding:16px;margin-bottom:14px;">
-              <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text3);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:10px;">📋 Formative — Weekly Coding Labs</div>
-              <div style="display:flex;flex-direction:column;gap:6px;">
-                <div style="display:flex;align-items:center;gap:12px;font-size:0.82rem;padding:7px 10px;background:var(--surface);border:1px solid var(--border);">
-                  <span style="font-family:var(--font-mono);font-size:0.7rem;color:#a78bfa;min-width:60px;">Lab 1</span>
-                  <span>Calculator — applying <strong style="color:var(--text)">Selection</strong> (if/elif/else)</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:12px;font-size:0.82rem;padding:7px 10px;background:var(--surface);border:1px solid var(--border);">
-                  <span style="font-family:var(--font-mono);font-size:0.7rem;color:#a78bfa;min-width:60px;">Lab 2</span>
-                  <span>Password Validator — applying <strong style="color:var(--text)">Iteration</strong> (loops)</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:12px;font-size:0.82rem;padding:7px 10px;background:var(--surface);border:1px solid var(--border);">
-                  <span style="font-family:var(--font-mono);font-size:0.7rem;color:#a78bfa;min-width:60px;">Lab 3</span>
-                  <span>Simple Database — using <strong style="color:var(--text)">Lists & Arrays</strong></span>
-                </div>
-              </div>
-            </div>
-
-            <div style="background:var(--surface2);border:1px solid #a78bfa;border-left-width:3px;padding:20px;">
-              <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--accent3);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:8px;">⚡ Summative Assessment 2</div>
-              <div style="font-family:var(--font-head);font-size:0.95rem;font-weight:700;margin-bottom:8px;">The Python Prototype</div>
-              <p style="font-size:0.8rem;color:var(--text2);line-height:1.6;margin-bottom:10px;">Build a functional prototype that solves a real utility problem — examples include a <strong style="color:var(--text)">System Resource Simulator</strong> or a <strong style="color:var(--text)">Project Management Tool</strong>.</p>
-              <p style="font-size:0.8rem;color:var(--text2);line-height:1.6;"><strong style="color:var(--text)">Required submission:</strong> Your working <code style="background:var(--surface);padding:1px 5px;border-radius:2px;font-size:0.78rem;">.py</code> file <em>plus</em> your <strong style="color:var(--text)">Dissection Map</strong> (Flowchart + Pseudocode) — proving you applied Decomposition and Abstraction before coding.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SECTION 3 -->
-    <div class="reveal">
-      <div style="background:var(--surface);border-top:3px solid var(--green);padding:36px;">
-        <div style="display:flex;align-items:flex-start;gap:32px;flex-wrap:wrap;">
-          <div style="flex-shrink:0;min-width:140px;">
-            <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--green);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:6px;">Weeks 17–18</div>
-            <div style="font-family:var(--font-head);font-size:2rem;font-weight:800;line-height:1;color:var(--text);">Section<br>03</div>
-          </div>
-          <div style="flex:1;min-width:260px;">
-            <h3 style="font-family:var(--font-head);font-size:1.3rem;font-weight:700;margin-bottom:6px;">IA Pre-Discovery</h3>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
-              <span class="tag" style="background:rgba(16,185,129,0.1);color:var(--green);border-color:rgba(16,185,129,0.3);">Internal Assessment</span>
-              <span class="tag" style="background:rgba(16,185,129,0.1);color:var(--green);border-color:rgba(16,185,129,0.3);">Criterion A</span>
-            </div>
-            <p style="font-size:0.88rem;color:var(--text2);margin-bottom:20px;line-height:1.7;">You've completed a technical written analysis and built a working program. You now have the foundation to approach the IA with real confidence. These final weeks are dedicated to finding your problem and beginning Criterion A — the most important part of the IA process.</p>
-
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-              <div style="background:var(--surface2);border:1px solid var(--border);padding:18px;">
-                <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px;">What you bring in</div>
-                <div style="display:flex;flex-direction:column;gap:6px;font-size:0.82rem;color:var(--text2);">
-                  <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--green);margin-top:3px;">✓</span><span>A written analysis of hardware & ethics (Assessment 1)</span></div>
-                  <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--green);margin-top:3px;">✓</span><span>A working Python prototype + Dissection Map (Assessment 2)</span></div>
-                  <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--green);margin-top:3px;">✓</span><span>Practiced Decomposition, Abstraction, OOP foundations</span></div>
-                </div>
-              </div>
-              <div style="background:var(--surface2);border:1px solid var(--green);border-left-width:3px;padding:18px;">
-                <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--green);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px;">What you start here</div>
-                <div style="display:flex;flex-direction:column;gap:6px;font-size:0.82rem;color:var(--text2);">
-                  <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--accent);margin-top:3px;">→</span><span>Find a real-world problem worth solving</span></div>
-                  <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--accent);margin-top:3px;">→</span><span>Draft your <strong style="color:var(--text)">Criterion A</strong> — Problem Identification & Success Criteria</span></div>
-                  <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--accent);margin-top:3px;">→</span><span>Begin scoping the complexity of your solution</span></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ASSESSMENT SUMMARY -->
-    <div class="hbox reveal" style="margin-top:32px;">
-      <p><strong>How it all connects:</strong> Assessment 1 trains your analytical writing. Assessment 2 trains your computational design and coding. By Week 17, you won't be starting the IA cold — you'll already know how to break down a problem, design a solution, and explain it clearly. That's exactly what Criteria A, B, and C demand.</p>
-    </div>
-  </div>
-</section>
 
 <footer>
   <div class="container">
-    <p>IB Computer Science · <span>First Assessment May 2027</span> · Orientation — Year 1 Students</p>
-    <p style="margin-top:8px;font-size:0.65rem;">Based on the IB CS Subject Guide released February 2025 (first teaching August 2025). Verify all details at ibo.org.</p>
+    <p>IB Computer Science · <span>Course Overview</span></p>
+    <p style="margin-top:8px;font-size:0.65rem;">Based on the current IB Computer Science subject guide. Verify details at ibo.org.</p>
   </div>
 </footer>
 
@@ -920,6 +733,9 @@
     if (!button) return;
     button.addEventListener('click', event => {
       event.preventDefault();
+      const targetId = button.getAttribute('data-scroll-target');
+      const target = targetId ? document.getElementById(targetId) : null;
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       const isOpen = menu.classList.toggle('open');
       button.setAttribute('aria-expanded', String(isOpen));
       closeMenus(isOpen ? menu : null);
