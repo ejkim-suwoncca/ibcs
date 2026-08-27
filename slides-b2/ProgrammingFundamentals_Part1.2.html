@@ -136,9 +136,138 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(2.1rem, 3.8vw, 3.4
   .slide { padding: 40px 28px 96px; }
   .g2, .g3, .g4 { grid-template-columns: 1fr; }
 }
+
+
+/* COURSE NAVIGATION */
+.course-nav {
+  position: fixed;
+  top: 10px;
+  left: 14px;
+  right: 14px;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 4px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(7, 9, 15, 0.84);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.26);
+  font-family: 'DM Mono', 'Space Mono', monospace;
+  scrollbar-width: none;
+}
+.course-nav::-webkit-scrollbar { display: none; }
+.course-nav a {
+  color: var(--text2, #94a3b8);
+  text-decoration: none;
+  white-space: nowrap;
+  line-height: 1;
+}
+.course-home,
+.course-group-label,
+.course-link {
+  min-height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+}
+.course-home {
+  padding: 0 11px;
+  background: rgba(34, 211, 238, 0.1);
+  color: var(--cyan, var(--accent, #22d3ee));
+  border: 1px solid rgba(34, 211, 238, 0.24);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.course-group {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  background: rgba(15, 23, 42, 0.58);
+  border-radius: 4px;
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+.course-group-label {
+  min-width: 32px;
+  padding: 0 9px;
+  color: var(--text, #e5e7eb);
+  background: rgba(255, 255, 255, 0.06);
+  border-right: 1px solid rgba(148, 163, 184, 0.14);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.course-links {
+  display: inline-flex;
+  align-items: center;
+}
+.course-link {
+  padding: 0 9px;
+  color: var(--text2, #94a3b8);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+.course-link:hover,
+.course-link.current,
+.course-home:hover,
+.course-home.current {
+  color: var(--text, #f8fafc);
+  background: rgba(255, 255, 255, 0.1);
+}
+.course-nav ~ .slide-num { top: 56px !important; }
+@media (max-width: 720px) {
+  .course-nav {
+    top: 8px;
+    left: 8px;
+    right: 8px;
+  }
+  .course-home { padding: 0 9px; }
+  .course-link { padding: 0 8px; }
+}
+
 </style>
 </head>
 <body>
+
+<nav class="course-nav" aria-label="Course navigation">
+  <a class="course-home" href="../index.html">IB CS</a>
+  <div class="course-group">
+    <a class="course-group-label" href="../index.html#theme-a">A</a>
+    <div class="course-links">
+      <a class="course-link" href="../slides-a1/A1_1.html">A1</a>
+      <a class="course-link" href="../slides-a2/A2.1.html">A2</a>
+      <a class="course-link" href="../slides-a3/A3.1.html">A3</a>
+      <a class="course-link" href="../slides-a4/A4.1.html">A4</a>
+    </div>
+  </div>
+  <div class="course-group">
+    <a class="course-group-label" href="../index.html#theme-b">B</a>
+    <div class="course-links">
+      <a class="course-link" href="../slides-b2/B1.1.html">B1</a>
+      <a class="course-link current" href="../slides-b2/ProgrammingFundamentals_Part1.1.html">B2</a>
+      <a class="course-link" href="../slides-b3/B3.1.html">B3</a>
+      <a class="course-link" href="../slides-b4/B4.1.html">B4</a>
+    </div>
+  </div>
+  <div class="course-group">
+    <a class="course-group-label" href="../index.html#internal-assessment">IA</a>
+    <div class="course-links">
+      <a class="course-link" href="../slides-ia/IA.html">Guide</a>
+      <a class="course-link" href="../slides-casestudy/CaseStudy.html">Case</a>
+      <a class="course-link" href="../slides-assessment/index.html">Assess</a>
+      <a class="course-link" href="../orientation/index.html">Orient</a>
+    </div>
+  </div>
+</nav>
+
 <div class="progress" id="progress"></div>
 <div class="slide-num" id="slideNum">01 / 12</div>
 <div class="deck">
