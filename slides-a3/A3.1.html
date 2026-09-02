@@ -105,6 +105,14 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
 .db-table tr:hover td { background: var(--surface2); }
 .pk { color: var(--gold2); font-weight: 500; }
 .fk { color: var(--blue); }
+.entity-panel { padding: 14px; background: rgba(14,17,23,0.88); border: 2px solid var(--border2); border-radius: 4px; }
+.entity-panel.student { border-color: rgba(232,201,122,0.72); box-shadow: inset 0 0 0 1px rgba(232,201,122,0.12); }
+.entity-panel.enrolment { border-color: rgba(74,158,255,0.72); box-shadow: inset 0 0 0 1px rgba(74,158,255,0.12); }
+.entity-label { font-family: 'DM Mono',monospace; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.1em; margin-bottom: 9px; }
+.entity-panel.student .entity-label { color: var(--gold2); }
+.entity-panel.enrolment .entity-label { color: var(--blue); }
+.entity-panel .db-table th,
+.entity-panel .db-table td { border-color: #526079; }
 .comparison-table { width: 100%; border-collapse: collapse; }
 .comparison-table th { font-family: 'DM Mono', monospace; font-size: clamp(0.65rem,1vw,0.82rem); letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); padding: 9px 14px; text-align: left; border-bottom: 1px solid var(--border2); background: var(--surface); }
 .comparison-table td { padding: 11px 14px; font-size: clamp(0.82rem,1.3vw,1.02rem); border-bottom: 1px solid var(--border); color: var(--text2); background: var(--surface); line-height: 1.5; vertical-align: top; }
@@ -298,7 +306,7 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
 
 
 <div class="progress" id="progress"></div>
-<div class="slide-num" id="slideNum">01 / 14</div>
+<div class="slide-num" id="slideNum">01 / 12</div>
 <div class="deck">
 
 <!-- ═══════════════════════════════════════════════ S1: TITLE -->
@@ -443,9 +451,9 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
     <div class="label">// Feature 3 · Foreign Key</div>
     <h2>Foreign <span class="hl-blue">Key</span></h2>
     <p class="lead" style="margin-bottom:12px;">A <strong style="color:var(--blue);">foreign key</strong> is an attribute in one table that refers to the <strong style="color:var(--gold2);">primary key</strong> in another table. It creates a link between two tables.</p>
-    <div class="grid g2" style="gap:2px;margin-bottom:14px;">
-      <div>
-        <p style="font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--text3);margin-bottom:4px;">TABLE: STUDENT</p>
+    <div class="grid g2" style="gap:18px;margin-top:18px;">
+      <div class="entity-panel student">
+        <p class="entity-label">ENTITY: STUDENT</p>
         <table class="db-table">
           <thead><tr><th>StudentID (PK)</th><th>FirstName</th><th>LastName</th></tr></thead>
           <tbody>
@@ -454,8 +462,8 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
           </tbody>
         </table>
       </div>
-      <div>
-        <p style="font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--text3);margin-bottom:4px;">TABLE: ENROLMENT</p>
+      <div class="entity-panel enrolment">
+        <p class="entity-label">ENTITY: ENROLMENT</p>
         <table class="db-table">
           <thead><tr><th>EnrolmentID (PK)</th><th>StudentID (FK)</th><th>CourseCode</th></tr></thead>
           <tbody>
@@ -466,12 +474,6 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
         </table>
       </div>
     </div>
-    <div class="info-box">
-      <p><strong>Referential Integrity:</strong> The database will reject any foreign key value that doesn't match an existing primary key. You cannot enrol a student who doesn't exist in the STUDENT table.</p>
-    </div>
-    <div class="gold-box" style="margin-top:10px;">
-      <p><strong>Gold (PK):</strong> StudentID in STUDENT table. <strong style="color:var(--blue);">Blue (FK):</strong> StudentID in ENROLMENT — it references the primary key in STUDENT.</p>
-    </div>
   </div>
 </div>
 
@@ -480,23 +482,20 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
   <div class="content" style="max-width:960px;margin:0 auto;">
     <div class="label">// Feature 4 · Relationships</div>
     <h2>Table <span class="hl-orange">Relationships</span></h2>
-    <p class="lead" style="margin-bottom:14px;">Relationships define how records in one table connect to records in another. There are three types:</p>
+    <p class="lead" style="margin-bottom:14px;">Three ways records can connect across tables:</p>
     <div class="steps">
       <div class="step-row">
         <div class="step-n" style="min-width:60px;font-size:0.85rem;">1 : 1</div>
-        <div class="step-text"><strong>One-to-One</strong> — one record in Table A links to exactly one record in Table B. <br><span style="color:var(--text3);">Example: one person has one passport number.</span></div>
+        <div class="step-text"><strong>One-to-One</strong> — one record links to one record.<br><span style="color:var(--text3);">Person ↔ passport</span></div>
       </div>
       <div class="step-row">
         <div class="step-n" style="min-width:60px;font-size:0.85rem;">1 : M</div>
-        <div class="step-text"><strong>One-to-Many</strong> — one record in Table A links to many records in Table B (most common).<br><span style="color:var(--text3);">Example: one student enrols in many courses. One teacher teaches many students.</span></div>
+        <div class="step-text"><strong>One-to-Many</strong> — one record links to many records.<br><span style="color:var(--text3);">Teacher → many students</span></div>
       </div>
       <div class="step-row">
         <div class="step-n" style="min-width:60px;font-size:0.85rem;">M : M</div>
-        <div class="step-text"><strong>Many-to-Many</strong> — many records in Table A link to many in Table B. Requires a <strong>linking table</strong>.<br><span style="color:var(--text3);">Example: many students take many courses. Solved with an ENROLMENT junction table.</span></div>
+        <div class="step-text"><strong>Many-to-Many</strong> — many records link to many records; use a <strong>linking table</strong>.<br><span style="color:var(--text3);">Students ↔ courses</span></div>
       </div>
-    </div>
-    <div class="orange-box">
-      <p><strong>Why can't we store M:M directly?</strong> A foreign key holds a single value — it can't reference multiple rows. A junction (linking) table solves this by breaking M:M into two 1:M relationships.</p>
     </div>
   </div>
 </div>
@@ -606,82 +605,7 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════ S11: WORKED EXAMPLE -->
-<div class="slide scroll-slide">
-  <div class="content" style="max-width:1020px;margin:0 auto;">
-    <div class="label">// Worked Example · School Database</div>
-    <h2>School <span class="hl-orange">Database Design</span></h2>
-    <div class="grid g3" style="gap:2px;margin-bottom:12px;">
-      <div>
-        <p style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--text3);margin-bottom:5px;">TABLE: STUDENT</p>
-        <table class="db-table">
-          <thead><tr><th>StudentID (PK)</th><th>Name</th><th>Year</th></tr></thead>
-          <tbody>
-            <tr><td class="pk">S001</td><td>EJ Kim</td><td>11</td></tr>
-            <tr><td class="pk">S002</td><td>Jiyeon Park</td><td>11</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div>
-        <p style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--text3);margin-bottom:5px;">TABLE: COURSE</p>
-        <table class="db-table">
-          <thead><tr><th>CourseCode (PK)</th><th>Title</th></tr></thead>
-          <tbody>
-            <tr><td class="pk">IBCS-SL</td><td>IB Computer Science SL</td></tr>
-            <tr><td class="pk">IBMATH-SL</td><td>IB Mathematics SL</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div>
-        <p style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--text3);margin-bottom:5px;">TABLE: ENROLMENT (junction)</p>
-        <table class="db-table">
-          <thead><tr><th>EnrolID (PK)</th><th>StudentID (FK)</th><th>CourseCode (FK)</th></tr></thead>
-          <tbody>
-            <tr><td class="pk">E01</td><td class="fk">S001</td><td class="fk">IBCS-SL</td></tr>
-            <tr><td class="pk">E02</td><td class="fk">S001</td><td class="fk">IBMATH-SL</td></tr>
-            <tr><td class="pk">E03</td><td class="fk">S002</td><td class="fk">IBCS-SL</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="info-box">
-      <p><strong>Many-to-Many resolved:</strong> A student can take many courses; a course has many students. The ENROLMENT table breaks this into two one-to-many relationships — STUDENT:ENROLMENT (1:M) and COURSE:ENROLMENT (1:M).</p>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════ S12: TRANSACTION & INTEGRITY -->
-<div class="slide">
-  <div class="content" style="max-width:960px;margin:0 auto;">
-    <div class="label">// Data Integrity</div>
-    <h2>Reliable <span class="hl-cyan">Transactions</span></h2>
-    <p class="lead">A <strong style="color:var(--cyan);">transaction</strong> is a sequence of database operations treated as a single unit — either all succeed, or none do.</p>
-    <div class="grid g2" style="gap:2px;">
-      <div class="card cyan">
-        <div class="card-title">Example: Bank Transfer</div>
-        <div class="card-body">
-          1. Deduct ₩50,000 from Account A<br>
-          2. Add ₩50,000 to Account B<br><br>
-          If step 2 fails, step 1 must be <strong>rolled back</strong>.<br>
-          Without this, money disappears.
-        </div>
-      </div>
-      <div class="card gold">
-        <div class="card-title">Why Transactions Matter</div>
-        <div class="card-body">
-          Ensures <strong>data integrity</strong> during failures<br><br>
-          Prevents partial updates from corrupting the database<br><br>
-          Covered in detail in A3.3 (ACID properties)
-        </div>
-      </div>
-    </div>
-    <div class="orange-box">
-      <p><strong>Common mistake:</strong> When asked about benefits in a scenario, you must explain how they apply to <em>that specific context</em> — not just list them generically. Connect each benefit to the scenario given.</p>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════ S13: EXAM APPROACH -->
+<!-- ═══════════════════════════════════════════════ S11: EXAM APPROACH -->
 <div class="slide">
   <div class="content" style="max-width:900px;margin:0 auto;">
     <div class="label">// Exam Strategy</div>
@@ -706,7 +630,7 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════ S14: SUMMARY -->
+<!-- ═══════════════════════════════════════════════ S12: SUMMARY -->
 <div class="slide">
   <div class="content" style="max-width:960px;margin:0 auto;">
     <div class="label">// A3.1 · Summary</div>
