@@ -165,7 +165,8 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
   flex-wrap: wrap;
 }
 .course-nav a,
-.course-menu-button {
+.course-menu-button,
+.course-submenu-button {
   color: var(--text2, #94a3b8);
   text-decoration: none;
   white-space: nowrap;
@@ -189,28 +190,36 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
   cursor: pointer;
   transition: color 0.18s ease, border-color 0.18s ease;
 }
-.course-menu {
+.course-menu,
+.course-submenu {
   position: relative;
 }
-.course-menu-button {
+.course-menu-button,
+.course-submenu-button {
   gap: 6px;
 }
-.course-menu-button::after {
+.course-menu-button::after,
+.course-submenu-button::after {
   content: "▾";
   font-size: 10px;
   color: var(--text3, #64748b);
   transition: transform 0.18s ease;
+}
+.course-submenu-button::after {
+  transform: rotate(-90deg);
 }
 .course-menu.open .course-menu-button::after,
 .course-menu:focus-within .course-menu-button::after,
 .course-menu:hover .course-menu-button::after {
   transform: rotate(180deg);
 }
-.course-dropdown {
-  position: absolute;
-  top: calc(100% + 1px);
-  left: 50%;
-  min-width: 286px;
+.course-submenu.open .course-submenu-button::after,
+.course-submenu:focus-within .course-submenu-button::after,
+.course-submenu:hover .course-submenu-button::after {
+  transform: rotate(90deg);
+}
+.course-dropdown,
+.course-subdropdown {
   display: grid;
   gap: 2px;
   padding: 8px;
@@ -219,29 +228,78 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
   background: rgba(8, 13, 24, 0.98);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
   opacity: 0;
-  transform: translate(-50%, -4px);
   pointer-events: none;
   transition: opacity 0.16s ease, transform 0.16s ease;
+}
+.course-dropdown {
+  position: absolute;
+  top: calc(100% + 1px);
+  left: 50%;
+  min-width: 306px;
+  transform: translate(-50%, -4px);
+}
+.course-subdropdown {
+  position: absolute;
+  top: -8px;
+  left: calc(100% + 8px);
+  min-width: 310px;
+  transform: translateX(-4px);
+  display: none;
+}
+.course-menu:hover .course-dropdown,
+.course-menu:focus-within .course-dropdown,
+.course-menu.open .course-dropdown,
+.course-submenu:hover .course-subdropdown,
+.course-submenu:focus-within .course-subdropdown,
+.course-submenu.open .course-subdropdown {
+  display: grid;
+  opacity: 1;
+  transform: translate(0, 0);
+  pointer-events: auto;
 }
 .course-menu:hover .course-dropdown,
 .course-menu:focus-within .course-dropdown,
 .course-menu.open .course-dropdown {
-  opacity: 1;
   transform: translate(-50%, 0);
-  pointer-events: auto;
 }
-.course-dropdown a {
-  display: block;
+.course-dropdown a,
+.course-subdropdown a,
+.course-submenu-button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   padding: 10px 11px;
+  border: 0;
   border-radius: 4px;
+  background: transparent;
   color: var(--text2, #94a3b8);
+  font: inherit;
   font-size: 10px;
   letter-spacing: 0.04em;
   line-height: 1.35;
+  text-align: left;
   text-transform: none;
+  cursor: pointer;
+}
+.course-subdropdown a {
+  justify-content: flex-start;
+  white-space: normal;
+}
+.course-topic-link,
+.course-subdropdown a.current-page {
+  color: var(--accent, #22d3ee) !important;
+}
+.course-subdropdown a.current-page {
+  background: rgba(34, 211, 238, 0.08);
 }
 .course-dropdown a:hover,
-.course-dropdown a:focus {
+.course-dropdown a:focus,
+.course-subdropdown a:hover,
+.course-subdropdown a:focus,
+.course-submenu-button:hover,
+.course-submenu-button:focus {
   color: var(--text, #f8fafc);
   background: rgba(255, 255, 255, 0.08);
   outline: none;
@@ -275,12 +333,42 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
     left: 12px;
     right: 12px;
     min-width: 0;
+    max-height: calc(100vh - 108px);
+    overflow: auto;
     transform: translateY(-4px);
   }
   .course-menu:hover .course-dropdown,
   .course-menu:focus-within .course-dropdown,
   .course-menu.open .course-dropdown {
     transform: translateY(0);
+  }
+  .course-subdropdown {
+    position: static;
+    min-width: 0;
+    margin: 0 0 4px 12px;
+    padding: 4px;
+    box-shadow: none;
+    border-color: rgba(148, 163, 184, 0.14);
+    background: rgba(255, 255, 255, 0.03);
+    transform: none;
+    display: none;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .course-submenu.open .course-subdropdown,
+  .course-submenu:focus-within .course-subdropdown {
+    display: grid;
+  }
+  .course-submenu:hover .course-subdropdown {
+    display: grid;
+  }
+  .course-submenu-button::after {
+    transform: none;
+  }
+  .course-submenu.open .course-submenu-button::after,
+  .course-submenu:focus-within .course-submenu-button::after,
+  .course-submenu:hover .course-submenu-button::after {
+    transform: rotate(180deg);
   }
 }
 
@@ -295,19 +383,90 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
     <div class="course-menu">
       <button class="course-menu-button" type="button" aria-expanded="false" aria-controls="course-menu-a" data-scroll-target="theme-a">A</button>
       <div class="course-dropdown" id="course-menu-a">
-        <a href="../index.html#a1">A1: Computer Systems</a>
-        <a href="../index.html#a2">A2: Networks</a>
-        <a href="../index.html#a3">A3: Databases</a>
-        <a href="../index.html#a4">A4: Machine Learning</a>
+        <div class="course-submenu">
+          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-a1">A1: Computer Systems</button>
+          <div class="course-subdropdown" id="course-submenu-a1">
+          <a class="course-topic-link" href="../index.html#a1">A1: Computer Systems overview</a>
+          <a href="../slides-a1/A1_1.html">A1.1 Computer Hardware and Operations</a>
+          <a href="../slides-a1/A1.2.1.html">A1.2.1 Binary and Hexadecimal</a>
+          <a href="../slides-a1/A1.2.2.html">A1.2.2 Data Representation</a>
+          <a href="../slides-a1/A1.2.3-5.html">A1.2.3-5 Logic Gates and Truth Tables</a>
+          <a href="../slides-a1/A1.3.html">A1.3 Operating Systems and Control Systems</a>
+          <a href="../slides-a1/A1.1_HL.html">A1.1 HL Pipelining</a>
+          <a href="../slides-a1/A1.3_HL.html">A1.3 HL Multitasking and Control Systems</a>
+          <a href="../slides-a1/A1.4.html">A1.4 HL Translation</a>
+          </div>
+        </div>
+        <div class="course-submenu">
+          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-a2">A2: Networks</button>
+          <div class="course-subdropdown" id="course-submenu-a2">
+          <a class="course-topic-link" href="../index.html#a2">A2: Networks overview</a>
+          <a href="../slides-a2/A2.1.html">A2.1 Network Fundamentals</a>
+          <a href="../slides-a2/A2.1_HL.html">A2.1 HL TCP/IP Model</a>
+          <a href="../slides-a2/A2.2.html">A2.2 Network Architecture</a>
+          <a href="../slides-a2/A2.3.html">A2.3 Data Transmissions and IP Addressing</a>
+          <a href="../slides-a2/A2.4.html">A2.4 Network Security and Encryption</a>
+          </div>
+        </div>
+        <div class="course-submenu">
+          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-a3">A3: Databases</button>
+          <div class="course-subdropdown" id="course-submenu-a3">
+          <a class="course-topic-link" href="../index.html#a3">A3: Databases overview</a>
+          <a href="../slides-a3/A3.1.html">A3.1 Database Fundamentals</a>
+          <a href="../slides-a3/A3.2.html">A3.2 Database Design and Normalisation</a>
+          <a href="../slides-a3/A3.3.html">A3.3 SQL Programming</a>
+          <a href="../slides-a3/A3.4.html">A3.4 HL Alternative Databases</a>
+          </div>
+        </div>
+        <div class="course-submenu">
+          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-a4">A4: Machine Learning</button>
+          <div class="course-subdropdown" id="course-submenu-a4">
+          <a class="course-topic-link" href="../index.html#a4">A4: Machine Learning overview</a>
+          <a href="../slides-a4/A4.1.html">A4.1 Machine Learning Fundamentals</a>
+          <a href="../slides-a4/A4.2.html">A4.2 HL Data Preprocessing</a>
+          <a href="../slides-a4/A4.3.html">A4.3 HL Machine Learning Approaches</a>
+          <a href="../slides-a4/A4.4.html">A4.4 Ethics in Machine Learning</a>
+          </div>
+        </div>
       </div>
     </div>
     <div class="course-menu">
       <button class="course-menu-button current" type="button" aria-expanded="false" aria-controls="course-menu-b" data-scroll-target="theme-b">B</button>
       <div class="course-dropdown" id="course-menu-b">
-        <a href="../index.html#b1">B1: Computational Thinking</a>
-        <a href="../index.html#b2">B2: Programming, Algorithms and Files</a>
-        <a href="../index.html#b3">B3: Object-Oriented Programming</a>
-        <a href="../index.html#b4">B4: Abstract Data Types</a>
+        <div class="course-submenu">
+          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-b1">B1: Computational Thinking</button>
+          <div class="course-subdropdown" id="course-submenu-b1">
+          <a class="course-topic-link" href="../index.html#b1">B1: Computational Thinking overview</a>
+          <a href="../slides-b2/B1.1.html">B1.1 Approaches to Computational Thinking</a>
+          </div>
+        </div>
+        <div class="course-submenu">
+          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-b2">B2: Programming, Algorithms and Files</button>
+          <div class="course-subdropdown" id="course-submenu-b2">
+          <a class="course-topic-link" href="../index.html#b2">B2: Programming, Algorithms and Files overview</a>
+          <a href="../slides-b2/ProgrammingFundamentals_Part1.1.html">B2.1 + B2.3 Programming Fundamentals Part 1.1</a>
+          <a href="../slides-b2/ProgrammingFundamentals_Part1.2.html">B2.3 Programming Fundamentals Part 1.2</a>
+          <a href="../slides-b2/ProgrammingFundamentals_Part2.html">B2.1 + B2.2 Lists, Stacks and Queues</a>
+          <a href="../slides-b2/B2.4.html">B2.4 Search, Sort and Big O</a>
+          <a href="../slides-b2/B2.4_Recursion.html">B2.4 HL Recursion</a>
+          <a href="../slides-b2/B2.5.html">B2.5 File Processing</a>
+          </div>
+        </div>
+        <div class="course-submenu">
+          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-b3">B3: Object-Oriented Programming</button>
+          <div class="course-subdropdown" id="course-submenu-b3">
+          <a class="course-topic-link" href="../index.html#b3">B3: Object-Oriented Programming overview</a>
+          <a href="../slides-b3/B3.1.html">B3.1 OOP for a Single Class</a>
+          <a class="current-page" href="../slides-b3/B3.2.html">B3.2 HL OOP for Multiple Classes</a>
+          </div>
+        </div>
+        <div class="course-submenu">
+          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-b4">B4: Abstract Data Types</button>
+          <div class="course-subdropdown" id="course-submenu-b4">
+          <a class="course-topic-link" href="../index.html#b4">B4: Abstract Data Types overview</a>
+          <a href="../slides-b4/B4.1.html">B4.1 HL Linked Lists, BSTs, Sets and Hash Tables</a>
+          </div>
+        </div>
       </div>
     </div>
     <a class="course-link" href="../index.html#internal-assessment">IA</a>
@@ -945,6 +1104,16 @@ progress.style.width = (1 / total * 100) + '%';
 <script>
 (function () {
   const menus = document.querySelectorAll('.course-menu');
+  const submenus = document.querySelectorAll('.course-submenu');
+  const closeSubmenus = except => {
+    submenus.forEach(submenu => {
+      if (submenu !== except) {
+        submenu.classList.remove('open');
+        const button = submenu.querySelector('.course-submenu-button');
+        if (button) button.setAttribute('aria-expanded', 'false');
+      }
+    });
+  };
   const closeMenus = except => {
     menus.forEach(menu => {
       if (menu !== except) {
@@ -953,6 +1122,7 @@ progress.style.width = (1 / total * 100) + '%';
         if (button) button.setAttribute('aria-expanded', 'false');
       }
     });
+    if (!except) closeSubmenus(null);
   };
 
   menus.forEach(menu => {
@@ -966,6 +1136,17 @@ progress.style.width = (1 / total * 100) + '%';
       const isOpen = menu.classList.toggle('open');
       button.setAttribute('aria-expanded', String(isOpen));
       closeMenus(isOpen ? menu : null);
+    });
+  });
+
+  submenus.forEach(submenu => {
+    const button = submenu.querySelector('.course-submenu-button');
+    if (!button) return;
+    button.addEventListener('click', event => {
+      event.preventDefault();
+      const isOpen = submenu.classList.toggle('open');
+      button.setAttribute('aria-expanded', String(isOpen));
+      closeSubmenus(isOpen ? submenu : null);
     });
   });
 

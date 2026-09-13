@@ -56,7 +56,7 @@ body::before {
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   padding-top: 64px;
-  padding-bottom: 132px;
+  padding-bottom: 180px;
 }
 .slide.scroll-slide::-webkit-scrollbar { width: 10px; }
 .slide.scroll-slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
@@ -125,6 +125,99 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
 .erd-attr.fk-attr { color: var(--blue); }
 .erd-line { display: flex; align-items: center; color: var(--text3); font-family: 'DM Mono', monospace; font-size: 0.8rem; padding: 0 16px; white-space: nowrap; }
 
+
+/* A3.2 shopping examples */
+.schema-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  align-items: stretch;
+}
+.mini-entity {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  padding: 14px;
+  min-height: 116px;
+}
+.mini-title {
+  font-family: 'DM Mono', monospace;
+  color: var(--text);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.mini-body {
+  color: var(--text2);
+  font-size: clamp(0.78rem, 1.05vw, 0.94rem);
+  line-height: 1.45;
+}
+.relation-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'DM Mono', monospace;
+  color: var(--gold2);
+  border: 1px solid rgba(201,168,76,0.24);
+  background: rgba(201,168,76,0.05);
+  padding: 6px 10px;
+  font-size: 0.7rem;
+  margin: 8px 6px 0 0;
+}
+.schema-list {
+  display: grid;
+  gap: 8px;
+  font-family: 'DM Mono', monospace;
+  font-size: clamp(0.68rem, 0.9vw, 0.82rem);
+  line-height: 1.55;
+  color: var(--text2);
+}
+.schema-list div {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 9px 11px;
+}
+.schema-list strong,
+.mini-body strong {
+  color: var(--text);
+}
+.erd-image-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 12px;
+  margin-bottom: 12px;
+}
+.erd-image-title {
+  color: var(--text2);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+.erd-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.note-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2px;
+}
+@media (max-width: 900px) {
+  .schema-flow,
+  .note-row {
+    grid-template-columns: 1fr 1fr;
+  }
+  .erd-image-wrap {
+    overflow-x: auto;
+  }
+  .erd-image {
+    min-width: 820px;
+  }
+}
+
 /* COURSE NAVIGATION */
 .course-nav {
   position: fixed;
@@ -149,7 +242,8 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
   flex-wrap: wrap;
 }
 .course-nav a,
-.course-menu-button {
+.course-menu-button,
+.course-submenu-button {
   color: var(--text2, #94a3b8);
   text-decoration: none;
   white-space: nowrap;
@@ -173,28 +267,36 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
   cursor: pointer;
   transition: color 0.18s ease, border-color 0.18s ease;
 }
-.course-menu {
+.course-menu,
+.course-submenu {
   position: relative;
 }
-.course-menu-button {
+.course-menu-button,
+.course-submenu-button {
   gap: 6px;
 }
-.course-menu-button::after {
+.course-menu-button::after,
+.course-submenu-button::after {
   content: "▾";
   font-size: 10px;
   color: var(--text3, #64748b);
   transition: transform 0.18s ease;
+}
+.course-submenu-button::after {
+  transform: rotate(-90deg);
 }
 .course-menu.open .course-menu-button::after,
 .course-menu:focus-within .course-menu-button::after,
 .course-menu:hover .course-menu-button::after {
   transform: rotate(180deg);
 }
-.course-dropdown {
-  position: absolute;
-  top: calc(100% + 1px);
-  left: 50%;
-  min-width: 286px;
+.course-submenu.open .course-submenu-button::after,
+.course-submenu:focus-within .course-submenu-button::after,
+.course-submenu:hover .course-submenu-button::after {
+  transform: rotate(90deg);
+}
+.course-dropdown,
+.course-subdropdown {
   display: grid;
   gap: 2px;
   padding: 8px;
@@ -203,29 +305,78 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
   background: rgba(8, 13, 24, 0.98);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
   opacity: 0;
-  transform: translate(-50%, -4px);
   pointer-events: none;
   transition: opacity 0.16s ease, transform 0.16s ease;
+}
+.course-dropdown {
+  position: absolute;
+  top: calc(100% + 1px);
+  left: 50%;
+  min-width: 306px;
+  transform: translate(-50%, -4px);
+}
+.course-subdropdown {
+  position: absolute;
+  top: -8px;
+  left: calc(100% + 8px);
+  min-width: 310px;
+  transform: translateX(-4px);
+  display: none;
+}
+.course-menu:hover .course-dropdown,
+.course-menu:focus-within .course-dropdown,
+.course-menu.open .course-dropdown,
+.course-submenu:hover .course-subdropdown,
+.course-submenu:focus-within .course-subdropdown,
+.course-submenu.open .course-subdropdown {
+  display: grid;
+  opacity: 1;
+  transform: translate(0, 0);
+  pointer-events: auto;
 }
 .course-menu:hover .course-dropdown,
 .course-menu:focus-within .course-dropdown,
 .course-menu.open .course-dropdown {
-  opacity: 1;
   transform: translate(-50%, 0);
-  pointer-events: auto;
 }
-.course-dropdown a {
-  display: block;
+.course-dropdown a,
+.course-subdropdown a,
+.course-submenu-button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   padding: 10px 11px;
+  border: 0;
   border-radius: 4px;
+  background: transparent;
   color: var(--text2, #94a3b8);
+  font: inherit;
   font-size: 10px;
   letter-spacing: 0.04em;
   line-height: 1.35;
+  text-align: left;
   text-transform: none;
+  cursor: pointer;
+}
+.course-subdropdown a {
+  justify-content: flex-start;
+  white-space: normal;
+}
+.course-topic-link,
+.course-subdropdown a.current-page {
+  color: var(--accent, #22d3ee) !important;
+}
+.course-subdropdown a.current-page {
+  background: rgba(34, 211, 238, 0.08);
 }
 .course-dropdown a:hover,
-.course-dropdown a:focus {
+.course-dropdown a:focus,
+.course-subdropdown a:hover,
+.course-subdropdown a:focus,
+.course-submenu-button:hover,
+.course-submenu-button:focus {
   color: var(--text, #f8fafc);
   background: rgba(255, 255, 255, 0.08);
   outline: none;
@@ -259,12 +410,42 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
     left: 12px;
     right: 12px;
     min-width: 0;
+    max-height: calc(100vh - 108px);
+    overflow: auto;
     transform: translateY(-4px);
   }
   .course-menu:hover .course-dropdown,
   .course-menu:focus-within .course-dropdown,
   .course-menu.open .course-dropdown {
     transform: translateY(0);
+  }
+  .course-subdropdown {
+    position: static;
+    min-width: 0;
+    margin: 0 0 4px 12px;
+    padding: 4px;
+    box-shadow: none;
+    border-color: rgba(148, 163, 184, 0.14);
+    background: rgba(255, 255, 255, 0.03);
+    transform: none;
+    display: none;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .course-submenu.open .course-subdropdown,
+  .course-submenu:focus-within .course-subdropdown {
+    display: grid;
+  }
+  .course-submenu:hover .course-subdropdown {
+    display: grid;
+  }
+  .course-submenu-button::after {
+    transform: none;
+  }
+  .course-submenu.open .course-submenu-button::after,
+  .course-submenu:focus-within .course-submenu-button::after,
+  .course-submenu:hover .course-submenu-button::after {
+    transform: rotate(180deg);
   }
 }
 
@@ -279,19 +460,90 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
     <div class="course-menu">
       <button class="course-menu-button current" type="button" aria-expanded="false" aria-controls="course-menu-a" data-scroll-target="theme-a">A</button>
       <div class="course-dropdown" id="course-menu-a">
-        <a href="../index.html#a1">A1: Computer Systems</a>
-        <a href="../index.html#a2">A2: Networks</a>
-        <a href="../index.html#a3">A3: Databases</a>
-        <a href="../index.html#a4">A4: Machine Learning</a>
+        <div class="course-submenu">
+          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-a1">A1: Computer Systems</button>
+          <div class="course-subdropdown" id="course-submenu-a1">
+          <a class="course-topic-link" href="../index.html#a1">A1: Computer Systems overview</a>
+          <a href="../slides-a1/A1_1.html">A1.1 Computer Hardware and Operations</a>
+          <a href="../slides-a1/A1.2.1.html">A1.2.1 Binary and Hexadecimal</a>
+          <a href="../slides-a1/A1.2.2.html">A1.2.2 Data Representation</a>
+          <a href="../slides-a1/A1.2.3-5.html">A1.2.3-5 Logic Gates and Truth Tables</a>
+          <a href="../slides-a1/A1.3.html">A1.3 Operating Systems and Control Systems</a>
+          <a href="../slides-a1/A1.1_HL.html">A1.1 HL Pipelining</a>
+          <a href="../slides-a1/A1.3_HL.html">A1.3 HL Multitasking and Control Systems</a>
+          <a href="../slides-a1/A1.4.html">A1.4 HL Translation</a>
+          </div>
+        </div>
+        <div class="course-submenu">
+          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-a2">A2: Networks</button>
+          <div class="course-subdropdown" id="course-submenu-a2">
+          <a class="course-topic-link" href="../index.html#a2">A2: Networks overview</a>
+          <a href="../slides-a2/A2.1.html">A2.1 Network Fundamentals</a>
+          <a href="../slides-a2/A2.1_HL.html">A2.1 HL TCP/IP Model</a>
+          <a href="../slides-a2/A2.2.html">A2.2 Network Architecture</a>
+          <a href="../slides-a2/A2.3.html">A2.3 Data Transmissions and IP Addressing</a>
+          <a href="../slides-a2/A2.4.html">A2.4 Network Security and Encryption</a>
+          </div>
+        </div>
+        <div class="course-submenu">
+          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-a3">A3: Databases</button>
+          <div class="course-subdropdown" id="course-submenu-a3">
+          <a class="course-topic-link" href="../index.html#a3">A3: Databases overview</a>
+          <a href="../slides-a3/A3.1.html">A3.1 Database Fundamentals</a>
+          <a class="current-page" href="../slides-a3/A3.2.html">A3.2 Database Design and Normalisation</a>
+          <a href="../slides-a3/A3.3.html">A3.3 SQL Programming</a>
+          <a href="../slides-a3/A3.4.html">A3.4 HL Alternative Databases</a>
+          </div>
+        </div>
+        <div class="course-submenu">
+          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-a4">A4: Machine Learning</button>
+          <div class="course-subdropdown" id="course-submenu-a4">
+          <a class="course-topic-link" href="../index.html#a4">A4: Machine Learning overview</a>
+          <a href="../slides-a4/A4.1.html">A4.1 Machine Learning Fundamentals</a>
+          <a href="../slides-a4/A4.2.html">A4.2 HL Data Preprocessing</a>
+          <a href="../slides-a4/A4.3.html">A4.3 HL Machine Learning Approaches</a>
+          <a href="../slides-a4/A4.4.html">A4.4 Ethics in Machine Learning</a>
+          </div>
+        </div>
       </div>
     </div>
     <div class="course-menu">
       <button class="course-menu-button" type="button" aria-expanded="false" aria-controls="course-menu-b" data-scroll-target="theme-b">B</button>
       <div class="course-dropdown" id="course-menu-b">
-        <a href="../index.html#b1">B1: Computational Thinking</a>
-        <a href="../index.html#b2">B2: Programming, Algorithms and Files</a>
-        <a href="../index.html#b3">B3: Object-Oriented Programming</a>
-        <a href="../index.html#b4">B4: Abstract Data Types</a>
+        <div class="course-submenu">
+          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-b1">B1: Computational Thinking</button>
+          <div class="course-subdropdown" id="course-submenu-b1">
+          <a class="course-topic-link" href="../index.html#b1">B1: Computational Thinking overview</a>
+          <a href="../slides-b2/B1.1.html">B1.1 Approaches to Computational Thinking</a>
+          </div>
+        </div>
+        <div class="course-submenu">
+          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-b2">B2: Programming, Algorithms and Files</button>
+          <div class="course-subdropdown" id="course-submenu-b2">
+          <a class="course-topic-link" href="../index.html#b2">B2: Programming, Algorithms and Files overview</a>
+          <a href="../slides-b2/ProgrammingFundamentals_Part1.1.html">B2.1 + B2.3 Programming Fundamentals Part 1.1</a>
+          <a href="../slides-b2/ProgrammingFundamentals_Part1.2.html">B2.3 Programming Fundamentals Part 1.2</a>
+          <a href="../slides-b2/ProgrammingFundamentals_Part2.html">B2.1 + B2.2 Lists, Stacks and Queues</a>
+          <a href="../slides-b2/B2.4.html">B2.4 Search, Sort and Big O</a>
+          <a href="../slides-b2/B2.4_Recursion.html">B2.4 HL Recursion</a>
+          <a href="../slides-b2/B2.5.html">B2.5 File Processing</a>
+          </div>
+        </div>
+        <div class="course-submenu">
+          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-b3">B3: Object-Oriented Programming</button>
+          <div class="course-subdropdown" id="course-submenu-b3">
+          <a class="course-topic-link" href="../index.html#b3">B3: Object-Oriented Programming overview</a>
+          <a href="../slides-b3/B3.1.html">B3.1 OOP for a Single Class</a>
+          <a href="../slides-b3/B3.2.html">B3.2 HL OOP for Multiple Classes</a>
+          </div>
+        </div>
+        <div class="course-submenu">
+          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-b4">B4: Abstract Data Types</button>
+          <div class="course-subdropdown" id="course-submenu-b4">
+          <a class="course-topic-link" href="../index.html#b4">B4: Abstract Data Types overview</a>
+          <a href="../slides-b4/B4.1.html">B4.1 HL Linked Lists, BSTs, Sets and Hash Tables</a>
+          </div>
+        </div>
       </div>
     </div>
     <a class="course-link" href="../index.html#internal-assessment">IA</a>
@@ -303,7 +555,7 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
 
 
 <div class="progress" id="progress"></div>
-<div class="slide-num" id="slideNum">01 / 16</div>
+<div class="slide-num" id="slideNum">01 / 18</div>
 <div class="deck">
 
 <!-- ═══════════════════════════════════════════════ S1: TITLE -->
@@ -362,212 +614,213 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
   </div>
 </div>
 
+
 <!-- ═══════════════════════════════════════════════ S3: THREE SCHEMAS -->
 <div class="slide">
-  <div class="content" style="max-width:960px;margin:0 auto;">
+  <div class="content" style="max-width:940px;margin:0 auto;">
     <div class="label">// A3.2.1 · Schemas</div>
     <h2>Three Levels of <span class="hl-purple">Schema</span></h2>
-    <p class="lead" style="margin-bottom:14px;">A database schema is a blueprint describing <strong style="color:var(--purple);">how data is organised</strong> and how relationships are managed. There are three levels:</p>
+    <p class="lead" style="margin-bottom:14px;">A schema describes how a database is organised. The level changes depending on who needs the design.</p>
     <div class="grid g3" style="gap:2px;">
       <div class="card purple">
-        <div class="card-title">1. Conceptual Schema</div>
-        <div class="card-body">
-          <strong>What:</strong> High-level, abstract view<br><br>
-          Lists entities and their relationships — no data types, no implementation details<br><br>
-          <span style="color:var(--text3);">Audience: Business stakeholders, non-technical team</span>
-        </div>
+        <div class="card-title">Conceptual</div>
+        <div class="card-body"><strong>Big picture.</strong><br>Entities and relationships only.</div>
       </div>
       <div class="card blue">
-        <div class="card-title">2. Logical Schema</div>
-        <div class="card-body">
-          <strong>What:</strong> Detailed design<br><br>
-          Defines tables, attributes, data types, keys, and relationships — but not DBMS-specific<br><br>
-          <span style="color:var(--text3);">Audience: Database designers</span>
-        </div>
+        <div class="card-title">Logical</div>
+        <div class="card-body"><strong>Database design.</strong><br>Tables, attributes, keys, and data types.</div>
       </div>
       <div class="card gold">
-        <div class="card-title">3. Physical Schema</div>
-        <div class="card-body">
-          <strong>What:</strong> Implementation details<br><br>
-          Specifies storage, indexes, partitioning, for a specific DBMS (e.g. MySQL)<br><br>
-          <span style="color:var(--text3);">Audience: Database administrators (DBAs)</span>
-        </div>
+        <div class="card-title">Physical</div>
+        <div class="card-body"><strong>Implementation.</strong><br>How the database is stored, indexed, and created.</div>
       </div>
     </div>
-    <div class="gold-box">
-      <p><strong>Analogy:</strong> Conceptual = "we need a library with books and members." Logical = the actual table structures and types. Physical = "indexed by LastName, stored on SSD partition 2."</p>
+    <div class="info-box">
+      <p><strong>Exam habit:</strong> move from meaning → structure → implementation.</p>
     </div>
   </div>
 </div>
 
 <!-- ═══════════════════════════════════════════════ S4: SCHEMA EXAMPLE -->
 <div class="slide scroll-slide">
-  <div class="content" style="max-width:1000px;margin:0 auto;">
+  <div class="content" style="max-width:1060px;margin:0 auto;">
     <div class="label">// A3.2.1 · Schema Example</div>
-    <h2>Schema Levels: <span class="hl-blue">Sales System</span></h2>
+    <h2>Online Shopping <span class="hl-blue">Schemas</span></h2>
     <div class="grid g3" style="gap:2px;margin-bottom:12px;">
       <div class="card purple">
-        <div class="card-title">Conceptual</div>
-        <div class="card-body">
-          <strong>Entities:</strong> Customers, Orders, Products<br><br>
-          <strong>Relationships:</strong><br>
-          Customer <em>places</em> Order<br>
-          Order <em>includes</em> Product(s)
+        <div class="card-title">Conceptual Schema</div>
+        <div class="schema-flow" style="grid-template-columns:1fr;gap:8px;">
+          <div class="mini-entity">
+            <div class="mini-title">User</div>
+            <div class="mini-body">UserID, Name, Email</div>
+          </div>
+          <div class="relation-chip">User places Order</div>
+          <div class="mini-entity">
+            <div class="mini-title">Order</div>
+            <div class="mini-body">OrderID, Date, Status</div>
+          </div>
+          <div class="relation-chip">Order contains Product</div>
+          <div class="mini-entity">
+            <div class="mini-title">Product</div>
+            <div class="mini-body">ProductID, Name, Price, Stock</div>
+          </div>
         </div>
       </div>
       <div class="card blue">
-        <div class="card-title">Logical</div>
-        <div class="card-body" style="font-family:'DM Mono',monospace;font-size:0.75rem;line-height:1.7;">
-          CUSTOMERS(CustomerID: INT PK, Name: VARCHAR, Email: VARCHAR)<br>
-          ORDERS(OrderID: INT PK, Date: DATE, CustomerID: INT FK)<br>
-          PRODUCTS(ProductID: INT PK, Name: VARCHAR, Price: REAL)
+        <div class="card-title">Logical Schema</div>
+        <div class="schema-list">
+          <div><strong>USERS</strong>(UserID PK, Name, Email)</div>
+          <div><strong>ORDERS</strong>(OrderID PK, UserID FK, OrderDate, Status)</div>
+          <div><strong>PRODUCTS</strong>(ProductID PK, ProductName, UnitPrice, StockQty)</div>
+          <div><strong>ORDER_ITEMS</strong>(OrderID PK/FK, ProductID PK/FK, Quantity, UnitPriceAtPurchase)</div>
         </div>
       </div>
       <div class="card gold">
-        <div class="card-title">Physical</div>
-        <div class="card-body" style="font-family:'DM Mono',monospace;font-size:0.75rem;line-height:1.7;">
-          CustomerID INT AUTO_INCREMENT PRIMARY KEY<br>
-          Name VARCHAR(100) NOT NULL<br>
-          INDEX on Email for fast lookup<br>
-          Partition ORDERS by OrderDate
-        </div>
+        <div class="card-title">Physical Schema</div>
+        <table class="db-table">
+          <thead><tr><th>Sheet/Table</th><th>Columns</th></tr></thead>
+          <tbody>
+            <tr><td>Users</td><td>UserID, Name, Email</td></tr>
+            <tr><td>Orders</td><td>OrderID, UserID, OrderDate, Status</td></tr>
+            <tr><td>Products</td><td>ProductID, ProductName, UnitPrice, StockQty</td></tr>
+            <tr><td>OrderItems</td><td>OrderID, ProductID, Quantity, UnitPriceAtPurchase</td></tr>
+          </tbody>
+        </table>
+        <div class="mini-body" style="margin-top:8px;">Spreadsheet version: one tab per table, IDs used as keys, validation for dates/prices/status.</div>
       </div>
-    </div>
-    <div class="info-box">
-      <p><strong>Why three levels?</strong> Separating concerns allows designers, developers, and DBAs to each work at their appropriate level without needing to understand all the others.</p>
     </div>
   </div>
 </div>
 
 <!-- ═══════════════════════════════════════════════ S5: ERD INTRO -->
 <div class="slide">
-  <div class="content" style="max-width:960px;margin:0 auto;">
+  <div class="content" style="max-width:940px;margin:0 auto;">
     <div class="label">// A3.2.2 · Entity-Relationship Diagrams</div>
     <h2>What is an <span class="hl-blue">ERD?</span></h2>
-    <p class="lead">An <strong style="color:var(--blue);">Entity-Relationship Diagram (ERD)</strong> is a visual representation of the entities in a database and the relationships between them.</p>
+    <p class="lead">An ERD shows the entities in a database and how they relate.</p>
     <div class="grid g2" style="gap:2px;">
       <div class="card blue">
-        <div class="card-title">Purpose of ERDs</div>
+        <div class="card-title">Use ERDs To</div>
         <div class="card-body">
-          Plan the database <strong>before</strong> coding<br><br>
-          Communicate the design to stakeholders<br><br>
-          Document the structure for future reference<br><br>
-          Identify missing entities or relationships early
+          Plan before coding<br>
+          Find missing tables early<br>
+          Explain the design clearly
         </div>
       </div>
       <div class="card purple">
-        <div class="card-title">ERD Symbols (Chen notation)</div>
+        <div class="card-title">What To Show</div>
         <div class="card-body">
-          <strong>Rectangle</strong> = Entity (table)<br>
-          <strong>Ellipse/oval</strong> = Attribute (column)<br>
-          <strong>Diamond</strong> = Relationship<br>
-          <strong>Lines</strong> = connections with cardinality markers
+          Entities and attributes<br>
+          Primary and foreign keys<br>
+          Cardinality and modality
         </div>
       </div>
     </div>
     <div class="gold-box">
-      <p><strong>IB style:</strong> For this course, you need to construct ERDs showing entities, attributes, and relationships with <strong>cardinality</strong> (1:1, 1:M, M:M) and <strong>modality</strong> (optional vs mandatory).</p>
+      <p><strong>IB focus:</strong> entities, attributes, relationships, cardinality, and modality.</p>
     </div>
   </div>
 </div>
 
 <!-- ═══════════════════════════════════════════════ S6: CARDINALITY & MODALITY -->
-<div class="slide">
-  <div class="content" style="max-width:960px;margin:0 auto;">
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:1000px;margin:0 auto;">
     <div class="label">// A3.2.2 · ERD Concepts</div>
     <h2>Cardinality &amp; <span class="hl-purple">Modality</span></h2>
-    <div class="grid g2" style="gap:2px;margin-bottom:14px;">
+    <div class="grid g2" style="gap:2px;margin-bottom:12px;">
       <div class="card purple">
         <div class="card-title">Cardinality</div>
-        <div class="card-body">
-          The <strong>maximum</strong> number of instances of one entity that can be associated with another.<br><br>
-          <strong>1</strong> = exactly one<br>
-          <strong>M</strong> or <strong>N</strong> = many<br><br>
-          Types: 1:1, 1:M, M:M
-        </div>
+        <div class="card-body"><strong>Maximum</strong> number of related records: 1:1, 1:M, or M:M.</div>
       </div>
       <div class="card blue">
         <div class="card-title">Modality</div>
-        <div class="card-body">
-          The <strong>minimum</strong> number — whether participation is <strong>optional</strong> or <strong>mandatory</strong>.<br><br>
-          <strong>0</strong> = optional (entity can exist without the relationship)<br>
-          <strong>1</strong> = mandatory (must be related to at least one)
-        </div>
+        <div class="card-body"><strong>Minimum</strong> number of related records: 0 means optional, 1 means required.</div>
       </div>
     </div>
     <table class="comparison-table">
-      <thead><tr><th>Scenario</th><th>Cardinality</th><th>Modality</th></tr></thead>
+      <thead><tr><th>Shopping relationship</th><th>Cardinality</th><th>Modality</th></tr></thead>
       <tbody>
-        <tr><td>Patient has medical records</td><td style="color:var(--text2);">1:M (one patient, many records)</td><td style="color:var(--text2);">Patient: optional (new patients may have none)</td></tr>
-        <tr><td>Order belongs to Customer</td><td style="color:var(--text2);">M:1 (many orders, one customer)</td><td style="color:var(--text2);">Order: mandatory (every order must have a customer)</td></tr>
-        <tr><td>Student enrols in Course</td><td style="color:var(--text2);">M:M (many students, many courses)</td><td style="color:var(--text2);">Student: optional; Course: optional</td></tr>
+        <tr><td>User places Order</td><td>1:M<br><span style="color:var(--text3);">one user, many orders</span></td><td>User can have 0 orders. Each order must have 1 user.</td></tr>
+        <tr><td>Order contains Product</td><td>M:M<br><span style="color:var(--text3);">many orders, many products</span></td><td>Each order has at least 1 item. A product can be in 0 orders.</td></tr>
+        <tr><td>Order uses OrderItem</td><td>1:M<br><span style="color:var(--text3);">one order, many line items</span></td><td>OrderItem must belong to exactly 1 order and 1 product.</td></tr>
       </tbody>
     </table>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════ S7: ERD EXAMPLE -->
-<div class="slide scroll-slide">
-  <div class="content" style="max-width:1000px;margin:0 auto;">
-    <div class="label">// A3.2.2 · ERD Example</div>
-    <h2>School ERD <span class="hl-purple">Diagram</span></h2>
-    <div class="erd" style="margin-bottom:16px;">
-      <div class="erd-entity">
-        <div class="erd-title">STUDENT</div>
-        <div class="erd-attr pk-attr">🔑 StudentID (PK)</div>
-        <div class="erd-attr">FirstName</div>
-        <div class="erd-attr">LastName</div>
-        <div class="erd-attr">Email</div>
-        <div class="erd-attr">YearGroup</div>
-      </div>
-      <div class="erd-line">──1────M──</div>
-      <div class="erd-entity">
-        <div class="erd-title">ENROLMENT</div>
-        <div class="erd-attr pk-attr">🔑 EnrolID (PK)</div>
-        <div class="erd-attr fk-attr">🔗 StudentID (FK)</div>
-        <div class="erd-attr fk-attr">🔗 CourseCode (FK)</div>
-        <div class="erd-attr">EnrolDate</div>
-      </div>
-      <div class="erd-line">──M────1──</div>
-      <div class="erd-entity">
-        <div class="erd-title">COURSE</div>
-        <div class="erd-attr pk-attr">🔑 CourseCode (PK)</div>
-        <div class="erd-attr">Title</div>
-        <div class="erd-attr">Level</div>
-        <div class="erd-attr">TeacherID (FK)</div>
-      </div>
-    </div>
     <div class="info-box">
-      <p><strong>Reading the diagram:</strong> One STUDENT can have many ENROLMENT records (1:M). One COURSE can have many ENROLMENT records (1:M). The ENROLMENT table acts as the junction to resolve the M:M relationship between STUDENT and COURSE.</p>
-    </div>
-    <div class="purple-box" style="margin-top:10px;">
-      <p><strong>🔑 Gold</strong> = Primary Key &nbsp;|&nbsp; <strong style="color:var(--blue);">🔗 Blue</strong> = Foreign Key</p>
+      <p><strong>Design choice:</strong> ORDER_ITEM resolves the M:M relationship and stores Quantity and UnitPriceAtPurchase.</p>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════ S8: DATA TYPES -->
+<!-- ═══════════════════════════════════════════════ S7: CHEN ERD -->
 <div class="slide scroll-slide">
-  <div class="content" style="max-width:1000px;margin:0 auto;">
+  <div class="content" style="max-width:1060px;margin:0 auto;">
+    <div class="label">// A3.2.2 · ERD Example</div>
+    <h2>Shopping <span class="hl-purple">Chen Notation</span></h2>
+    <div class="erd-image-wrap">
+      <img class="erd-image" src="shopping-erd-chen.svg" alt="Chen notation entity relationship diagram for an online shopping database with User, Order, Order Item, and Product entities connected by relationship diamonds.">
+    </div>
+    <div class="purple-box">
+      <p><strong>Read it:</strong> Chen notation places relationships in diamonds between entities.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S8: CROW'S FOOT ERD -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:1060px;margin:0 auto;">
+    <div class="label">// A3.2.2 · ERD Example</div>
+    <h2>Shopping <span class="hl-purple">Crow's Foot Notation</span></h2>
+    <div class="erd-image-wrap">
+      <img class="erd-image" src="shopping-erd.svg" alt="Crow's foot entity relationship diagram for an online shopping database: one user can place zero or many orders, one order contains one or many order items, and one product can appear in zero or many order items.">
+    </div>
+    <div class="purple-box">
+      <p><strong>Read it:</strong> The symbols at each end show whether participation is optional, one, or many.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S9: ERD NOTATION COMPARISON -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:1060px;margin:0 auto;">
+    <div class="label">// A3.2.2 · ERD Example</div>
+    <h2>Shopping ERD <span class="hl-purple">Notations</span></h2>
+    <div class="erd-image-wrap">
+      <div class="erd-image-title">Chen notation</div>
+      <img class="erd-image" src="shopping-erd-chen.svg" alt="Chen notation entity relationship diagram for an online shopping database with User, Order, Order Item, and Product entities connected by relationship diamonds.">
+    </div>
+    <div class="erd-image-wrap">
+      <div class="erd-image-title">Crow's foot notation</div>
+      <img class="erd-image" src="shopping-erd.svg" alt="Crow's foot entity relationship diagram for an online shopping database: one user can place zero or many orders, one order contains one or many order items, and one product can appear in zero or many order items.">
+    </div>
+    <div class="purple-box">
+      <p><strong>Read it:</strong> Chen shows the conceptual relationships. Crow's foot shows optionality and cardinality at each end of the line.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S10: DATA TYPES -->
+<div class="slide scroll-slide">
+  <div class="content" style="max-width:1040px;margin:0 auto;">
     <div class="label">// A3.2.3 · Data Types</div>
     <h2>Database <span class="hl-green">Data Types</span></h2>
-    <p class="lead" style="margin-bottom:12px;">Each attribute must be assigned the correct data type. Choosing the wrong type causes storage waste, errors, and prevents valid operations.</p>
+    <p class="lead" style="margin-bottom:12px;">A database type is stricter than a Python type. It controls storage, validation, sorting, and calculations.</p>
     <table class="comparison-table">
       <thead>
-        <tr><th>Data Type</th><th>Description</th><th>Example use</th></tr>
+        <tr><th>Type</th><th>Use it for</th><th>Shopping example</th><th>Why it matters</th></tr>
       </thead>
       <tbody>
-        <tr><td>INTEGER</td><td style="color:var(--text2);">Whole number — no decimal part</td><td style="color:var(--text2);">StudentID, Age, Quantity</td></tr>
-        <tr><td>REAL / FLOAT</td><td style="color:var(--text2);">Number with a decimal part</td><td style="color:var(--text2);">Price, GPA, Weight</td></tr>
-        <tr><td>VARCHAR(n)</td><td style="color:var(--text2);">Variable length text — max n characters</td><td style="color:var(--text2);">Name, Email, Description</td></tr>
-        <tr><td>CHARACTER(n)</td><td style="color:var(--text2);">Fixed-length text — always n characters</td><td style="color:var(--text2);">CourseCode, CountryCode</td></tr>
-        <tr><td>DATE</td><td style="color:var(--text2);">Date stored as YYYY-MM-DD</td><td style="color:var(--text2);">DateOfBirth, OrderDate</td></tr>
-        <tr><td>TIME</td><td style="color:var(--text2);">Time stored as HH:MM:SS</td><td style="color:var(--text2);">DepartureTime, LoginTime</td></tr>
-        <tr><td>BOOLEAN</td><td style="color:var(--text2);">True or False only</td><td style="color:var(--text2);">IsActive, HasPaid, IsAdmin</td></tr>
+        <tr><td>INTEGER</td><td>Whole numbers</td><td>StockQty = 42</td><td>Math and sorting work correctly.</td></tr>
+        <tr><td>DECIMAL(p,s)</td><td>Exact money values</td><td>UnitPrice = 19.99</td><td>Better than FLOAT for currency; avoids rounding surprises.</td></tr>
+        <tr><td>REAL / FLOAT</td><td>Approximate decimals</td><td>RatingAverage = 4.72</td><td>Good for measurements, not exact money.</td></tr>
+        <tr><td>CHAR(n)</td><td>Fixed-length text</td><td>CountryCode = KR</td><td>Every value has the same length.</td></tr>
+        <tr><td>VARCHAR(n)</td><td>Variable-length text</td><td>Email, ProductName</td><td>Saves space when text lengths differ.</td></tr>
+        <tr><td>DATE</td><td>Calendar dates</td><td>OrderDate = 2026-09-11</td><td>Can compare by date, not alphabetically.</td></tr>
+        <tr><td>TIME</td><td>Time of day</td><td>DeliverySlot = 14:30:00</td><td>Can validate and sort time values.</td></tr>
+        <tr><td>BOOLEAN</td><td>True or false</td><td>IsPaid = TRUE</td><td>Prevents unclear values like yes / y / paid.</td></tr>
       </tbody>
     </table>
     <div class="gold-box" style="margin-top:12px;">
-      <p><strong>Why does data type matter?</strong> Using VARCHAR for a price prevents arithmetic (you can't SUM text). Using INTEGER for a phone number loses leading zeros. Always match the type to the real-world meaning of the data.</p>
+      <p><strong>IB warning:</strong> Phone numbers and postal codes are usually VARCHAR, not INTEGER, because leading zeros and symbols matter.</p>
     </div>
   </div>
 </div>
@@ -576,102 +829,95 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
 <div class="slide">
   <div class="content" style="max-width:960px;margin:0 auto;">
     <div class="label">// A3.2.5 · Normalisation</div>
-    <h2>What is <span class="hl-gold">Normalisation?</span></h2>
-    <p class="lead">Normalisation is the process of organising data in a relational database to <strong style="color:var(--gold2);">reduce redundancy</strong> and <strong style="color:var(--gold2);">improve data integrity</strong>.</p>
+    <h2>Normalising a <span class="hl-gold">Shopping Order</span></h2>
+    <p class="lead">Normalisation reduces repeated data and keeps updates accurate.</p>
     <div class="grid g2" style="gap:2px;">
       <div class="card gold">
-        <div class="card-title">Problems Without Normalisation</div>
+        <div class="card-title">Messy Starting Table</div>
         <div class="card-body">
-          <strong>Insertion anomaly</strong> — can't add a course without a student<br><br>
-          <strong>Update anomaly</strong> — changing a teacher's name requires updating many rows<br><br>
-          <strong>Deletion anomaly</strong> — deleting last enrolment may delete course data
+          One order row stores user details, product details, and item lists together.<br><br>
+          Repeated emails, repeated product names, repeated prices.
         </div>
       </div>
       <div class="card green">
-        <div class="card-title">Goals of Normalisation</div>
+        <div class="card-title">Normalised Goal</div>
         <div class="card-body">
-          Each piece of data stored in <strong>one place only</strong><br><br>
-          Each table represents <strong>one entity</strong><br><br>
-          Non-key attributes depend only on the <strong>primary key</strong>
+          USERS stores user facts.<br>
+          ORDERS stores order facts.<br>
+          PRODUCTS stores product facts.<br>
+          ORDER_ITEMS stores what was bought.
         </div>
       </div>
     </div>
     <div class="info-box">
-      <p>There are multiple Normal Forms (NF). The IB requires you to understand <strong>1NF, 2NF, and 3NF</strong>. Each builds on the previous.</p>
+      <p><strong>IB requires:</strong> understand 1NF, 2NF, and 3NF using a real scenario.</p>
     </div>
   </div>
 </div>
 
 <!-- ═══════════════════════════════════════════════ S10: 1NF -->
 <div class="slide scroll-slide">
-  <div class="content" style="max-width:1000px;margin:0 auto;">
+  <div class="content" style="max-width:1040px;margin:0 auto;">
     <div class="label">// A3.2.5 · First Normal Form</div>
-    <h2>1NF — <span class="hl-orange">First Normal Form</span></h2>
-    <p class="lead" style="margin-bottom:12px;">A table is in <strong style="color:var(--orange);">1NF</strong> when:</p>
-    <div class="steps" style="margin-bottom:14px;">
-      <div class="step-row"><div class="step-n" style="color:var(--orange);">①</div><div class="step-text">All attribute values are <strong>atomic</strong> — each cell holds one indivisible value (no lists, no arrays)</div></div>
-      <div class="step-row"><div class="step-n" style="color:var(--orange);">②</div><div class="step-text">There are <strong>no repeating groups</strong> of attributes</div></div>
-      <div class="step-row"><div class="step-n" style="color:var(--orange);">③</div><div class="step-text">A <strong>primary key</strong> is defined to uniquely identify each row</div></div>
-    </div>
+    <h2>1NF — <span class="hl-orange">One Value per Cell</span></h2>
     <div class="grid g2" style="gap:2px;">
       <div>
         <p style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--red);margin-bottom:4px;">✗ NOT in 1NF</p>
         <table class="db-table">
-          <thead><tr><th>StudentID</th><th>Name</th><th>Clubs</th></tr></thead>
+          <thead><tr><th>OrderID</th><th>UserEmail</th><th>Products</th></tr></thead>
           <tbody>
-            <tr><td>S001</td><td>EJ Kim</td><td style="color:var(--red);">Robotics, Chess</td></tr>
-            <tr><td>S002</td><td>Jiyeon</td><td style="color:var(--red);">Chess</td></tr>
+            <tr><td>O1001</td><td>mina@example.com</td><td style="color:var(--red);">USB Hub, Keyboard</td></tr>
+            <tr><td>O1002</td><td>jun@example.com</td><td style="color:var(--red);">Mouse, Cable, Stand</td></tr>
           </tbody>
         </table>
       </div>
       <div>
         <p style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--green);margin-bottom:4px;">✓ In 1NF</p>
         <table class="db-table">
-          <thead><tr><th>StudentID</th><th>Name</th><th>Club</th></tr></thead>
+          <thead><tr><th>OrderID</th><th>ProductID</th><th>UserEmail</th><th>Qty</th></tr></thead>
           <tbody>
-            <tr><td>S001</td><td>EJ Kim</td><td>Robotics</td></tr>
-            <tr><td>S001</td><td>EJ Kim</td><td>Chess</td></tr>
-            <tr><td>S002</td><td>Jiyeon</td><td>Chess</td></tr>
+            <tr><td>O1001</td><td>P01</td><td>mina@example.com</td><td>1</td></tr>
+            <tr><td>O1001</td><td>P02</td><td>mina@example.com</td><td>1</td></tr>
+            <tr><td>O1002</td><td>P03</td><td>jun@example.com</td><td>2</td></tr>
           </tbody>
         </table>
       </div>
     </div>
     <div class="gold-box" style="margin-top:12px;">
-      <p><strong>Key term — Atomic:</strong> A value that cannot be broken down further. "EJ Kim" is not atomic — it should be split into FirstName and LastName.</p>
+      <p><strong>1NF rule:</strong> atomic values, no repeating groups, and a primary key.</p>
     </div>
   </div>
 </div>
 
 <!-- ═══════════════════════════════════════════════ S11: 2NF -->
 <div class="slide scroll-slide">
-  <div class="content" style="max-width:1000px;margin:0 auto;">
+  <div class="content" style="max-width:1040px;margin:0 auto;">
     <div class="label">// A3.2.5 · Second Normal Form</div>
-    <h2>2NF — <span class="hl-blue">Second Normal Form</span></h2>
-    <p class="lead" style="margin-bottom:12px;">A table is in <strong style="color:var(--blue);">2NF</strong> when it is in 1NF AND every non-key attribute is <strong>fully functionally dependent</strong> on the entire primary key (not just part of it).</p>
-    <div class="info-box" style="margin-bottom:14px;">
-      <p><strong>2NF only matters when using a composite primary key.</strong> If the PK is a single attribute, 1NF → 2NF is automatic.</p>
+    <h2>2NF — <span class="hl-blue">Depend on the Whole Key</span></h2>
+    <div class="info-box" style="margin-bottom:12px;">
+      <p><strong>Use this when a table has a composite key.</strong> In ORDER_ITEMS, the key is OrderID + ProductID.</p>
     </div>
     <div class="grid g2" style="gap:2px;">
       <div>
-        <p style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--red);margin-bottom:4px;">✗ NOT in 2NF (partial dependency)</p>
+        <p style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--red);margin-bottom:4px;">✗ NOT in 2NF</p>
         <table class="db-table">
-          <thead><tr><th>OrderID (PK)</th><th>ProductID (PK)</th><th>Qty</th><th style="color:var(--red);">ProductName</th></tr></thead>
+          <thead><tr><th>OrderID</th><th>ProductID</th><th>Qty</th><th style="color:var(--red);">ProductName</th><th style="color:var(--red);">UnitPrice</th></tr></thead>
           <tbody>
-            <tr><td>O01</td><td>P01</td><td>2</td><td style="color:var(--red);">USB-C Hub</td></tr>
-            <tr><td>O01</td><td>P02</td><td>1</td><td style="color:var(--red);">Keyboard</td></tr>
+            <tr><td>O1001</td><td>P01</td><td>1</td><td>USB Hub</td><td>19.99</td></tr>
+            <tr><td>O1001</td><td>P02</td><td>1</td><td>Keyboard</td><td>45.00</td></tr>
           </tbody>
         </table>
-        <p style="font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--red);margin-top:6px;">ProductName only depends on ProductID — not the full composite key</p>
+        <p style="font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--red);margin-top:6px;">ProductName and UnitPrice depend only on ProductID.</p>
       </div>
       <div>
-        <p style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--green);margin-bottom:4px;">✓ In 2NF — split into two tables</p>
+        <p style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--green);margin-bottom:4px;">✓ In 2NF</p>
         <table class="db-table" style="margin-bottom:6px;">
-          <thead><tr><th>OrderID (PK)</th><th>ProductID (PK)</th><th>Qty</th></tr></thead>
-          <tbody><tr><td>O01</td><td>P01</td><td>2</td></tr></tbody>
+          <thead><tr><th>OrderID</th><th>ProductID</th><th>Qty</th><th>UnitPriceAtPurchase</th></tr></thead>
+          <tbody><tr><td>O1001</td><td>P01</td><td>1</td><td>19.99</td></tr></tbody>
         </table>
         <table class="db-table">
-          <thead><tr><th>ProductID (PK)</th><th>ProductName</th></tr></thead>
-          <tbody><tr><td class="pk">P01</td><td>USB-C Hub</td></tr><tr><td class="pk">P02</td><td>Keyboard</td></tr></tbody>
+          <thead><tr><th>ProductID</th><th>ProductName</th><th>CurrentPrice</th></tr></thead>
+          <tbody><tr><td class="pk">P01</td><td>USB Hub</td><td>19.99</td></tr><tr><td class="pk">P02</td><td>Keyboard</td><td>45.00</td></tr></tbody>
         </table>
       </div>
     </div>
@@ -680,34 +926,33 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
 
 <!-- ═══════════════════════════════════════════════ S12: 3NF -->
 <div class="slide scroll-slide">
-  <div class="content" style="max-width:1000px;margin:0 auto;">
+  <div class="content" style="max-width:1040px;margin:0 auto;">
     <div class="label">// A3.2.5 · Third Normal Form</div>
-    <h2>3NF — <span class="hl-purple">Third Normal Form</span></h2>
-    <p class="lead" style="margin-bottom:12px;">A table is in <strong style="color:var(--purple);">3NF</strong> when it is in 2NF AND there are <strong>no transitive dependencies</strong> — non-key attributes must not depend on other non-key attributes.</p>
-    <div class="purple-box" style="margin-bottom:14px;">
-      <p><strong>Transitive dependency:</strong> A → B → C, where A is the PK but B (a non-key) determines C. C is transitively dependent on A through B.</p>
+    <h2>3NF — <span class="hl-purple">No Non-Key Dependencies</span></h2>
+    <div class="purple-box" style="margin-bottom:12px;">
+      <p><strong>Transitive dependency:</strong> OrderID determines UserID, and UserID determines UserEmail.</p>
     </div>
     <div class="grid g2" style="gap:2px;">
       <div>
-        <p style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--red);margin-bottom:4px;">✗ NOT in 3NF (transitive dependency)</p>
+        <p style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--red);margin-bottom:4px;">✗ NOT in 3NF</p>
         <table class="db-table">
-          <thead><tr><th>StudentID (PK)</th><th>Name</th><th style="color:var(--orange);">PostalCode</th><th style="color:var(--red);">City</th></tr></thead>
+          <thead><tr><th>OrderID</th><th>UserID</th><th style="color:var(--red);">UserEmail</th><th>OrderDate</th></tr></thead>
           <tbody>
-            <tr><td>S001</td><td>EJ Kim</td><td style="color:var(--orange);">16488</td><td style="color:var(--red);">Suwon</td></tr>
-            <tr><td>S002</td><td>Jiyeon</td><td style="color:var(--orange);">03925</td><td style="color:var(--red);">Seoul</td></tr>
+            <tr><td>O1001</td><td>U01</td><td>mina@example.com</td><td>2026-09-11</td></tr>
+            <tr><td>O1002</td><td>U01</td><td>mina@example.com</td><td>2026-09-12</td></tr>
           </tbody>
         </table>
-        <p style="font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--red);margin-top:6px;">City depends on PostalCode, not on StudentID directly</p>
+        <p style="font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--red);margin-top:6px;">UserEmail belongs to USERS, not ORDERS.</p>
       </div>
       <div>
-        <p style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--green);margin-bottom:4px;">✓ In 3NF — split the transitive dependency</p>
+        <p style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--green);margin-bottom:4px;">✓ In 3NF</p>
         <table class="db-table" style="margin-bottom:6px;">
-          <thead><tr><th>StudentID (PK)</th><th>Name</th><th>PostalCode (FK)</th></tr></thead>
-          <tbody><tr><td>S001</td><td>EJ Kim</td><td class="fk">16488</td></tr></tbody>
+          <thead><tr><th>OrderID</th><th>UserID</th><th>OrderDate</th></tr></thead>
+          <tbody><tr><td>O1001</td><td class="fk">U01</td><td>2026-09-11</td></tr></tbody>
         </table>
         <table class="db-table">
-          <thead><tr><th>PostalCode (PK)</th><th>City</th></tr></thead>
-          <tbody><tr><td class="pk">16488</td><td>Suwon</td></tr><tr><td class="pk">03925</td><td>Seoul</td></tr></tbody>
+          <thead><tr><th>UserID</th><th>Name</th><th>Email</th></tr></thead>
+          <tbody><tr><td class="pk">U01</td><td>Mina</td><td>mina@example.com</td></tr></tbody>
         </table>
       </div>
     </div>
@@ -718,29 +963,17 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
 <div class="slide">
   <div class="content">
     <div class="label">// Summary · Normal Forms</div>
-    <h2>Normal Forms <span class="hl-gold">at a Glance</span></h2>
+    <h2>Shopping Table <span class="hl-gold">Checklist</span></h2>
     <table class="comparison-table" style="margin-top:10px;">
-      <thead><tr><th>Normal Form</th><th>Requirement</th><th>Fixes</th></tr></thead>
+      <thead><tr><th>Normal Form</th><th>Question to ask</th><th>Shopping fix</th></tr></thead>
       <tbody>
-        <tr>
-          <td>1NF</td>
-          <td style="color:var(--text2);">Atomic values only. No repeating groups. Has a primary key.</td>
-          <td style="color:var(--text2);">Multi-valued attributes, lists in cells</td>
-        </tr>
-        <tr>
-          <td>2NF</td>
-          <td style="color:var(--text2);">In 1NF + no partial dependencies on composite key.</td>
-          <td style="color:var(--text2);">Attributes depending on only part of the PK</td>
-        </tr>
-        <tr>
-          <td>3NF</td>
-          <td style="color:var(--text2);">In 2NF + no transitive dependencies (non-key → non-key).</td>
-          <td style="color:var(--text2);">Non-key attributes depending on other non-key attributes</td>
-        </tr>
+        <tr><td>1NF</td><td>Does each cell hold one value?</td><td>Split product lists into separate order-item rows.</td></tr>
+        <tr><td>2NF</td><td>Does every non-key field depend on the whole composite key?</td><td>Move ProductName and CurrentPrice to PRODUCT.</td></tr>
+        <tr><td>3NF</td><td>Does any non-key field depend on another non-key field?</td><td>Move UserEmail to USERS, not ORDERS.</td></tr>
       </tbody>
     </table>
     <div class="gold-box" style="margin-top:16px;">
-      <p><strong>Mnemonic:</strong> "The key, the whole key, and nothing but the key" — 1NF (the key), 2NF (the whole key), 3NF (nothing but the key).</p>
+      <p><strong>Memory line:</strong> the key, the whole key, and nothing but the key.</p>
     </div>
   </div>
 </div>
@@ -750,30 +983,29 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
   <div class="content" style="max-width:960px;margin:0 auto;">
     <div class="label">// A3.2.7 · Denormalisation</div>
     <h2>When to <span class="hl-orange">Denormalise?</span></h2>
-    <p class="lead" style="margin-bottom:14px;">Denormalisation intentionally introduces redundancy to <strong style="color:var(--orange);">improve read performance</strong>, at the cost of some data integrity.</p>
+    <p class="lead" style="margin-bottom:14px;">Sometimes we repeat data on purpose to make read-heavy pages faster.</p>
     <div class="grid g2" style="gap:2px;">
       <div class="card green">
-        <div class="card-title">Advantages of Denormalisation</div>
+        <div class="card-title">Useful Example</div>
         <div class="card-body">
-          <strong>Faster reads</strong> — fewer JOIN operations needed<br><br>
-          <strong>Simpler queries</strong> — all data in one table<br><br>
-          Useful for <strong>read-heavy</strong> systems (reporting dashboards, analytics)
+          A product analytics dashboard stores ProductName and CategoryName beside each sales row.<br><br>
+          Fewer joins, faster reports.
         </div>
       </div>
       <div class="card red">
-        <div class="card-title">Disadvantages</div>
+        <div class="card-title">Trade-Off</div>
         <div class="card-body">
-          <strong>Data redundancy</strong> — same data stored multiple times<br><br>
-          <strong>Update anomalies</strong> — must update data in multiple places<br><br>
-          <strong>Slower writes</strong> — inserts and updates are more complex
+          Repeated data can become inconsistent.<br><br>
+          If a product name changes, every copied value must be updated.
         </div>
       </div>
     </div>
     <div class="gold-box" style="margin-top:14px;">
-      <p><strong>When to denormalise:</strong> In reporting/analytical databases where queries are run constantly and speed matters more than write performance. <em>Not</em> appropriate for transactional systems where data must always be accurate.</p>
+      <p><strong>Use it for:</strong> reporting and analytics. Avoid it for live order processing where accuracy matters most.</p>
     </div>
   </div>
 </div>
+
 
 <!-- ═══════════════════════════════════════════════ S15: COMMON MISTAKES -->
 <div class="slide">
@@ -791,7 +1023,7 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
       </div>
       <div class="step-row" style="border-left:3px solid var(--red);">
         <div class="step-n" style="color:var(--red);">✗</div>
-        <div class="step-text"><strong>Stating normalisation benefits generically</strong> — always link to the scenario. "Reducing redundancy means the teacher's name only needs updating once, not in every student record."</div>
+        <div class="step-text"><strong>Stating normalisation benefits generically</strong> — always link to the scenario. "ProductName is stored once in PRODUCTS, not repeated in every order item."</div>
       </div>
       <div class="step-row" style="border-left:3px solid var(--red);">
         <div class="step-n" style="color:var(--red);">✗</div>
@@ -810,16 +1042,15 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
       <div class="card purple">
         <div class="card-title">Schemas</div>
         <div class="card-body">
-          <strong>Conceptual</strong> — abstract entities &amp; relationships<br>
-          <strong>Logical</strong> — tables, types, keys (DBMS-independent)<br>
-          <strong>Physical</strong> — specific DBMS implementation details
+          <strong>Conceptual</strong> — USER, ORDER, PRODUCT and their relationships<br>
+          <strong>Logical</strong> — USERS, ORDERS, PRODUCTS, ORDER_ITEMS tables<br>
+          <strong>Physical</strong> — spreadsheet tabs or DBMS tables with validation/indexes
         </div>
       </div>
       <div class="card blue">
         <div class="card-title">ERDs</div>
         <div class="card-body">
-          Visual representation of database structure<br>
-          Show entities, attributes, and relationships<br>
+          Shopping ERD uses USERS, ORDERS, ORDER_ITEMS, PRODUCTS<br>
           <strong>Cardinality</strong> = max (1:1, 1:M, M:M)<br>
           <strong>Modality</strong> = min (0=optional, 1=mandatory)
         </div>
@@ -827,9 +1058,9 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
       <div class="card gold">
         <div class="card-title">Normal Forms</div>
         <div class="card-body">
-          <strong>1NF</strong> — atomic values, no repeating groups<br>
-          <strong>2NF</strong> — 1NF + no partial dependencies<br>
-          <strong>3NF</strong> — 2NF + no transitive dependencies<br>
+          <strong>1NF</strong> — one product per order-item row<br>
+          <strong>2NF</strong> — product facts move to PRODUCTS<br>
+          <strong>3NF</strong> — user facts move to USERS<br>
           "The key, the whole key, nothing but the key"
         </div>
       </div>
@@ -837,9 +1068,8 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
         <div class="card-title">Denormalisation</div>
         <div class="card-body">
           Intentional redundancy for read performance<br>
-          ✓ Faster queries, simpler reads<br>
-          ✗ Update anomalies, data redundancy<br>
-          Use in reporting/analytics, not transactions
+          Product reports may copy names/categories<br>
+          Live orders should stay normalised
         </div>
       </div>
     </div>
@@ -865,6 +1095,7 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
   const total = slides.length;
   const prog = document.getElementById('progress');
   const slideNum = document.getElementById('slideNum');
+  slideNum.textContent = '01 / ' + String(total).padStart(2, '0');
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
   const dotsEl = document.getElementById('navDots');
@@ -900,6 +1131,16 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
 <script>
 (function () {
   const menus = document.querySelectorAll('.course-menu');
+  const submenus = document.querySelectorAll('.course-submenu');
+  const closeSubmenus = except => {
+    submenus.forEach(submenu => {
+      if (submenu !== except) {
+        submenu.classList.remove('open');
+        const button = submenu.querySelector('.course-submenu-button');
+        if (button) button.setAttribute('aria-expanded', 'false');
+      }
+    });
+  };
   const closeMenus = except => {
     menus.forEach(menu => {
       if (menu !== except) {
@@ -908,6 +1149,7 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
         if (button) button.setAttribute('aria-expanded', 'false');
       }
     });
+    if (!except) closeSubmenus(null);
   };
 
   menus.forEach(menu => {
@@ -921,6 +1163,17 @@ h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,4vw,3.2rem)
       const isOpen = menu.classList.toggle('open');
       button.setAttribute('aria-expanded', String(isOpen));
       closeMenus(isOpen ? menu : null);
+    });
+  });
+
+  submenus.forEach(submenu => {
+    const button = submenu.querySelector('.course-submenu-button');
+    if (!button) return;
+    button.addEventListener('click', event => {
+      event.preventDefault();
+      const isOpen = submenu.classList.toggle('open');
+      button.setAttribute('aria-expanded', String(isOpen));
+      closeSubmenus(isOpen ? submenu : null);
     });
   });
 

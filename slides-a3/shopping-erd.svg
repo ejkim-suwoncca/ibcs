@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="620" viewBox="0 0 1280 620" role="img" aria-labelledby="title desc">
+  <title id="title">Online shopping crow's foot ERD</title>
+  <desc id="desc">Crow's foot diagram showing USERS to ORDERS, ORDERS to ORDER_ITEMS, and PRODUCTS to ORDER_ITEMS for an online shopping database.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f9fc; }
+      .panel { fill: #ffffff; stroke: #d8e0ec; stroke-width: 2; }
+      .head { fill: #20304f; }
+      .head2 { fill: #2f5d8c; }
+      .head3 { fill: #8a6b24; }
+      .title { fill: #ffffff; font: 700 17px Arial, sans-serif; letter-spacing: 0.8px; }
+      .page-title { fill: #20304f; font: 700 24px Arial, sans-serif; letter-spacing: 0.5px; }
+      .caption { fill: #607089; font: 14px Arial, sans-serif; }
+      .attr { fill: #26344f; font: 15px Arial, sans-serif; }
+      .key { fill: #8a641d; font: 700 15px Arial, sans-serif; }
+      .fk { fill: #28649d; font: 700 15px Arial, sans-serif; }
+      .rel { stroke: #25324a; stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .symbol { stroke: #25324a; stroke-width: 3; fill: #f7f9fc; stroke-linecap: round; stroke-linejoin: round; }
+      .rel-label { fill: #3b4961; font: 700 14px Arial, sans-serif; }
+      .note { fill: #607089; font: 13px Arial, sans-serif; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1280" height="620" rx="22"/>
+  <text x="640" y="44" text-anchor="middle" class="page-title">ONLINE SHOPPING CROW'S FOOT ERD</text>
+  <text x="640" y="70" text-anchor="middle" class="caption">Plain lines show relationships. The symbols at each end show minimum and maximum participation.</text>
+
+  <g transform="translate(48 146)">
+    <rect class="panel" width="214" height="190" rx="10"/>
+    <rect class="head" width="214" height="48" rx="10"/>
+    <text x="107" y="31" text-anchor="middle" class="title">USERS</text>
+    <text x="20" y="82" class="key">PK UserID</text>
+    <text x="20" y="116" class="attr">Name</text>
+    <text x="20" y="150" class="attr">Email</text>
+  </g>
+
+  <g transform="translate(370 146)">
+    <rect class="panel" width="214" height="224" rx="10"/>
+    <rect class="head2" width="214" height="48" rx="10"/>
+    <text x="107" y="31" text-anchor="middle" class="title">ORDERS</text>
+    <text x="20" y="82" class="key">PK OrderID</text>
+    <text x="20" y="116" class="fk">FK UserID</text>
+    <text x="20" y="150" class="attr">OrderDate</text>
+    <text x="20" y="184" class="attr">Status</text>
+  </g>
+
+  <g transform="translate(704 146)">
+    <rect class="panel" width="236" height="258" rx="10"/>
+    <rect class="head3" width="236" height="48" rx="10"/>
+    <text x="118" y="31" text-anchor="middle" class="title">ORDER_ITEMS</text>
+    <text x="20" y="82" class="key">PK OrderID + ProductID</text>
+    <text x="20" y="116" class="fk">FK OrderID</text>
+    <text x="20" y="150" class="fk">FK ProductID</text>
+    <text x="20" y="184" class="attr">Quantity</text>
+    <text x="20" y="218" class="attr">UnitPriceAtPurchase</text>
+  </g>
+
+  <g transform="translate(1030 146)">
+    <rect class="panel" width="214" height="224" rx="10"/>
+    <rect class="head" width="214" height="48" rx="10"/>
+    <text x="107" y="31" text-anchor="middle" class="title">PRODUCTS</text>
+    <text x="20" y="82" class="key">PK ProductID</text>
+    <text x="20" y="116" class="attr">ProductName</text>
+    <text x="20" y="150" class="attr">UnitPrice</text>
+    <text x="20" y="184" class="attr">StockQty</text>
+  </g>
+
+  <!-- USERS exactly one to ORDERS optional many -->
+  <path class="rel" d="M262 250 H370"/>
+  <path class="symbol" d="M286 234 V266"/>
+  <circle class="symbol" cx="342" cy="250" r="8"/>
+  <path class="symbol" d="M342 250 L368 234 M342 250 L368 250 M342 250 L368 266"/>
+  <text x="316" y="219" text-anchor="middle" class="rel-label">places</text>
+
+  <!-- ORDERS exactly one to ORDER_ITEMS one or many -->
+  <path class="rel" d="M584 260 H704"/>
+  <path class="symbol" d="M609 244 V276"/>
+  <path class="symbol" d="M674 244 V276"/>
+  <path class="symbol" d="M674 260 L702 244 M674 260 L702 260 M674 260 L702 276"/>
+  <text x="644" y="229" text-anchor="middle" class="rel-label">contains</text>
+
+  <!-- PRODUCTS exactly one to ORDER_ITEMS optional many -->
+  <path class="rel" d="M940 260 H1030"/>
+  <circle class="symbol" cx="970" cy="260" r="8"/>
+  <path class="symbol" d="M970 260 L942 244 M970 260 L942 260 M970 260 L942 276"/>
+  <path class="symbol" d="M1014 244 V276"/>
+  <text x="986" y="229" text-anchor="middle" class="rel-label">references</text>
+
+  <g transform="translate(222 474)">
+    <rect x="0" y="0" width="836" height="78" rx="12" fill="#ffffff" stroke="#d8e0ec" stroke-width="2"/>
+    <text x="24" y="31" class="attr">Notation:</text>
+    <text x="104" y="31" class="note">| means one, O means optional, and the three-prong foot means many.</text>
+    <text x="24" y="57" class="note">The optional-many symbol is placed on the side that can have zero or many records.</text>
+  </g>
+</svg>
