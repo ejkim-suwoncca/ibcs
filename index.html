@@ -373,6 +373,150 @@
     min-height: 68px;
   }
 
+  .topic-accordion-grid,
+  .semester-accordion-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    align-items: stretch;
+  }
+
+  .topic-accordion,
+  .semester-accordion {
+    width: 100%;
+    background: rgba(22, 22, 31, 0.72);
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.18s ease, background 0.18s ease;
+  }
+
+  .topic-accordion::before,
+  .semester-accordion::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 3px;
+    background: var(--accent);
+  }
+
+  .topic-accordion:nth-of-type(2n)::before,
+  .semester-accordion:nth-of-type(2n)::before {
+    background: var(--purple);
+  }
+
+  .topic-accordion:nth-of-type(3n)::before,
+  .semester-accordion:nth-of-type(3n)::before {
+    background: var(--amber);
+  }
+
+  .topic-accordion:nth-of-type(4n)::before,
+  .semester-accordion:nth-of-type(4n)::before {
+    background: var(--green);
+  }
+
+  .topic-accordion:hover,
+  .topic-accordion:focus-within,
+  .semester-accordion:hover,
+  .semester-accordion:focus-within {
+    background: #1d1d2b;
+    border-color: rgba(0, 229, 255, 0.28);
+  }
+
+  .topic-accordion summary,
+  .semester-accordion summary {
+    min-height: 116px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 22px;
+    padding: 24px 28px 24px 30px;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .topic-accordion summary::-webkit-details-marker,
+  .semester-accordion summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .topic-summary-main {
+    display: grid;
+    grid-template-columns: minmax(64px, auto) minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .topic-accordion .topic-index,
+  .semester-accordion .topic-index {
+    margin-bottom: 0;
+  }
+
+  .topic-accordion .topic-title,
+  .semester-title {
+    display: block;
+    margin-bottom: 0;
+    font-size: clamp(1.35rem, 2.1vw, 1.9rem);
+    font-weight: 800;
+    line-height: 1.15;
+  }
+
+  .accordion-count {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.66rem;
+    color: var(--text3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .accordion-indicator {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    border: 1px solid var(--border2);
+    transition: transform 0.18s ease, border-color 0.18s ease;
+  }
+
+  .topic-accordion[open] .accordion-indicator,
+  .semester-accordion[open] .accordion-indicator {
+    transform: rotate(180deg);
+    border-color: rgba(0, 229, 255, 0.35);
+  }
+
+  .topic-accordion > .subtopic-grid,
+  .semester-accordion > .resource-grid,
+  .semester-accordion > .semester-grid {
+    padding: 0 28px 26px 30px;
+  }
+
+  .topic-accordion .subtopic-grid {
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 10px;
+  }
+
+  .topic-accordion .subtopic-card {
+    min-height: 118px;
+    padding: 16px;
+    gap: 14px;
+    background: var(--surface2);
+  }
+
+  .topic-accordion .subtopic-name {
+    font-size: 0.96rem;
+  }
+
+  .semester-accordion .resource-grid,
+  .semester-accordion .semester-grid {
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 12px;
+  }
+
   .topic-count {
     font-family: 'Space Mono', monospace;
     font-size: 0.68rem;
@@ -555,6 +699,8 @@
 
   section[id],
   .topic-row[id],
+  .topic-accordion[id],
+  .semester-accordion[id],
   .placeholder-card[id] {
     scroll-margin-top: 92px;
   }
@@ -584,8 +730,32 @@
       padding: 22px;
     }
 
+    .topic-accordion summary,
+    .semester-accordion summary {
+      min-height: 128px;
+      grid-template-columns: 1fr auto;
+      padding: 22px;
+    }
+
+    .topic-summary-main {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .accordion-count {
+      white-space: normal;
+    }
+
+    .topic-accordion .subtopic-grid,
+    .semester-accordion .resource-grid,
+    .semester-accordion .semester-grid {
+      grid-template-columns: 1fr;
+    }
+
     section[id],
     .topic-row[id],
+    .topic-accordion[id],
+    .semester-accordion[id],
     .placeholder-card[id] {
       scroll-margin-top: 136px;
     }
@@ -993,6 +1163,7 @@
       </div>
       <div class="section-mark">A</div>
     </div>
+    <div class="topic-accordion-grid">
     <details class="topic-accordion" id="a1">
       <summary>
         <span class="topic-summary-main"><span class="topic-index">A1</span><span class="topic-title">Computer Systems</span><span class="accordion-count">8 links</span></span>
@@ -1046,6 +1217,7 @@
         <a class="subtopic-card" href="./slides-a4/A4.4.html"><span><span class="subtopic-code">A4.4</span><span class="subtopic-name">Ethical Considerations in Machine Learning</span></span><span class="subtopic-meta">Slides</span></a>
       </div>
     </details>
+    </div>
   </div>
 </section>
 
@@ -1059,6 +1231,7 @@
       </div>
       <div class="section-mark">B</div>
     </div>
+    <div class="topic-accordion-grid">
     <details class="topic-accordion" id="b1">
       <summary>
         <span class="topic-summary-main"><span class="topic-index">B1</span><span class="topic-title">Computational Thinking</span><span class="accordion-count">1 link</span></span>
@@ -1101,6 +1274,7 @@
         <a class="subtopic-card" href="./slides-b4/B4.1.html"><span><span class="subtopic-code">B4.1 HL</span><span class="subtopic-name">Linked Lists, BSTs, Sets and Hash Tables</span></span><span class="subtopic-meta">HL Slides</span></a>
       </div>
     </details>
+    </div>
   </div>
 </section>
 
@@ -1183,6 +1357,7 @@
       </div>
       <div class="section-mark">S</div>
     </div>
+    <div class="semester-accordion-grid">
     <details class="semester-accordion" id="semester-1">
       <summary>
         <span class="topic-summary-main"><span class="topic-index">1</span><span class="semester-title">Semester 1</span><span class="accordion-count">4 assessments</span></span>
@@ -1259,6 +1434,7 @@
         </div>
       </div>
     </details>
+    </div>
   </div>
 </section>
 
