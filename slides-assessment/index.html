@@ -56,8 +56,8 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: center;
-    padding: 64px 80px;
+    align-items: flex-start;
+    padding: 100px 80px; overflow-y: auto; overscroll-behavior: contain;
     opacity: 0;
     transform: translateX(60px);
     transition: opacity 0.5s ease, transform 0.5s ease;
@@ -78,7 +78,7 @@
   /* SLIDE LABEL */
   .slide-label {
     font-family: 'Google Sans Code', monospace;
-    font-size: 13px;
+    font-size: 18px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--accent);
@@ -97,7 +97,7 @@
   }
 
   .slide-subtitle {
-    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
     font-weight: 300;
     color: var(--text2);
     margin-bottom: 40px;
@@ -144,7 +144,7 @@
 
   .card-label {
     font-family: 'Google Sans Code', monospace;
-    font-size: 11px;
+    font-size: 18px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--text3);
@@ -152,14 +152,14 @@
   }
 
   .card-title {
-    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    font-size: clamp(1.125rem, 1.8vw, 1.5rem);
     font-weight: 700;
     margin-bottom: 10px;
     line-height: 1.3;
   }
 
   .card-body {
-    font-size: clamp(0.95rem, 1.5vw, 1.2rem);
+    font-size: clamp(1.5rem, 1.6vw, 1.75rem);
     color: var(--text2);
     line-height: 1.7;
     font-weight: 300;
@@ -182,7 +182,7 @@
 
   .rubric th {
     font-family: 'Google Sans Code', monospace;
-    font-size: clamp(0.75rem, 1.2vw, 1rem);
+    font-size: clamp(1.125rem, 1.2vw, 1.375rem);
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--text3);
@@ -194,7 +194,7 @@
 
   .rubric td {
     padding: 14px 16px;
-    font-size: clamp(0.9rem, 1.4vw, 1.15rem);
+    font-size: clamp(1.125rem, 1.4vw, 1.15rem);
     border-bottom: 1px solid var(--border);
     color: var(--text2);
     line-height: 1.55;
@@ -209,7 +209,7 @@
   .score-badge {
     display: inline-block;
     font-family: 'Google Sans Code', monospace;
-    font-size: clamp(0.8rem, 1.2vw, 1rem);
+    font-size: clamp(1.125rem, 1.2vw, 1.375rem);
     padding: 3px 10px;
     border-radius: 2px;
     font-weight: 700;
@@ -240,7 +240,7 @@
 
   .step-num {
     font-family: 'Google Sans Code', monospace;
-    font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+    font-size: clamp(1.125rem, 1.5vw, 1.2rem);
     color: var(--accent);
     flex-shrink: 0;
     min-width: 32px;
@@ -248,7 +248,7 @@
   }
 
   .step-text {
-    font-size: clamp(1rem, 1.6vw, 1.3rem);
+    font-size: clamp(1.125rem, 1.6vw, 1.3rem);
     line-height: 1.6;
     color: var(--text2);
   }
@@ -276,7 +276,7 @@
   }
 
   .hbox p {
-    font-size: clamp(0.95rem, 1.5vw, 1.2rem);
+    font-size: clamp(1.125rem, 1.5vw, 1.2rem);
     color: var(--text2);
     line-height: 1.65;
   }
@@ -287,7 +287,7 @@
   .tag {
     display: inline-block;
     font-family: 'Google Sans Code', monospace;
-    font-size: 11px;
+    font-size: 18px;
     padding: 3px 9px;
     border-radius: 2px;
     letter-spacing: 0.05em;
@@ -325,7 +325,7 @@
 
   .nav-btn {
     font-family: 'Google Sans Code', monospace;
-    font-size: 12px;
+    font-size: 18px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--text2);
@@ -333,15 +333,14 @@
     border: 1px solid var(--border);
     padding: 8px 20px;
     cursor: pointer;
-    transition: all 0.2s;
-  }
+    transition: all 0.2s; border-radius: 999px;}
 
   .nav-btn:hover { color: var(--accent); border-color: var(--accent); background: rgba(209, 165, 88,0.05); }
   .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
   .nav-counter {
     font-family: 'Google Sans Code', monospace;
-    font-size: 13px;
+    font-size: 18px;
     color: var(--text3);
     min-width: 60px;
     text-align: center;
@@ -400,13 +399,13 @@
   .ov-info { flex: 1; }
 
   .ov-title {
-    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    font-size: clamp(1.125rem, 1.8vw, 1.5rem);
     font-weight: 700;
     margin-bottom: 4px;
   }
 
   .ov-desc {
-    font-size: clamp(0.9rem, 1.4vw, 1.15rem);
+    font-size: clamp(1.125rem, 1.4vw, 1.15rem);
     color: var(--text2);
     font-weight: 300;
   }
@@ -441,7 +440,7 @@
   background: rgba(7, 9, 15, 0.9);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
-  font-family: 'Google Sans Code', monospace;
+  font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
 }
 .course-nav-inner {
   width: min(1120px, calc(100% - 32px));
@@ -473,7 +472,7 @@
   background: transparent;
   color: var(--text2, #94a3b8);
   font: inherit;
-  font-size: 10px;
+  font-size: 18px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
@@ -496,7 +495,7 @@
 .course-menu-button::after,
 .course-submenu-button::after {
   content: "▾";
-  font-size: 10px;
+  font-size: 18px;
   color: var(--text3, #64748b);
   transition: transform 0.18s ease;
 }
@@ -571,7 +570,7 @@
   background: transparent;
   color: var(--text2, #94a3b8);
   font: inherit;
-  font-size: 10px;
+  font-size: 18px;
   letter-spacing: 0.04em;
   line-height: 1.35;
   text-align: left;
@@ -609,7 +608,7 @@
   border-color: var(--accent, #22b3a0);
   outline: none;
 }
-.course-nav ~ .slide-num { top: 62px !important; }
+.course-nav ~ .slide-num { top: 98px !important; }
 @media (max-width: 720px) {
   .course-nav-inner {
     width: min(100% - 18px, 680px);
@@ -620,7 +619,7 @@
   .course-link,
   .course-menu-button {
     min-height: 36px;
-    font-size: 9px;
+    font-size: 18px;
   }
   .course-dropdown {
     position: fixed;
@@ -773,24 +772,24 @@
     <div class="glow" style="width:500px;height:500px;background:radial-gradient(circle,rgba(200, 116, 209,0.06) 0%,transparent 70%);bottom:-100px;right:-100px;"></div>
     <div class="full-content">
       <div class="slide-label">// IB Computer Science SL Ⅰ · 2025</div>
-      <h1 class="slide-title" style="font-size:clamp(3rem,7vw,6rem);margin-bottom:20px;">
+      <h1 class="slide-title" style="font-size: clamp(3rem, 7vw, 6rem);margin-bottom:20px;">
         <span class="c-cyan">수행평가</span><br>안내
       </h1>
-      <p class="slide-subtitle" style="font-size:clamp(1.1rem,2vw,1.6rem);max-width:620px;">
+      <p class="slide-subtitle" style="font-size: clamp(1.125rem, 2vw, 1.6rem);max-width:620px;">
         세 가지 평가를 통해 컴퓨팅 사고력을 기르고,<br>실제 문제를 설계하고 해결하는 능력을 키웁니다.
       </p>
       <div style="display:flex;gap:40px;margin-top:16px;flex-wrap:wrap;">
         <div style="display:flex;flex-direction:column;gap:4px;padding-left:16px;border-left:2px solid var(--accent);">
-          <span style="font-family:'Google Sans Code', monospace;font-size:clamp(1.4rem,2.5vw,2rem);font-weight:700;">3</span>
-          <span style="font-size:clamp(0.8rem,1.2vw,1rem);color:var(--text3);">수행평가</span>
+          <span style="font-family:'Google Sans Code', monospace;font-size: clamp(1.4rem, 2.5vw, 2rem);font-weight:700;">3</span>
+          <span style="font-size: clamp(1.125rem, 1.2vw, 1.375rem);color:var(--text3);">수행평가</span>
         </div>
         <div style="display:flex;flex-direction:column;gap:4px;padding-left:16px;border-left:2px solid #c874d1;">
-          <span style="font-family:'Google Sans Code', monospace;font-size:clamp(1.4rem,2.5vw,2rem);font-weight:700;">100점</span>
-          <span style="font-size:clamp(0.8rem,1.2vw,1rem);color:var(--text3);">총점</span>
+          <span style="font-family:'Google Sans Code', monospace;font-size: clamp(1.4rem, 2.5vw, 2rem);font-weight:700;">100점</span>
+          <span style="font-size: clamp(1.125rem, 1.2vw, 1.375rem);color:var(--text3);">총점</span>
         </div>
         <div style="display:flex;flex-direction:column;gap:4px;padding-left:16px;border-left:2px solid var(--accent3);">
-          <span style="font-family:'Google Sans Code', monospace;font-size:clamp(1.4rem,2.5vw,2rem);font-weight:700;">100%</span>
-          <span style="font-size:clamp(0.8rem,1.2vw,1rem);color:var(--text3);">수행평가</span>
+          <span style="font-family:'Google Sans Code', monospace;font-size: clamp(1.4rem, 2.5vw, 2rem);font-weight:700;">100%</span>
+          <span style="font-size: clamp(1.125rem, 1.2vw, 1.375rem);color:var(--text3);">수행평가</span>
         </div>
       </div>
     </div>
@@ -861,7 +860,7 @@
   <div class="slide" id="slide-3">
     <div class="full-content">
       <div class="slide-label">// 01 · 수행평가 1 · Part 1.1 채점 기준</div>
-      <h2 class="slide-title" style="font-size:clamp(1.8rem,3.5vw,3rem);margin-bottom:20px;">보고서 채점 기준 <span style="font-family:'Google Sans Code', monospace;font-size:0.5em;color:var(--text3);">20점</span></h2>
+      <h2 class="slide-title" style="font-size: clamp(1.8rem, 3.5vw, 3rem);margin-bottom:20px;">보고서 채점 기준 <span style="font-family:'Google Sans Code', monospace;font-size:0.5em;color:var(--text3);">20점</span></h2>
       <table class="rubric">
         <thead>
           <tr>
@@ -872,7 +871,7 @@
         </thead>
         <tbody>
           <tr>
-            <td rowspan="3" style="border-right:1px solid var(--border);">하드웨어<br>메커니즘 분석<br><span style="font-family:'Google Sans Code', monospace;font-size:0.8rem;color:var(--accent);">/7점</span></td>
+            <td rowspan="3" style="border-right:1px solid var(--border);">하드웨어<br>메커니즘 분석<br><span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--accent);">/7점</span></td>
             <td>동작 원리를 AI 연산 최적화 관점에서 정밀하게 분석하고, 다른 구성 요소와의 관계를 완성도 높게 설명함</td>
             <td style="text-align:center;"><span class="score-badge score-7">7</span></td>
           </tr>
@@ -885,7 +884,7 @@
             <td style="text-align:center;"><span class="score-badge score-3">3</span></td>
           </tr>
           <tr>
-            <td rowspan="3" style="border-right:1px solid var(--border);">기술적<br>타당성<br><span style="font-family:'Google Sans Code', monospace;font-size:0.8rem;color:var(--accent);">/7점</span></td>
+            <td rowspan="3" style="border-right:1px solid var(--border);">기술적<br>타당성<br><span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--accent);">/7점</span></td>
             <td>TFLOPS, 전송 속도 등 구체적인 기술 지표를 정확하게 인용하여 신뢰도가 높음</td>
             <td style="text-align:center;"><span class="score-badge score-7">7</span></td>
           </tr>
@@ -898,7 +897,7 @@
             <td style="text-align:center;"><span class="score-badge score-3">3</span></td>
           </tr>
           <tr>
-            <td rowspan="4" style="border-right:1px solid var(--border);">문서화 및<br>가독성<br><span style="font-family:'Google Sans Code', monospace;font-size:0.8rem;color:#c874d1);">/6점</span></td>
+            <td rowspan="4" style="border-right:1px solid var(--border);">문서화 및<br>가독성<br><span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:#c874d1);">/6점</span></td>
             <td>서론·본론·결론 구조 완비, 기술 용어 정확, 다이어그램 완성도 높음</td>
             <td style="text-align:center;"><span class="score-badge score-6">6</span></td>
           </tr>
@@ -923,7 +922,7 @@
   <div class="slide" id="slide-4">
     <div class="full-content">
       <div class="slide-label">// 01 · 수행평가 1 · Part 1.2 채점 기준</div>
-      <h2 class="slide-title" style="font-size:clamp(1.8rem,3.5vw,3rem);margin-bottom:20px;">서술형 채점 기준 <span style="font-family:'Google Sans Code', monospace;font-size:0.5em;color:var(--text3);">20점</span></h2>
+      <h2 class="slide-title" style="font-size: clamp(1.8rem, 3.5vw, 3rem);margin-bottom:20px;">서술형 채점 기준 <span style="font-family:'Google Sans Code', monospace;font-size:0.5em;color:var(--text3);">20점</span></h2>
       <table class="rubric">
         <thead>
           <tr>
@@ -934,7 +933,7 @@
         </thead>
         <tbody>
           <tr>
-            <td rowspan="5" style="border-right:1px solid var(--border);">인프라<br>설계 전략<br><span style="font-family:'Google Sans Code', monospace;font-size:0.8rem;color:var(--accent);">/7점</span></td>
+            <td rowspan="5" style="border-right:1px solid var(--border);">인프라<br>설계 전략<br><span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--accent);">/7점</span></td>
             <td>모든 제약 조건 반영, 구체적 기술 근거 포함, 시스템 전체 일관성 명확</td>
             <td style="text-align:center;"><span class="score-badge score-7">7</span></td>
           </tr>
@@ -943,7 +942,7 @@
           <tr><td>일부만 반영, 부품명만 나열</td><td style="text-align:center;"><span class="score-badge score-4">4</span></td></tr>
           <tr><td>제약 조건 미반영, 일반적 구성 나열</td><td style="text-align:center;"><span class="score-badge score-3">3</span></td></tr>
           <tr>
-            <td rowspan="5" style="border-right:1px solid var(--border);">사회적·<br>윤리적 탐구<br><span style="font-family:'Google Sans Code', monospace;font-size:0.8rem;color:var(--accent);">/7점</span></td>
+            <td rowspan="5" style="border-right:1px solid var(--border);">사회적·<br>윤리적 탐구<br><span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--accent);">/7점</span></td>
             <td>복수의 윤리 문제 식별, 실행 가능한 대응 방안, 기술 설계와 유기적 연결</td>
             <td style="text-align:center;"><span class="score-badge score-7">7</span></td>
           </tr>
@@ -952,7 +951,7 @@
           <tr><td>1가지만 언급 또는 피상적 설명</td><td style="text-align:center;"><span class="score-badge score-4">4</span></td></tr>
           <tr><td>일반적 사례 나열 수준</td><td style="text-align:center;"><span class="score-badge score-3">3</span></td></tr>
           <tr>
-            <td rowspan="4" style="border-right:1px solid var(--border);">창의성 및<br>통합성<br><span style="font-family:'Google Sans Code', monospace;font-size:0.8rem;color:#c874d1);">/6점</span></td>
+            <td rowspan="4" style="border-right:1px solid var(--border);">창의성 및<br>통합성<br><span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:#c874d1);">/6점</span></td>
             <td>기술·윤리 통합, 트레이드오프 명시, 논리 흐름 일관</td>
             <td style="text-align:center;"><span class="score-badge score-6">6</span></td>
           </tr>
@@ -992,7 +991,7 @@
   <div class="slide" id="slide-6">
     <div class="full-content">
       <div class="slide-label">// 02 · 수행평가 2 · 채점 기준</div>
-      <h2 class="slide-title" style="font-size:clamp(1.8rem,3.5vw,3rem);margin-bottom:20px;">채점 기준 <span style="font-family:'Google Sans Code', monospace;font-size:0.5em;color:var(--text3);">30점</span></h2>
+      <h2 class="slide-title" style="font-size: clamp(1.8rem, 3.5vw, 3rem);margin-bottom:20px;">채점 기준 <span style="font-family:'Google Sans Code', monospace;font-size:0.5em;color:var(--text3);">30점</span></h2>
       <table class="rubric">
         <thead>
           <tr><th>파트</th><th>평가 요소</th><th>수행 수준</th><th style="text-align:center;">점수</th></tr>
@@ -1063,7 +1062,7 @@
   <div class="slide" id="slide-8">
     <div class="full-content">
       <div class="slide-label">// 03 · 수행평가 3 · 채점 기준</div>
-      <h2 class="slide-title" style="font-size:clamp(1.8rem,3.5vw,3rem);margin-bottom:20px;">채점 기준 <span style="font-family:'Google Sans Code', monospace;font-size:0.5em;color:var(--text3);">30점</span></h2>
+      <h2 class="slide-title" style="font-size: clamp(1.8rem, 3.5vw, 3rem);margin-bottom:20px;">채점 기준 <span style="font-family:'Google Sans Code', monospace;font-size:0.5em;color:var(--text3);">30점</span></h2>
       <table class="rubric">
         <thead>
           <tr><th>파트</th><th>평가 요소</th><th>수행 수준 (상위)</th><th style="text-align:center;">점수</th></tr>

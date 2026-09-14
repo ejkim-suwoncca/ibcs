@@ -41,8 +41,8 @@ body::before {
 .deck { position: relative; width: 100vw; height: 100vh; z-index: 1; }
 .slide {
   position: absolute; inset: 0;
-  display: flex; flex-direction: column; justify-content: flex-start; align-items: center;
-  padding: 64px 72px 90px;
+  display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;
+  padding: 100px 72px 90px; overflow-y: auto; overscroll-behavior: contain;
   opacity: 0; pointer-events: none;
   transition: opacity 0.38s ease, transform 0.38s ease;
   transform: translateY(12px);
@@ -50,13 +50,13 @@ body::before {
 .slide.active { opacity: 1; pointer-events: all; transform: translateY(0); }
 .slide.exit { opacity: 0; transform: translateY(-12px); }
 .progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--gold), var(--cyan)); transition: width 0.38s ease; z-index: 100; }
-.slide-num { position: fixed; top: 17px; right: 24px; font-family: 'Google Sans Code', monospace; font-size: 11px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
+.slide-num { position: fixed; top: 17px; right: 24px; font-family: 'Google Sans Code', monospace; font-size: 18px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
 .content { width: 100%; max-width: 1120px; }
-.label { font-family: 'Google Sans Code', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+.label { font-family: 'Google Sans Code', monospace; font-size: 18px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
 .label.blue { color: var(--blue); } .label.green { color: var(--green); } .label.cyan { color: var(--cyan); }
-h1 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.8rem,5.5vw,4.8rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
-h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.9rem,4vw,3.2rem); font-weight: 500; line-height: 1.1; margin-bottom: 12px; }
-.lead { font-size: clamp(1rem,1.75vw,1.35rem); color: var(--text2); font-weight: 300; line-height: 1.65; margin-bottom: 20px; }
+h1 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.8rem, 5.5vw, 4.8rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
+h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.9rem, 4vw, 3.2rem); font-weight: 500; line-height: 1.1; margin-bottom: 12px; }
+.lead { font-size: clamp(1.5rem, 1.8vw, 1.875rem); color: var(--text2); font-weight: 300; line-height: 1.65; margin-bottom: 20px; }
 .hl-gold { color: var(--gold2); } .hl-blue { color: var(--blue); } .hl-green { color: var(--green); }
 .hl-cyan { color: var(--cyan); } .hl-red { color: var(--red); } .hl-orange { color: var(--orange); }
 
@@ -72,26 +72,26 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .card.green::after { background: var(--green); } .card.red::after { background: var(--red); }
 .card.purple::after { background: var(--purple); } .card.cyan::after { background: var(--cyan); }
 .card.orange::after { background: var(--orange); }
-.card-title { font-family: 'Google Sans Code', monospace; font-size: clamp(0.7rem,1.1vw,0.9rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
-.card-body { font-size: clamp(0.85rem,1.3vw,1.05rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
+.card-title { font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.1vw, 1.375rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.card-body { font-size: clamp(1.5rem, 1.6vw, 1.75rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
 .card-body strong { color: var(--text); font-weight: 500; }
 
 /* ── INFO / GOLD BOXES */
 .info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(74,158,255,0.04); border-top: 1px solid rgba(74,158,255,0.08); border-right: 1px solid rgba(74,158,255,0.08); border-bottom: 1px solid rgba(74,158,255,0.08); margin-top: 14px; }
-.info-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.info-box p { font-size: clamp(1.5rem, 1.7vw, 1.8rem); color: var(--text2); line-height: 1.6; }
 .info-box strong { color: var(--blue); }
 .gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(201,168,76,0.04); border-top: 1px solid rgba(201,168,76,0.08); border-right: 1px solid rgba(201,168,76,0.08); border-bottom: 1px solid rgba(201,168,76,0.08); margin-top: 14px; }
-.gold-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.gold-box p { font-size: clamp(1.5rem, 1.7vw, 1.8rem); color: var(--text2); line-height: 1.6; }
 .gold-box strong { color: var(--gold2); }
 .cyan-box { border-left: 3px solid var(--cyan); padding: 13px 20px; background: rgba(34,211,238,0.04); border-top: 1px solid rgba(34,211,238,0.08); border-right: 1px solid rgba(34,211,238,0.08); border-bottom: 1px solid rgba(34,211,238,0.08); margin-top: 14px; }
-.cyan-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.cyan-box p { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.6; }
 .cyan-box strong { color: var(--cyan); }
 
 /* ── STEPS */
 .steps { display: flex; flex-direction: column; gap: 8px; width: 100%; }
 .step-row { display: flex; gap: 16px; align-items: flex-start; background: var(--surface); border: 1px solid var(--border); padding: 13px 18px; }
-.step-n { font-family: 'Google Sans Code', monospace; font-size: clamp(0.75rem,1.15vw,0.9rem); color: var(--gold); flex-shrink: 0; min-width: 24px; padding-top: 1px; }
-.step-text { font-size: clamp(0.92rem,1.45vw,1.15rem); color: var(--text2); line-height: 1.6; font-weight: 300; }
+.step-n { font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.15vw, 1.375rem); color: var(--gold); flex-shrink: 0; min-width: 24px; padding-top: 1px; }
+.step-text { font-size: clamp(1.125rem, 1.45vw, 1.15rem); color: var(--text2); line-height: 1.6; font-weight: 300; }
 .step-text strong { color: var(--text); font-weight: 500; }
 
 /* ── BIT TABLES — the star of this deck */
@@ -109,7 +109,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   padding: 10px 8px;
   text-align: center;
   font-family: 'Google Sans Code', monospace;
-  font-size: clamp(0.75rem,1.3vw,1rem);
+  font-size: clamp(1.125rem, 1.3vw, 1.375rem);
   color: var(--text3);
   letter-spacing: 0.05em;
   font-weight: 400;
@@ -119,25 +119,25 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   padding: 12px 8px;
   text-align: center;
   font-family: 'Google Sans Code', monospace;
-  font-size: clamp(1rem,2vw,1.6rem);
+  font-size: clamp(1.125rem, 2vw, 1.6rem);
   font-weight: 500;
 }
 .bit-table td.bit-1 { background: rgba(61,214,140,0.12); color: var(--green); }
 .bit-table td.bit-0 { background: rgba(255,107,107,0.06); color: var(--text3); }
-.bit-table td.power { background: var(--surface); color: var(--gold); font-size: clamp(0.75rem,1.2vw,0.95rem); font-weight: 400; }
-.bit-table td.value { background: var(--surface); color: var(--blue); font-size: clamp(1.1rem,2.2vw,1.8rem); font-weight: 700; }
-.bit-table td.value-dim { background: var(--surface); color: var(--text3); font-size: clamp(1.1rem,2.2vw,1.8rem); font-weight: 400; }
-.bit-table td.header-cell { background: var(--surface2); color: var(--text3); font-size: clamp(0.65rem,1vw,0.82rem); letter-spacing: 0.08em; }
-.bit-table td.result { background: rgba(201,168,76,0.1); color: var(--gold2); font-size: clamp(1.1rem,2.2vw,1.8rem); font-weight: 700; border: 1px solid rgba(201,168,76,0.3); }
-.bit-table td.hex { background: rgba(34,211,238,0.1); color: var(--cyan); font-size: clamp(1.1rem,2.2vw,1.8rem); font-weight: 700; border: 1px solid rgba(34,211,238,0.2); }
-.bit-table td.hex-dim { background: var(--surface); color: var(--text3); font-size: clamp(1rem,1.8vw,1.5rem); font-weight: 400; }
+.bit-table td.power { background: var(--surface); color: var(--gold); font-size: clamp(1.125rem, 1.2vw, 1.375rem); font-weight: 400; }
+.bit-table td.value { background: var(--surface); color: var(--blue); font-size: clamp(1.125rem, 2.2vw, 1.8rem); font-weight: 700; }
+.bit-table td.value-dim { background: var(--surface); color: var(--text3); font-size: clamp(1.125rem, 2.2vw, 1.8rem); font-weight: 400; }
+.bit-table td.header-cell { background: var(--surface2); color: var(--text3); font-size: clamp(1.125rem, 1vw, 1.375rem); letter-spacing: 0.08em; }
+.bit-table td.result { background: rgba(201,168,76,0.1); color: var(--gold2); font-size: clamp(1.125rem, 2.2vw, 1.8rem); font-weight: 700; border: 1px solid rgba(201,168,76,0.3); }
+.bit-table td.hex { background: rgba(34,211,238,0.1); color: var(--cyan); font-size: clamp(1.125rem, 2.2vw, 1.8rem); font-weight: 700; border: 1px solid rgba(34,211,238,0.2); }
+.bit-table td.hex-dim { background: var(--surface); color: var(--text3); font-size: clamp(1.125rem, 1.8vw, 1.5rem); font-weight: 400; }
 .bit-table td.spacer { background: transparent; border: none; width: 16px; }
 
 /* row label cell */
 .bit-table td.row-label {
   background: var(--bg);
   color: var(--text3);
-  font-size: clamp(0.65rem,1vw,0.82rem);
+  font-size: clamp(1.125rem, 1vw, 1.375rem);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   width: 80px;
@@ -150,41 +150,41 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 /* ── DENARY TABLE (base 10) */
 .denary-table { border-collapse: collapse; table-layout: fixed; }
 .denary-table th, .denary-table td { border: 1px solid var(--border2); padding: 10px 14px; text-align: center; font-family: 'Google Sans Code', monospace; }
-.denary-table th { background: var(--surface2); color: var(--text3); font-size: clamp(0.7rem,1.1vw,0.88rem); font-weight: 400; }
-.denary-table td { background: var(--surface); font-size: clamp(1rem,1.8vw,1.5rem); font-weight: 500; color: var(--text); }
-.denary-table td.pow { font-size: clamp(0.72rem,1.1vw,0.9rem); color: var(--gold); background: var(--surface); font-weight: 400; }
-.denary-table td.dig { color: var(--blue); font-size: clamp(1.1rem,2vw,1.7rem); font-weight: 700; }
+.denary-table th { background: var(--surface2); color: var(--text3); font-size: clamp(1.125rem, 1.1vw, 1.375rem); font-weight: 400; }
+.denary-table td { background: var(--surface); font-size: clamp(1.125rem, 1.8vw, 1.5rem); font-weight: 500; color: var(--text); }
+.denary-table td.pow { font-size: clamp(1.125rem, 1.1vw, 1.375rem); color: var(--gold); background: var(--surface); font-weight: 400; }
+.denary-table td.dig { color: var(--blue); font-size: clamp(1.125rem, 2vw, 1.7rem); font-weight: 700; }
 
 /* ── HEX TABLE */
 .hex-ref { border-collapse: collapse; }
-.hex-ref th { background: var(--surface2); border: 1px solid var(--border2); padding: 8px 10px; font-family: 'Google Sans Code', monospace; font-size: clamp(0.68rem,1.05vw,0.85rem); color: var(--text3); font-weight: 400; text-align: center; }
-.hex-ref td { border: 1px solid var(--border); padding: 9px 10px; text-align: center; font-family: 'Google Sans Code', monospace; font-size: clamp(0.85rem,1.4vw,1.1rem); }
+.hex-ref th { background: var(--surface2); border: 1px solid var(--border2); padding: 8px 10px; font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.05vw, 1.375rem); color: var(--text3); font-weight: 400; text-align: center; }
+.hex-ref td { border: 1px solid var(--border); padding: 9px 10px; text-align: center; font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.4vw, 1.375rem); }
 .hex-ref td.dec-val { background: var(--surface); color: var(--text2); }
 .hex-ref td.hex-val { background: rgba(34,211,238,0.07); color: var(--cyan); font-weight: 700; }
-.hex-ref td.bin-val { background: var(--surface); color: var(--green); font-size: clamp(0.72rem,1.1vw,0.88rem); }
+.hex-ref td.bin-val { background: var(--surface); color: var(--green); font-size: clamp(1.125rem, 1.1vw, 1.375rem); }
 
 /* ── CONVERSION STEP CHAIN */
 .chain { display: flex; align-items: center; gap: 0; flex-wrap: wrap; margin: 14px 0; }
 .chain-box { background: var(--surface); border: 1px solid var(--border2); padding: 12px 18px; text-align: center; }
-.chain-box .c-top { font-family: 'Google Sans Code', monospace; font-size: clamp(0.65rem,1vw,0.82rem); color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
-.chain-box .c-val { font-family: 'Google Sans Code', monospace; font-size: clamp(1.1rem,2.2vw,1.8rem); font-weight: 700; }
+.chain-box .c-top { font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1vw, 1.375rem); color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+.chain-box .c-val { font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 2.2vw, 1.8rem); font-weight: 700; }
 .chain-arrow { font-family: 'Google Sans Code', monospace; color: var(--gold); font-size: 1.4rem; padding: 0 10px; display: flex; align-items: center; flex-shrink: 0; }
-.chain-op { font-family: 'Google Sans Code', monospace; font-size: clamp(0.68rem,1.05vw,0.85rem); color: var(--text3); padding: 0 6px; text-align: center; line-height: 1.4; display: flex; align-items: center; }
+.chain-op { font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.05vw, 1.375rem); color: var(--text3); padding: 0 6px; text-align: center; line-height: 1.4; display: flex; align-items: center; }
 
 /* ── DIVISION TABLE */
 .div-table { border-collapse: collapse; }
-.div-table td { border: 1px solid var(--border2); padding: 10px 14px; font-family: 'Google Sans Code', monospace; font-size: clamp(0.88rem,1.4vw,1.1rem); text-align: center; background: var(--surface); color: var(--text2); }
+.div-table td { border: 1px solid var(--border2); padding: 10px 14px; font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.4vw, 1.375rem); text-align: center; background: var(--surface); color: var(--text2); }
 .div-table td.div-num { color: var(--text); font-weight: 500; }
 .div-table td.div-rem-1 { background: rgba(61,214,140,0.1); color: var(--green); font-weight: 700; }
 .div-table td.div-rem-0 { background: rgba(255,107,107,0.06); color: var(--text3); }
-.div-table th { border: 1px solid var(--border2); padding: 8px 14px; font-family: 'Google Sans Code', monospace; font-size: clamp(0.65rem,1vw,0.82rem); color: var(--text3); background: var(--surface2); text-align: center; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; }
+.div-table th { border: 1px solid var(--border2); padding: 8px 14px; font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1vw, 1.375rem); color: var(--text3); background: var(--surface2); text-align: center; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; }
 
 /* ── DIVIDER */
 .divider { width: 100%; height: 1px; background: var(--border); margin: 14px 0; }
 
 /* ── NAV */
-.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; }
-.nav-btn { font-family: 'Google Sans Code', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; }
+.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; border-radius: 999px;}
+.nav-btn { font-family: 'Google Sans Code', monospace; font-size: 18px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; border-radius: 999px;}
 .nav-btn:hover { color: var(--gold); border-color: var(--gold); background: rgba(201,168,76,0.05); }
 .nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
 .nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 220px; justify-content: center; }
@@ -203,7 +203,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   background: rgba(7, 9, 15, 0.9);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
-  font-family: 'Google Sans Code', monospace;
+  font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
 }
 .course-nav-inner {
   width: min(1120px, calc(100% - 32px));
@@ -235,7 +235,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   background: transparent;
   color: var(--text2, #94a3b8);
   font: inherit;
-  font-size: 10px;
+  font-size: 18px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
@@ -258,7 +258,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .course-menu-button::after,
 .course-submenu-button::after {
   content: "▾";
-  font-size: 10px;
+  font-size: 18px;
   color: var(--text3, #64748b);
   transition: transform 0.18s ease;
 }
@@ -333,7 +333,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   background: transparent;
   color: var(--text2, #94a3b8);
   font: inherit;
-  font-size: 10px;
+  font-size: 18px;
   letter-spacing: 0.04em;
   line-height: 1.35;
   text-align: left;
@@ -371,7 +371,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   border-color: var(--accent, #22b3a0);
   outline: none;
 }
-.course-nav ~ .slide-num { top: 62px !important; }
+.course-nav ~ .slide-num { top: 98px !important; }
 @media (max-width: 720px) {
   .course-nav-inner {
     width: min(100% - 18px, 680px);
@@ -382,7 +382,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   .course-link,
   .course-menu-button {
     min-height: 36px;
-    font-size: 9px;
+    font-size: 18px;
   }
   .course-dropdown {
     position: fixed;
@@ -536,15 +536,15 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   <div class="content">
     <div class="label">// A1.2.1 · Number Systems</div>
     <h1>Binary &<br><span class="hl-cyan">Hexadecimal</span></h1>
-    <p style="font-family:'Google Sans Code', monospace;font-size:clamp(0.85rem,1.4vw,1.1rem);color:var(--text3);margin-bottom:20px;">Review Lesson</p>
+    <p style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.4vw, 1.375rem);color:var(--text3);margin-bottom:20px;">Review Lesson</p>
     <div class="gold-box">
       <p><strong>👉 Guiding Question:</strong> How does a computer represent numbers using only 0 and 1?</p>
     </div>
     <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:20px;">
-      <div style="padding-left:12px;border-left:2px solid var(--green);"><div style="font-family:'Google Sans Code', monospace;font-size:1rem;">Base 2</div><div style="font-family:'Google Sans Code', monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">BINARY</div></div>
-      <div style="padding-left:12px;border-left:2px solid var(--cyan);"><div style="font-family:'Google Sans Code', monospace;font-size:1rem;">Base 16</div><div style="font-family:'Google Sans Code', monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">HEXADECIMAL</div></div>
-      <div style="padding-left:12px;border-left:2px solid var(--gold);"><div style="font-family:'Google Sans Code', monospace;font-size:1rem;">Base 10</div><div style="font-family:'Google Sans Code', monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">DENARY / DECIMAL</div></div>
-      <div style="padding-left:12px;border-left:2px solid var(--blue);"><div style="font-family:'Google Sans Code', monospace;font-size:1rem;">0 and 1</div><div style="font-family:'Google Sans Code', monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">ONLY DIGITS</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--green);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Base 2</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">BINARY</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--cyan);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Base 16</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">HEXADECIMAL</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--gold);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Base 10</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">DENARY / DECIMAL</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--blue);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">0 and 1</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">ONLY DIGITS</div></div>
     </div>
   </div>
 </div>
@@ -583,16 +583,16 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <div class="slide">
   <div class="content" style="max-width:800px;margin:0 auto;text-align:center;">
     <div class="label" style="display:block;text-align:center;">// The Foundation</div>
-    <h2 style="font-size:clamp(2rem,5vw,4rem);">Computers only<br>understand <span class="hl-green">binary</span></h2>
+    <h2 style="font-size: clamp(2rem, 5vw, 4rem);">Computers only<br>understand <span class="hl-green">binary</span></h2>
     <div class="divider" style="margin:28px 0;"></div>
     <div class="grid g2" style="gap:2px;text-align:left;">
       <div class="card green" style="padding:24px 28px;">
-        <div style="font-family:'Google Sans Code', monospace;font-size:clamp(3rem,6vw,5rem);font-weight:500;color:var(--green);line-height:1;margin-bottom:8px;">1</div>
-        <div style="font-family:'Google Sans Code', monospace;font-size:clamp(0.85rem,1.4vw,1.1rem);color:var(--text2);">ON · TRUE · HIGH voltage</div>
+        <div style="font-family:'Google Sans Code', monospace;font-size: clamp(3rem, 6vw, 5rem);font-weight:500;color:var(--green);line-height:1;margin-bottom:8px;">1</div>
+        <div style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.4vw, 1.375rem);color:var(--text2);">ON · TRUE · HIGH voltage</div>
       </div>
       <div class="card red" style="padding:24px 28px;">
-        <div style="font-family:'Google Sans Code', monospace;font-size:clamp(3rem,6vw,5rem);font-weight:500;color:var(--text3);line-height:1;margin-bottom:8px;">0</div>
-        <div style="font-family:'Google Sans Code', monospace;font-size:clamp(0.85rem,1.4vw,1.1rem);color:var(--text2);">OFF · FALSE · LOW voltage</div>
+        <div style="font-family:'Google Sans Code', monospace;font-size: clamp(3rem, 6vw, 5rem);font-weight:500;color:var(--text3);line-height:1;margin-bottom:8px;">0</div>
+        <div style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.4vw, 1.375rem);color:var(--text2);">OFF · FALSE · LOW voltage</div>
       </div>
     </div>
     <div class="info-box" style="text-align:left;margin-top:14px;">
@@ -625,7 +625,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
       <div>
         <div class="card gold">
           <div class="card-title">🧮 Represents Everything</div>
-          <div class="card-body" style="font-size:clamp(1rem,1.6vw,1.25rem);">
+          <div class="card-body" style="font-size: clamp(1.125rem, 1.6vw, 1.25rem);">
             Binary can encode:<br><br>
             &nbsp;&nbsp;TRUE / FALSE<br>
             &nbsp;&nbsp;YES / NO<br>
@@ -681,7 +681,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
       <p><strong>1</strong> × 100 &nbsp;+&nbsp; <strong>0</strong> × 10 &nbsp;+&nbsp; <strong>0</strong> × 1 &nbsp;=&nbsp; <strong style="font-size:1.2em;">100</strong></p>
     </div>
     <div class="divider"></div>
-    <p style="font-size:clamp(0.88rem,1.4vw,1.1rem);color:var(--text2);">Example: &nbsp;<strong style="color:var(--text);">1024</strong></p>
+    <p style="font-size: clamp(1.125rem, 1.4vw, 1.375rem);color:var(--text2);">Example: &nbsp;<strong style="color:var(--text);">1024</strong></p>
     <div class="bit-table-wrap" style="margin-top:8px;">
       <table class="denary-table" style="width:100%;">
         <thead>
@@ -765,19 +765,19 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
     <div class="grid g4" style="gap:2px;margin-top:4px;">
       <div class="card gold" style="padding:14px;text-align:center;">
         <div style="font-family:'Google Sans Code', monospace;font-size:1.4rem;font-weight:700;color:var(--gold);">2⁰ = 1</div>
-        <div style="font-size:0.8rem;color:var(--text3);margin-top:4px;">any number⁰ = 1</div>
+        <div style="font-size:1.125rem;color:var(--text3);margin-top:4px;">any number⁰ = 1</div>
       </div>
       <div class="card gold" style="padding:14px;text-align:center;">
         <div style="font-family:'Google Sans Code', monospace;font-size:1.4rem;font-weight:700;color:var(--gold);">2¹ = 2</div>
-        <div style="font-size:0.8rem;color:var(--text3);margin-top:4px;">double each time</div>
+        <div style="font-size:1.125rem;color:var(--text3);margin-top:4px;">double each time</div>
       </div>
       <div class="card gold" style="padding:14px;text-align:center;">
         <div style="font-family:'Google Sans Code', monospace;font-size:1.4rem;font-weight:700;color:var(--gold);">2⁴ = 16</div>
-        <div style="font-size:0.8rem;color:var(--text3);margin-top:4px;">= 1 hex digit</div>
+        <div style="font-size:1.125rem;color:var(--text3);margin-top:4px;">= 1 hex digit</div>
       </div>
       <div class="card gold" style="padding:14px;text-align:center;">
         <div style="font-family:'Google Sans Code', monospace;font-size:1.4rem;font-weight:700;color:var(--gold);">2⁸ = 256</div>
-        <div style="font-size:0.8rem;color:var(--text3);margin-top:4px;">= 1 byte range</div>
+        <div style="font-size:1.125rem;color:var(--text3);margin-top:4px;">= 1 byte range</div>
       </div>
     </div>
     <div class="info-box" style="margin-top:10px;">
@@ -856,9 +856,9 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
       </table>
     </div>
     <div style="margin-top:14px;background:var(--surface);border:1px solid var(--border2);padding:18px 24px;">
-      <div style="font-family:'Google Sans Code', monospace;font-size:clamp(0.88rem,1.5vw,1.1rem);color:var(--text2);line-height:1.8;">
+      <div style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.5vw, 1.375rem);color:var(--text2);line-height:1.8;">
         128 + 64 + 32 + 16 + 8 + 4 + 2 + 1 =
-        <span style="font-size:clamp(1.5rem,3vw,2.5rem);font-weight:700;color:var(--gold2);margin-left:12px;">255</span>
+        <span style="font-size: clamp(1.5rem, 3vw, 2.5rem);font-weight:700;color:var(--gold2);margin-left:12px;">255</span>
       </div>
     </div>
     <div class="grid g2" style="gap:2px;margin-top:10px;">
@@ -885,27 +885,27 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
         </thead>
         <tbody>
           <tr>
-            <td style="text-align:left;padding-left:16px;color:var(--green);font-weight:700;font-size:clamp(1rem,1.8vw,1.4rem);">Bit</td>
+            <td style="text-align:left;padding-left:16px;color:var(--green);font-weight:700;font-size: clamp(1.125rem, 1.8vw, 1.4rem);">Bit</td>
             <td class="power">1 digit</td>
-            <td style="text-align:left;padding-left:16px;color:var(--text2);font-size:clamp(0.85rem,1.3vw,1.05rem);">Single binary digit</td>
+            <td style="text-align:left;padding-left:16px;color:var(--text2);font-size: clamp(1.125rem, 1.3vw, 1.375rem);">Single binary digit</td>
             <td class="power">0 or 1</td>
           </tr>
           <tr>
-            <td style="text-align:left;padding-left:16px;color:var(--blue);font-weight:700;font-size:clamp(1rem,1.8vw,1.4rem);">Byte</td>
+            <td style="text-align:left;padding-left:16px;color:var(--blue);font-weight:700;font-size: clamp(1.125rem, 1.8vw, 1.4rem);">Byte</td>
             <td class="power">8 bits</td>
-            <td style="text-align:left;padding-left:16px;color:var(--text2);font-size:clamp(0.85rem,1.3vw,1.05rem);">Group of 8 binary digits</td>
+            <td style="text-align:left;padding-left:16px;color:var(--text2);font-size: clamp(1.125rem, 1.3vw, 1.375rem);">Group of 8 binary digits</td>
             <td class="power">0 – 255</td>
           </tr>
           <tr>
-            <td style="text-align:left;padding-left:16px;color:var(--gold);font-weight:700;font-size:clamp(1rem,1.8vw,1.4rem);">Kilobyte</td>
+            <td style="text-align:left;padding-left:16px;color:var(--gold);font-weight:700;font-size: clamp(1.125rem, 1.8vw, 1.4rem);">Kilobyte</td>
             <td class="power">1,024 B</td>
-            <td style="text-align:left;padding-left:16px;color:var(--text2);font-size:clamp(0.85rem,1.3vw,1.05rem);">1,024 bytes</td>
+            <td style="text-align:left;padding-left:16px;color:var(--text2);font-size: clamp(1.125rem, 1.3vw, 1.375rem);">1,024 bytes</td>
             <td class="power">≈ 1,000 B</td>
           </tr>
           <tr>
-            <td style="text-align:left;padding-left:16px;color:var(--purple);font-weight:700;font-size:clamp(1rem,1.8vw,1.4rem);">Megabyte</td>
+            <td style="text-align:left;padding-left:16px;color:var(--purple);font-weight:700;font-size: clamp(1.125rem, 1.8vw, 1.4rem);">Megabyte</td>
             <td class="power">1,024 KB</td>
-            <td style="text-align:left;padding-left:16px;color:var(--text2);font-size:clamp(0.85rem,1.3vw,1.05rem);">1,024 kilobytes</td>
+            <td style="text-align:left;padding-left:16px;color:var(--text2);font-size: clamp(1.125rem, 1.3vw, 1.375rem);">1,024 kilobytes</td>
             <td class="power">≈ 1,000,000 B</td>
           </tr>
         </tbody>
@@ -947,10 +947,10 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
             <td class="bit-table" style="background:transparent;border:none;"></td>
             <td class="bit-table" style="background:transparent;border:none;"></td>
             <td class="bit-table" style="background:transparent;border:none;"></td>
-            <td style="background:rgba(61,214,140,0.1);color:var(--green);font-size:clamp(0.8rem,1.3vw,1rem);">✓ +8</td>
-            <td class="bit-0" style="font-size:clamp(0.8rem,1.3vw,1rem);color:var(--text3);">✗</td>
-            <td style="background:rgba(61,214,140,0.1);color:var(--green);font-size:clamp(0.8rem,1.3vw,1rem);">✓ +2</td>
-            <td class="bit-0" style="font-size:clamp(0.8rem,1.3vw,1rem);color:var(--text3);">✗</td>
+            <td style="background:rgba(61,214,140,0.1);color:var(--green);font-size: clamp(1.125rem, 1.3vw, 1.375rem);">✓ +8</td>
+            <td class="bit-0" style="font-size: clamp(1.125rem, 1.3vw, 1.375rem);color:var(--text3);">✗</td>
+            <td style="background:rgba(61,214,140,0.1);color:var(--green);font-size: clamp(1.125rem, 1.3vw, 1.375rem);">✓ +2</td>
+            <td class="bit-0" style="font-size: clamp(1.125rem, 1.3vw, 1.375rem);color:var(--text3);">✗</td>
           </tr>
         </tbody>
       </table>
@@ -972,7 +972,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
       <div class="step-row"><div class="step-n">02</div><div class="step-text">Running total × 2, then add the next bit</div></div>
       <div class="step-row"><div class="step-n">03</div><div class="step-text">Repeat until you reach the last bit (LSB)</div></div>
     </div>
-    <p style="font-size:clamp(0.85rem,1.3vw,1rem);color:var(--text3);font-family:'Google Sans Code', monospace;margin-bottom:8px;">Example: &nbsp;1 0 1 0</p>
+    <p style="font-size: clamp(1.125rem, 1.3vw, 1.375rem);color:var(--text3);font-family:'Google Sans Code', monospace;margin-bottom:8px;">Example: &nbsp;1 0 1 0</p>
     <div class="chain">
       <div class="chain-box"><div class="c-top">Start</div><div class="c-val" style="color:var(--green);">1</div></div>
       <div class="chain-op">×2 +0</div>
@@ -1008,7 +1008,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
         </div>
       </div>
       <div>
-        <p style="font-family:'Google Sans Code', monospace;font-size:0.85rem;color:var(--text3);margin-bottom:8px;letter-spacing:0.1em;">EXAMPLE: 10 → binary</p>
+        <p style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);margin-bottom:8px;letter-spacing:0.1em;">EXAMPLE: 10 → binary</p>
         <table class="div-table" style="width:100%;">
           <thead>
             <tr><th>Divide</th><th>Quotient</th><th>Remainder</th><th>Bit</th></tr>
@@ -1076,7 +1076,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
         </thead>
         <tbody>
           <tr>
-            <th style="background:var(--surface2);border:1px solid var(--border2);padding:8px 10px;font-family:'Google Sans Code', monospace;font-size:clamp(0.68rem,1.05vw,0.85rem);color:var(--text3);font-weight:400;">Hex</th>
+            <th style="background:var(--surface2);border:1px solid var(--border2);padding:8px 10px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.05vw, 1.375rem);color:var(--text3);font-weight:400;">Hex</th>
             <td class="hex-val">0</td><td class="hex-val">1</td><td class="hex-val">2</td><td class="hex-val">3</td>
             <td class="hex-val">4</td><td class="hex-val">5</td><td class="hex-val">6</td><td class="hex-val">7</td>
             <td class="hex-val">8</td><td class="hex-val">9</td>
@@ -1088,7 +1088,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
             <td class="hex-val" style="background:rgba(34,211,238,0.18);">F</td>
           </tr>
           <tr>
-            <th style="background:var(--surface2);border:1px solid var(--border2);padding:8px 10px;font-family:'Google Sans Code', monospace;font-size:clamp(0.68rem,1.05vw,0.85rem);color:var(--text3);font-weight:400;">Binary</th>
+            <th style="background:var(--surface2);border:1px solid var(--border2);padding:8px 10px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.05vw, 1.375rem);color:var(--text3);font-weight:400;">Binary</th>
             <td class="bin-val">0000</td><td class="bin-val">0001</td><td class="bin-val">0010</td><td class="bin-val">0011</td>
             <td class="bin-val">0100</td><td class="bin-val">0101</td><td class="bin-val">0110</td><td class="bin-val">0111</td>
             <td class="bin-val">1000</td><td class="bin-val">1001</td><td class="bin-val">1010</td><td class="bin-val">1011</td>
@@ -1114,30 +1114,30 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
       <div>
         <div class="card red" style="margin-bottom:2px;">
           <div class="card-title">Binary — Precise but long</div>
-          <div style="font-family:'Google Sans Code', monospace;font-size:clamp(1.4rem,3vw,2.5rem);font-weight:500;color:var(--green);letter-spacing:0.1em;padding:10px 0;">1101 1010</div>
+          <div style="font-family:'Google Sans Code', monospace;font-size: clamp(1.4rem, 3vw, 2.5rem);font-weight:500;color:var(--green);letter-spacing:0.1em;padding:10px 0;">1101 1010</div>
           <div class="card-body">8 characters. Hard to read, easy to mistype.</div>
         </div>
         <div class="card cyan" style="margin-top:2px;">
           <div class="card-title">Hex — Compact shorthand</div>
-          <div style="font-family:'Google Sans Code', monospace;font-size:clamp(2rem,4vw,3.5rem);font-weight:700;color:var(--cyan);letter-spacing:0.2em;padding:10px 0;">D A</div>
+          <div style="font-family:'Google Sans Code', monospace;font-size: clamp(2rem, 4vw, 3.5rem);font-weight:700;color:var(--cyan);letter-spacing:0.2em;padding:10px 0;">D A</div>
           <div class="card-body">2 characters. Same value — much easier to read.</div>
         </div>
         <div class="info-box"><p><strong>👉 Shorter and easier to read</strong> — used in memory addresses, colour codes, error codes, MAC addresses</p></div>
       </div>
       <div style="background:var(--surface);border:1px solid var(--border);padding:24px;">
-        <div style="font-family:'Google Sans Code', monospace;font-size:0.75rem;color:var(--text3);letter-spacing:0.15em;margin-bottom:14px;">REAL-WORLD HEX EXAMPLES</div>
+        <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);letter-spacing:0.15em;margin-bottom:14px;">REAL-WORLD HEX EXAMPLES</div>
         <div style="display:flex;flex-direction:column;gap:10px;">
           <div style="background:var(--surface2);padding:12px 16px;border-left:3px solid var(--cyan);">
-            <div style="font-family:'Google Sans Code', monospace;font-size:0.75rem;color:var(--text3);margin-bottom:4px;">COLOUR CODE</div>
-            <div style="font-family:'Google Sans Code', monospace;font-size:clamp(1rem,1.8vw,1.4rem);color:var(--cyan);">#FF5733</div>
+            <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);margin-bottom:4px;">COLOUR CODE</div>
+            <div style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.8vw, 1.4rem);color:var(--cyan);">#FF5733</div>
           </div>
           <div style="background:var(--surface2);padding:12px 16px;border-left:3px solid var(--gold);">
-            <div style="font-family:'Google Sans Code', monospace;font-size:0.75rem;color:var(--text3);margin-bottom:4px;">MEMORY ADDRESS</div>
-            <div style="font-family:'Google Sans Code', monospace;font-size:clamp(1rem,1.8vw,1.4rem);color:var(--gold);">0x00FF0A2C</div>
+            <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);margin-bottom:4px;">MEMORY ADDRESS</div>
+            <div style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.8vw, 1.4rem);color:var(--gold);">0x00FF0A2C</div>
           </div>
           <div style="background:var(--surface2);padding:12px 16px;border-left:3px solid var(--purple);">
-            <div style="font-family:'Google Sans Code', monospace;font-size:0.75rem;color:var(--text3);margin-bottom:4px;">MAC ADDRESS</div>
-            <div style="font-family:'Google Sans Code', monospace;font-size:clamp(1rem,1.8vw,1.4rem);color:var(--purple);">00:1A:2B:3C:4D:5E</div>
+            <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);margin-bottom:4px;">MAC ADDRESS</div>
+            <div style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.8vw, 1.4rem);color:var(--purple);">00:1A:2B:3C:4D:5E</div>
           </div>
         </div>
       </div>
@@ -1176,9 +1176,9 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
           </tr>
           <tr>
             <td class="row-label">Sum</td>
-            <td colspan="4" style="background:rgba(61,214,140,0.1);color:var(--green);font-size:clamp(0.88rem,1.5vw,1.1rem);">8+4+1 = 13</td>
+            <td colspan="4" style="background:rgba(61,214,140,0.1);color:var(--green);font-size: clamp(1.125rem, 1.5vw, 1.375rem);">8+4+1 = 13</td>
             <td class="spacer"></td>
-            <td colspan="4" style="background:rgba(34,211,238,0.1);color:var(--cyan);font-size:clamp(0.88rem,1.5vw,1.1rem);">8+2 = 10</td>
+            <td colspan="4" style="background:rgba(34,211,238,0.1);color:var(--cyan);font-size: clamp(1.125rem, 1.5vw, 1.375rem);">8+2 = 10</td>
           </tr>
           <tr>
             <td class="row-label">Hex</td>
@@ -1218,31 +1218,31 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
       </div>
       <div>
         <div style="background:var(--surface);border:1px solid var(--border);padding:20px;">
-          <div style="font-family:'Google Sans Code', monospace;font-size:0.75rem;color:var(--text3);letter-spacing:0.15em;margin-bottom:14px;">CONVERSION MAP</div>
+          <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);letter-spacing:0.15em;margin-bottom:14px;">CONVERSION MAP</div>
           <div style="display:flex;flex-direction:column;gap:8px;">
             <div style="display:flex;align-items:center;gap:8px;">
-              <div style="background:rgba(61,214,140,0.1);border:1px solid rgba(61,214,140,0.2);padding:8px 14px;font-family:'Google Sans Code', monospace;color:var(--green);font-size:0.9rem;">Binary</div>
+              <div style="background:rgba(61,214,140,0.1);border:1px solid rgba(61,214,140,0.2);padding:8px 14px;font-family:'Google Sans Code', monospace;color:var(--green);font-size:1.125rem;">Binary</div>
               <div style="color:var(--gold);font-family:'Google Sans Code', monospace;">⟷</div>
-              <div style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);padding:8px 14px;font-family:'Google Sans Code', monospace;color:var(--gold);font-size:0.9rem;">Decimal</div>
-              <div style="color:var(--text3);font-family:'Google Sans Code', monospace;font-size:0.75rem;">Positional / Division</div>
+              <div style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);padding:8px 14px;font-family:'Google Sans Code', monospace;color:var(--gold);font-size:1.125rem;">Decimal</div>
+              <div style="color:var(--text3);font-family:'Google Sans Code', monospace;font-size:1.125rem;">Positional / Division</div>
             </div>
             <div style="display:flex;align-items:center;gap:8px;">
-              <div style="background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.2);padding:8px 14px;font-family:'Google Sans Code', monospace;color:var(--cyan);font-size:0.9rem;">Hex</div>
+              <div style="background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.2);padding:8px 14px;font-family:'Google Sans Code', monospace;color:var(--cyan);font-size:1.125rem;">Hex</div>
               <div style="color:var(--gold);font-family:'Google Sans Code', monospace;">⟷</div>
-              <div style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);padding:8px 14px;font-family:'Google Sans Code', monospace;color:var(--gold);font-size:0.9rem;">Decimal</div>
-              <div style="color:var(--text3);font-family:'Google Sans Code', monospace;font-size:0.75rem;">× 16 / ÷ 16</div>
+              <div style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);padding:8px 14px;font-family:'Google Sans Code', monospace;color:var(--gold);font-size:1.125rem;">Decimal</div>
+              <div style="color:var(--text3);font-family:'Google Sans Code', monospace;font-size:1.125rem;">× 16 / ÷ 16</div>
             </div>
             <div style="display:flex;align-items:center;gap:8px;">
-              <div style="background:rgba(61,214,140,0.1);border:1px solid rgba(61,214,140,0.2);padding:8px 14px;font-family:'Google Sans Code', monospace;color:var(--green);font-size:0.9rem;">Binary</div>
+              <div style="background:rgba(61,214,140,0.1);border:1px solid rgba(61,214,140,0.2);padding:8px 14px;font-family:'Google Sans Code', monospace;color:var(--green);font-size:1.125rem;">Binary</div>
               <div style="color:var(--gold);font-family:'Google Sans Code', monospace;">⟷</div>
-              <div style="background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.2);padding:8px 14px;font-family:'Google Sans Code', monospace;color:var(--cyan);font-size:0.9rem;">Hex</div>
-              <div style="color:var(--text3);font-family:'Google Sans Code', monospace;font-size:0.75rem;">Group by 4 bits</div>
+              <div style="background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.2);padding:8px 14px;font-family:'Google Sans Code', monospace;color:var(--cyan);font-size:1.125rem;">Hex</div>
+              <div style="color:var(--text3);font-family:'Google Sans Code', monospace;font-size:1.125rem;">Group by 4 bits</div>
             </div>
           </div>
           <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:14px;">
-            <div style="font-family:'Google Sans Code', monospace;font-size:0.72rem;color:var(--text3);">BRUTE FORCE SHORTCUT</div>
-            <div style="font-family:'Google Sans Code', monospace;font-size:0.85rem;color:var(--gold2);margin-top:6px;">Hex ↔ Binary ↔ Decimal</div>
-            <div style="font-family:'Google Sans Code', monospace;font-size:0.72rem;color:var(--text3);margin-top:4px;">Convert to binary first, then to target</div>
+            <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);">BRUTE FORCE SHORTCUT</div>
+            <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--gold2);margin-top:6px;">Hex ↔ Binary ↔ Decimal</div>
+            <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);margin-top:4px;">Convert to binary first, then to target</div>
           </div>
         </div>
       </div>
@@ -1254,27 +1254,27 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <div class="slide">
   <div class="content" style="max-width:900px;margin:0 auto;text-align:center;">
     <div class="label" style="display:block;text-align:center;">// The Big Idea</div>
-    <h2 style="font-size:clamp(1.8rem,4vw,3.5rem);">Binary = Foundation<br><span class="hl-cyan">Hex = Shortcut</span></h2>
+    <h2 style="font-size: clamp(1.8rem, 4vw, 3.5rem);">Binary = Foundation<br><span class="hl-cyan">Hex = Shortcut</span></h2>
     <div class="divider" style="margin:24px 0;"></div>
     <div class="grid g3" style="gap:2px;text-align:left;margin-bottom:14px;">
       <div class="card green" style="padding:20px 22px;">
         <div class="card-title">Binary</div>
-        <div style="font-family:'Google Sans Code', monospace;font-size:clamp(1.4rem,2.5vw,2rem);color:var(--green);margin:8px 0;">0  1</div>
+        <div style="font-family:'Google Sans Code', monospace;font-size: clamp(1.4rem, 2.5vw, 2rem);color:var(--green);margin:8px 0;">0  1</div>
         <div class="card-body">How hardware actually works. Every transistor, every signal.</div>
       </div>
       <div class="card cyan" style="padding:20px 22px;">
         <div class="card-title">Hexadecimal</div>
-        <div style="font-family:'Google Sans Code', monospace;font-size:clamp(1.4rem,2.5vw,2rem);color:var(--cyan);margin:8px 0;">0–9  A–F</div>
+        <div style="font-family:'Google Sans Code', monospace;font-size: clamp(1.4rem, 2.5vw, 2rem);color:var(--cyan);margin:8px 0;">0–9  A–F</div>
         <div class="card-body">Human-readable shorthand for binary. Each digit = 4 bits.</div>
       </div>
       <div class="card gold" style="padding:20px 22px;">
         <div class="card-title">Decimal</div>
-        <div style="font-family:'Google Sans Code', monospace;font-size:clamp(1.4rem,2.5vw,2rem);color:var(--gold);margin:8px 0;">0–9</div>
+        <div style="font-family:'Google Sans Code', monospace;font-size: clamp(1.4rem, 2.5vw, 2rem);color:var(--gold);margin:8px 0;">0–9</div>
         <div class="card-body">How humans think. The bridge between binary and real-world values.</div>
       </div>
     </div>
     <div style="background:var(--surface);border:1px solid var(--border2);padding:18px 28px;">
-      <p style="font-family:'Google Sans Code', monospace;font-size:clamp(1rem,1.8vw,1.4rem);color:var(--text2);line-height:1.7;">
+      <p style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.8vw, 1.4rem);color:var(--text2);line-height:1.7;">
         👉 Computers store <strong style="color:var(--text);">all data</strong> as 0 and 1 &nbsp;·&nbsp;
         Every number, image, and program is ultimately <strong style="color:var(--green);">binary</strong>
       </p>
@@ -1284,9 +1284,9 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
         <thead>
           <tr>
             <th colspan="8" style="background:rgba(61,214,140,0.06);color:var(--green);border:1px solid rgba(61,214,140,0.15);letter-spacing:0.1em;">1 1 0 1 1 0 1 0</th>
-            <th style="background:transparent;border:none;color:var(--text3);font-size:0.8rem;">= </th>
+            <th style="background:transparent;border:none;color:var(--text3);font-size:1.125rem;">= </th>
             <th style="background:rgba(34,211,238,0.06);color:var(--cyan);border:1px solid rgba(34,211,238,0.15);">D A</th>
-            <th style="background:transparent;border:none;color:var(--text3);font-size:0.8rem;">= </th>
+            <th style="background:transparent;border:none;color:var(--text3);font-size:1.125rem;">= </th>
             <th style="background:rgba(201,168,76,0.06);color:var(--gold2);border:1px solid rgba(201,168,76,0.15);">218</th>
           </tr>
         </thead>

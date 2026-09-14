@@ -71,7 +71,7 @@
     align-items: center;
     gap: 8px;
     font-family: 'Google Sans Code', monospace;
-    font-size: 11px;
+    font-size: 18px;
     color: var(--accent);
     border: 1px solid rgba(209, 165, 88,0.3);
     padding: 6px 14px;
@@ -84,7 +84,7 @@
 
   .badge::before {
     content: '●';
-    font-size: 7px;
+    font-size: 18px;
     animation: pulse 2s infinite;
   }
 
@@ -108,7 +108,7 @@
   }
 
   .tagline {
-    font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+    font-size: clamp(1.125rem, 1.8vw, 1.2rem);
     color: var(--text2);
     font-weight: 300;
     margin-top: 16px;
@@ -140,7 +140,7 @@
   }
 
   .stat-label {
-    font-size: 0.72rem;
+    font-size: 1.125rem;
     color: var(--text3);
     letter-spacing: 0.06em;
   }
@@ -153,7 +153,7 @@
 
   .section-label {
     font-family: 'Google Sans Code', monospace;
-    font-size: 10px;
+    font-size: 18px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--accent);
@@ -168,7 +168,7 @@
   }
 
   .section-desc {
-    font-size: 0.95rem;
+    font-size: 1.125rem;
     color: var(--text2);
     font-weight: 300;
     margin-bottom: 36px;
@@ -220,7 +220,7 @@
 
   .card-tag {
     font-family: 'Google Sans Code', monospace;
-    font-size: 10px;
+    font-size: 18px;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     padding: 3px 8px;
@@ -230,13 +230,13 @@
   }
 
   .card-title {
-    font-size: 1.05rem;
+    font-size: 1.125rem;
     font-weight: 700;
     line-height: 1.3;
   }
 
   .card-desc {
-    font-size: 0.85rem;
+    font-size: 1.125rem;
     color: var(--text2);
     font-weight: 300;
     line-height: 1.65;
@@ -245,7 +245,7 @@
 
   .card-meta {
     font-family: 'Google Sans Code', monospace;
-    font-size: 0.7rem;
+    font-size: 1.125rem;
     color: var(--text3);
     margin-top: 4px;
   }
@@ -289,21 +289,21 @@
 
   .lesson-kicker {
     font-family: 'Google Sans Code', monospace;
-    font-size: 0.62rem;
+    font-size: 1.125rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--text3);
   }
 
   .lesson-title {
-    font-size: 0.95rem;
+    font-size: 1.125rem;
     font-weight: 700;
     line-height: 1.35;
   }
 
   .lesson-arrow {
     font-family: 'Google Sans Code', monospace;
-    font-size: 0.95rem;
+    font-size: 1.125rem;
     color: var(--text3);
     flex-shrink: 0;
     transition: transform 0.2s, color 0.2s;
@@ -336,7 +336,7 @@
 
   .coming-badge {
     font-family: 'Google Sans Code', monospace;
-    font-size: 9px;
+    font-size: 18px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     background: var(--surface2);
@@ -465,7 +465,7 @@
 
   .accordion-count {
     font-family: 'Google Sans Code', monospace;
-    font-size: 0.66rem;
+    font-size: 1.125rem;
     color: var(--text3);
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -508,7 +508,7 @@
   }
 
   .topic-accordion .subtopic-name {
-    font-size: 0.96rem;
+    font-size: 1.125rem;
   }
 
   .semester-accordion .resource-grid,
@@ -519,56 +519,10 @@
 
 
 
-  .overview-rail {
-    position: fixed;
-    top: 72px;
-    left: max(18px, calc((100vw - 1420px) / 2));
-    z-index: 900;
-    width: 138px;
-    display: grid;
-    gap: 6px;
-    padding: 12px;
-    border: 1px solid rgba(148, 163, 184, 0.18);
-    background: rgba(10, 10, 15, 0.78);
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
-  }
-
-  .overview-rail a {
-    color: var(--text2);
-    text-decoration: none;
-    font-family: 'Google Sans Code', monospace;
-    font-size: 0.66rem;
-    letter-spacing: 0.07em;
-    line-height: 1.2;
-    padding: 7px 8px;
-    border-left: 2px solid transparent;
-  }
-
-  .overview-rail a:hover,
-  .overview-rail a:focus {
-    color: var(--text);
-    border-left-color: var(--accent);
-    background: rgba(255, 255, 255, 0.06);
-    outline: none;
-  }
-
-  .overview-rail-group {
-    display: grid;
-    gap: 2px;
-    padding-left: 10px;
-  }
-
-  .overview-rail-group a {
-    font-size: 0.6rem;
-    color: var(--text3);
-    padding-top: 5px;
-    padding-bottom: 5px;
-  }
 
   .topic-count {
     font-family: 'Google Sans Code', monospace;
-    font-size: 0.68rem;
+    font-size: 1.125rem;
     color: var(--text3);
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -649,7 +603,7 @@
 
   .topic-index {
     font-family: 'Google Sans Code', monospace;
-    font-size: 0.78rem;
+    font-size: 1.125rem;
     color: var(--accent);
     letter-spacing: 0.16em;
     text-transform: uppercase;
@@ -664,7 +618,7 @@
   }
 
   .topic-desc {
-    font-size: 0.9rem;
+    font-size: 1.125rem;
     color: var(--text2);
     line-height: 1.65;
     font-weight: 300;
@@ -700,7 +654,7 @@
 
   .subtopic-code {
     font-family: 'Google Sans Code', monospace;
-    font-size: 0.68rem;
+    font-size: 1.125rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--text3);
@@ -708,14 +662,14 @@
 
   .subtopic-name {
     display: block;
-    font-size: 0.98rem;
+    font-size: 1.125rem;
     font-weight: 700;
     line-height: 1.35;
   }
 
   .subtopic-meta {
     font-family: 'Google Sans Code', monospace;
-    font-size: 0.68rem;
+    font-size: 1.125rem;
     color: var(--text3);
   }
 
@@ -781,35 +735,6 @@
 
 
 
-    .overview-rail {
-      position: sticky;
-      top: 46px;
-      width: min(1080px, calc(100% - 32px));
-      margin: 0 auto 18px;
-      display: flex;
-      gap: 6px;
-      overflow-x: auto;
-      padding: 8px;
-    }
-
-    .overview-rail-group {
-      display: contents;
-    }
-
-    .overview-rail a,
-    .overview-rail-group a {
-      flex: 0 0 auto;
-      font-size: 0.62rem;
-      border-left: 0;
-      border-bottom: 2px solid transparent;
-    }
-
-    .overview-rail a:hover,
-    .overview-rail a:focus {
-      border-left-color: transparent;
-      border-bottom-color: var(--accent);
-    }
-
     .topic-accordion summary,
     .semester-accordion summary {
       min-height: 128px;
@@ -850,7 +775,7 @@
 
   footer p {
     font-family: 'Google Sans Code', monospace;
-    font-size: 0.72rem;
+    font-size: 1.125rem;
     color: var(--text3);
     letter-spacing: 0.08em;
   }
@@ -858,37 +783,6 @@
   footer span { color: var(--accent); }
 
 
-
-  @media (max-width: 1450px) {
-    .overview-rail {
-      position: sticky;
-      top: 48px;
-      width: min(1080px, calc(100% - 32px));
-      margin: 0 auto 18px;
-      display: flex;
-      gap: 6px;
-      overflow-x: auto;
-      padding: 8px;
-    }
-
-    .overview-rail-group {
-      display: contents;
-    }
-
-    .overview-rail a,
-    .overview-rail-group a {
-      flex: 0 0 auto;
-      font-size: 0.62rem;
-      border-left: 0;
-      border-bottom: 2px solid transparent;
-    }
-
-    .overview-rail a:hover,
-    .overview-rail a:focus {
-      border-left-color: transparent;
-      border-bottom-color: var(--accent);
-    }
-  }
 
   @media (max-width: 600px) {
     .cards-grid { grid-template-columns: 1fr; }
@@ -907,7 +801,7 @@
   background: rgba(7, 9, 15, 0.9);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
-  font-family: 'Google Sans Code', monospace;
+  font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
 }
 .course-nav-inner {
   width: min(1120px, calc(100% - 32px));
@@ -939,7 +833,7 @@
   background: transparent;
   color: var(--text2, #94a3b8);
   font: inherit;
-  font-size: 10px;
+  font-size: 18px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
@@ -962,7 +856,7 @@
 .course-menu-button::after,
 .course-submenu-button::after {
   content: "▾";
-  font-size: 10px;
+  font-size: 18px;
   color: var(--text3, #64748b);
   transition: transform 0.18s ease;
 }
@@ -1037,7 +931,7 @@
   background: transparent;
   color: var(--text2, #94a3b8);
   font: inherit;
-  font-size: 10px;
+  font-size: 18px;
   letter-spacing: 0.04em;
   line-height: 1.35;
   text-align: left;
@@ -1086,7 +980,7 @@
   .course-link,
   .course-menu-button {
     min-height: 36px;
-    font-size: 9px;
+    font-size: 18px;
   }
   .course-dropdown {
     position: fixed;
@@ -1241,28 +1135,6 @@
     <p class="tagline">Slides for IB Computer Science</p>
   </div>
 </header>
-
-<nav class="overview-rail" aria-label="Overview sections">
-  <a href="#course-overview">Overview</a>
-  <a href="#theme-a">Theme A</a>
-  <div class="overview-rail-group" aria-label="Theme A topics">
-    <a href="#a1">A1</a>
-    <a href="#a2">A2</a>
-    <a href="#a3">A3</a>
-    <a href="#a4">A4</a>
-  </div>
-  <a href="#theme-b">Theme B</a>
-  <div class="overview-rail-group" aria-label="Theme B topics">
-    <a href="#b1">B1</a>
-    <a href="#b2">B2</a>
-    <a href="#b3">B3</a>
-    <a href="#b4">B4</a>
-  </div>
-  <a href="#internal-assessment">IA</a>
-  <a href="#case-study">Case</a>
-  <a href="#extra-materials">Extra</a>
-  <a href="#semesters">Semesters</a>
-</nav>
 
 <!-- Course Overview -->
 <section class="curriculum-section" id="course-overview">
