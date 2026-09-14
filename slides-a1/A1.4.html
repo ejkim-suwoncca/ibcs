@@ -22,21 +22,21 @@ body::before{content:'';position:fixed;inset:0;
   background-image:linear-gradient(rgba(74,158,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,.03) 1px,transparent 1px),linear-gradient(rgba(74,158,255,.01) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,.01) 1px,transparent 1px);
   background-size:80px 80px,80px 80px,16px 16px,16px 16px;pointer-events:none;z-index:0;}
 .deck{position:relative;width:100vw;height:100vh;z-index:1;}
-.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content: flex-start;align-items:center;
-  padding:64px 68px 86px;opacity:0;pointer-events:none;
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content: flex-start;align-items: flex-start;
+  padding:100px 68px 86px; overflow-y: auto; overscroll-behavior: contain;opacity:0;pointer-events:none;
   transition:opacity .38s ease,transform .38s ease;transform:translateY(12px);}
 .slide.active{opacity:1;pointer-events:all;transform:translateY(0);}
 .slide.exit{opacity:0;transform:translateY(-12px);}
 .progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--orange),var(--pink),var(--purple));transition:width .38s ease;z-index:100;}
-.slide-num{position:fixed;top:17px;right:24px;font-family:'Google Sans Code', monospace;font-size:11px;color:var(--text3);letter-spacing:.1em;z-index:100;}
+.slide-num{position:fixed;top:17px;right:24px;font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:.1em;z-index:100;}
 .content{width:100%;max-width:1120px;}
-.label{font-family:'Google Sans Code', monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:13px;}
+.label{font-family:'Google Sans Code', monospace;font-size:18px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:13px;}
 .label.blue{color:var(--blue);}.label.green{color:var(--green);}.label.cyan{color:var(--cyan);}
 .label.purple{color:var(--purple);}.label.pink{color:var(--pink);}.label.orange{color:var(--orange);}
 .label.teal{color:var(--teal);}
-h1{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(2.6rem,5vw,4.6rem);font-weight: 500;line-height:1.05;letter-spacing:-.02em;margin-bottom:13px;}
-h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,3.8vw,3rem);font-weight: 500;line-height:1.1;margin-bottom:11px;}
-.lead{font-size:clamp(.95rem,1.65vw,1.28rem);color:var(--text2);font-weight:300;line-height:1.65;margin-bottom:18px;}
+h1{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(2.6rem, 5vw, 4.6rem);font-weight: 500;line-height:1.05;letter-spacing:-.02em;margin-bottom:13px;}
+h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem, 3.8vw, 3rem);font-weight: 500;line-height:1.1;margin-bottom:11px;}
+.lead{font-size: clamp(1.5rem, 1.8vw, 1.875rem);color:var(--text2);font-weight:300;line-height:1.65;margin-bottom:18px;}
 .hl-gold{color:var(--gold2);}.hl-blue{color:var(--blue);}.hl-green{color:var(--green);}.hl-cyan{color:var(--cyan);}
 .hl-red{color:var(--red);}.hl-purple{color:var(--purple);}.hl-pink{color:var(--pink);}.hl-orange{color:var(--orange);}.hl-teal{color:var(--teal);}
 .grid{display:grid;gap:2px;width:100%;}
@@ -47,33 +47,33 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
 .card.green::after{background:var(--green);}.card.red::after{background:var(--red);}
 .card.purple::after{background:var(--purple);}.card.cyan::after{background:var(--cyan);}
 .card.pink::after{background:var(--pink);}.card.orange::after{background:var(--orange);}.card.teal::after{background:var(--teal);}
-.card-title{font-family:'Google Sans Code', monospace;font-size:clamp(.68rem,1.05vw,.88rem);font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:7px;}
-.card-body{font-size:clamp(.82rem,1.25vw,1rem);color:var(--text2);line-height:1.6;font-weight:300;}
+.card-title{font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.05vw, 1.375rem);font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:7px;}
+.card-body{font-size: clamp(1.5rem, 1.6vw, 1.75rem);color:var(--text2);line-height:1.6;font-weight:300;}
 .card-body strong{color:var(--text);font-weight:500;}
 .gold-box{border-left:3px solid var(--gold);padding:11px 18px;background:rgba(201,168,76,.04);border-top:1px solid rgba(201,168,76,.08);border-right:1px solid rgba(201,168,76,.08);border-bottom:1px solid rgba(201,168,76,.08);margin-top:12px;}
-.gold-box p{font-size:clamp(.85rem,1.35vw,1.05rem);color:var(--text2);line-height:1.6;}
+.gold-box p{font-size: clamp(1.5rem, 1.7vw, 1.8rem);color:var(--text2);line-height:1.6;}
 .gold-box strong{color:var(--gold2);}
 .cyan-box{border-left:3px solid var(--cyan);padding:11px 18px;background:rgba(34,211,238,.04);border-top:1px solid rgba(34,211,238,.08);border-right:1px solid rgba(34,211,238,.08);border-bottom:1px solid rgba(34,211,238,.08);margin-top:12px;}
-.cyan-box p{font-size:clamp(.85rem,1.35vw,1.05rem);color:var(--text2);line-height:1.6;}
+.cyan-box p{font-size: clamp(1.125rem, 1.35vw, 1.375rem);color:var(--text2);line-height:1.6;}
 .cyan-box strong{color:var(--cyan);}
 .info-box{border-left:3px solid var(--blue);padding:11px 18px;background:rgba(74,158,255,.04);border-top:1px solid rgba(74,158,255,.08);border-right:1px solid rgba(74,158,255,.08);border-bottom:1px solid rgba(74,158,255,.08);margin-top:12px;}
-.info-box p{font-size:clamp(.85rem,1.35vw,1.05rem);color:var(--text2);line-height:1.6;}
+.info-box p{font-size: clamp(1.5rem, 1.7vw, 1.8rem);color:var(--text2);line-height:1.6;}
 .info-box strong{color:var(--blue);}
 /* chain */
 .chain{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin:10px 0;}
 .chain-box{background:var(--surface);border:1px solid var(--border2);padding:9px 16px;text-align:center;}
-.chain-box .c-top{font-family:'Google Sans Code', monospace;font-size:clamp(.52rem,.82vw,.68rem);color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;}
-.chain-box .c-val{font-family:'Google Sans Code', monospace;font-size:clamp(.78rem,1.2vw,.95rem);font-weight:500;}
-.chain-arrow{color:var(--gold);font-size:1.1rem;padding:0 6px;display:flex;align-items:center;flex-shrink:0;}
+.chain-box .c-top{font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, .82vw, 1.375rem);color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;}
+.chain-box .c-val{font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.2vw, 1.375rem);font-weight:500;}
+.chain-arrow{color:var(--gold);font-size:1.125rem;padding:0 6px;display:flex;align-items:center;flex-shrink:0;}
 /* summary table */
 .summary-table{border-collapse:collapse;width:100%;}
-.summary-table th{background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.18);padding:9px 12px;text-align:left;font-family:'Google Sans Code', monospace;font-size:clamp(.58rem,.9vw,.75rem);color:var(--cyan);font-weight:500;letter-spacing:.08em;text-transform:uppercase;}
-.summary-table td{border:1px solid var(--border);padding:9px 12px;background:var(--surface);font-size:clamp(.78rem,1.18vw,.95rem);color:var(--text2);vertical-align:top;}
+.summary-table th{background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.18);padding:9px 12px;text-align:left;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, .9vw, 1.375rem);color:var(--cyan);font-weight:500;letter-spacing:.08em;text-transform:uppercase;}
+.summary-table td{border:1px solid var(--border);padding:9px 12px;background:var(--surface);font-size: clamp(1.125rem, 1.18vw, 1.375rem);color:var(--text2);vertical-align:top;}
 .summary-table tr:hover td{background:var(--surface2);}
-.summary-table td:first-child{font-family:'Google Sans Code', monospace;font-weight:700;font-size:clamp(.82rem,1.25vw,1rem);white-space:nowrap;}
+.summary-table td:first-child{font-family:'Google Sans Code', monospace;font-weight:700;font-size: clamp(1.125rem, 1.25vw, 1.375rem);white-space:nowrap;}
 /* nav */
-.nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;z-index:100;background:rgba(7,9,15,.92);backdrop-filter:blur(16px);border:1px solid var(--border2);padding:9px 18px;}
-.nav-btn{font-family:'Google Sans Code', monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);background:none;border:1px solid var(--border2);padding:6px 13px;cursor:pointer;transition:all .2s;}
+.nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;z-index:100;background:rgba(7,9,15,.92);backdrop-filter:blur(16px);border:1px solid var(--border2);padding:9px 18px; border-radius: 999px;}
+.nav-btn{font-family:'Google Sans Code', monospace;font-size:18px;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);background:none;border:1px solid var(--border2);padding:6px 13px;cursor:pointer;transition:all .2s; border-radius: 999px;}
 .nav-btn:hover{color:var(--gold);border-color:var(--gold);background:rgba(201,168,76,.05);}
 .nav-btn:disabled{opacity:.25;cursor:not-allowed;}
 .nav-dots{display:flex;gap:4px;flex-wrap:wrap;max-width:260px;justify-content:center;}
@@ -92,7 +92,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
   background: rgba(7, 9, 15, 0.9);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
-  font-family: 'Google Sans Code', monospace;
+  font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
 }
 .course-nav-inner {
   width: min(1120px, calc(100% - 32px));
@@ -124,7 +124,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
   background: transparent;
   color: var(--text2, #94a3b8);
   font: inherit;
-  font-size: 10px;
+  font-size: 18px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
@@ -147,7 +147,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
 .course-menu-button::after,
 .course-submenu-button::after {
   content: "▾";
-  font-size: 10px;
+  font-size: 18px;
   color: var(--text3, #64748b);
   transition: transform 0.18s ease;
 }
@@ -222,7 +222,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
   background: transparent;
   color: var(--text2, #94a3b8);
   font: inherit;
-  font-size: 10px;
+  font-size: 18px;
   letter-spacing: 0.04em;
   line-height: 1.35;
   text-align: left;
@@ -260,7 +260,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
   border-color: var(--accent, #22b3a0);
   outline: none;
 }
-.course-nav ~ .slide-num { top: 62px !important; }
+.course-nav ~ .slide-num { top: 98px !important; }
 @media (max-width: 720px) {
   .course-nav-inner {
     width: min(100% - 18px, 680px);
@@ -271,7 +271,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
   .course-link,
   .course-menu-button {
     min-height: 36px;
-    font-size: 9px;
+    font-size: 18px;
   }
   .course-dropdown {
     position: fixed;
@@ -425,12 +425,12 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
   <div class="content">
     <div class="label">// A1.4.1 · Translation</div>
     <h1>Translation<br><span class="hl-orange">Processes</span></h1>
-    <p style="font-family:'Google Sans Code', monospace;font-size:clamp(.82rem,1.3vw,1rem);color:var(--text3);margin-bottom:18px;">Summary Lesson</p>
+    <p style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.3vw, 1.375rem);color:var(--text3);margin-bottom:18px;">Summary Lesson</p>
     <div class="gold-box"><p><strong>👉 Guiding Question:</strong> How is high-level code turned into something a computer can actually run?</p></div>
     <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:18px;">
-      <div style="padding-left:11px;border-left:2px solid var(--orange);"><div style="font-family:'Google Sans Code', monospace;font-size:.95rem;">Interpreters</div><div style="font-family:'Google Sans Code', monospace;font-size:9px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">LINE-BY-LINE EXECUTION</div></div>
-      <div style="padding-left:11px;border-left:2px solid var(--blue);"><div style="font-family:'Google Sans Code', monospace;font-size:.95rem;">Compilers</div><div style="font-family:'Google Sans Code', monospace;font-size:9px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">WHOLE PROGRAM → MACHINE CODE</div></div>
-      <div style="padding-left:11px;border-left:2px solid var(--purple);"><div style="font-family:'Google Sans Code', monospace;font-size:.95rem;">Bytecode / JIT</div><div style="font-family:'Google Sans Code', monospace;font-size:9px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">HYBRID APPROACHES</div></div>
+      <div style="padding-left:11px;border-left:2px solid var(--orange);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Interpreters</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">LINE-BY-LINE EXECUTION</div></div>
+      <div style="padding-left:11px;border-left:2px solid var(--blue);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Compilers</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">WHOLE PROGRAM → MACHINE CODE</div></div>
+      <div style="padding-left:11px;border-left:2px solid var(--purple);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Bytecode / JIT</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">HYBRID APPROACHES</div></div>
     </div>
   </div>
 </div>
@@ -490,7 +490,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
         </div>
       </div>
       <div>
-        <table style="border-collapse:collapse;width:100%;font-family:'Google Sans Code', monospace;font-size:.82rem;">
+        <table style="border-collapse:collapse;width:100%;font-family:'Google Sans Code', monospace;font-size:1.125rem;">
           <tr>
             <td style="background:rgba(61,214,140,.08);border:1px solid rgba(61,214,140,.2);padding:8px 12px;color:var(--green);font-weight:500;width:50%;">✓ Advantages</td>
             <td style="background:rgba(255,107,107,.06);border:1px solid rgba(255,107,107,.18);padding:8px 12px;color:var(--red);font-weight:500;">✗ Disadvantages</td>
@@ -529,7 +529,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
         </div>
       </div>
       <div>
-        <table style="border-collapse:collapse;width:100%;font-family:'Google Sans Code', monospace;font-size:.82rem;">
+        <table style="border-collapse:collapse;width:100%;font-family:'Google Sans Code', monospace;font-size:1.125rem;">
           <tr>
             <td style="background:rgba(74,158,255,.08);border:1px solid rgba(74,158,255,.2);padding:8px 12px;color:var(--blue);font-weight:500;width:50%;">✓ Advantages</td>
             <td style="background:rgba(255,107,107,.06);border:1px solid rgba(255,107,107,.18);padding:8px 12px;color:var(--red);font-weight:500;">✗ Disadvantages</td>
@@ -645,10 +645,10 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
         </tr>
         <tr>
           <td style="color:var(--cyan);">Examples</td>
-          <td style="font-family:'Google Sans Code', monospace;font-size:.8rem;color:var(--blue);">C, C++</td>
-          <td style="font-family:'Google Sans Code', monospace;font-size:.8rem;color:var(--orange);">Python, JavaScript, Ruby</td>
-          <td style="font-family:'Google Sans Code', monospace;font-size:.8rem;color:var(--purple);">Java (JVM), Python (.pyc)</td>
-          <td style="font-family:'Google Sans Code', monospace;font-size:.8rem;color:var(--pink);">JVM, .NET, V8 (Chrome)</td>
+          <td style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--blue);">C, C++</td>
+          <td style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--orange);">Python, JavaScript, Ruby</td>
+          <td style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--purple);">Java (JVM), Python (.pyc)</td>
+          <td style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--pink);">JVM, .NET, V8 (Chrome)</td>
         </tr>
       </tbody>
     </table>

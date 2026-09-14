@@ -42,8 +42,8 @@ body::before {
 .deck { position: relative; width: 100vw; height: 100vh; z-index: 1; }
 .slide {
   position: absolute; inset: 0;
-  display: flex; flex-direction: column; justify-content: flex-start; align-items: center;
-  padding: 64px 72px 92px;
+  display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;
+  padding: 100px 72px 92px; overflow-y: auto; overscroll-behavior: contain;
   opacity: 0; pointer-events: none;
   transition: opacity 0.38s ease, transform 0.38s ease;
   transform: translateY(12px);
@@ -51,21 +51,21 @@ body::before {
 .slide.active { opacity: 1; pointer-events: all; transform: translateY(0); }
 .slide.exit { opacity: 0; transform: translateY(-12px); }
 .slide.scroll-slide {
-  justify-content: flex-start; align-items: center;
+  justify-content: flex-start; align-items: flex-start;
   overflow-y: auto; overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
-  padding-top: 64px; padding-bottom: 132px;
+  padding-top: 100px; padding-bottom: 132px;
 }
 .slide.scroll-slide::-webkit-scrollbar { width: 10px; }
 .slide.scroll-slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
 .progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--orange), var(--gold2), var(--red)); transition: width 0.38s ease; z-index: 100; }
-.slide-num { position: fixed; top: 17px; right: 24px; font-family: 'Google Sans Code', monospace; font-size: 11px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
+.slide-num { position: fixed; top: 17px; right: 24px; font-family: 'Google Sans Code', monospace; font-size: 18px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
 .content { width: 100%; max-width: 1120px; }
-.label { font-family: 'Google Sans Code', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; }
+.label { font-family: 'Google Sans Code', monospace; font-size: 18px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; }
 .label.blue { color: var(--blue); } .label.green { color: var(--green); } .label.gold { color: var(--gold); } .label.cyan { color: var(--cyan); } .label.teal { color: var(--teal); } .label.purple { color: var(--purple); }
-h1 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.8rem,5.5vw,4.8rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
-h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.9rem,4vw,3.2rem); font-weight: 500; line-height: 1.1; margin-bottom: 12px; }
-.lead { font-size: clamp(1rem,1.75vw,1.35rem); color: var(--text2); font-weight: 300; line-height: 1.65; margin-bottom: 24px; }
+h1 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.8rem, 5.5vw, 4.8rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
+h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.9rem, 4vw, 3.2rem); font-weight: 500; line-height: 1.1; margin-bottom: 12px; }
+.lead { font-size: clamp(1.5rem, 1.8vw, 1.875rem); color: var(--text2); font-weight: 300; line-height: 1.65; margin-bottom: 24px; }
 .hl-orange { color: var(--orange); } .hl-blue { color: var(--blue); } .hl-green { color: var(--green); } .hl-purple { color: var(--purple); } .hl-gold { color: var(--gold2); } .hl-cyan { color: var(--cyan); } .hl-teal { color: var(--teal); }
 .grid { display: grid; gap: 2px; width: 100%; }
 .g2 { grid-template-columns: 1fr 1fr; } .g3 { grid-template-columns: 1fr 1fr 1fr; } .g4 { grid-template-columns: 1fr 1fr 1fr 1fr; } .g5 { grid-template-columns: repeat(5, 1fr); }
@@ -75,37 +75,37 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .card.green::after { background: var(--green); } .card.red::after { background: var(--red); }
 .card.purple::after { background: var(--purple); } .card.cyan::after { background: var(--cyan); }
 .card.orange::after { background: var(--orange); } .card.teal::after { background: var(--teal); }
-.card-title { font-family: 'Google Sans Code', monospace; font-size: clamp(0.7rem,1.1vw,0.9rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
-.card-body { font-size: clamp(0.85rem,1.3vw,1.05rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
+.card-title { font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.1vw, 1.375rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.card-body { font-size: clamp(1.5rem, 1.6vw, 1.75rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
 .card-body strong { color: var(--text); font-weight: 500; }
 .info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(74,158,255,0.04); border-top: 1px solid rgba(74,158,255,0.08); border-right: 1px solid rgba(74,158,255,0.08); border-bottom: 1px solid rgba(74,158,255,0.08); margin-top: 14px; }
-.info-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.info-box p { font-size: clamp(1.5rem, 1.7vw, 1.8rem); color: var(--text2); line-height: 1.6; }
 .info-box strong { color: var(--blue); }
 .gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(201,168,76,0.04); border-top: 1px solid rgba(201,168,76,0.08); border-right: 1px solid rgba(201,168,76,0.08); border-bottom: 1px solid rgba(201,168,76,0.08); margin-top: 14px; }
-.gold-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.gold-box p { font-size: clamp(1.5rem, 1.7vw, 1.8rem); color: var(--text2); line-height: 1.6; }
 .gold-box strong { color: var(--gold2); }
 .orange-box { border-left: 3px solid var(--orange); padding: 13px 20px; background: rgba(251,146,60,0.04); border-top: 1px solid rgba(251,146,60,0.08); border-right: 1px solid rgba(251,146,60,0.08); border-bottom: 1px solid rgba(251,146,60,0.08); margin-top: 14px; }
-.orange-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.orange-box p { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.6; }
 .orange-box strong { color: var(--orange); }
 .green-box { border-left: 3px solid var(--green); padding: 13px 20px; background: rgba(61,214,140,0.04); border-top: 1px solid rgba(61,214,140,0.08); border-right: 1px solid rgba(61,214,140,0.08); border-bottom: 1px solid rgba(61,214,140,0.08); margin-top: 14px; }
-.green-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.green-box p { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.6; }
 .green-box strong { color: var(--green); }
 .cyan-box { border-left: 3px solid var(--cyan); padding: 13px 20px; background: rgba(34,211,238,0.04); border-top: 1px solid rgba(34,211,238,0.08); border-right: 1px solid rgba(34,211,238,0.08); border-bottom: 1px solid rgba(34,211,238,0.08); margin-top: 14px; }
-.cyan-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.cyan-box p { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.6; }
 .cyan-box strong { color: var(--cyan); }
 .divider { width: 100%; height: 1px; background: var(--border); margin: 14px 0; }
 .steps { display: flex; flex-direction: column; gap: 2px; }
 .step-row { display: flex; align-items: flex-start; gap: 18px; background: var(--surface); border: 1px solid var(--border); padding: 13px 18px; }
-.step-n { font-family: 'Google Sans Code', monospace; font-size: clamp(0.85rem,1.4vw,1.1rem); color: var(--orange); min-width: 28px; flex-shrink: 0; font-weight: 500; padding-top: 2px; }
-.step-text { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.5; font-weight: 300; }
+.step-n { font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--orange); min-width: 28px; flex-shrink: 0; font-weight: 500; padding-top: 2px; }
+.step-text { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.5; font-weight: 300; }
 .step-text strong { color: var(--text); font-weight: 500; }
-.tag { display: inline-block; font-family: 'Google Sans Code', monospace; font-size: 9px; padding: 2px 7px; border-radius: 2px; letter-spacing: 0.06em; vertical-align: middle; margin-left: 4px; }
+.tag { display: inline-block; font-family: 'Google Sans Code', monospace; font-size: 18px; padding: 2px 7px; border-radius: 2px; letter-spacing: 0.06em; vertical-align: middle; margin-left: 4px; }
 .tag.sl { background: rgba(61,214,140,0.1); color: var(--green); border: 1px solid rgba(61,214,140,0.25); }
 .tag.hl { background: rgba(155,138,251,0.1); color: var(--purple); border: 1px solid rgba(155,138,251,0.25); }
 /* Pipeline diagram */
 .pipeline-row { display: flex; align-items: center; gap: 3px; margin-bottom: 6px; }
-.pipeline-label { font-family: 'Google Sans Code', monospace; font-size: 0.75rem; color: var(--text3); width: 60px; flex-shrink: 0; }
-.pipeline-cell { flex: 1; height: 36px; display: flex; align-items: center; justify-content: center; font-family: 'Google Sans Code', monospace; font-size: 0.65rem; letter-spacing: 0.05em; font-weight: 500; }
+.pipeline-label { font-family: 'Google Sans Code', monospace; font-size: 1.125rem; color: var(--text3); width: 60px; flex-shrink: 0; }
+.pipeline-cell { flex: 1; height: 36px; display: flex; align-items: center; justify-content: center; font-family: 'Google Sans Code', monospace; font-size: 1.125rem; letter-spacing: 0.05em; font-weight: 500; }
 .cell-idle { background: rgba(30,37,53,0.5); border: 1px solid var(--border); color: var(--text3); }
 .cell-f { background: rgba(34,211,238,0.12); border: 1px solid rgba(34,211,238,0.3); color: var(--cyan); }
 .cell-d { background: rgba(74,158,255,0.12); border: 1px solid rgba(74,158,255,0.3); color: var(--blue); }
@@ -113,9 +113,9 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .cell-m { background: rgba(155,138,251,0.12); border: 1px solid rgba(155,138,251,0.3); color: var(--purple); }
 .cell-w { background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.3); color: var(--gold2); }
 .cycle-header { display: flex; gap: 3px; margin-bottom: 3px; margin-left: 63px; }
-.cycle-num { flex: 1; text-align: center; font-family: 'Google Sans Code', monospace; font-size: 0.65rem; color: var(--text3); }
-.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; }
-.nav-btn { font-family: 'Google Sans Code', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; }
+.cycle-num { flex: 1; text-align: center; font-family: 'Google Sans Code', monospace; font-size: 1.125rem; color: var(--text3); }
+.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; border-radius: 999px;}
+.nav-btn { font-family: 'Google Sans Code', monospace; font-size: 18px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; border-radius: 999px;}
 .nav-btn:hover { color: var(--orange); border-color: var(--orange); background: rgba(251,146,60,0.05); }
 .nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
 .nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 240px; justify-content: center; }
@@ -134,7 +134,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   background: rgba(7, 9, 15, 0.9);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
-  font-family: 'Google Sans Code', monospace;
+  font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
 }
 .course-nav-inner {
   width: min(1120px, calc(100% - 32px));
@@ -166,7 +166,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   background: transparent;
   color: var(--text2, #94a3b8);
   font: inherit;
-  font-size: 10px;
+  font-size: 18px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
@@ -189,7 +189,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .course-menu-button::after,
 .course-submenu-button::after {
   content: "▾";
-  font-size: 10px;
+  font-size: 18px;
   color: var(--text3, #64748b);
   transition: transform 0.18s ease;
 }
@@ -264,7 +264,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   background: transparent;
   color: var(--text2, #94a3b8);
   font: inherit;
-  font-size: 10px;
+  font-size: 18px;
   letter-spacing: 0.04em;
   line-height: 1.35;
   text-align: left;
@@ -302,7 +302,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   border-color: var(--accent, #22b3a0);
   outline: none;
 }
-.course-nav ~ .slide-num { top: 62px !important; }
+.course-nav ~ .slide-num { top: 98px !important; }
 @media (max-width: 720px) {
   .course-nav-inner {
     width: min(100% - 18px, 680px);
@@ -313,7 +313,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   .course-link,
   .course-menu-button {
     min-height: 36px;
-    font-size: 9px;
+    font-size: 18px;
   }
   .course-dropdown {
     position: fixed;
@@ -467,14 +467,14 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   <div class="content">
     <div class="label">// A1.1.6 · Computer Fundamentals · HL Only</div>
     <h1><span class="hl-orange">Pipelining</span><br>in Multi-Core Architectures</h1>
-    <p style="font-family:'Google Sans Code', monospace;font-size:clamp(0.85rem,1.4vw,1.1rem);color:var(--text3);margin-bottom:20px;">Theme A1.1 · IB Computer Science HL</p>
+    <p style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.4vw, 1.375rem);color:var(--text3);margin-bottom:20px;">Theme A1.1 · IB Computer Science HL</p>
     <div class="orange-box">
       <p><strong>👉 Guiding Question:</strong> What principles underpin the operation of a computer, from low-level hardware functionality to operating system interactions?</p>
     </div>
     <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:20px;">
-      <div style="padding-left:12px;border-left:2px solid var(--orange);"><div style="font-family:'Google Sans Code', monospace;font-size:1rem;">Pipelining</div><div style="font-family:'Google Sans Code', monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">OVERLAPPING STAGES</div></div>
-      <div style="padding-left:12px;border-left:2px solid var(--cyan);"><div style="font-family:'Google Sans Code', monospace;font-size:1rem;">5 Stages</div><div style="font-family:'Google Sans Code', monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">FETCH → WRITE BACK</div></div>
-      <div style="padding-left:12px;border-left:2px solid var(--green);"><div style="font-family:'Google Sans Code', monospace;font-size:1rem;">Multi-Core</div><div style="font-family:'Google Sans Code', monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">PARALLEL EXECUTION</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--orange);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Pipelining</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">OVERLAPPING STAGES</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--cyan);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">5 Stages</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">FETCH → WRITE BACK</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--green);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Multi-Core</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">PARALLEL EXECUTION</div></div>
     </div>
   </div>
 </div>
@@ -534,7 +534,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   <div class="content">
     <div class="label">// A1.1.6 · CPU Pipeline Stages</div>
     <h2>The Five Pipeline Stages</h2>
-    <p style="font-size:clamp(0.88rem,1.3vw,1rem);color:var(--text2);margin-bottom:16px;">The CPU's instruction cycle is broken into five distinct stages, each handled by dedicated hardware.</p>
+    <p style="font-size: clamp(1.125rem, 1.3vw, 1.375rem);color:var(--text2);margin-bottom:16px;">The CPU's instruction cycle is broken into five distinct stages, each handled by dedicated hardware.</p>
     <div class="steps">
       <div class="step-row">
         <div class="step-n" style="color:var(--cyan);">F</div>
@@ -565,10 +565,10 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   <div class="content">
     <div class="label">// Pipeline Timing Diagram</div>
     <h2>Visualizing the Pipeline</h2>
-    <p style="font-size:clamp(0.88rem,1.3vw,1rem);color:var(--text2);margin-bottom:18px;">Each row is one instruction; each column is one clock cycle. A well-optimized pipeline achieves approximately <strong>one instruction completing per cycle</strong>.</p>
+    <p style="font-size: clamp(1.125rem, 1.3vw, 1.375rem);color:var(--text2);margin-bottom:18px;">Each row is one instruction; each column is one clock cycle. A well-optimized pipeline achieves approximately <strong>one instruction completing per cycle</strong>.</p>
 
     <div style="margin-bottom:6px;">
-      <div style="font-family:'Google Sans Code', monospace;font-size:10px;letter-spacing:0.15em;color:var(--text3);margin-bottom:8px;">NON-PIPELINED (sequential)</div>
+      <div style="font-family:'Google Sans Code', monospace;font-size:18px;letter-spacing:0.15em;color:var(--text3);margin-bottom:8px;">NON-PIPELINED (sequential)</div>
       <div class="cycle-header">
         <div class="cycle-num">1</div><div class="cycle-num">2</div><div class="cycle-num">3</div>
         <div class="cycle-num">4</div><div class="cycle-num">5</div><div class="cycle-num">6</div>
@@ -587,7 +587,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
     </div>
 
     <div style="margin-bottom:6px;margin-top:18px;">
-      <div style="font-family:'Google Sans Code', monospace;font-size:10px;letter-spacing:0.15em;color:var(--text3);margin-bottom:8px;">PIPELINED (overlapping stages)</div>
+      <div style="font-family:'Google Sans Code', monospace;font-size:18px;letter-spacing:0.15em;color:var(--text3);margin-bottom:8px;">PIPELINED (overlapping stages)</div>
       <div class="cycle-header">
         <div class="cycle-num">1</div><div class="cycle-num">2</div><div class="cycle-num">3</div>
         <div class="cycle-num">4</div><div class="cycle-num">5</div><div class="cycle-num">6</div>
@@ -661,7 +661,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
     <div class="grid g3" style="gap:2px;margin-bottom:16px;">
       <div class="card cyan">
         <div class="card-title">Core 1 — Pipeline</div>
-        <div class="card-body" style="font-family:'Google Sans Code', monospace;font-size:0.78rem;line-height:1.8;">
+        <div class="card-body" style="font-family:'Google Sans Code', monospace;font-size:1.125rem;line-height:1.8;">
           Cycle 1: <span style="color:var(--cyan);">F</span>-A<br>
           Cycle 2: <span style="color:var(--blue);">D</span>-A <span style="color:var(--cyan);">F</span>-B<br>
           Cycle 3: <span style="color:var(--green);">E</span>-A <span style="color:var(--blue);">D</span>-B <span style="color:var(--cyan);">F</span>-C<br>
@@ -670,7 +670,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
       </div>
       <div class="card orange">
         <div class="card-title">Core 2 — Pipeline</div>
-        <div class="card-body" style="font-family:'Google Sans Code', monospace;font-size:0.78rem;line-height:1.8;">
+        <div class="card-body" style="font-family:'Google Sans Code', monospace;font-size:1.125rem;line-height:1.8;">
           Cycle 1: <span style="color:var(--cyan);">F</span>-X<br>
           Cycle 2: <span style="color:var(--blue);">D</span>-X <span style="color:var(--cyan);">F</span>-Y<br>
           Cycle 3: <span style="color:var(--green);">E</span>-X <span style="color:var(--blue);">D</span>-Y <span style="color:var(--cyan);">F</span>-Z<br>
@@ -721,7 +721,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
     <h2>Benefits &amp; Limitations of Pipelining</h2>
     <div class="grid g2" style="gap:2px;margin-bottom:14px;">
       <div>
-        <div style="font-family:'Google Sans Code', monospace;font-size:10px;color:var(--green);letter-spacing:0.15em;margin-bottom:8px;">BENEFITS</div>
+        <div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--green);letter-spacing:0.15em;margin-bottom:8px;">BENEFITS</div>
         <div class="steps">
           <div class="step-row"><div class="step-n" style="color:var(--green);">✓</div><div class="step-text"><strong>Higher throughput:</strong> Close to one instruction completed per clock cycle when the pipeline is full.</div></div>
           <div class="step-row"><div class="step-n" style="color:var(--green);">✓</div><div class="step-text"><strong>Better hardware utilization:</strong> All pipeline stages are kept busy; no hardware sits idle between instructions.</div></div>
@@ -730,7 +730,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
         </div>
       </div>
       <div>
-        <div style="font-family:'Google Sans Code', monospace;font-size:10px;color:var(--red);letter-spacing:0.15em;margin-bottom:8px;">LIMITATIONS</div>
+        <div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--red);letter-spacing:0.15em;margin-bottom:8px;">LIMITATIONS</div>
         <div class="steps">
           <div class="step-row"><div class="step-n" style="color:var(--red);">✗</div><div class="step-text"><strong>Pipeline hazards:</strong> Data dependencies, branch instructions, and resource conflicts can cause stalls, reducing actual throughput below the theoretical maximum.</div></div>
           <div class="step-row"><div class="step-n" style="color:var(--red);">✗</div><div class="step-text"><strong>Increased hardware complexity:</strong> Pipeline registers, forwarding units, and hazard detection circuits add design complexity and cost.</div></div>

@@ -40,8 +40,8 @@ body::before {
 .deck { position: relative; width: 100vw; height: 100vh; z-index: 1; }
 .slide {
   position: absolute; inset: 0;
-  display: flex; flex-direction: column; justify-content: flex-start; align-items: center;
-  padding: 64px 72px 92px;
+  display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;
+  padding: 100px 72px 92px; overflow-y: auto; overscroll-behavior: contain;
   opacity: 0; pointer-events: none;
   transition: opacity 0.38s ease, transform 0.38s ease;
   transform: translateY(12px);
@@ -50,23 +50,23 @@ body::before {
 .slide.exit { opacity: 0; transform: translateY(-12px); }
 .slide.scroll-slide {
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
-  padding-top: 64px;
+  padding-top: 100px;
   padding-bottom: 132px;
 }
 .slide.scroll-slide::-webkit-scrollbar { width: 10px; }
 .slide.scroll-slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
 .progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--teal), var(--cyan)); transition: width 0.38s ease; z-index: 100; }
-.slide-num { position: fixed; top: 17px; right: 24px; font-family: 'Google Sans Code', monospace; font-size: 11px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
+.slide-num { position: fixed; top: 17px; right: 24px; font-family: 'Google Sans Code', monospace; font-size: 18px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
 .content { width: 100%; max-width: 1120px; }
-.label { font-family: 'Google Sans Code', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--teal); margin-bottom: 14px; }
+.label { font-family: 'Google Sans Code', monospace; font-size: 18px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--teal); margin-bottom: 14px; }
 .label.blue { color: var(--blue); } .label.green { color: var(--green); } .label.purple { color: var(--purple); } .label.cyan { color: var(--cyan); } .label.orange { color: var(--orange); } .label.gold { color: var(--gold); }
-h1 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.8rem,5.5vw,4.8rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
-h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.9rem,4vw,3.2rem); font-weight: 500; line-height: 1.1; margin-bottom: 12px; }
-.lead { font-size: clamp(1rem,1.75vw,1.35rem); color: var(--text2); font-weight: 300; line-height: 1.65; margin-bottom: 24px; }
+h1 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.8rem, 5.5vw, 4.8rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
+h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.9rem, 4vw, 3.2rem); font-weight: 500; line-height: 1.1; margin-bottom: 12px; }
+.lead { font-size: clamp(1.5rem, 1.8vw, 1.875rem); color: var(--text2); font-weight: 300; line-height: 1.65; margin-bottom: 24px; }
 .hl-gold { color: var(--gold2); } .hl-blue { color: var(--blue); } .hl-green { color: var(--green); } .hl-purple { color: var(--purple); } .hl-cyan { color: var(--cyan); } .hl-red { color: var(--red); } .hl-orange { color: var(--orange); } .hl-teal { color: var(--teal); }
 .grid { display: grid; gap: 2px; width: 100%; }
 .g2 { grid-template-columns: 1fr 1fr; } .g3 { grid-template-columns: 1fr 1fr 1fr; } .g4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
@@ -76,44 +76,44 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .card.green::after { background: var(--green); } .card.red::after { background: var(--red); }
 .card.purple::after { background: var(--purple); } .card.cyan::after { background: var(--cyan); }
 .card.orange::after { background: var(--orange); } .card.teal::after { background: var(--teal); }
-.card-title { font-family: 'Google Sans Code', monospace; font-size: clamp(0.7rem,1.1vw,0.9rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
-.card-body { font-size: clamp(0.85rem,1.3vw,1.05rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
+.card-title { font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.1vw, 1.375rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.card-body { font-size: clamp(1.5rem, 1.6vw, 1.75rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
 .card-body strong { color: var(--text); font-weight: 500; }
 .info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(74,158,255,0.04); border-top: 1px solid rgba(74,158,255,0.08); border-right: 1px solid rgba(74,158,255,0.08); border-bottom: 1px solid rgba(74,158,255,0.08); margin-top: 14px; }
-.info-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.info-box p { font-size: clamp(1.5rem, 1.7vw, 1.8rem); color: var(--text2); line-height: 1.6; }
 .info-box strong { color: var(--blue); }
 .teal-box { border-left: 3px solid var(--teal); padding: 13px 20px; background: rgba(45,212,191,0.04); border-top: 1px solid rgba(45,212,191,0.08); border-right: 1px solid rgba(45,212,191,0.08); border-bottom: 1px solid rgba(45,212,191,0.08); margin-top: 14px; }
-.teal-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.teal-box p { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.6; }
 .teal-box strong { color: var(--teal); }
 .gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(201,168,76,0.04); border-top: 1px solid rgba(201,168,76,0.08); border-right: 1px solid rgba(201,168,76,0.08); border-bottom: 1px solid rgba(201,168,76,0.08); margin-top: 14px; }
-.gold-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.gold-box p { font-size: clamp(1.5rem, 1.7vw, 1.8rem); color: var(--text2); line-height: 1.6; }
 .gold-box strong { color: var(--gold2); }
 .warn-box { border-left: 3px solid var(--red); padding: 13px 20px; background: rgba(255,107,107,0.04); border-top: 1px solid rgba(255,107,107,0.08); border-right: 1px solid rgba(255,107,107,0.08); border-bottom: 1px solid rgba(255,107,107,0.08); margin-top: 14px; }
-.warn-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.warn-box p { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.6; }
 .warn-box strong { color: var(--red); }
 .steps { display: flex; flex-direction: column; gap: 2px; }
 .step-row { display: flex; align-items: flex-start; gap: 18px; background: var(--surface); border: 1px solid var(--border); padding: 13px 18px; }
-.step-n { font-family: 'Google Sans Code', monospace; font-size: clamp(0.85rem,1.4vw,1.1rem); color: var(--teal); min-width: 32px; flex-shrink: 0; font-weight: 500; padding-top: 2px; }
-.step-text { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.5; font-weight: 300; }
+.step-n { font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--teal); min-width: 32px; flex-shrink: 0; font-weight: 500; padding-top: 2px; }
+.step-text { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.5; font-weight: 300; }
 .step-text strong { color: var(--text); font-weight: 500; }
-.code { background: #0a0d14; border: 1px solid var(--border2); border-left: 3px solid var(--teal); padding: 14px 18px; font-family: 'Google Sans Code', monospace; font-size: clamp(0.72rem,1.1vw,0.9rem); line-height: 1.75; overflow-x: auto; margin-top: 8px; white-space: pre; }
+.code { background: #0a0d14; border: 1px solid var(--border2); border-left: 3px solid var(--teal); padding: 14px 18px; font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.1vw, 1.375rem); line-height: 1.75; overflow-x: auto; margin-top: 8px; white-space: pre; }
 .kw { color: var(--cyan); font-weight: 500; }
 .fn { color: var(--gold2); }
 .str { color: var(--green); }
 .cmt { color: var(--text3); font-style: italic; }
 .num { color: var(--orange); }
 .comparison-table { width: 100%; border-collapse: collapse; }
-.comparison-table th { font-family: 'Google Sans Code', monospace; font-size: clamp(0.65rem,1vw,0.82rem); letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); padding: 9px 14px; text-align: left; border-bottom: 1px solid var(--border2); background: var(--surface); }
-.comparison-table td { padding: 11px 14px; font-size: clamp(0.82rem,1.3vw,1.02rem); border-bottom: 1px solid var(--border); color: var(--text2); background: var(--surface); line-height: 1.5; vertical-align: top; }
+.comparison-table th { font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1vw, 1.375rem); letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); padding: 9px 14px; text-align: left; border-bottom: 1px solid var(--border2); background: var(--surface); }
+.comparison-table td { padding: 11px 14px; font-size: clamp(1.125rem, 1.3vw, 1.375rem); border-bottom: 1px solid var(--border); color: var(--text2); background: var(--surface); line-height: 1.5; vertical-align: top; }
 .comparison-table tr:last-child td { border-bottom: none; }
 .comparison-table tr:hover td { background: var(--surface2); }
 .comparison-table td:first-child { font-family: 'Google Sans Code', monospace; font-size: 0.88em; color: var(--teal); font-weight: 500; }
 /* file visual */
-.file-box { background: var(--surface); border: 1px solid var(--border2); padding: 12px 18px; font-family: 'Google Sans Code', monospace; font-size: clamp(0.75rem,1.15vw,0.92rem); line-height: 1.9; margin-top: 8px; border-top: 3px solid var(--teal); }
+.file-box { background: var(--surface); border: 1px solid var(--border2); padding: 12px 18px; font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.15vw, 1.375rem); line-height: 1.9; margin-top: 8px; border-top: 3px solid var(--teal); }
 .file-line { color: var(--text2); }
 .file-line .ln { color: var(--text3); margin-right: 16px; user-select: none; }
-.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; }
-.nav-btn { font-family: 'Google Sans Code', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; }
+.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; border-radius: 999px;}
+.nav-btn { font-family: 'Google Sans Code', monospace; font-size: 18px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; border-radius: 999px;}
 .nav-btn:hover { color: var(--teal); border-color: var(--teal); background: rgba(45,212,191,0.05); }
 .nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
 .nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 200px; justify-content: center; }
@@ -132,7 +132,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   background: rgba(7, 9, 15, 0.9);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
-  font-family: 'Google Sans Code', monospace;
+  font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
 }
 .course-nav-inner {
   width: min(1120px, calc(100% - 32px));
@@ -164,7 +164,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   background: transparent;
   color: var(--text2, #94a3b8);
   font: inherit;
-  font-size: 10px;
+  font-size: 18px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
@@ -187,7 +187,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .course-menu-button::after,
 .course-submenu-button::after {
   content: "▾";
-  font-size: 10px;
+  font-size: 18px;
   color: var(--text3, #64748b);
   transition: transform 0.18s ease;
 }
@@ -262,7 +262,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   background: transparent;
   color: var(--text2, #94a3b8);
   font: inherit;
-  font-size: 10px;
+  font-size: 18px;
   letter-spacing: 0.04em;
   line-height: 1.35;
   text-align: left;
@@ -300,7 +300,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   border-color: var(--accent, #22b3a0);
   outline: none;
 }
-.course-nav ~ .slide-num { top: 62px !important; }
+.course-nav ~ .slide-num { top: 98px !important; }
 @media (max-width: 720px) {
   .course-nav-inner {
     width: min(100% - 18px, 680px);
@@ -311,7 +311,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   .course-link,
   .course-menu-button {
     min-height: 36px;
-    font-size: 9px;
+    font-size: 18px;
   }
   .course-dropdown {
     position: fixed;
@@ -465,15 +465,15 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   <div class="content">
     <div class="label">// B2.5 · File Processing</div>
     <h1>File<br><span class="hl-teal">Processing</span></h1>
-    <p style="font-family:'Google Sans Code', monospace;font-size:clamp(0.85rem,1.4vw,1.1rem);color:var(--text3);margin-bottom:20px;">Theme B2 · IB Computer Science SL</p>
+    <p style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.4vw, 1.375rem);color:var(--text3);margin-bottom:20px;">Theme B2 · IB Computer Science SL</p>
     <div class="teal-box">
       <p><strong>👉 Focus:</strong> Reading from and writing to text files in Python — open modes, reading line by line, writing records, and properly closing files.</p>
     </div>
     <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:20px;">
-      <div style="padding-left:12px;border-left:2px solid var(--teal);"><div style="font-family:'Google Sans Code', monospace;font-size:1rem;">open()</div><div style="font-family:'Google Sans Code', monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">FILE MODES</div></div>
-      <div style="padding-left:12px;border-left:2px solid var(--blue);"><div style="font-family:'Google Sans Code', monospace;font-size:1rem;">read()</div><div style="font-family:'Google Sans Code', monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">READ METHODS</div></div>
-      <div style="padding-left:12px;border-left:2px solid var(--green);"><div style="font-family:'Google Sans Code', monospace;font-size:1rem;">write()</div><div style="font-family:'Google Sans Code', monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">WRITE METHODS</div></div>
-      <div style="padding-left:12px;border-left:2px solid var(--cyan);"><div style="font-family:'Google Sans Code', monospace;font-size:1rem;">close()</div><div style="font-family:'Google Sans Code', monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">FILE MANAGEMENT</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--teal);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">open()</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">FILE MODES</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--blue);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">read()</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">READ METHODS</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--green);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">write()</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">WRITE METHODS</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--cyan);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">close()</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">FILE MANAGEMENT</div></div>
     </div>
   </div>
 </div>
@@ -512,7 +512,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
       </div>
       <div class="card blue">
         <div class="card-title">Example File: students.txt</div>
-        <div class="card-body" style="font-family:'Google Sans Code', monospace;font-size:0.88rem;line-height:2;">
+        <div class="card-body" style="font-family:'Google Sans Code', monospace;font-size:1.125rem;line-height:2;">
           <span style="color:var(--text3);">line 1 →</span> Alice,95<br>
           <span style="color:var(--text3);">line 2 →</span> Bob,82<br>
           <span style="color:var(--text3);">line 3 →</span> Carol,91<br>
@@ -667,7 +667,7 @@ f.<span class="fn">close</span>()</div>
         <div class="card-title" style="color:var(--green);">✓ The "with" Statement</div>
         <div class="card-body">
           Python's preferred approach — automatically closes the file even if an error occurs (exception-safe):<br><br>
-          <span style="font-family:'Google Sans Code', monospace;font-size:0.85rem;color:var(--text);">with open("file.txt", "r") as f:<br>&nbsp;&nbsp;&nbsp;&nbsp;data = f.read()<br># file is closed here automatically</span>
+          <span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text);">with open("file.txt", "r") as f:<br>&nbsp;&nbsp;&nbsp;&nbsp;data = f.read()<br># file is closed here automatically</span>
         </div>
       </div>
     </div>
@@ -682,7 +682,7 @@ f.<span class="fn">close</span>()</div>
   <div class="content" style="max-width:900px;margin:0 auto;">
     <div class="label blue">// B2.5.3 · Tracing</div>
     <h2>Trace: <span class="hl-blue">Reading Line by Line</span></h2>
-    <p style="font-size:clamp(0.88rem,1.4vw,1.1rem);color:var(--text2);margin-bottom:10px;">File <span style="font-family:'Google Sans Code', monospace;">grades.txt</span> contains:</p>
+    <p style="font-size: clamp(1.125rem, 1.4vw, 1.375rem);color:var(--text2);margin-bottom:10px;">File <span style="font-family:'Google Sans Code', monospace;">grades.txt</span> contains:</p>
     <div class="file-box">
       <div class="file-line"><span class="ln">1</span>Alice,95</div>
       <div class="file-line"><span class="ln">2</span>Bob,82</div>
@@ -715,7 +715,7 @@ find_top(<span class="str">"grades.txt"</span>, <span class="num">90</span>)</di
   <div class="content" style="max-width:900px;margin:0 auto;">
     <div class="label green">// B2.5.3 · Tracing</div>
     <h2>Trace: <span class="hl-green">Writing Records</span></h2>
-    <p style="font-size:clamp(0.88rem,1.4vw,1.1rem);color:var(--text2);margin-bottom:10px;">This program collects names and scores from the user and saves them to a file:</p>
+    <p style="font-size: clamp(1.125rem, 1.4vw, 1.375rem);color:var(--text2);margin-bottom:10px;">This program collects names and scores from the user and saves them to a file:</p>
     <div class="code"><span class="cmt"># Collect data from user and write to file</span>
 f = <span class="fn">open</span>(<span class="str">"results.txt"</span>, <span class="str">"w"</span>)
 n = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"How many students? "</span>))
@@ -725,7 +725,7 @@ n = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">
     f.<span class="fn">write</span>(name + <span class="str">","</span> + score + <span class="str">"\n"</span>)
 f.<span class="fn">close</span>()
 <span class="fn">print</span>(<span class="str">"Saved!"</span>)</div>
-    <p style="font-family:'Google Sans Code', monospace;font-size:0.75rem;color:var(--text3);margin-top:16px;margin-bottom:6px;">TRACE — user enters n=2, then Alice/95, then Bob/82:</p>
+    <p style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);margin-top:16px;margin-bottom:6px;">TRACE — user enters n=2, then Alice/95, then Bob/82:</p>
     <div class="steps">
       <div class="step-row"><div class="step-n">Init</div><div class="step-text">open("results.txt", "w") → creates empty file. n = 2</div></div>
       <div class="step-row"><div class="step-n">i=0</div><div class="step-text">name="Alice", score="95" → write("Alice,95\n") → file: <span style="font-family:'Google Sans Code', monospace;">Alice,95</span></div></div>
@@ -749,7 +749,7 @@ f.<span class="fn">close</span>()
         <div class="card-title" style="color:var(--teal);">.strip()</div>
         <div class="card-body">
           Removes <strong>leading and trailing whitespace</strong>, including \n<br><br>
-          <span style="font-family:'Google Sans Code', monospace;font-size:0.85rem;">"Alice,95\n".strip()<br>→ "Alice,95"</span><br><br>
+          <span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">"Alice,95\n".strip()<br>→ "Alice,95"</span><br><br>
           Use it on every line you read before processing
         </div>
       </div>
@@ -757,7 +757,7 @@ f.<span class="fn">close</span>()
         <div class="card-title" style="color:var(--cyan);">.split(",")</div>
         <div class="card-body">
           Splits a string at a <strong>delimiter</strong> into a list<br><br>
-          <span style="font-family:'Google Sans Code', monospace;font-size:0.85rem;">"Alice,95".split(",")<br>→ ["Alice", "95"]</span><br><br>
+          <span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">"Alice,95".split(",")<br>→ ["Alice", "95"]</span><br><br>
           Access parts by index: <span style="font-family:'Google Sans Code', monospace;">parts[0]</span>, <span style="font-family:'Google Sans Code', monospace;">parts[1]</span>
         </div>
       </div>

@@ -22,21 +22,21 @@ body::before{content:'';position:fixed;inset:0;
   background-image:linear-gradient(rgba(74,158,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,.03) 1px,transparent 1px),linear-gradient(rgba(74,158,255,.01) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,.01) 1px,transparent 1px);
   background-size:80px 80px,80px 80px,16px 16px,16px 16px;pointer-events:none;z-index:0;}
 .deck{position:relative;width:100vw;height:100vh;z-index:1;}
-.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content: flex-start;align-items:center;
-  padding:64px 68px 86px;opacity:0;pointer-events:none;
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content: flex-start;align-items: flex-start;
+  padding:100px 68px 86px; overflow-y: auto; overscroll-behavior: contain;opacity:0;pointer-events:none;
   transition:opacity .38s ease,transform .38s ease;transform:translateY(12px);}
 .slide.active{opacity:1;pointer-events:all;transform:translateY(0);}
 .slide.exit{opacity:0;transform:translateY(-12px);}
 .progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--purple),var(--pink),var(--cyan));transition:width .38s ease;z-index:100;}
-.slide-num{position:fixed;top:17px;right:24px;font-family:'Google Sans Code', monospace;font-size:11px;color:var(--text3);letter-spacing:.1em;z-index:100;}
+.slide-num{position:fixed;top:17px;right:24px;font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:.1em;z-index:100;}
 .content{width:100%;max-width:1120px;}
-.label{font-family:'Google Sans Code', monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:13px;}
+.label{font-family:'Google Sans Code', monospace;font-size:18px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:13px;}
 .label.blue{color:var(--blue);}.label.green{color:var(--green);}.label.cyan{color:var(--cyan);}
 .label.purple{color:var(--purple);}.label.pink{color:var(--pink);}.label.orange{color:var(--orange);}
 .label.teal{color:var(--teal);}
-h1{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(2.6rem,5vw,4.6rem);font-weight: 500;line-height:1.05;letter-spacing:-.02em;margin-bottom:13px;}
-h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,3.8vw,3rem);font-weight: 500;line-height:1.1;margin-bottom:11px;}
-.lead{font-size:clamp(.95rem,1.65vw,1.28rem);color:var(--text2);font-weight:300;line-height:1.65;margin-bottom:18px;}
+h1{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(2.6rem, 5vw, 4.6rem);font-weight: 500;line-height:1.05;letter-spacing:-.02em;margin-bottom:13px;}
+h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem, 3.8vw, 3rem);font-weight: 500;line-height:1.1;margin-bottom:11px;}
+.lead{font-size: clamp(1.5rem, 1.8vw, 1.875rem);color:var(--text2);font-weight:300;line-height:1.65;margin-bottom:18px;}
 .hl-gold{color:var(--gold2);}.hl-blue{color:var(--blue);}.hl-green{color:var(--green);}.hl-cyan{color:var(--cyan);}
 .hl-red{color:var(--red);}.hl-purple{color:var(--purple);}.hl-pink{color:var(--pink);}.hl-orange{color:var(--orange);}.hl-teal{color:var(--teal);}
 .grid{display:grid;gap:2px;width:100%;}
@@ -47,50 +47,50 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
 .card.green::after{background:var(--green);}.card.red::after{background:var(--red);}
 .card.purple::after{background:var(--purple);}.card.cyan::after{background:var(--cyan);}
 .card.pink::after{background:var(--pink);}.card.orange::after{background:var(--orange);}.card.teal::after{background:var(--teal);}
-.card-title{font-family:'Google Sans Code', monospace;font-size:clamp(.68rem,1.05vw,.88rem);font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:7px;}
-.card-body{font-size:clamp(.82rem,1.25vw,1rem);color:var(--text2);line-height:1.6;font-weight:300;}
+.card-title{font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.05vw, 1.375rem);font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:7px;}
+.card-body{font-size: clamp(1.5rem, 1.6vw, 1.75rem);color:var(--text2);line-height:1.6;font-weight:300;}
 .card-body strong{color:var(--text);font-weight:500;}
 /* boxes */
 .info-box{border-left:3px solid var(--blue);padding:11px 18px;background:rgba(74,158,255,.04);border-top:1px solid rgba(74,158,255,.08);border-right:1px solid rgba(74,158,255,.08);border-bottom:1px solid rgba(74,158,255,.08);margin-top:12px;}
-.info-box p{font-size:clamp(.85rem,1.35vw,1.05rem);color:var(--text2);line-height:1.6;}
+.info-box p{font-size: clamp(1.5rem, 1.7vw, 1.8rem);color:var(--text2);line-height:1.6;}
 .info-box strong{color:var(--blue);}
 .gold-box{border-left:3px solid var(--gold);padding:11px 18px;background:rgba(201,168,76,.04);border-top:1px solid rgba(201,168,76,.08);border-right:1px solid rgba(201,168,76,.08);border-bottom:1px solid rgba(201,168,76,.08);margin-top:12px;}
-.gold-box p{font-size:clamp(.85rem,1.35vw,1.05rem);color:var(--text2);line-height:1.6;}
+.gold-box p{font-size: clamp(1.5rem, 1.7vw, 1.8rem);color:var(--text2);line-height:1.6;}
 .gold-box strong{color:var(--gold2);}
 .cyan-box{border-left:3px solid var(--cyan);padding:11px 18px;background:rgba(34,211,238,.04);border-top:1px solid rgba(34,211,238,.08);border-right:1px solid rgba(34,211,238,.08);border-bottom:1px solid rgba(34,211,238,.08);margin-top:12px;}
-.cyan-box p{font-size:clamp(.85rem,1.35vw,1.05rem);color:var(--text2);line-height:1.6;}
+.cyan-box p{font-size: clamp(1.125rem, 1.35vw, 1.375rem);color:var(--text2);line-height:1.6;}
 .cyan-box strong{color:var(--cyan);}
 .purple-box{border-left:3px solid var(--purple);padding:11px 18px;background:rgba(155,138,251,.04);border-top:1px solid rgba(155,138,251,.08);border-right:1px solid rgba(155,138,251,.08);border-bottom:1px solid rgba(155,138,251,.08);margin-top:12px;}
-.purple-box p{font-size:clamp(.85rem,1.35vw,1.05rem);color:var(--text2);line-height:1.6;}
+.purple-box p{font-size: clamp(1.125rem, 1.35vw, 1.375rem);color:var(--text2);line-height:1.6;}
 .purple-box strong{color:var(--purple);}
 .teal-box{border-left:3px solid var(--teal);padding:11px 18px;background:rgba(45,212,191,.04);border-top:1px solid rgba(45,212,191,.08);border-right:1px solid rgba(45,212,191,.08);border-bottom:1px solid rgba(45,212,191,.08);margin-top:12px;}
-.teal-box p{font-size:clamp(.85rem,1.35vw,1.05rem);color:var(--text2);line-height:1.6;}
+.teal-box p{font-size: clamp(1.125rem, 1.35vw, 1.375rem);color:var(--text2);line-height:1.6;}
 .teal-box strong{color:var(--teal);}
 /* steps */
 .steps{display:flex;flex-direction:column;gap:7px;width:100%;}
 .step-row{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);padding:12px 16px;}
-.step-n{font-family:'Google Sans Code', monospace;font-size:clamp(.72rem,1.1vw,.88rem);color:var(--gold);flex-shrink:0;min-width:22px;padding-top:1px;}
-.step-text{font-size:clamp(.88rem,1.4vw,1.1rem);color:var(--text2);line-height:1.6;font-weight:300;}
+.step-n{font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.1vw, 1.375rem);color:var(--gold);flex-shrink:0;min-width:22px;padding-top:1px;}
+.step-text{font-size: clamp(1.125rem, 1.4vw, 1.375rem);color:var(--text2);line-height:1.6;font-weight:300;}
 .step-text strong{color:var(--text);font-weight:500;}
 /* bit table */
 .bit-table{border-collapse:collapse;width:100%;table-layout:fixed;}
-.bit-table th{background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.18);padding:9px 6px;text-align:center;font-family:'Google Sans Code', monospace;font-size:clamp(.7rem,1.2vw,.95rem);color:var(--cyan);letter-spacing:.04em;font-weight:500;}
-.bit-table td{border:1px solid var(--border2);padding:11px 6px;text-align:center;font-family:'Google Sans Code', monospace;font-size:clamp(.95rem,1.8vw,1.5rem);font-weight:500;background:var(--surface);color:var(--text);}
+.bit-table th{background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.18);padding:9px 6px;text-align:center;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.2vw, 1.375rem);color:var(--cyan);letter-spacing:.04em;font-weight:500;}
+.bit-table td{border:1px solid var(--border2);padding:11px 6px;text-align:center;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.8vw, 1.5rem);font-weight:500;background:var(--surface);color:var(--text);}
 .bit-table td.bit-1{background:rgba(34,211,238,.12);color:var(--cyan);}
 .bit-table td.bit-0{background:rgba(34,211,238,.04);color:var(--text2);}
 .bit-table td.bit-s{background:rgba(34,211,238,.18);color:var(--cyan);}
-.bit-table td.power{background:var(--surface);color:var(--cyan);font-size:clamp(.7rem,1.1vw,.9rem);font-weight:500;}
-.bit-table td.value{background:rgba(34,211,238,.08);color:var(--cyan);font-size:clamp(.95rem,1.7vw,1.35rem);font-weight:700;border-color:rgba(34,211,238,.22);}
-.bit-table td.value-neg{background:rgba(34,211,238,.08);color:var(--cyan);font-size:clamp(.95rem,1.7vw,1.35rem);font-weight:700;border-color:rgba(34,211,238,.22);}
-.bit-table td.row-label{background:rgba(34,211,238,.04);color:var(--cyan);font-size:clamp(.6rem,.95vw,.78rem);letter-spacing:.08em;text-transform:uppercase;width:72px;border-color:rgba(34,211,238,.16);}
-.bit-table td.result{background:rgba(34,211,238,.14);color:var(--cyan);font-size:clamp(.95rem,1.7vw,1.35rem);font-weight:700;border:1px solid rgba(34,211,238,.28);}
+.bit-table td.power{background:var(--surface);color:var(--cyan);font-size: clamp(1.125rem, 1.1vw, 1.375rem);font-weight:500;}
+.bit-table td.value{background:rgba(34,211,238,.08);color:var(--cyan);font-size: clamp(1.125rem, 1.7vw, 1.35rem);font-weight:700;border-color:rgba(34,211,238,.22);}
+.bit-table td.value-neg{background:rgba(34,211,238,.08);color:var(--cyan);font-size: clamp(1.125rem, 1.7vw, 1.35rem);font-weight:700;border-color:rgba(34,211,238,.22);}
+.bit-table td.row-label{background:rgba(34,211,238,.04);color:var(--cyan);font-size: clamp(1.125rem, .95vw, 1.375rem);letter-spacing:.08em;text-transform:uppercase;width:72px;border-color:rgba(34,211,238,.16);}
+.bit-table td.result{background:rgba(34,211,238,.14);color:var(--cyan);font-size: clamp(1.125rem, 1.7vw, 1.35rem);font-weight:700;border:1px solid rgba(34,211,238,.28);}
 /* ascii chart */
 .ascii-chart{border-collapse:collapse;width:100%;font-family:'Google Sans Code', monospace;}
-.ascii-chart th{background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.18);padding:6px 8px;text-align:center;font-size:clamp(.6rem,.95vw,.78rem);color:var(--cyan);letter-spacing:.06em;font-weight:500;text-transform:uppercase;}
+.ascii-chart th{background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.18);padding:6px 8px;text-align:center;font-size: clamp(1.125rem, .95vw, 1.375rem);color:var(--cyan);letter-spacing:.06em;font-weight:500;text-transform:uppercase;}
 .ascii-chart td{border:1px solid var(--border);padding:5px 6px;text-align:center;background:var(--surface);}
-.ascii-char{font-size:clamp(.9rem,1.6vw,1.25rem);font-weight:700;color:var(--text);}
-.ascii-dec{font-size:clamp(.65rem,1.05vw,.82rem);color:var(--cyan);}
-.ascii-bin{font-size:clamp(.52rem,.82vw,.68rem);color:var(--cyan);letter-spacing:.04em;}
+.ascii-char{font-size: clamp(1.125rem, 1.6vw, 1.25rem);font-weight:700;color:var(--text);}
+.ascii-dec{font-size: clamp(1.125rem, 1.05vw, 1.375rem);color:var(--cyan);}
+.ascii-bin{font-size: clamp(1.125rem, .82vw, 1.375rem);color:var(--cyan);letter-spacing:.04em;}
 /* pixel grid */
 .pixel-grid{display:grid;gap:3px;}
 .px-1{background:#1a1a2e;color:#dde4f0;border:1px solid #3d4f6a;border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:'Google Sans Code', monospace;font-weight:700;}
@@ -98,26 +98,26 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
 /* chain */
 .chain{display:flex;align-items:center;flex-wrap:wrap;margin:10px 0;}
 .chain-box{background:var(--surface);border:1px solid var(--border2);padding:9px 14px;text-align:center;}
-.chain-box .c-top{font-family:'Google Sans Code', monospace;font-size:clamp(.58rem,.9vw,.75rem);color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;}
-.chain-box .c-val{font-family:'Google Sans Code', monospace;font-size:clamp(.85rem,1.5vw,1.2rem);font-weight:700;}
+.chain-box .c-top{font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, .9vw, 1.375rem);color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;}
+.chain-box .c-val{font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.5vw, 1.2rem);font-weight:700;}
 .chain-arrow{color:var(--gold);font-size:1.2rem;padding:0 7px;display:flex;align-items:center;flex-shrink:0;}
 /* q bars */
-.q-label{font-family:'Google Sans Code', monospace;font-size:clamp(.62rem,.95vw,.78rem);color:var(--text3);margin-bottom:3px;letter-spacing:.05em;}
-.q-bar{height:26px;border-radius:2px;display:flex;align-items:center;padding:0 11px;font-family:'Google Sans Code', monospace;font-size:clamp(.68rem,1.05vw,.85rem);font-weight:500;}
+.q-label{font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, .95vw, 1.375rem);color:var(--text3);margin-bottom:3px;letter-spacing:.05em;}
+.q-bar{height:26px;border-radius:2px;display:flex;align-items:center;padding:0 11px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.05vw, 1.375rem);font-weight:500;}
 /* summary table */
 .summary-table{border-collapse:collapse;width:100%;}
-.summary-table th{background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.18);padding:10px 14px;text-align:left;font-family:'Google Sans Code', monospace;font-size:clamp(.62rem,.95vw,.78rem);color:var(--cyan);font-weight:500;letter-spacing:.08em;text-transform:uppercase;}
-.summary-table td{border:1px solid var(--border);padding:13px 14px;background:var(--surface);font-size:clamp(.85rem,1.3vw,1.02rem);color:var(--text2);vertical-align:top;}
+.summary-table th{background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.18);padding:10px 14px;text-align:left;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, .95vw, 1.375rem);color:var(--cyan);font-weight:500;letter-spacing:.08em;text-transform:uppercase;}
+.summary-table td{border:1px solid var(--border);padding:13px 14px;background:var(--surface);font-size: clamp(1.125rem, 1.3vw, 1.375rem);color:var(--text2);vertical-align:top;}
 .summary-table tr:hover td{background:var(--surface2);}
-.summary-table td:first-child{font-family:'Google Sans Code', monospace;font-weight:700;font-size:clamp(.9rem,1.4vw,1.1rem);width:100px;color:var(--cyan);}
+.summary-table td:first-child{font-family:'Google Sans Code', monospace;font-weight:700;font-size: clamp(1.125rem, 1.4vw, 1.375rem);width:100px;color:var(--cyan);}
 /* divider */
 .divider{width:100%;height:1px;background:var(--border);margin:12px 0;}
 /* term badge */
-.term{display:inline-block;font-family:'Google Sans Code', monospace;font-size:clamp(.6rem,.95vw,.78rem);padding:3px 9px;border-radius:2px;letter-spacing:.06em;margin:0 4px;vertical-align:middle;}
+.term{display:inline-block;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, .95vw, 1.375rem);padding:3px 9px;border-radius:2px;letter-spacing:.06em;margin:0 4px;vertical-align:middle;}
 .term.new{background:rgba(201,168,76,.12);color:var(--gold2);border:1px solid rgba(201,168,76,.3);}
 /* nav */
-.nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;z-index:100;background:rgba(7,9,15,.92);backdrop-filter:blur(16px);border:1px solid var(--border2);padding:9px 18px;}
-.nav-btn{font-family:'Google Sans Code', monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);background:none;border:1px solid var(--border2);padding:6px 13px;cursor:pointer;transition:all .2s;}
+.nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;z-index:100;background:rgba(7,9,15,.92);backdrop-filter:blur(16px);border:1px solid var(--border2);padding:9px 18px; border-radius: 999px;}
+.nav-btn{font-family:'Google Sans Code', monospace;font-size:18px;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);background:none;border:1px solid var(--border2);padding:6px 13px;cursor:pointer;transition:all .2s; border-radius: 999px;}
 .nav-btn:hover{color:var(--gold);border-color:var(--gold);background:rgba(201,168,76,.05);}
 .nav-btn:disabled{opacity:.25;cursor:not-allowed;}
 .nav-dots{display:flex;gap:4px;flex-wrap:wrap;max-width:260px;justify-content:center;}
@@ -136,7 +136,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
   background: rgba(7, 9, 15, 0.9);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
-  font-family: 'Google Sans Code', monospace;
+  font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
 }
 .course-nav-inner {
   width: min(1120px, calc(100% - 32px));
@@ -168,7 +168,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
   background: transparent;
   color: var(--text2, #94a3b8);
   font: inherit;
-  font-size: 10px;
+  font-size: 18px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
@@ -191,7 +191,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
 .course-menu-button::after,
 .course-submenu-button::after {
   content: "▾";
-  font-size: 10px;
+  font-size: 18px;
   color: var(--text3, #64748b);
   transition: transform 0.18s ease;
 }
@@ -266,7 +266,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
   background: transparent;
   color: var(--text2, #94a3b8);
   font: inherit;
-  font-size: 10px;
+  font-size: 18px;
   letter-spacing: 0.04em;
   line-height: 1.35;
   text-align: left;
@@ -304,7 +304,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
   border-color: var(--accent, #22b3a0);
   outline: none;
 }
-.course-nav ~ .slide-num { top: 62px !important; }
+.course-nav ~ .slide-num { top: 98px !important; }
 @media (max-width: 720px) {
   .course-nav-inner {
     width: min(100% - 18px, 680px);
@@ -315,7 +315,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
   .course-link,
   .course-menu-button {
     min-height: 36px;
-    font-size: 9px;
+    font-size: 18px;
   }
   .course-dropdown {
     position: fixed;
@@ -469,14 +469,14 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
   <div class="content">
     <div class="label">// A1.2.2 · Data Representation</div>
     <h1>Data<br><span class="hl-purple">Representation</span></h1>
-    <p style="font-family:'Google Sans Code', monospace;font-size:clamp(.82rem,1.3vw,1rem);color:var(--text3);margin-bottom:18px;">Review Lesson</p>
+    <p style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.3vw, 1.375rem);color:var(--text3);margin-bottom:18px;">Review Lesson</p>
     <div class="gold-box"><p><strong>👉 Guiding Question:</strong> How does a computer represent text, images, sound, and video using binary?</p></div>
     <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:18px;">
-      <div style="padding-left:11px;border-left:2px solid var(--cyan);"><div style="font-family:'Google Sans Code', monospace;font-size:.95rem;">Text</div><div style="font-family:'Google Sans Code', monospace;font-size:9px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">ASCII · UNICODE</div></div>
-      <div style="padding-left:11px;border-left:2px solid var(--purple);"><div style="font-family:'Google Sans Code', monospace;font-size:.95rem;">Images</div><div style="font-family:'Google Sans Code', monospace;font-size:9px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">PIXELS · RESOLUTION</div></div>
-      <div style="padding-left:11px;border-left:2px solid var(--pink);"><div style="font-family:'Google Sans Code', monospace;font-size:.95rem;">Sound</div><div style="font-family:'Google Sans Code', monospace;font-size:9px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">ANALOG · SAMPLING · AMPLITUDE</div></div>
-      <div style="padding-left:11px;border-left:2px solid var(--teal);"><div style="font-family:'Google Sans Code', monospace;font-size:.95rem;">Video</div><div style="font-family:'Google Sans Code', monospace;font-size:9px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">FRAMES · COMPRESSION</div></div>
-      <div style="padding-left:11px;border-left:2px solid var(--gold);"><div style="font-family:'Google Sans Code', monospace;font-size:.95rem;">Metadata</div><div style="font-family:'Google Sans Code', monospace;font-size:9px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">DATA ABOUT DATA</div></div>
+      <div style="padding-left:11px;border-left:2px solid var(--cyan);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Text</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">ASCII · UNICODE</div></div>
+      <div style="padding-left:11px;border-left:2px solid var(--purple);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Images</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">PIXELS · RESOLUTION</div></div>
+      <div style="padding-left:11px;border-left:2px solid var(--pink);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Sound</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">ANALOG · SAMPLING · AMPLITUDE</div></div>
+      <div style="padding-left:11px;border-left:2px solid var(--teal);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Video</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">FRAMES · COMPRESSION</div></div>
+      <div style="padding-left:11px;border-left:2px solid var(--gold);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Metadata</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:.1em;margin-top:2px;">DATA ABOUT DATA</div></div>
     </div>
   </div>
 </div>
@@ -485,8 +485,8 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
 <div class="slide">
   <div class="content" style="max-width:960px;margin:0 auto;">
     <div class="label" style="display:block;text-align:center;">// Slide 2 · Guiding Question</div>
-    <h2 style="font-size:clamp(2rem,4.8vw,4rem);text-align:center;">How can <span class="hl-green">binary</span> represent<br>numbers, text, and images?</h2>
-    <p style="font-size:clamp(.95rem,1.65vw,1.22rem);color:var(--text2);margin:18px auto 0;font-weight:300;line-height:1.7;text-align:center;max-width:760px;">This lesson follows one big pattern: take something meaningful, turn it into a numerical code, then store that code using only <strong style="color:var(--text);">0s and 1s</strong>.</p>
+    <h2 style="font-size: clamp(2rem, 4.8vw, 4rem);text-align:center;">How can <span class="hl-green">binary</span> represent<br>numbers, text, and images?</h2>
+    <p style="font-size: clamp(1.125rem, 1.65vw, 1.22rem);color:var(--text2);margin:18px auto 0;font-weight:300;line-height:1.7;text-align:center;max-width:760px;">This lesson follows one big pattern: take something meaningful, turn it into a numerical code, then store that code using only <strong style="color:var(--text);">0s and 1s</strong>.</p>
     <div class="grid g3" style="gap:2px;margin-top:22px;">
       <div class="card cyan">
         <div class="card-title">Numbers</div>
@@ -521,32 +521,32 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
           <div class="chain-arrow">→</div>
           <div class="chain-box"><div class="c-top">Number</div><div class="c-val" style="color:var(--gold);">65</div></div>
           <div class="chain-arrow">→</div>
-          <div class="chain-box" style="border-color:var(--green);"><div class="c-top">Binary</div><div class="c-val" style="color:var(--green);font-size:clamp(.75rem,1.2vw,.95rem);letter-spacing:.06em;">0100 0001</div></div>
+          <div class="chain-box" style="border-color:var(--green);"><div class="c-top">Binary</div><div class="c-val" style="color:var(--green);font-size: clamp(1.125rem, 1.2vw, 1.375rem);letter-spacing:.06em;">0100 0001</div></div>
         </div>
         <div class="gold-box" style="margin-top:8px;"><p>This system is called <strong>ASCII</strong> — the foundation of all text encoding.</p></div>
       </div>
       <div style="background:var(--surface);border:1px solid var(--border);padding:18px;">
-        <div style="font-family:'Google Sans Code', monospace;font-size:.68rem;color:var(--text3);letter-spacing:.15em;margin-bottom:10px;">CHARACTER ENCODING EXAMPLES</div>
+        <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);letter-spacing:.15em;margin-bottom:10px;">CHARACTER ENCODING EXAMPLES</div>
         <div style="display:flex;flex-direction:column;gap:2px;">
           <div style="display:flex;gap:0;align-items:stretch;">
-            <div style="background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.15);padding:8px 13px;font-family:'Google Sans Code', monospace;font-size:clamp(1.1rem,2vw,1.6rem);color:var(--cyan);font-weight:700;min-width:50px;text-align:center;">A</div>
-            <div style="background:var(--surface2);border:1px solid var(--border2);border-left:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size:clamp(.82rem,1.3vw,1rem);color:var(--gold2);display:flex;align-items:center;">→ 65</div>
-            <div style="background:rgba(61,214,140,.06);border:1px solid rgba(61,214,140,.15);border-left:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size:clamp(.7rem,1.1vw,.88rem);color:var(--green);display:flex;align-items:center;flex:1;letter-spacing:.06em;">0100 0001</div>
+            <div style="background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.15);padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 2vw, 1.6rem);color:var(--cyan);font-weight:700;min-width:50px;text-align:center;">A</div>
+            <div style="background:var(--surface2);border:1px solid var(--border2);border-left:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.3vw, 1.375rem);color:var(--gold2);display:flex;align-items:center;">→ 65</div>
+            <div style="background:rgba(61,214,140,.06);border:1px solid rgba(61,214,140,.15);border-left:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.1vw, 1.375rem);color:var(--green);display:flex;align-items:center;flex:1;letter-spacing:.06em;">0100 0001</div>
           </div>
           <div style="display:flex;gap:0;align-items:stretch;">
-            <div style="background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.15);border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size:clamp(1.1rem,2vw,1.6rem);color:var(--cyan);font-weight:700;min-width:50px;text-align:center;">a</div>
-            <div style="background:var(--surface2);border:1px solid var(--border2);border-left:none;border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size:clamp(.82rem,1.3vw,1rem);color:var(--gold2);display:flex;align-items:center;">→ 97</div>
-            <div style="background:rgba(61,214,140,.06);border:1px solid rgba(61,214,140,.15);border-left:none;border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size:clamp(.7rem,1.1vw,.88rem);color:var(--green);display:flex;align-items:center;flex:1;letter-spacing:.06em;">0110 0001</div>
+            <div style="background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.15);border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 2vw, 1.6rem);color:var(--cyan);font-weight:700;min-width:50px;text-align:center;">a</div>
+            <div style="background:var(--surface2);border:1px solid var(--border2);border-left:none;border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.3vw, 1.375rem);color:var(--gold2);display:flex;align-items:center;">→ 97</div>
+            <div style="background:rgba(61,214,140,.06);border:1px solid rgba(61,214,140,.15);border-left:none;border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.1vw, 1.375rem);color:var(--green);display:flex;align-items:center;flex:1;letter-spacing:.06em;">0110 0001</div>
           </div>
           <div style="display:flex;gap:0;align-items:stretch;">
-            <div style="background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.15);border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size:clamp(1.1rem,2vw,1.6rem);color:var(--cyan);font-weight:700;min-width:50px;text-align:center;">가</div>
-            <div style="background:var(--surface2);border:1px solid var(--border2);border-left:none;border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size:clamp(.82rem,1.3vw,1rem);color:var(--gold2);display:flex;align-items:center;">→ 44032</div>
-            <div style="background:rgba(155,138,251,.06);border:1px solid rgba(155,138,251,.15);border-left:none;border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size:clamp(.7rem,1.1vw,.88rem);color:var(--purple);display:flex;align-items:center;flex:1;letter-spacing:.04em;">1010 1100 0000 0000</div>
+            <div style="background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.15);border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 2vw, 1.6rem);color:var(--cyan);font-weight:700;min-width:50px;text-align:center;">가</div>
+            <div style="background:var(--surface2);border:1px solid var(--border2);border-left:none;border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.3vw, 1.375rem);color:var(--gold2);display:flex;align-items:center;">→ 44032</div>
+            <div style="background:rgba(155,138,251,.06);border:1px solid rgba(155,138,251,.15);border-left:none;border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.1vw, 1.375rem);color:var(--purple);display:flex;align-items:center;flex:1;letter-spacing:.04em;">1010 1100 0000 0000</div>
           </div>
           <div style="display:flex;gap:0;align-items:stretch;">
-            <div style="background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.15);border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size:clamp(1.1rem,2vw,1.6rem);color:var(--cyan);font-weight:700;min-width:50px;text-align:center;">😊</div>
-            <div style="background:var(--surface2);border:1px solid var(--border2);border-left:none;border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size:clamp(.82rem,1.3vw,1rem);color:var(--gold2);display:flex;align-items:center;">→ 128522</div>
-            <div style="background:rgba(155,138,251,.06);border:1px solid rgba(155,138,251,.15);border-left:none;border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size:clamp(.7rem,1.1vw,.88rem);color:var(--purple);display:flex;align-items:center;flex:1;">Unicode range</div>
+            <div style="background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.15);border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 2vw, 1.6rem);color:var(--cyan);font-weight:700;min-width:50px;text-align:center;">😊</div>
+            <div style="background:var(--surface2);border:1px solid var(--border2);border-left:none;border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.3vw, 1.375rem);color:var(--gold2);display:flex;align-items:center;">→ 128522</div>
+            <div style="background:rgba(155,138,251,.06);border:1px solid rgba(155,138,251,.15);border-left:none;border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.1vw, 1.375rem);color:var(--purple);display:flex;align-items:center;flex:1;">Unicode range</div>
           </div>
         </div>
       </div>
@@ -606,7 +606,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
           <td><div class="ascii-char">!</div><div class="ascii-dec">33</div><div class="ascii-bin">0010 0001</div></td>
           <td><div class="ascii-char">?</div><div class="ascii-dec">63</div><div class="ascii-bin">0011 1111</div></td>
           <td><div class="ascii-char">@</div><div class="ascii-dec">64</div><div class="ascii-bin">0100 0000</div></td>
-          <td><div class="ascii-char" style="font-size:.85rem;">SPC</div><div class="ascii-dec">32</div><div class="ascii-bin">0010 0000</div></td>
+          <td><div class="ascii-char" style="font-size:1.125rem;">SPC</div><div class="ascii-dec">32</div><div class="ascii-bin">0010 0000</div></td>
           <td><div class="ascii-char">.</div><div class="ascii-dec">46</div><div class="ascii-bin">0010 1110</div></td>
           <td><div class="ascii-char">,</div><div class="ascii-dec">44</div><div class="ascii-bin">0010 1100</div></td>
           <td><div class="ascii-char">+</div><div class="ascii-dec">43</div><div class="ascii-bin">0010 1011</div></td>
@@ -641,42 +641,42 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
       </div>
       <!-- Unicode coverage visual -->
       <div style="background:var(--surface);border:1px solid var(--border);padding:18px;">
-        <div style="font-family:'Google Sans Code', monospace;font-size:.68rem;color:var(--text3);letter-spacing:.15em;margin-bottom:12px;">UNICODE EXAMPLES</div>
+        <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);letter-spacing:.15em;margin-bottom:12px;">UNICODE EXAMPLES</div>
         <div style="display:flex;flex-direction:column;gap:6px;">
           <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface2);border-left:3px solid var(--cyan);">
             <span style="font-size:1.5rem;min-width:36px;text-align:center;">A</span>
-            <span style="font-family:'Google Sans Code', monospace;font-size:.78rem;color:var(--cyan);">U+0041</span>
-            <span style="font-family:'Google Sans Code', monospace;font-size:.72rem;color:var(--text3);">Latin — ASCII compatible</span>
+            <span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--cyan);">U+0041</span>
+            <span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);">Latin — ASCII compatible</span>
           </div>
           <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface2);border-left:3px solid var(--purple);">
             <span style="font-size:1.5rem;min-width:36px;text-align:center;">가</span>
-            <span style="font-family:'Google Sans Code', monospace;font-size:.78rem;color:var(--purple);">U+AC00</span>
-            <span style="font-family:'Google Sans Code', monospace;font-size:.72rem;color:var(--text3);">Hangul syllable (한국어)</span>
+            <span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--purple);">U+AC00</span>
+            <span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);">Hangul syllable (한국어)</span>
           </div>
           <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface2);border-left:3px solid var(--purple);">
             <span style="font-size:1.5rem;min-width:36px;text-align:center;">나</span>
-            <span style="font-family:'Google Sans Code', monospace;font-size:.78rem;color:var(--purple);">U+B098</span>
-            <span style="font-family:'Google Sans Code', monospace;font-size:.72rem;color:var(--text3);">Hangul syllable (한국어)</span>
+            <span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--purple);">U+B098</span>
+            <span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);">Hangul syllable (한국어)</span>
           </div>
           <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface2);border-left:3px solid var(--gold);">
             <span style="font-size:1.5rem;min-width:36px;text-align:center;">中</span>
-            <span style="font-family:'Google Sans Code', monospace;font-size:.78rem;color:var(--gold);">U+4E2D</span>
-            <span style="font-family:'Google Sans Code', monospace;font-size:.72rem;color:var(--text3);">Chinese / Japanese Kanji</span>
+            <span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--gold);">U+4E2D</span>
+            <span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);">Chinese / Japanese Kanji</span>
           </div>
           <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface2);border-left:3px solid var(--pink);">
             <span style="font-size:1.5rem;min-width:36px;text-align:center;">😊</span>
-            <span style="font-family:'Google Sans Code', monospace;font-size:.78rem;color:var(--pink);">U+1F60A</span>
-            <span style="font-family:'Google Sans Code', monospace;font-size:.72rem;color:var(--text3);">Emoji</span>
+            <span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--pink);">U+1F60A</span>
+            <span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);">Emoji</span>
           </div>
           <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface2);border-left:3px solid var(--orange);">
             <span style="font-size:1.5rem;min-width:36px;text-align:center;">م</span>
-            <span style="font-family:'Google Sans Code', monospace;font-size:.78rem;color:var(--orange);">U+0645</span>
-            <span style="font-family:'Google Sans Code', monospace;font-size:.72rem;color:var(--text3);">Arabic</span>
+            <span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--orange);">U+0645</span>
+            <span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);">Arabic</span>
           </div>
         </div>
         <div style="margin-top:10px;background:rgba(155,138,251,.06);border:1px solid rgba(155,138,251,.15);padding:10px 14px;">
-          <div style="font-family:'Google Sans Code', monospace;font-size:.68rem;color:var(--text3);margin-bottom:4px;">UTF-8 (most common encoding)</div>
-          <div style="font-family:'Google Sans Code', monospace;font-size:.78rem;color:var(--purple);">Variable width: 1–4 bytes per character. ASCII chars still 1 byte.</div>
+          <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);margin-bottom:4px;">UTF-8 (most common encoding)</div>
+          <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--purple);">Variable width: 1–4 bytes per character. ASCII chars still 1 byte.</div>
         </div>
       </div>
     </div>
@@ -701,15 +701,15 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
         <div class="chain" style="margin-top:9px;">
           <div class="chain-box"><div class="c-top">Image</div><div class="c-val" style="color:var(--purple);">🖼</div></div>
           <div class="chain-arrow">→</div>
-          <div class="chain-box"><div class="c-top">Pixel grid</div><div class="c-val" style="color:var(--text2);font-size:.85rem;">1920×1080</div></div>
+          <div class="chain-box"><div class="c-top">Pixel grid</div><div class="c-val" style="color:var(--text2);font-size:1.125rem;">1920×1080</div></div>
           <div class="chain-arrow">→</div>
           <div class="chain-box"><div class="c-top">Colour #</div><div class="c-val" style="color:var(--gold);">R G B</div></div>
           <div class="chain-arrow">→</div>
-          <div class="chain-box" style="border-color:var(--green);"><div class="c-top">Binary</div><div class="c-val" style="color:var(--green);font-size:.82rem;letter-spacing:.05em;">10110100</div></div>
+          <div class="chain-box" style="border-color:var(--green);"><div class="c-top">Binary</div><div class="c-val" style="color:var(--green);font-size:1.125rem;letter-spacing:.05em;">10110100</div></div>
         </div>
         <div class="divider"></div>
-        <div class="card-title" style="color:var(--text2);font-size:.78rem;margin-bottom:6px;">IMAGE RESOLUTION <span class="term new">KEY TERM</span></div>
-        <div style="font-size:clamp(.85rem,1.35vw,1.05rem);color:var(--text2);font-weight:300;line-height:1.6;">
+        <div class="card-title" style="color:var(--text2);font-size:1.125rem;margin-bottom:6px;">IMAGE RESOLUTION <span class="term new">KEY TERM</span></div>
+        <div style="font-size: clamp(1.125rem, 1.35vw, 1.375rem);color:var(--text2);font-weight:300;line-height:1.6;">
           <strong style="color:var(--text);">Resolution</strong> = the total number of pixels in an image (width × height).<br>
           More pixels → more detail → larger file size.<br><br>
           <strong style="color:var(--blue);">1920 × 1080</strong> = Full HD (~2M pixels)<br>
@@ -717,20 +717,20 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
         </div>
       </div>
       <div style="background:var(--surface);border:1px solid var(--border);padding:18px;display:flex;flex-direction:column;align-items:center;gap:12px;">
-        <div style="font-family:'Google Sans Code', monospace;font-size:.68rem;color:var(--text3);letter-spacing:.15em;">1-BIT PIXEL GRID</div>
+        <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);letter-spacing:.15em;">1-BIT PIXEL GRID</div>
         <div class="pixel-grid" style="grid-template-columns:repeat(5,1fr);gap:3px;width:100%;max-width:220px;">
-          <div class="px-1" style="aspect-ratio:1;font-size:clamp(.55rem,.9vw,.72rem);">1</div><div class="px-0" style="aspect-ratio:1;font-size:clamp(.55rem,.9vw,.72rem);">0</div><div class="px-1" style="aspect-ratio:1;font-size:clamp(.55rem,.9vw,.72rem);">1</div><div class="px-0" style="aspect-ratio:1;font-size:clamp(.55rem,.9vw,.72rem);">0</div><div class="px-1" style="aspect-ratio:1;font-size:clamp(.55rem,.9vw,.72rem);">1</div>
-          <div class="px-0" style="aspect-ratio:1;font-size:clamp(.55rem,.9vw,.72rem);">0</div><div class="px-1" style="aspect-ratio:1;font-size:clamp(.55rem,.9vw,.72rem);">1</div><div class="px-0" style="aspect-ratio:1;font-size:clamp(.55rem,.9vw,.72rem);">0</div><div class="px-1" style="aspect-ratio:1;font-size:clamp(.55rem,.9vw,.72rem);">1</div><div class="px-0" style="aspect-ratio:1;font-size:clamp(.55rem,.9vw,.72rem);">0</div>
-          <div class="px-1" style="aspect-ratio:1;font-size:clamp(.55rem,.9vw,.72rem);">1</div><div class="px-0" style="aspect-ratio:1;font-size:clamp(.55rem,.9vw,.72rem);">0</div><div class="px-1" style="aspect-ratio:1;font-size:clamp(.55rem,.9vw,.72rem);">1</div><div class="px-0" style="aspect-ratio:1;font-size:clamp(.55rem,.9vw,.72rem);">0</div><div class="px-1" style="aspect-ratio:1;font-size:clamp(.55rem,.9vw,.72rem);">1</div>
-          <div class="px-0" style="aspect-ratio:1;font-size:clamp(.55rem,.9vw,.72rem);">0</div><div class="px-1" style="aspect-ratio:1;font-size:clamp(.55rem,.9vw,.72rem);">1</div><div class="px-0" style="aspect-ratio:1;font-size:clamp(.55rem,.9vw,.72rem);">0</div><div class="px-1" style="aspect-ratio:1;font-size:clamp(.55rem,.9vw,.72rem);">1</div><div class="px-0" style="aspect-ratio:1;font-size:clamp(.55rem,.9vw,.72rem);">0</div>
+          <div class="px-1" style="aspect-ratio:1;font-size: clamp(1.125rem, .9vw, 1.375rem);">1</div><div class="px-0" style="aspect-ratio:1;font-size: clamp(1.125rem, .9vw, 1.375rem);">0</div><div class="px-1" style="aspect-ratio:1;font-size: clamp(1.125rem, .9vw, 1.375rem);">1</div><div class="px-0" style="aspect-ratio:1;font-size: clamp(1.125rem, .9vw, 1.375rem);">0</div><div class="px-1" style="aspect-ratio:1;font-size: clamp(1.125rem, .9vw, 1.375rem);">1</div>
+          <div class="px-0" style="aspect-ratio:1;font-size: clamp(1.125rem, .9vw, 1.375rem);">0</div><div class="px-1" style="aspect-ratio:1;font-size: clamp(1.125rem, .9vw, 1.375rem);">1</div><div class="px-0" style="aspect-ratio:1;font-size: clamp(1.125rem, .9vw, 1.375rem);">0</div><div class="px-1" style="aspect-ratio:1;font-size: clamp(1.125rem, .9vw, 1.375rem);">1</div><div class="px-0" style="aspect-ratio:1;font-size: clamp(1.125rem, .9vw, 1.375rem);">0</div>
+          <div class="px-1" style="aspect-ratio:1;font-size: clamp(1.125rem, .9vw, 1.375rem);">1</div><div class="px-0" style="aspect-ratio:1;font-size: clamp(1.125rem, .9vw, 1.375rem);">0</div><div class="px-1" style="aspect-ratio:1;font-size: clamp(1.125rem, .9vw, 1.375rem);">1</div><div class="px-0" style="aspect-ratio:1;font-size: clamp(1.125rem, .9vw, 1.375rem);">0</div><div class="px-1" style="aspect-ratio:1;font-size: clamp(1.125rem, .9vw, 1.375rem);">1</div>
+          <div class="px-0" style="aspect-ratio:1;font-size: clamp(1.125rem, .9vw, 1.375rem);">0</div><div class="px-1" style="aspect-ratio:1;font-size: clamp(1.125rem, .9vw, 1.375rem);">1</div><div class="px-0" style="aspect-ratio:1;font-size: clamp(1.125rem, .9vw, 1.375rem);">0</div><div class="px-1" style="aspect-ratio:1;font-size: clamp(1.125rem, .9vw, 1.375rem);">1</div><div class="px-0" style="aspect-ratio:1;font-size: clamp(1.125rem, .9vw, 1.375rem);">0</div>
         </div>
         <div style="display:flex;gap:16px;">
-          <div style="display:flex;align-items:center;gap:6px;"><div class="px-1" style="width:18px;height:18px;font-size:0;flex-shrink:0;"></div><span style="font-family:'Google Sans Code', monospace;font-size:.72rem;color:var(--text2);">1 = Black</span></div>
-          <div style="display:flex;align-items:center;gap:6px;"><div class="px-0" style="width:18px;height:18px;font-size:0;flex-shrink:0;"></div><span style="font-family:'Google Sans Code', monospace;font-size:.72rem;color:var(--text2);">0 = White</span></div>
+          <div style="display:flex;align-items:center;gap:6px;"><div class="px-1" style="width:18px;height:18px;font-size:0;flex-shrink:0;"></div><span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text2);">1 = Black</span></div>
+          <div style="display:flex;align-items:center;gap:6px;"><div class="px-0" style="width:18px;height:18px;font-size:0;flex-shrink:0;"></div><span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text2);">0 = White</span></div>
         </div>
         <div style="width:100%;background:var(--surface2);border:1px solid var(--border);padding:10px 14px;">
-          <div style="font-family:'Google Sans Code', monospace;font-size:.68rem;color:var(--text3);margin-bottom:5px;">FILE SIZE FORMULA</div>
-          <div style="font-family:'Google Sans Code', monospace;font-size:clamp(.72rem,1.1vw,.88rem);color:var(--gold2);">width × height × colour depth (bits)</div>
+          <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);margin-bottom:5px;">FILE SIZE FORMULA</div>
+          <div style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.1vw, 1.375rem);color:var(--gold2);">width × height × colour depth (bits)</div>
         </div>
       </div>
     </div>
@@ -751,32 +751,32 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
       </thead>
       <tbody>
         <tr>
-          <td style="font-family:'Google Sans Code', monospace;font-size:clamp(.82rem,1.3vw,1rem);">1-bit</td>
-          <td class="bit-1" style="font-size:clamp(.95rem,1.7vw,1.35rem);">1</td>
+          <td style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.3vw, 1.375rem);">1-bit</td>
+          <td class="bit-1" style="font-size: clamp(1.125rem, 1.7vw, 1.35rem);">1</td>
           <td style="font-family:'Google Sans Code', monospace;">2</td>
-          <td style="font-family:'Google Sans Code', monospace;font-size:.78rem;">2¹</td>
-          <td style="font-family:'Google Sans Code', monospace;font-size:.78rem;">Black & White only</td>
+          <td style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">2¹</td>
+          <td style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Black & White only</td>
         </tr>
         <tr>
-          <td style="font-family:'Google Sans Code', monospace;font-size:clamp(.82rem,1.3vw,1rem);">8-bit</td>
-          <td class="value" style="font-size:clamp(.95rem,1.7vw,1.35rem);">8</td>
+          <td style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.3vw, 1.375rem);">8-bit</td>
+          <td class="value" style="font-size: clamp(1.125rem, 1.7vw, 1.35rem);">8</td>
           <td style="font-family:'Google Sans Code', monospace;">256</td>
-          <td style="font-family:'Google Sans Code', monospace;font-size:.78rem;">2⁸</td>
-          <td style="font-family:'Google Sans Code', monospace;font-size:.78rem;">Greyscale / GIF</td>
+          <td style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">2⁸</td>
+          <td style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Greyscale / GIF</td>
         </tr>
         <tr>
-          <td style="font-family:'Google Sans Code', monospace;font-size:clamp(.82rem,1.3vw,1rem);">24-bit</td>
-          <td class="value" style="font-size:clamp(.95rem,1.7vw,1.35rem);">24</td>
+          <td style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.3vw, 1.375rem);">24-bit</td>
+          <td class="value" style="font-size: clamp(1.125rem, 1.7vw, 1.35rem);">24</td>
           <td style="font-family:'Google Sans Code', monospace;">16.7M</td>
-          <td style="font-family:'Google Sans Code', monospace;font-size:.78rem;">2²⁴ (8R+8G+8B)</td>
-          <td style="font-family:'Google Sans Code', monospace;font-size:.78rem;">True colour JPEG/PNG</td>
+          <td style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">2²⁴ (8R+8G+8B)</td>
+          <td style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">True colour JPEG/PNG</td>
         </tr>
         <tr>
-          <td style="font-family:'Google Sans Code', monospace;font-size:clamp(.82rem,1.3vw,1rem);">32-bit</td>
-          <td class="result" style="font-size:clamp(.95rem,1.7vw,1.35rem);">32</td>
+          <td style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.3vw, 1.375rem);">32-bit</td>
+          <td class="result" style="font-size: clamp(1.125rem, 1.7vw, 1.35rem);">32</td>
           <td style="font-family:'Google Sans Code', monospace;">16.7M + transparency</td>
-          <td style="font-family:'Google Sans Code', monospace;font-size:.78rem;">2³² (RGB + Alpha)</td>
-          <td style="font-family:'Google Sans Code', monospace;font-size:.78rem;">Games, UI, PNG</td>
+          <td style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">2³² (RGB + Alpha)</td>
+          <td style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Games, UI, PNG</td>
         </tr>
       </tbody>
     </table>
@@ -795,16 +795,16 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
     <div class="grid g2" style="gap:12px;align-items:start;">
       <div>
         <div style="background:var(--surface);border:1px solid var(--border);padding:16px;margin-bottom:2px;">
-          <div style="font-family:'Google Sans Code', monospace;font-size:.68rem;color:var(--text3);letter-spacing:.15em;margin-bottom:8px;">KEY TERM <span class="term new">ANALOG</span></div>
-          <div style="font-size:clamp(.9rem,1.45vw,1.12rem);color:var(--text2);line-height:1.65;font-weight:300;">
+          <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);letter-spacing:.15em;margin-bottom:8px;">KEY TERM <span class="term new">ANALOG</span></div>
+          <div style="font-size: clamp(1.125rem, 1.45vw, 1.375rem);color:var(--text2);line-height:1.65;font-weight:300;">
             <strong style="color:var(--text);">Analog</strong> = a signal that is <strong>continuous</strong> — it has infinite possible values at every moment in time.<br><br>
             Sound in the real world is analog: air pressure changes smoothly and continuously.<br><br>
             Computers are <strong>digital</strong> — they can only store <em>discrete</em> (stepped) values. So analog sound must be <strong>converted</strong> to digital.
           </div>
         </div>
         <div style="background:var(--surface);border:1px solid var(--border);padding:16px;margin-top:2px;">
-          <div style="font-family:'Google Sans Code', monospace;font-size:.68rem;color:var(--text3);letter-spacing:.15em;margin-bottom:8px;">KEY TERM <span class="term new">AMPLITUDE</span></div>
-          <div style="font-size:clamp(.9rem,1.45vw,1.12rem);color:var(--text2);line-height:1.65;font-weight:300;">
+          <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);letter-spacing:.15em;margin-bottom:8px;">KEY TERM <span class="term new">AMPLITUDE</span></div>
+          <div style="font-size: clamp(1.125rem, 1.45vw, 1.375rem);color:var(--text2);line-height:1.65;font-weight:300;">
             <strong style="color:var(--text);">Amplitude</strong> = the height of the sound wave — how <strong>loud</strong> the sound is.<br><br>
             When a computer samples sound, it records the <strong>amplitude at each point</strong> as a number.
           </div>
@@ -812,7 +812,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
       </div>
       <!-- Analog vs Digital wave SVG -->
       <div style="background:var(--surface);border:1px solid var(--border);padding:18px;">
-        <div style="font-family:'Google Sans Code', monospace;font-size:.68rem;color:var(--text3);letter-spacing:.15em;margin-bottom:8px;">ANALOG WAVE (continuous)</div>
+        <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);letter-spacing:.15em;margin-bottom:8px;">ANALOG WAVE (continuous)</div>
         <svg viewBox="0 0 320 80" width="100%" style="max-height:80px;margin-bottom:14px;">
           <line x1="0" y1="40" x2="320" y2="40" stroke="var(--border2)" stroke-width="1"/>
           <path d="M0,40 C20,5 40,5 60,40 C80,75 100,75 120,40 C140,5 160,5 180,40 C200,75 220,75 240,40 C260,5 280,5 300,40 C310,52 318,62 320,40" fill="none" stroke="var(--pink)" stroke-width="2.5"/>
@@ -821,7 +821,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
           <text x="8" y="14" text-anchor="end" fill="var(--orange)" font-size="9" font-family="Google Sans Code,monospace">amplitude</text>
           <text x="260" y="72" fill="var(--text3)" font-size="9" font-family="Google Sans Code,monospace">time →</text>
         </svg>
-        <div style="font-family:'Google Sans Code', monospace;font-size:.68rem;color:var(--text3);letter-spacing:.15em;margin-bottom:8px;">DIGITAL (sampled — discrete steps)</div>
+        <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);letter-spacing:.15em;margin-bottom:8px;">DIGITAL (sampled — discrete steps)</div>
         <svg viewBox="0 0 320 88" width="100%" style="max-height:88px;">
           <line x1="0" y1="40" x2="320" y2="40" stroke="var(--border2)" stroke-width="1"/>
           <path d="M20,14 C27,14 33,14 40,14 C47,14 53,20 60,28 C67,36 73,56 80,64 C87,72 93,75 100,75 C107,75 113,58 120,50 C127,42 133,22 140,14 C147,6 153,6 160,6 C167,6 173,24 180,38 C187,52 193,60 200,64 C207,68 213,75 220,75 C227,75 233,60 240,52 C247,44 253,22 260,14 C267,6 273,6 280,6 C287,6 293,20 300,40" fill="none" stroke="var(--border2)" stroke-width="1.4" stroke-dasharray="3,2" stroke-linecap="round"/>
@@ -872,12 +872,12 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
     <div class="grid g2" style="gap:2px;margin-bottom:9px;">
       <div class="card pink">
         <div class="card-title">📊 Sample Rate</div>
-        <div style="font-family:'Google Sans Code', monospace;font-size:clamp(1.3rem,2.3vw,1.9rem);font-weight:700;color:var(--pink);margin:7px 0;">Hz / kHz</div>
+        <div style="font-family:'Google Sans Code', monospace;font-size: clamp(1.3rem, 2.3vw, 1.9rem);font-weight:700;color:var(--pink);margin:7px 0;">Hz / kHz</div>
         <div class="card-body">Samples taken <strong>per second</strong>.<br><br><strong>44,100 Hz</strong> = CD quality (standard)<br><strong>48,000 Hz</strong> = professional video<br><strong>96,000 Hz</strong> = studio recording<br><br>Higher → smoother, more accurate sound</div>
       </div>
       <div class="card orange">
         <div class="card-title">📏 Bit Depth</div>
-        <div style="font-family:'Google Sans Code', monospace;font-size:clamp(1.3rem,2.3vw,1.9rem);font-weight:700;color:var(--orange);margin:7px 0;">bits / sample</div>
+        <div style="font-family:'Google Sans Code', monospace;font-size: clamp(1.3rem, 2.3vw, 1.9rem);font-weight:700;color:var(--orange);margin:7px 0;">bits / sample</div>
         <div class="card-body">Bits used to store the <strong>amplitude</strong> of each sample.<br><br><strong>8-bit</strong> = 256 amplitude levels<br><strong>16-bit</strong> = 65,536 levels (CD)<br><strong>24-bit</strong> = 16.7M levels (studio)<br><br>Higher → more precise amplitude values</div>
       </div>
     </div>
@@ -887,22 +887,22 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
       </thead>
       <tbody>
         <tr>
-          <td style="font-family:'Google Sans Code', monospace;font-size:.9rem;">Phone call</td>
+          <td style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Phone call</td>
           <td class="power">8,000 Hz</td><td class="power">8-bit</td>
-          <td style="font-family:'Google Sans Code', monospace;font-size:.9rem;">Low</td>
-          <td style="font-family:'Google Sans Code', monospace;font-size:.9rem;">Small</td>
+          <td style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Low</td>
+          <td style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Small</td>
         </tr>
         <tr>
-          <td style="font-family:'Google Sans Code', monospace;font-size:.9rem;">CD Audio</td>
+          <td style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">CD Audio</td>
           <td class="power">44,100 Hz</td><td class="power">16-bit</td>
-          <td style="font-family:'Google Sans Code', monospace;font-size:.9rem;">Good</td>
-          <td style="font-family:'Google Sans Code', monospace;font-size:.9rem;">Medium</td>
+          <td style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Good</td>
+          <td style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Medium</td>
         </tr>
         <tr>
-          <td style="font-family:'Google Sans Code', monospace;font-size:.9rem;">Studio</td>
+          <td style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Studio</td>
           <td class="power">96,000 Hz</td><td class="power">24-bit</td>
-          <td style="font-family:'Google Sans Code', monospace;font-size:.9rem;">High</td>
-          <td style="font-family:'Google Sans Code', monospace;font-size:.9rem;">Large</td>
+          <td style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">High</td>
+          <td style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Large</td>
         </tr>
       </tbody>
     </table>
@@ -919,22 +919,22 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
       <div class="card teal">
         <div style="font-size:1.6rem;margin-bottom:8px;">🎞️</div>
         <div class="card-title">Frames</div>
-        <div class="card-body" style="font-size:.82rem;">Sequence of still images. Each frame = one picture. Played rapidly to create motion.</div>
+        <div class="card-body" style="font-size:1.125rem;">Sequence of still images. Each frame = one picture. Played rapidly to create motion.</div>
       </div>
       <div class="card pink">
         <div style="font-size:1.6rem;margin-bottom:8px;">🎵</div>
         <div class="card-title">Audio</div>
-        <div class="card-body" style="font-size:.82rem;">Sampled sound data. Synchronised with the frames. Stored as binary (sample rate + bit depth).</div>
+        <div class="card-body" style="font-size:1.125rem;">Sampled sound data. Synchronised with the frames. Stored as binary (sample rate + bit depth).</div>
       </div>
       <div class="card gold">
         <div style="font-size:1.6rem;margin-bottom:8px;">📋</div>
-        <div class="card-title">Metadata <span class="term new" style="font-size:8px;">KEY TERM</span></div>
-        <div class="card-body" style="font-size:.82rem;">Data about the video — title, duration, resolution, codec, creation date, GPS location.</div>
+        <div class="card-title">Metadata <span class="term new" style="font-size:18px;">KEY TERM</span></div>
+        <div class="card-body" style="font-size:1.125rem;">Data about the video — title, duration, resolution, codec, creation date, GPS location.</div>
       </div>
       <div class="card blue">
         <div style="font-size:1.6rem;margin-bottom:8px;">💬</div>
         <div class="card-title">Subtitles</div>
-        <div class="card-body" style="font-size:.82rem;">Text track with timestamps. Stored as a separate data stream. Can be multiple languages.</div>
+        <div class="card-body" style="font-size:1.125rem;">Text track with timestamps. Stored as a separate data stream. Can be multiple languages.</div>
       </div>
     </div>
     <div class="teal-box"><p><strong>👉 Focus:</strong> The <strong>frames</strong> make the video possible — everything else supports them. Frames are also the most data-intensive component.</p></div>
@@ -970,7 +970,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
       </div>
       <!-- Frames visual -->
       <div style="background:var(--surface);border:1px solid var(--border);padding:18px;">
-        <div style="font-family:'Google Sans Code', monospace;font-size:.68rem;color:var(--text3);letter-spacing:.15em;margin-bottom:12px;">VIDEO = SEQUENCE OF FRAMES</div>
+        <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);letter-spacing:.15em;margin-bottom:12px;">VIDEO = SEQUENCE OF FRAMES</div>
         <!-- Frame strip -->
         <div style="display:flex;gap:4px;align-items:flex-end;margin-bottom:14px;">
           <div style="background:var(--surface2);border:1px solid var(--teal);padding:6px;text-align:center;flex:1;">
@@ -979,32 +979,32 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
               <div class="px-0" style="width:100%;aspect-ratio:1;font-size:0;"></div><div class="px-1" style="width:100%;aspect-ratio:1;font-size:0;"></div><div class="px-0" style="width:100%;aspect-ratio:1;font-size:0;"></div><div class="px-1" style="width:100%;aspect-ratio:1;font-size:0;"></div>
               <div class="px-1" style="width:100%;aspect-ratio:1;font-size:0;"></div><div class="px-0" style="width:100%;aspect-ratio:1;font-size:0;"></div><div class="px-1" style="width:100%;aspect-ratio:1;font-size:0;"></div><div class="px-0" style="width:100%;aspect-ratio:1;font-size:0;"></div>
             </div>
-            <div style="font-family:'Google Sans Code', monospace;font-size:.62rem;color:var(--teal);">Frame 1</div>
+            <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--teal);">Frame 1</div>
           </div>
-          <div style="color:var(--gold);font-size:1rem;flex-shrink:0;">→</div>
+          <div style="color:var(--gold);font-size:1.125rem;flex-shrink:0;">→</div>
           <div style="background:var(--surface2);border:1px solid var(--teal);padding:6px;text-align:center;flex:1;transform:translateY(-4px);">
             <div class="pixel-grid" style="grid-template-columns:repeat(4,1fr);gap:1px;margin-bottom:4px;">
               <div class="px-0" style="width:100%;aspect-ratio:1;font-size:0;"></div><div class="px-1" style="width:100%;aspect-ratio:1;font-size:0;"></div><div class="px-0" style="width:100%;aspect-ratio:1;font-size:0;"></div><div class="px-1" style="width:100%;aspect-ratio:1;font-size:0;"></div>
               <div class="px-1" style="width:100%;aspect-ratio:1;font-size:0;"></div><div class="px-0" style="width:100%;aspect-ratio:1;font-size:0;"></div><div class="px-1" style="width:100%;aspect-ratio:1;font-size:0;"></div><div class="px-0" style="width:100%;aspect-ratio:1;font-size:0;"></div>
               <div class="px-0" style="width:100%;aspect-ratio:1;font-size:0;"></div><div class="px-1" style="width:100%;aspect-ratio:1;font-size:0;"></div><div class="px-0" style="width:100%;aspect-ratio:1;font-size:0;"></div><div class="px-1" style="width:100%;aspect-ratio:1;font-size:0;"></div>
             </div>
-            <div style="font-family:'Google Sans Code', monospace;font-size:.62rem;color:var(--teal);">Frame 2</div>
+            <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--teal);">Frame 2</div>
           </div>
-          <div style="color:var(--gold);font-size:1rem;flex-shrink:0;">→</div>
+          <div style="color:var(--gold);font-size:1.125rem;flex-shrink:0;">→</div>
           <div style="background:var(--surface2);border:1px solid var(--teal);padding:6px;text-align:center;flex:1;transform:translateY(2px);">
             <div class="pixel-grid" style="grid-template-columns:repeat(4,1fr);gap:1px;margin-bottom:4px;">
               <div class="px-1" style="width:100%;aspect-ratio:1;font-size:0;"></div><div class="px-1" style="width:100%;aspect-ratio:1;font-size:0;"></div><div class="px-0" style="width:100%;aspect-ratio:1;font-size:0;"></div><div class="px-0" style="width:100%;aspect-ratio:1;font-size:0;"></div>
               <div class="px-0" style="width:100%;aspect-ratio:1;font-size:0;"></div><div class="px-0" style="width:100%;aspect-ratio:1;font-size:0;"></div><div class="px-1" style="width:100%;aspect-ratio:1;font-size:0;"></div><div class="px-1" style="width:100%;aspect-ratio:1;font-size:0;"></div>
               <div class="px-1" style="width:100%;aspect-ratio:1;font-size:0;"></div><div class="px-1" style="width:100%;aspect-ratio:1;font-size:0;"></div><div class="px-0" style="width:100%;aspect-ratio:1;font-size:0;"></div><div class="px-0" style="width:100%;aspect-ratio:1;font-size:0;"></div>
             </div>
-            <div style="font-family:'Google Sans Code', monospace;font-size:.62rem;color:var(--teal);">Frame 3</div>
+            <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--teal);">Frame 3</div>
           </div>
-          <div style="color:var(--gold);font-size:1rem;flex-shrink:0;">→</div>
+          <div style="color:var(--gold);font-size:1.125rem;flex-shrink:0;">→</div>
           <div style="background:var(--surface2);border:1px solid var(--border2);padding:6px;text-align:center;flex:1;display:flex;align-items:center;justify-content:center;min-height:60px;">
-            <div style="font-family:'Google Sans Code', monospace;font-size:.68rem;color:var(--text3);">… × 30/sec</div>
+            <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);">… × 30/sec</div>
           </div>
         </div>
-        <div style="font-family:'Google Sans Code', monospace;font-size:.62rem;color:var(--text3);letter-spacing:.1em;margin-bottom:10px;">COMPRESSION — ONLY STORE WHAT CHANGES</div>
+        <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);letter-spacing:.1em;margin-bottom:10px;">COMPRESSION — ONLY STORE WHAT CHANGES</div>
         <svg viewBox="0 0 300 80" width="100%" style="max-height:80px;">
           <!-- keyframe -->
           <rect x="5" y="10" width="56" height="56" rx="2" fill="#151923" stroke="var(--teal)" stroke-width="2"/>
@@ -1051,23 +1051,23 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
       </div>
       <div>
         <div style="background:var(--surface);border:1px solid var(--border);padding:18px;">
-          <div style="font-family:'Google Sans Code', monospace;font-size:.68rem;color:var(--text3);letter-spacing:.15em;margin-bottom:10px;">EXAMPLES BY FILE TYPE</div>
+          <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);letter-spacing:.15em;margin-bottom:10px;">EXAMPLES BY FILE TYPE</div>
           <div style="display:flex;flex-direction:column;gap:6px;">
             <div style="background:var(--surface2);border-left:3px solid var(--purple);padding:10px 14px;">
-              <div style="font-family:'Google Sans Code', monospace;font-size:.7rem;color:var(--purple);margin-bottom:4px;">📸 IMAGE (JPEG/PNG)</div>
-              <div style="font-size:clamp(.78rem,1.2vw,.95rem);color:var(--text2);">Camera model, GPS location, date taken, shutter speed, ISO, resolution</div>
+              <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--purple);margin-bottom:4px;">📸 IMAGE (JPEG/PNG)</div>
+              <div style="font-size: clamp(1.125rem, 1.2vw, 1.375rem);color:var(--text2);">Camera model, GPS location, date taken, shutter speed, ISO, resolution</div>
             </div>
             <div style="background:var(--surface2);border-left:3px solid var(--teal);padding:10px 14px;">
-              <div style="font-family:'Google Sans Code', monospace;font-size:.7rem;color:var(--teal);margin-bottom:4px;">🎬 VIDEO (MP4)</div>
-              <div style="font-size:clamp(.78rem,1.2vw,.95rem);color:var(--text2);">Duration, resolution, frame rate, codec, audio channels, creation date, title</div>
+              <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--teal);margin-bottom:4px;">🎬 VIDEO (MP4)</div>
+              <div style="font-size: clamp(1.125rem, 1.2vw, 1.375rem);color:var(--text2);">Duration, resolution, frame rate, codec, audio channels, creation date, title</div>
             </div>
             <div style="background:var(--surface2);border-left:3px solid var(--pink);padding:10px 14px;">
-              <div style="font-family:'Google Sans Code', monospace;font-size:.7rem;color:var(--pink);margin-bottom:4px;">🎵 AUDIO (MP3)</div>
-              <div style="font-size:clamp(.78rem,1.2vw,.95rem);color:var(--text2);">Artist, album, track number, duration, bit rate, genre</div>
+              <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--pink);margin-bottom:4px;">🎵 AUDIO (MP3)</div>
+              <div style="font-size: clamp(1.125rem, 1.2vw, 1.375rem);color:var(--text2);">Artist, album, track number, duration, bit rate, genre</div>
             </div>
             <div style="background:var(--surface2);border-left:3px solid var(--blue);padding:10px 14px;">
-              <div style="font-family:'Google Sans Code', monospace;font-size:.7rem;color:var(--blue);margin-bottom:4px;">📄 DOCUMENT (PDF/DOCX)</div>
-              <div style="font-size:clamp(.78rem,1.2vw,.95rem);color:var(--text2);">Author, date created/modified, word count, page count, software used</div>
+              <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--blue);margin-bottom:4px;">📄 DOCUMENT (PDF/DOCX)</div>
+              <div style="font-size: clamp(1.125rem, 1.2vw, 1.375rem);color:var(--text2);">Author, date created/modified, word count, page count, software used</div>
             </div>
           </div>
         </div>
@@ -1098,7 +1098,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
           <td class="row-label"></td>
           <th>Bit 7 (MSB)</th><th>Bit 6</th><th>Bit 5</th><th>Bit 4</th>
           <th>Bit 3</th><th>Bit 2</th><th>Bit 1</th><th>Bit 0</th>
-          <th style="background:var(--surface2);color:var(--text3);font-size:.8rem;padding:8px;">Value</th>
+          <th style="background:var(--surface2);color:var(--text3);font-size:1.125rem;padding:8px;">Value</th>
         </tr>
       </thead>
       <tbody>
@@ -1119,7 +1119,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
     <div class="grid g2" style="gap:2px;margin-top:8px;">
       <div class="info-box" style="margin-top:0;"><p><strong>Same bits, different interpretation.</strong> The system decides whether the MSB is a sign bit or part of the value.</p></div>
       <div style="background:rgba(251,146,60,.04);border:1px solid rgba(251,146,60,.12);border-left:3px solid var(--orange);padding:11px 18px;margin-top:0;">
-        <p style="font-size:clamp(.85rem,1.35vw,1.05rem);color:var(--text2);line-height:1.6;">Signed: MSB = <strong style="color:var(--orange);">sign bit</strong> → only 7 bits for magnitude. Range: −128 to +127 (2⁷ = 128).</p>
+        <p style="font-size: clamp(1.125rem, 1.35vw, 1.375rem);color:var(--text2);line-height:1.6;">Signed: MSB = <strong style="color:var(--orange);">sign bit</strong> → only 7 bits for magnitude. Range: −128 to +127 (2⁷ = 128).</p>
       </div>
     </div>
   </div>
@@ -1179,39 +1179,39 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
     <div class="grid g3" style="gap:2px;">
       <div class="card cyan" style="padding:14px 16px;">
         <div class="card-title">ASCII</div>
-        <div class="card-body" style="font-size:.82rem;">128-character encoding standard. Maps characters to numbers 0–127.</div>
+        <div class="card-body" style="font-size:1.125rem;">128-character encoding standard. Maps characters to numbers 0–127.</div>
       </div>
       <div class="card purple" style="padding:14px 16px;">
         <div class="card-title">Unicode</div>
-        <div class="card-body" style="font-size:.82rem;">Universal encoding covering 140,000+ characters. Includes Korean (한글), all world languages, emoji.</div>
+        <div class="card-body" style="font-size:1.125rem;">Universal encoding covering 140,000+ characters. Includes Korean (한글), all world languages, emoji.</div>
       </div>
       <div class="card purple" style="padding:14px 16px;">
         <div class="card-title">Pixel</div>
-        <div class="card-body" style="font-size:.82rem;">Smallest unit of a digital image. Each has a colour value stored as binary.</div>
+        <div class="card-body" style="font-size:1.125rem;">Smallest unit of a digital image. Each has a colour value stored as binary.</div>
       </div>
       <div class="card purple" style="padding:14px 16px;">
         <div class="card-title">Image Resolution</div>
-        <div class="card-body" style="font-size:.82rem;">Total number of pixels (width × height). More pixels = more detail.</div>
+        <div class="card-body" style="font-size:1.125rem;">Total number of pixels (width × height). More pixels = more detail.</div>
       </div>
       <div class="card pink" style="padding:14px 16px;">
         <div class="card-title">Analog</div>
-        <div class="card-body" style="font-size:.82rem;">A continuous signal with infinite values. Sound in the real world is analog before it is digitised.</div>
+        <div class="card-body" style="font-size:1.125rem;">A continuous signal with infinite values. Sound in the real world is analog before it is digitised.</div>
       </div>
       <div class="card pink" style="padding:14px 16px;">
         <div class="card-title">Amplitude</div>
-        <div class="card-body" style="font-size:.82rem;">Height of a sound wave = loudness. Each audio sample records the amplitude at that moment.</div>
+        <div class="card-body" style="font-size:1.125rem;">Height of a sound wave = loudness. Each audio sample records the amplitude at that moment.</div>
       </div>
       <div class="card teal" style="padding:14px 16px;">
         <div class="card-title">Frame</div>
-        <div class="card-body" style="font-size:.82rem;">One still image in a video. Rapid playback of frames creates motion (fps).</div>
+        <div class="card-body" style="font-size:1.125rem;">One still image in a video. Rapid playback of frames creates motion (fps).</div>
       </div>
       <div class="card gold" style="padding:14px 16px;">
         <div class="card-title">Metadata</div>
-        <div class="card-body" style="font-size:.82rem;">Data that describes a file — not the content itself. E.g. date, author, resolution, GPS.</div>
+        <div class="card-body" style="font-size:1.125rem;">Data that describes a file — not the content itself. E.g. date, author, resolution, GPS.</div>
       </div>
       <div class="card orange" style="padding:14px 16px;">
         <div class="card-title">Signed / Unsigned</div>
-        <div class="card-body" style="font-size:.82rem;">Unsigned: 0–255. Signed: uses MSB as sign bit, −128 to +127.</div>
+        <div class="card-body" style="font-size:1.125rem;">Unsigned: 0–255. Signed: uses MSB as sign bit, −128 to +127.</div>
       </div>
     </div>
   </div>
@@ -1221,16 +1221,16 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
 <div class="slide">
   <div class="content" style="max-width:900px;margin:0 auto;text-align:center;">
     <div class="label" style="display:block;text-align:center;">// The Big Idea</div>
-    <h2 style="font-size:clamp(1.8rem,4vw,3.3rem);">Everything becomes <span class="hl-green">binary</span>.<br>Interpreted <span class="hl-gold">differently.</span></h2>
+    <h2 style="font-size: clamp(1.8rem, 4vw, 3.3rem);">Everything becomes <span class="hl-green">binary</span>.<br>Interpreted <span class="hl-gold">differently.</span></h2>
     <div class="divider" style="margin:18px 0;"></div>
     <div class="grid g4" style="gap:2px;text-align:left;margin-bottom:12px;">
-      <div class="card cyan" style="padding:14px;text-align:center;"><div style="font-size:1.6rem;margin-bottom:7px;">Aa 가</div><div class="card-title">Text</div><div class="card-body" style="font-size:.78rem;">ASCII / Unicode codes</div></div>
-      <div class="card purple" style="padding:14px;text-align:center;"><div style="font-size:1.6rem;margin-bottom:7px;">🖼</div><div class="card-title">Images</div><div class="card-body" style="font-size:.78rem;">Pixel values + resolution</div></div>
-      <div class="card pink" style="padding:14px;text-align:center;"><div style="font-size:1.6rem;margin-bottom:7px;">〜〜</div><div class="card-title">Sound</div><div class="card-body" style="font-size:.78rem;">Analog → samples + amplitude</div></div>
-      <div class="card teal" style="padding:14px;text-align:center;"><div style="font-size:1.6rem;margin-bottom:7px;">🎬</div><div class="card-title">Video</div><div class="card-body" style="font-size:.78rem;">Frames + audio + metadata</div></div>
+      <div class="card cyan" style="padding:14px;text-align:center;"><div style="font-size:1.6rem;margin-bottom:7px;">Aa 가</div><div class="card-title">Text</div><div class="card-body" style="font-size:1.125rem;">ASCII / Unicode codes</div></div>
+      <div class="card purple" style="padding:14px;text-align:center;"><div style="font-size:1.6rem;margin-bottom:7px;">🖼</div><div class="card-title">Images</div><div class="card-body" style="font-size:1.125rem;">Pixel values + resolution</div></div>
+      <div class="card pink" style="padding:14px;text-align:center;"><div style="font-size:1.6rem;margin-bottom:7px;">〜〜</div><div class="card-title">Sound</div><div class="card-body" style="font-size:1.125rem;">Analog → samples + amplitude</div></div>
+      <div class="card teal" style="padding:14px;text-align:center;"><div style="font-size:1.6rem;margin-bottom:7px;">🎬</div><div class="card-title">Video</div><div class="card-body" style="font-size:1.125rem;">Frames + audio + metadata</div></div>
     </div>
     <div style="background:var(--surface);border:1px solid var(--border2);padding:16px 24px;margin-bottom:12px;">
-      <p style="font-family:'Google Sans Code', monospace;font-size:clamp(.95rem,1.7vw,1.3rem);color:var(--text2);line-height:1.7;">
+      <p style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.7vw, 1.3rem);color:var(--text2);line-height:1.7;">
         👉 Computers store <strong style="color:var(--text);">all data</strong> as 0 and 1 &nbsp;·&nbsp;
         The <strong style="color:var(--gold2);">context</strong> tells the computer how to interpret the bits
       </p>
@@ -1239,11 +1239,11 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
       <thead>
         <tr>
           <th colspan="8">0 1 0 0 0 0 0 1</th>
-          <th style="background:transparent;border:none;color:var(--cyan);font-size:.8rem;">→</th>
+          <th style="background:transparent;border:none;color:var(--cyan);font-size:1.125rem;">→</th>
           <th>"A" (text)</th>
-          <th style="background:transparent;border:none;color:var(--cyan);font-size:.8rem;">or</th>
+          <th style="background:transparent;border:none;color:var(--cyan);font-size:1.125rem;">or</th>
           <th>65 (int)</th>
-          <th style="background:transparent;border:none;color:var(--cyan);font-size:.8rem;">or</th>
+          <th style="background:transparent;border:none;color:var(--cyan);font-size:1.125rem;">or</th>
           <th>colour</th>
         </tr>
       </thead>
@@ -1261,16 +1261,16 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:clamp(1.8rem,
 <div class="slide">
   <div class="content" style="max-width:920px;margin:0 auto;">
     <div class="label purple" style="display:block;text-align:center;">// TOK · Theory of Knowledge</div>
-    <h2 style="font-size:clamp(1.9rem,4.4vw,3.6rem);text-align:center;">TOK <span class="hl-purple">Questions</span></h2>
+    <h2 style="font-size: clamp(1.9rem, 4.4vw, 3.6rem);text-align:center;">TOK <span class="hl-purple">Questions</span></h2>
     <p class="lead" style="text-align:center;max-width:720px;margin:0 auto 20px;">Use these to move from technical representation to deeper thinking about what may be lost when we simplify the world into data.</p>
     <div class="steps" style="max-width:820px;margin:0 auto;">
       <div class="step-row" style="padding:18px 20px;border-left:3px solid var(--purple);">
-        <div class="step-n" style="color:var(--purple);font-size:clamp(.9rem,1.4vw,1.05rem);">01</div>
-        <div class="step-text" style="font-size:clamp(1rem,1.65vw,1.22rem);color:var(--text);">Can everything be represented as <strong style="color:var(--purple);">0 and 1</strong>?</div>
+        <div class="step-n" style="color:var(--purple);font-size: clamp(1.125rem, 1.4vw, 1.375rem);">01</div>
+        <div class="step-text" style="font-size: clamp(1.125rem, 1.65vw, 1.22rem);color:var(--text);">Can everything be represented as <strong style="color:var(--purple);">0 and 1</strong>?</div>
       </div>
       <div class="step-row" style="padding:18px 20px;border-left:3px solid var(--gold);">
-        <div class="step-n" style="color:var(--gold);font-size:clamp(.9rem,1.4vw,1.05rem);">02</div>
-        <div class="step-text" style="font-size:clamp(1rem,1.65vw,1.22rem);color:var(--text);">What problems arise when we reduce complex situations to <strong style="color:var(--gold2);">TRUE/FALSE</strong>?</div>
+        <div class="step-n" style="color:var(--gold);font-size: clamp(1.125rem, 1.4vw, 1.375rem);">02</div>
+        <div class="step-text" style="font-size: clamp(1.125rem, 1.65vw, 1.22rem);color:var(--text);">What problems arise when we reduce complex situations to <strong style="color:var(--gold2);">TRUE/FALSE</strong>?</div>
       </div>
     </div>
     <div class="purple-box" style="max-width:820px;margin:16px auto 0;">

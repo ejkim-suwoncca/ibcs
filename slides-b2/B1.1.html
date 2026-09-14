@@ -32,7 +32,7 @@ body{
   background:var(--bg);
   color:var(--text);
   font-family:'Google Sans', 'Noto Sans KR', sans-serif;
-  font-size:clamp(16px,1.25vw,19px);
+  font-size: clamp(18px, 1.25vw, 19px);
   line-height:1.6;
   -webkit-font-smoothing:antialiased;
 }
@@ -42,11 +42,11 @@ body{
 .slide{
   position:absolute;inset:0;
   display:flex;flex-direction:column;
-  padding:var(--pad-y) var(--pad-x);
+  padding-top:100px;padding-bottom:var(--pad-y);padding-left:var(--pad-x);padding-right:var(--pad-x);
+  overflow-y:auto;overscroll-behavior:contain;
   opacity:0;pointer-events:none;
   transition:opacity .25s ease, transform .25s ease;
   transform:translateY(10px);
-  overflow:hidden;
 }
 .slide.active{opacity:1;pointer-events:all;transform:translateY(0);}
 
@@ -54,7 +54,7 @@ body{
 .slide-head{
   display:flex;justify-content:space-between;align-items:center;
   margin-bottom:clamp(16px,2vh,28px);
-  font-size:clamp(13px,.9vw,15px);
+  font-size: clamp(18px, .9vw, 22px);
   letter-spacing:.08em;text-transform:uppercase;
   color:var(--text-3);font-weight:500;
 }
@@ -62,23 +62,23 @@ body{
 
 /* ── TYPOGRAPHY ── */
 h1{
-  font-size:clamp(36px,4.8vw,62px);
+  font-size: clamp(36px, 4.8vw, 62px);
   font-weight:700;line-height:1.05;letter-spacing:-.02em;
   margin-bottom:clamp(12px,1.6vh,20px);
 }
 h2{
-  font-size:clamp(24px,2.8vw,38px);
+  font-size: clamp(24px, 2.8vw, 38px);
   font-weight:700;line-height:1.1;letter-spacing:-.015em;
   margin-bottom:clamp(8px,1.2vh,16px);
 }
 .eyebrow{
-  font-size:clamp(13px,.9vw,15px);
+  font-size: clamp(18px, .9vw, 22px);
   letter-spacing:.12em;text-transform:uppercase;
   color:var(--blue);font-weight:600;
   margin-bottom:8px;
 }
 .lead{
-  font-size:clamp(17px,1.4vw,21px);
+  font-size: clamp(24px, 1.8vw, 30px);
   color:var(--text-2);line-height:1.55;font-weight:400;
   margin-bottom:clamp(14px,2vh,24px);
   max-width:75ch;
@@ -103,12 +103,12 @@ strong{color:#fff;font-weight:600;}
   position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:2px;
 }
 .card-title{
-  font-size:clamp(16px,1.25vw,20px);
+  font-size: clamp(18px, 1.25vw, 20px);
   font-weight:600;letter-spacing:-.01em;
   margin-bottom:6px;
 }
 .card-body{
-  font-size:clamp(15px,1.15vw,18px);
+  font-size: clamp(24px, 1.6vw, 28px);
   color:var(--text-2);line-height:1.5;
 }
 
@@ -122,14 +122,14 @@ strong{color:#fff;font-weight:600;}
 /* ── TABLE ── */
 table.t{
   width:100%;border-collapse:collapse;
-  font-size:clamp(15px,1.15vw,18px);
+  font-size: clamp(18px, 1.15vw, 18px);
   background:var(--surface);
   border-radius:10px;overflow:hidden;
 }
 table.t th{
   background:var(--surface-2);text-align:left;
   padding:12px 16px;font-weight:600;
-  font-size:clamp(13px,.95vw,15px);
+  font-size: clamp(18px, .95vw, 22px);
   letter-spacing:.06em;text-transform:uppercase;
   color:var(--text-2);border-bottom:1px solid var(--border-2);
 }
@@ -148,7 +148,7 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
   border-left:3px solid var(--amber);
   background:rgba(251,191,36,.07);
   border-radius:0 8px 8px 0;
-  font-size:clamp(14px,1.1vw,17px);
+  font-size: clamp(18px, 1.1vw, 22px);
   color:var(--text-2);line-height:1.5;
 }
 .note strong{color:var(--amber);}
@@ -166,7 +166,7 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
   border-radius:8px;
   padding:14px 18px;
   font-family:'Google Sans Code', monospace;
-  font-size:clamp(14px,1.1vw,17px);
+  font-size: clamp(18px, 1.1vw, 22px);
   line-height:1.75;
   color:var(--text);
   margin-top:10px;
@@ -188,15 +188,15 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
 }
 .hub-card .id{
   font-family:'Google Sans Code', monospace;
-  font-size:clamp(13px,.9vw,15px);
+  font-size: clamp(18px, .9vw, 22px);
   color:var(--blue);letter-spacing:.06em;margin-bottom:5px;
 }
 .hub-card .name{
-  font-size:clamp(17px,1.35vw,21px);
+  font-size: clamp(18px, 1.35vw, 21px);
   font-weight:600;color:var(--text);margin-bottom:4px;
 }
 .hub-card .desc{
-  font-size:clamp(14px,1.1vw,17px);
+  font-size: clamp(18px, 1.1vw, 22px);
   color:var(--text-3);line-height:1.45;
 }
 
@@ -206,20 +206,20 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
 .flow .term{
   border:2px solid var(--blue);color:var(--blue);
   border-radius:999px;padding:7px 22px;
-  font-family:'Google Sans Code', monospace;font-size:clamp(13px,1vw,16px);
+  font-family:'Google Sans Code', monospace;font-size: clamp(18px, 1vw, 22px);
   background:var(--surface);
 }
 .flow .io{
   border:2px solid var(--amber);color:var(--amber);
   padding:7px 20px;
-  font-family:'Google Sans Code', monospace;font-size:clamp(13px,1vw,16px);
+  font-family:'Google Sans Code', monospace;font-size: clamp(18px, 1vw, 22px);
   background:var(--surface);transform:skewX(-12deg);
 }
 .flow .io > span{display:inline-block;transform:skewX(12deg);}
 .flow .proc{
   border:2px solid var(--text-2);color:var(--text);
   padding:7px 20px;
-  font-family:'Google Sans Code', monospace;font-size:clamp(13px,1vw,16px);
+  font-family:'Google Sans Code', monospace;font-size: clamp(18px, 1vw, 22px);
   background:var(--surface);border-radius:4px;
 }
 .flow .dec{
@@ -227,7 +227,7 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
   width:150px;height:74px;
   display:flex;align-items:center;justify-content:center;
   clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);
-  font-family:'Google Sans Code', monospace;font-size:clamp(13px,.95vw,15px);
+  font-family:'Google Sans Code', monospace;font-size: clamp(18px, .95vw, 22px);
   background:var(--surface);
 }
 
@@ -236,8 +236,8 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
 .sym-row:last-child{border-bottom:none;}
 .sym-row .pic{flex:0 0 120px;display:flex;justify-content:center;}
 .sym-row .meta{flex:1;}
-.sym-row .nm{font-weight:600;color:var(--text);font-size:clamp(15px,1.15vw,18px);}
-.sym-row .ds{color:var(--text-2);font-size:clamp(14px,1.05vw,16px);line-height:1.4;}
+.sym-row .nm{font-weight:600;color:var(--text);font-size: clamp(18px, 1.15vw, 18px);}
+.sym-row .ds{color:var(--text-2);font-size: clamp(18px, 1.05vw, 22px);line-height:1.4;}
 
 /* ── SUMMARY RECAP ── */
 .recap{
@@ -247,7 +247,7 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
 }
 .recap-line{
   display:flex;gap:14px;padding:7px 0;
-  font-size:clamp(15px,1.15vw,18px);color:var(--text-2);
+  font-size: clamp(18px, 1.15vw, 18px);color:var(--text-2);
   border-bottom:1px solid var(--border);
 }
 .recap-line:last-child{border-bottom:none;}
@@ -265,7 +265,7 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
   padding:7px 16px;
 }
 .nav-btn{
-  font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:13px;font-weight:500;letter-spacing:.06em;
+  font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:18px;font-weight:500;letter-spacing:.06em;
   color:var(--text-2);background:none;border:1px solid transparent;
   padding:5px 12px;border-radius:999px;cursor:pointer;transition:all .15s;
 }
@@ -290,7 +290,7 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
   background: rgba(7, 9, 15, 0.9);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
-  font-family: 'Google Sans Code', monospace;
+  font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
 }
 .course-nav-inner {
   width: min(1120px, calc(100% - 32px));
@@ -322,7 +322,7 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
   background: transparent;
   color: var(--text2, #94a3b8);
   font: inherit;
-  font-size: 10px;
+  font-size: 18px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
@@ -345,7 +345,7 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
 .course-menu-button::after,
 .course-submenu-button::after {
   content: "▾";
-  font-size: 10px;
+  font-size: 18px;
   color: var(--text3, #64748b);
   transition: transform 0.18s ease;
 }
@@ -420,7 +420,7 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
   background: transparent;
   color: var(--text2, #94a3b8);
   font: inherit;
-  font-size: 10px;
+  font-size: 18px;
   letter-spacing: 0.04em;
   line-height: 1.35;
   text-align: left;
@@ -469,7 +469,7 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
   .course-link,
   .course-menu-button {
     min-height: 36px;
-    font-size: 9px;
+    font-size: 18px;
   }
   .course-dropdown {
     position: fixed;
@@ -851,7 +851,7 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
         </div>
         <div class="note green"><strong>Example:</strong> "Borrow a book" and "Return a book" both need to check the member ID. Write that check once, use it twice.</div>
         <div style="margin-top:10px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:8px;">
-          <div style="color:var(--text-3);font-size:13px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">Payoff</div>
+          <div style="color:var(--text-3);font-size:18px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">Payoff</div>
           <div style="color:var(--text-2);">Shorter code · fewer bugs · easier to update</div>
         </div>
       </div>

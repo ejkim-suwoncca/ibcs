@@ -39,8 +39,8 @@ body::before {
 .deck { position: relative; width: 100vw; height: 100vh; z-index: 1; }
 .slide {
   position: absolute; inset: 0;
-  display: flex; flex-direction: column; justify-content: flex-start; align-items: center;
-  padding: 64px 72px 92px;
+  display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;
+  padding: 100px 72px 92px; overflow-y: auto; overscroll-behavior: contain;
   opacity: 0; pointer-events: none;
   transition: opacity 0.38s ease, transform 0.38s ease;
   transform: translateY(12px);
@@ -49,23 +49,23 @@ body::before {
 .slide.exit { opacity: 0; transform: translateY(-12px); }
 .slide.scroll-slide {
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
-  padding-top: 64px;
+  padding-top: 100px;
   padding-bottom: 132px;
 }
 .slide.scroll-slide::-webkit-scrollbar { width: 10px; }
 .slide.scroll-slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
 .progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--gold), var(--orange)); transition: width 0.38s ease; z-index: 100; }
-.slide-num { position: fixed; top: 17px; right: 24px; font-family: 'Google Sans Code', monospace; font-size: 11px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
+.slide-num { position: fixed; top: 17px; right: 24px; font-family: 'Google Sans Code', monospace; font-size: 18px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
 .content { width: 100%; max-width: 1120px; }
-.label { font-family: 'Google Sans Code', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+.label { font-family: 'Google Sans Code', monospace; font-size: 18px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
 .label.blue { color: var(--blue); } .label.green { color: var(--green); } .label.purple { color: var(--purple); } .label.cyan { color: var(--cyan); } .label.orange { color: var(--orange); }
-h1 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.8rem,5.5vw,4.8rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
-h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.9rem,4vw,3.2rem); font-weight: 500; line-height: 1.1; margin-bottom: 12px; }
-.lead { font-size: clamp(1rem,1.75vw,1.35rem); color: var(--text2); font-weight: 300; line-height: 1.65; margin-bottom: 24px; }
+h1 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.8rem, 5.5vw, 4.8rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
+h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.9rem, 4vw, 3.2rem); font-weight: 500; line-height: 1.1; margin-bottom: 12px; }
+.lead { font-size: clamp(1.5rem, 1.8vw, 1.875rem); color: var(--text2); font-weight: 300; line-height: 1.65; margin-bottom: 24px; }
 .hl-gold { color: var(--gold2); } .hl-blue { color: var(--blue); } .hl-green { color: var(--green); } .hl-purple { color: var(--purple); } .hl-cyan { color: var(--cyan); } .hl-red { color: var(--red); } .hl-orange { color: var(--orange); }
 .grid { display: grid; gap: 2px; width: 100%; }
 .g2 { grid-template-columns: 1fr 1fr; } .g3 { grid-template-columns: 1fr 1fr 1fr; } .g4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
@@ -75,21 +75,21 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .card.green::after { background: var(--green); } .card.red::after { background: var(--red); }
 .card.purple::after { background: var(--purple); } .card.cyan::after { background: var(--cyan); }
 .card.orange::after { background: var(--orange); }
-.card-title { font-family: 'Google Sans Code', monospace; font-size: clamp(0.7rem,1.1vw,0.9rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
-.card-body { font-size: clamp(0.85rem,1.3vw,1.05rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
+.card-title { font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.1vw, 1.375rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.card-body { font-size: clamp(1.5rem, 1.6vw, 1.75rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
 .card-body strong { color: var(--text); font-weight: 500; }
 .info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(74,158,255,0.04); border-top: 1px solid rgba(74,158,255,0.08); border-right: 1px solid rgba(74,158,255,0.08); border-bottom: 1px solid rgba(74,158,255,0.08); margin-top: 14px; }
-.info-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.info-box p { font-size: clamp(1.5rem, 1.7vw, 1.8rem); color: var(--text2); line-height: 1.6; }
 .info-box strong { color: var(--blue); }
 .gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(201,168,76,0.04); border-top: 1px solid rgba(201,168,76,0.08); border-right: 1px solid rgba(201,168,76,0.08); border-bottom: 1px solid rgba(201,168,76,0.08); margin-top: 14px; }
-.gold-box p { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.6; }
+.gold-box p { font-size: clamp(1.5rem, 1.7vw, 1.8rem); color: var(--text2); line-height: 1.6; }
 .gold-box strong { color: var(--gold2); }
 .steps { display: flex; flex-direction: column; gap: 2px; }
 .step-row { display: flex; align-items: flex-start; gap: 18px; background: var(--surface); border: 1px solid var(--border); padding: 13px 18px; }
-.step-n { font-family: 'Google Sans Code', monospace; font-size: clamp(0.85rem,1.4vw,1.1rem); color: var(--gold2); min-width: 32px; flex-shrink: 0; font-weight: 500; padding-top: 2px; }
-.step-text { font-size: clamp(0.88rem,1.4vw,1.1rem); color: var(--text2); line-height: 1.5; font-weight: 300; }
+.step-n { font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--gold2); min-width: 32px; flex-shrink: 0; font-weight: 500; padding-top: 2px; }
+.step-text { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.5; font-weight: 300; }
 .step-text strong { color: var(--text); font-weight: 500; }
-.code { background: #0a0d14; border: 1px solid var(--border2); border-left: 3px solid var(--gold); padding: 14px 18px; font-family: 'Google Sans Code', monospace; font-size: clamp(0.72rem,1.1vw,0.9rem); line-height: 1.75; overflow-x: auto; margin-top: 8px; }
+.code { background: #0a0d14; border: 1px solid var(--border2); border-left: 3px solid var(--gold); padding: 14px 18px; font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.1vw, 1.375rem); line-height: 1.75; overflow-x: auto; margin-top: 8px; }
 .kw { color: var(--cyan); font-weight: 500; }
 .fn { color: var(--gold2); }
 .str { color: var(--green); }
@@ -97,19 +97,19 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .num { color: var(--orange); }
 /* array visual */
 .arr-row { display: flex; gap: 2px; align-items: center; margin: 12px 0; }
-.arr-cell { width: 48px; height: 44px; display: flex; align-items: center; justify-content: center; font-family: 'Google Sans Code', monospace; font-size: 1rem; font-weight: 500; border: 1px solid var(--border2); background: var(--surface); transition: all 0.3s; }
+.arr-cell { width: 48px; height: 44px; display: flex; align-items: center; justify-content: center; font-family: 'Google Sans Code', monospace; font-size: 1.125rem; font-weight: 500; border: 1px solid var(--border2); background: var(--surface); transition: all 0.3s; }
 .arr-cell.hi { background: rgba(201,168,76,0.15); border-color: var(--gold); color: var(--gold2); }
 .arr-cell.found { background: rgba(61,214,140,0.15); border-color: var(--green); color: var(--green); }
 .arr-cell.elim { opacity: 0.3; }
-.arr-idx { font-family: 'Google Sans Code', monospace; font-size: 0.65rem; color: var(--text3); text-align: center; width: 48px; }
+.arr-idx { font-family: 'Google Sans Code', monospace; font-size: 1.125rem; color: var(--text3); text-align: center; width: 48px; }
 .comparison-table { width: 100%; border-collapse: collapse; }
-.comparison-table th { font-family: 'Google Sans Code', monospace; font-size: clamp(0.65rem,1vw,0.82rem); letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); padding: 9px 14px; text-align: left; border-bottom: 1px solid var(--border2); background: var(--surface); }
-.comparison-table td { padding: 11px 14px; font-size: clamp(0.82rem,1.3vw,1.02rem); border-bottom: 1px solid var(--border); color: var(--text2); background: var(--surface); line-height: 1.5; vertical-align: top; }
+.comparison-table th { font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1vw, 1.375rem); letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); padding: 9px 14px; text-align: left; border-bottom: 1px solid var(--border2); background: var(--surface); }
+.comparison-table td { padding: 11px 14px; font-size: clamp(1.125rem, 1.3vw, 1.375rem); border-bottom: 1px solid var(--border); color: var(--text2); background: var(--surface); line-height: 1.5; vertical-align: top; }
 .comparison-table tr:last-child td { border-bottom: none; }
 .comparison-table tr:hover td { background: var(--surface2); }
 .comparison-table td:first-child { font-family: 'Google Sans Code', monospace; font-size: 0.88em; color: var(--gold2); font-weight: 500; }
-.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; }
-.nav-btn { font-family: 'Google Sans Code', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; }
+.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; border-radius: 999px;}
+.nav-btn { font-family: 'Google Sans Code', monospace; font-size: 18px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; border-radius: 999px;}
 .nav-btn:hover { color: var(--gold2); border-color: var(--gold); background: rgba(201,168,76,0.05); }
 .nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
 .nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 200px; justify-content: center; }
@@ -128,7 +128,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   background: rgba(7, 9, 15, 0.9);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
-  font-family: 'Google Sans Code', monospace;
+  font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
 }
 .course-nav-inner {
   width: min(1120px, calc(100% - 32px));
@@ -160,7 +160,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   background: transparent;
   color: var(--text2, #94a3b8);
   font: inherit;
-  font-size: 10px;
+  font-size: 18px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
@@ -183,7 +183,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .course-menu-button::after,
 .course-submenu-button::after {
   content: "▾";
-  font-size: 10px;
+  font-size: 18px;
   color: var(--text3, #64748b);
   transition: transform 0.18s ease;
 }
@@ -258,7 +258,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   background: transparent;
   color: var(--text2, #94a3b8);
   font: inherit;
-  font-size: 10px;
+  font-size: 18px;
   letter-spacing: 0.04em;
   line-height: 1.35;
   text-align: left;
@@ -296,7 +296,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   border-color: var(--accent, #22b3a0);
   outline: none;
 }
-.course-nav ~ .slide-num { top: 62px !important; }
+.course-nav ~ .slide-num { top: 98px !important; }
 @media (max-width: 720px) {
   .course-nav-inner {
     width: min(100% - 18px, 680px);
@@ -307,7 +307,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   .course-link,
   .course-menu-button {
     min-height: 36px;
-    font-size: 9px;
+    font-size: 18px;
   }
   .course-dropdown {
     position: fixed;
@@ -461,15 +461,15 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   <div class="content">
     <div class="label">// B2.4 · Programming Algorithms</div>
     <h1>Programming<br><span class="hl-gold">Algorithms</span></h1>
-    <p style="font-family:'Google Sans Code', monospace;font-size:clamp(0.85rem,1.4vw,1.1rem);color:var(--text3);margin-bottom:20px;">Theme B2 · IB Computer Science SL</p>
+    <p style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.4vw, 1.375rem);color:var(--text3);margin-bottom:20px;">Theme B2 · IB Computer Science SL</p>
     <div class="gold-box">
       <p><strong>👉 Focus:</strong> Big O notation, searching (linear + binary), and sorting (bubble + selection) — how they work, how to trace them, and how efficient they are.</p>
     </div>
     <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:20px;">
-      <div style="padding-left:12px;border-left:2px solid var(--gold);"><div style="font-family:'Google Sans Code', monospace;font-size:1rem;">Big O</div><div style="font-family:'Google Sans Code', monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">TIME COMPLEXITY</div></div>
-      <div style="padding-left:12px;border-left:2px solid var(--blue);"><div style="font-family:'Google Sans Code', monospace;font-size:1rem;">Search</div><div style="font-family:'Google Sans Code', monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">LINEAR / BINARY</div></div>
-      <div style="padding-left:12px;border-left:2px solid var(--orange);"><div style="font-family:'Google Sans Code', monospace;font-size:1rem;">Sort</div><div style="font-family:'Google Sans Code', monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">BUBBLE / SELECTION</div></div>
-      <div style="padding-left:12px;border-left:2px solid var(--green);"><div style="font-family:'Google Sans Code', monospace;font-size:1rem;">Trace</div><div style="font-family:'Google Sans Code', monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">STEP-BY-STEP</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--gold);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Big O</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">TIME COMPLEXITY</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--blue);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Search</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">LINEAR / BINARY</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--orange);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Sort</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">BUBBLE / SELECTION</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--green);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Trace</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">STEP-BY-STEP</div></div>
     </div>
   </div>
 </div>
@@ -568,7 +568,7 @@ numbers = [<span class="num">3</span>, <span class="num">9</span>, <span class="
 key = <span class="num">7</span>
 result = linear_search(numbers, key)
 <span class="fn">print</span>(<span class="str">"Found at index:"</span>, result)   <span class="cmt"># Output: Found at index: 2</span></div>
-    <p style="font-family:'Google Sans Code', monospace;font-size:0.75rem;color:var(--text3);margin-top:16px;margin-bottom:6px;">TRACE — searching for 7 in [3, 9, 7, 4, 11]:</p>
+    <p style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);margin-top:16px;margin-bottom:6px;">TRACE — searching for 7 in [3, 9, 7, 4, 11]:</p>
     <div class="steps">
       <div class="step-row"><div class="step-n">i=0</div><div class="step-text">Check numbers[0] = <strong>3</strong>. 3 ≠ 7. Move on.</div></div>
       <div class="step-row"><div class="step-n">i=1</div><div class="step-text">Check numbers[1] = <strong>9</strong>. 9 ≠ 7. Move on.</div></div>
@@ -635,7 +635,7 @@ result = linear_search(numbers, key)
 
 numbers = [<span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>, <span class="num">7</span>, <span class="num">9</span>, <span class="num">11</span>, <span class="num">13</span>]
 <span class="fn">print</span>(binary_search(numbers, <span class="num">11</span>))   <span class="cmt"># Output: 5</span></div>
-    <p style="font-family:'Google Sans Code', monospace;font-size:0.75rem;color:var(--text3);margin-top:16px;margin-bottom:6px;">TRACE — searching for 11 in [3, 4, 5, 7, 9, 11, 13]:</p>
+    <p style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);margin-top:16px;margin-bottom:6px;">TRACE — searching for 11 in [3, 4, 5, 7, 9, 11, 13]:</p>
     <div class="steps">
       <div class="step-row"><div class="step-n">Step 1</div><div class="step-text">lower=0, upper=6, mid=3 → numbers[3]=<strong>7</strong>. 7 &lt; 11 → lower = 4</div></div>
       <div class="step-row"><div class="step-n">Step 2</div><div class="step-text">lower=4, upper=6, mid=5 → numbers[5]=<strong>11</strong>. 11 == 11 → <strong style="color:var(--green);">Found at index 5!</strong></div></div>
@@ -715,7 +715,7 @@ numbers = [<span class="num">7</span>, <span class="num">3</span>, <span class="
             numbers[j] = numbers[j + <span class="num">1</span>]
             numbers[j + <span class="num">1</span>] = temp
 <span class="fn">print</span>(numbers)   <span class="cmt"># [2, 3, 7, 9]</span></div>
-    <p style="font-family:'Google Sans Code', monospace;font-size:0.75rem;color:var(--text3);margin-top:16px;margin-bottom:6px;">TRACE — sorting [7, 3, 2, 9]:</p>
+    <p style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);margin-top:16px;margin-bottom:6px;">TRACE — sorting [7, 3, 2, 9]:</p>
     <div class="steps">
       <div class="step-row"><div class="step-n" style="color:var(--orange);">Pass 1</div><div class="step-text">Compare 7,3 → swap → [<strong>3,7,</strong>2,9]. Compare 7,2 → swap → [3,<strong>2,7,</strong>9]. Compare 7,9 → no swap. Result: [3,2,7,<strong style="color:var(--green);">9</strong>] (9 is in place)</div></div>
       <div class="step-row"><div class="step-n" style="color:var(--orange);">Pass 2</div><div class="step-text">Compare 3,2 → swap → [<strong>2,3,</strong>7,9]. Compare 3,7 → no swap. Result: [2,3,<strong style="color:var(--green);">7,9</strong>]</div></div>
@@ -745,7 +745,7 @@ numbers = [<span class="num">9</span>, <span class="num">7</span>, <span class="
     numbers[i] = numbers[min_idx]
     numbers[min_idx] = temp
 <span class="fn">print</span>(numbers)   <span class="cmt"># [2, 3, 7, 9]</span></div>
-    <p style="font-family:'Google Sans Code', monospace;font-size:0.75rem;color:var(--text3);margin-top:14px;margin-bottom:6px;">TRACE — sorting [9, 7, 2, 3]:</p>
+    <p style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);margin-top:14px;margin-bottom:6px;">TRACE — sorting [9, 7, 2, 3]:</p>
     <div class="steps">
       <div class="step-row"><div class="step-n" style="color:var(--purple);">i=0</div><div class="step-text">Find min in [9,7,2,3] → <strong>2</strong> at index 2. Swap 9↔2 → [<strong style="color:var(--green);">2</strong>,7,9,3]</div></div>
       <div class="step-row"><div class="step-n" style="color:var(--purple);">i=1</div><div class="step-text">Find min in [7,9,3] → <strong>3</strong> at index 3. Swap 7↔3 → [2,<strong style="color:var(--green);">3</strong>,9,7]</div></div>
@@ -791,7 +791,7 @@ numbers = [<span class="num">9</span>, <span class="num">7</span>, <span class="
         <tr><td>Selection Sort</td><td style="color:var(--text2);">O(n²)</td><td style="color:var(--text2);">O(n²)</td><td style="color:var(--text2);">O(1)</td><td style="color:var(--text2);">N/A — it sorts</td></tr>
       </tbody>
     </table>
-    <p style="font-family:'Google Sans Code', monospace;font-size:0.72rem;color:var(--text3);margin-top:8px;">* Bubble sort best case O(n) only when using the "swapped" flag early-exit optimization</p>
+    <p style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);margin-top:8px;">* Bubble sort best case O(n) only when using the "swapped" flag early-exit optimization</p>
     <div class="gold-box" style="margin-top:16px;">
       <p><strong>Key insight:</strong> Binary search is far more efficient than linear for large sorted datasets. But the data must be sorted first — and sorting costs O(n²) with these basic algorithms, so weigh the trade-off based on how often you need to search.</p>
     </div>
