@@ -4,18 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>B1.1 — Approaches to Computational Thinking</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Code:wght@400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:        #0f1419;
-  --bg-soft:   #141a22;
-  --surface:   #1a212c;
-  --surface-2: #232b38;
-  --border:    #2a3344;
-  --border-2:  #3a4458;
-  --text:      #e8eaed;
-  --text-2:    #b6bcc8;
-  --text-3:    #7c8595;
+  --bg:        #15120f;
+  --bg-soft:   #1a1510;
+  --surface:   #1c1814;
+  --surface-2: #241e18;
+  --border:    #2e2620;
+  --border-2:  #3a2f26;
+  --text:      #f2ece1;
+  --text-2:    #c2b6a0;
+  --text-3:    #93876f;
   --blue:      #5b9eff;
   --amber:     #fbbf24;
   --green:     #34d399;
@@ -31,7 +31,7 @@ html,body{width:100%;height:100%;overflow:hidden;}
 body{
   background:var(--bg);
   color:var(--text);
-  font-family:'Inter',system-ui,sans-serif;
+  font-family:'Google Sans', 'Noto Sans KR', sans-serif;
   font-size:clamp(16px,1.25vw,19px);
   line-height:1.6;
   -webkit-font-smoothing:antialiased;
@@ -165,7 +165,7 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
   border:1px solid var(--border);
   border-radius:8px;
   padding:14px 18px;
-  font-family:'JetBrains Mono',monospace;
+  font-family:'Google Sans Code', monospace;
   font-size:clamp(14px,1.1vw,17px);
   line-height:1.75;
   color:var(--text);
@@ -187,7 +187,7 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
   padding:clamp(16px,1.8vw,24px);
 }
 .hub-card .id{
-  font-family:'JetBrains Mono',monospace;
+  font-family:'Google Sans Code', monospace;
   font-size:clamp(13px,.9vw,15px);
   color:var(--blue);letter-spacing:.06em;margin-bottom:5px;
 }
@@ -206,20 +206,20 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
 .flow .term{
   border:2px solid var(--blue);color:var(--blue);
   border-radius:999px;padding:7px 22px;
-  font-family:'JetBrains Mono',monospace;font-size:clamp(13px,1vw,16px);
+  font-family:'Google Sans Code', monospace;font-size:clamp(13px,1vw,16px);
   background:var(--surface);
 }
 .flow .io{
   border:2px solid var(--amber);color:var(--amber);
   padding:7px 20px;
-  font-family:'JetBrains Mono',monospace;font-size:clamp(13px,1vw,16px);
+  font-family:'Google Sans Code', monospace;font-size:clamp(13px,1vw,16px);
   background:var(--surface);transform:skewX(-12deg);
 }
 .flow .io > span{display:inline-block;transform:skewX(12deg);}
 .flow .proc{
   border:2px solid var(--text-2);color:var(--text);
   padding:7px 20px;
-  font-family:'JetBrains Mono',monospace;font-size:clamp(13px,1vw,16px);
+  font-family:'Google Sans Code', monospace;font-size:clamp(13px,1vw,16px);
   background:var(--surface);border-radius:4px;
 }
 .flow .dec{
@@ -227,7 +227,7 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
   width:150px;height:74px;
   display:flex;align-items:center;justify-content:center;
   clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);
-  font-family:'JetBrains Mono',monospace;font-size:clamp(13px,.95vw,15px);
+  font-family:'Google Sans Code', monospace;font-size:clamp(13px,.95vw,15px);
   background:var(--surface);
 }
 
@@ -252,7 +252,7 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
 }
 .recap-line:last-child{border-bottom:none;}
 .recap-line .tag{
-  font-family:'JetBrains Mono',monospace;
+  font-family:'Google Sans Code', monospace;
   color:var(--blue);font-weight:600;flex:0 0 72px;
 }
 
@@ -265,7 +265,7 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
   padding:7px 16px;
 }
 .nav-btn{
-  font-family:'Inter',sans-serif;font-size:13px;font-weight:500;letter-spacing:.06em;
+  font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:13px;font-weight:500;letter-spacing:.06em;
   color:var(--text-2);background:none;border:1px solid transparent;
   padding:5px 12px;border-radius:999px;cursor:pointer;transition:all .15s;
 }
@@ -290,7 +290,7 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
   background: rgba(7, 9, 15, 0.9);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
-  font-family: 'DM Mono', 'Space Mono', monospace;
+  font-family: 'Google Sans Code', monospace;
 }
 .course-nav-inner {
   width: min(1120px, calc(100% - 32px));
