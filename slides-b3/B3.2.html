@@ -4,382 +4,43 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>B3.2 — Fundamentals of OOP for Multiple Classes (HL)</title>
-<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Code:wght@400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #15120f;
-  --surface: #1c1814;
-  --surface2: #241e18;
-  --border: #2e2620;
-  --border2: #3a2f26;
-  --gold: #d1a558;
-  --gold2: #ecc981;
-  --blue: #3fa4e8;
-  --green: #8fc25a;
-  --red: #f0654a;
-  --purple: #c874d1;
-  --cyan: #22b3a0;
-  --orange: #fb923c;
-  --text: #f2ece1;
-  --text2: #c2b6a0;
-  --text3: #93876f;
-}
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { width: 100%; height: 100%; overflow: hidden; }
-body { background: var(--bg); color: var(--text); font-family: 'Google Sans', 'Noto Sans KR', sans-serif; }
-body::before {
-  content: '';
-  position: fixed; inset: 0;
-  background-image:
-    linear-gradient(rgba(128,128,128,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(128,128,128,0.03) 1px, transparent 1px),
-    linear-gradient(rgba(128,128,128,0.01) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(128,128,128,0.01) 1px, transparent 1px);
-  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
-  pointer-events: none; z-index: 0;
-}
-.deck { position: relative; width: 100vw; height: 100vh; z-index: 1; }
-.slide {
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;
-  padding: 100px 72px 92px; overflow-y: auto; overscroll-behavior: contain;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.38s ease, transform 0.38s ease;
-  transform: translateY(12px);
-}
-.slide.active { opacity: 1; pointer-events: all; transform: translateY(0); }
-.slide.exit { opacity: 0; transform: translateY(-12px); }
-.slide.scroll-slide {
-  justify-content: flex-start;
-  align-items: flex-start;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  padding-top: 100px;
-  padding-bottom: 132px;
-}
-.slide.scroll-slide::-webkit-scrollbar { width: 10px; }
-.slide.scroll-slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
-.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(128,128,128,0.14); }
-.progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--purple), var(--blue)); transition: width 0.38s ease; z-index: 100; }
-.slide-num { position: fixed; top: 17px; right: 24px; font-family: 'Google Sans Code', monospace; font-size: 18px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
-.content { width: 100%; max-width: 1120px; }
-.label { font-family: 'Google Sans Code', monospace; font-size: 18px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--purple); margin-bottom: 14px; }
-.label.blue { color: var(--blue); } .label.green { color: var(--green); } .label.gold { color: var(--gold); } .label.cyan { color: var(--cyan); } .label.orange { color: var(--orange); } .label.red { color: var(--red); }
-h1 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.8rem, 5.5vw, 4.8rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
-h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.9rem, 4vw, 3.2rem); font-weight: 500; line-height: 1.1; margin-bottom: 12px; }
-.lead { font-size: clamp(1.25rem, 1.4vw, 1.5rem); color: var(--text2); font-weight: 300; line-height: 1.65; margin-bottom: 24px; }
-.hl-gold { color: var(--gold2); } .hl-blue { color: var(--blue); } .hl-green { color: var(--green); } .hl-purple { color: var(--purple); } .hl-cyan { color: var(--cyan); } .hl-red { color: var(--red); } .hl-orange { color: var(--orange); }
-.grid { display: grid; gap: 2px; width: 100%; }
-.g2 { grid-template-columns: 1fr 1fr; } .g3 { grid-template-columns: 1fr 1fr 1fr; } .g4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
-.card { background: var(--surface); border: 1px solid var(--border); padding: 18px 22px; position: relative; overflow: hidden; }
-.card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
-.card.gold::after { background: var(--gold); } .card.blue::after { background: var(--blue); }
-.card.green::after { background: var(--green); } .card.red::after { background: var(--red); }
-.card.purple::after { background: var(--purple); } .card.cyan::after { background: var(--cyan); }
-.card.orange::after { background: var(--orange); }
-.card-title { font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.1vw, 1.375rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
-.card-body { font-size: clamp(1.25rem, 1.3vw, 1.5rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
-.card-body strong { color: var(--text); font-weight: 500; }
-.info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
-.info-box p { font-size: clamp(1.25rem, 1.35vw, 1.5rem); color: var(--text2); line-height: 1.6; }
-.info-box strong { color: var(--blue); }
-.gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
-.gold-box p { font-size: clamp(1.25rem, 1.35vw, 1.5rem); color: var(--text2); line-height: 1.6; }
-.gold-box strong { color: var(--gold2); }
-.purple-box { border-left: 3px solid var(--purple); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
-.purple-box p { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.6; }
-.purple-box strong { color: var(--purple); }
-.cyan-box { border-left: 3px solid var(--cyan); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
-.cyan-box p { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.6; }
-.cyan-box strong { color: var(--cyan); }
-.green-box { border-left: 3px solid var(--green); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
-.green-box p { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.6; }
-.green-box strong { color: var(--green); }
-.red-box { border-left: 3px solid var(--red); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
-.red-box p { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.6; }
-.red-box strong { color: var(--red); }
-.divider { width: 100%; height: 1px; background: var(--border); margin: 14px 0; }
-.steps { display: flex; flex-direction: column; gap: 2px; }
-.step-row { display: flex; align-items: flex-start; gap: 18px; background: var(--surface); border: 1px solid var(--border); padding: 13px 18px; }
-.step-n { font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--purple); min-width: 28px; flex-shrink: 0; font-weight: 500; padding-top: 2px; }
-.step-text { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.5; font-weight: 300; }
-.step-text strong { color: var(--text); font-weight: 500; }
-.tag { display: inline-block; font-family: 'Google Sans Code', monospace; font-size: 18px; padding: 2px 7px; border-radius: 2px; letter-spacing: 0.06em; vertical-align: middle; margin-left: 4px; }
-.tag.sl { background: rgba(128,128,128,0.1); color: var(--green); border: 1px solid rgba(128,128,128,0.25); }
-.tag.hl { background: rgba(128,128,128,0.1); color: var(--purple); border: 1px solid rgba(128,128,128,0.25); }
+
+     
+
+      
+
+  
+
+ 
+ 
+ 
+
 /* Code blocks */
-.code-block { background: var(--tile); border: 1px solid var(--border2); padding: 16px 20px; font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.1vw, 1.375rem); line-height: 1.7; color: var(--text2); margin-top: 10px; overflow-x: auto; }
-.code-block .kw { color: var(--purple); }
-.code-block .fn { color: var(--blue); }
-.code-block .str { color: var(--green); }
-.code-block .cm { color: var(--text3); font-style: italic; }
-.code-block .num { color: var(--orange); }
-.code-block .cls { color: var(--gold2); }
+
 /* UML table */
-.uml-table { width: 100%; border-collapse: collapse; font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.2vw, 1.375rem); }
+.uml-table { width: 100%; border-collapse: collapse; font-family: "Google Sans Code", monospace; font-size: var(--fs-body); }
 .uml-table td { border: 1px solid var(--border2); padding: 10px 16px; background: var(--surface); }
 .uml-table .uml-head { background: var(--surface2); color: var(--gold2); font-weight: 500; text-align: center; letter-spacing: 0.08em; font-size: 1.05em; }
 .uml-table .uml-attr { color: var(--cyan); }
 .uml-table .uml-method { color: var(--blue); }
 .uml-table .uml-priv { color: var(--red); }
 .uml-table .uml-pub { color: var(--green); }
-.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(128,128,128,0.14); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; border-radius: 999px;}
-.nav-btn { font-family: 'Google Sans Code', monospace; font-size: 18px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; border-radius: 999px;}
-.nav-btn:hover { color: var(--purple); border-color: var(--purple); background: rgba(128,128,128,0.05); }
-.nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
-.nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 240px; justify-content: center; }
-.dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); cursor: pointer; transition: all 0.2s; }
-.dot.active { background: var(--purple); transform: scale(1.4); }
-.nav-sep { width: 1px; height: 18px; background: var(--border2); }
+
 /* UML Diagram Styles */
 .uml-diagram { display: flex; align-items: flex-start; justify-content: center; gap: 40px; flex-wrap: wrap; margin-top: 16px; }
-.uml-class { background: var(--surface); border: 1px solid var(--border2); min-width: 180px; text-align: center; font-family: 'Google Sans Code', monospace; font-size: 1.125rem; }
+.uml-class { background: var(--surface); border: 1px solid var(--border2); min-width: 180px; text-align: center; font-family: "Google Sans Code", monospace; font-size: var(--fs-body); }
 .uml-class-name { background: var(--surface2); padding: 8px 14px; color: var(--gold2); font-weight: 500; border-bottom: 1px solid var(--border2); letter-spacing: 0.06em; }
 .uml-class-body { padding: 8px 14px; text-align: left; border-bottom: 1px solid var(--border); color: var(--cyan); line-height: 1.8; }
 .uml-class-methods { padding: 8px 14px; text-align: left; color: var(--blue); line-height: 1.8; }
-.uml-arrow { display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--text3); }
-.uml-arrow span { font-family: 'Google Sans Code', monospace; font-size: 1.125rem; color: var(--text3); letter-spacing: 0.1em; margin-top: 4px; }
+.uml-arrow { display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: var(--fs-display); color: var(--text3); }
+.uml-arrow span { font-family: "Google Sans Code", monospace; font-size: var(--fs-body); color: var(--text3); letter-spacing: 0.1em; margin-top: 4px; }
 
 /* COURSE NAVIGATION */
-.course-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1200;
-  border-bottom: 1px solid rgba(128,128,128,0.2);
-  background: rgba(128,128,128,0.14);
-  -webkit-backdrop-filter: blur(18px);
-  backdrop-filter: blur(18px);
-  font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
-}
-.course-nav-inner {
-  width: min(1120px, calc(100% - 32px));
-  margin: 0 auto;
-  min-height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  flex-wrap: wrap;
-}
-.course-nav a,
-.course-menu-button,
-.course-submenu-button {
-  color: var(--text2, var(--ink));
-  text-decoration: none;
-  white-space: nowrap;
-  line-height: 1;
-}
-.course-link,
-.course-menu-button {
-  min-height: 48px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 0;
-  border-radius: 0;
-  border-bottom: 2px solid transparent;
-  background: transparent;
-  color: var(--text2, var(--ink));
-  font: inherit;
-  font-size: 18px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: color 0.18s ease, border-color 0.18s ease;
-}
-.course-home-link {
-  color: var(--text, var(--ink)) !important;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-}
-
-.course-menu,
-.course-submenu {
-  position: relative;
-}
-.course-menu-button,
-.course-submenu-button {
-  gap: 6px;
-}
-.course-menu-button::after,
-.course-submenu-button::after {
-  content: "▾";
-  font-size: 18px;
-  color: var(--text3, var(--ink));
-  transition: transform 0.18s ease;
-}
-.course-submenu-button::after {
-  transform: rotate(-90deg);
-}
-.course-menu.open .course-menu-button::after,
-.course-menu:focus-within .course-menu-button::after,
-.course-menu:hover .course-menu-button::after {
-  transform: rotate(180deg);
-}
-.course-submenu.open .course-submenu-button::after,
-.course-submenu:focus-within .course-submenu-button::after,
-.course-submenu:hover .course-submenu-button::after {
-  transform: rotate(90deg);
-}
-.course-dropdown,
-.course-subdropdown {
-  display: grid;
-  gap: 2px;
-  padding: 8px;
-  border: 1px solid rgba(128,128,128,0.22);
-  border-radius: 6px;
-  background: rgba(128,128,128,0.14);
-  box-shadow: 0 18px 40px rgba(128,128,128,0.14);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.16s ease, transform 0.16s ease;
-}
-.course-dropdown {
-  position: absolute;
-  top: calc(100% + 1px);
-  left: 50%;
-  min-width: 306px;
-  transform: translate(-50%, -4px);
-}
-.course-subdropdown {
-  position: absolute;
-  top: -8px;
-  left: calc(100% + 8px);
-  min-width: 310px;
-  transform: translateX(-4px);
-  display: none;
-}
-.course-menu:hover .course-dropdown,
-.course-menu:focus-within .course-dropdown,
-.course-menu.open .course-dropdown,
-.course-submenu:hover .course-subdropdown,
-.course-submenu:focus-within .course-subdropdown,
-.course-submenu.open .course-subdropdown {
-  display: grid;
-  opacity: 1;
-  transform: translate(0, 0);
-  pointer-events: auto;
-}
-.course-menu:hover .course-dropdown,
-.course-menu:focus-within .course-dropdown,
-.course-menu.open .course-dropdown {
-  transform: translate(-50%, 0);
-}
-.course-dropdown a,
-.course-subdropdown a,
-.course-submenu-button {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 10px 11px;
-  border: 0;
-  border-radius: 4px;
-  background: transparent;
-  color: var(--text2, var(--ink));
-  font: inherit;
-  font-size: 18px;
-  letter-spacing: 0.04em;
-  line-height: 1.35;
-  text-align: left;
-  text-transform: none;
-  cursor: pointer;
-}
-.course-subdropdown a {
-  justify-content: flex-start;
-  white-space: normal;
-}
-.course-topic-link,
-.course-subdropdown a.current-page {
-  color: var(--accent, var(--ink)) !important;
-}
-.course-subdropdown a.current-page {
-  background: rgba(128,128,128,0.08);
-}
-.course-dropdown a:hover,
-.course-dropdown a:focus,
-.course-subdropdown a:hover,
-.course-subdropdown a:focus,
-.course-submenu-button:hover,
-.course-submenu-button:focus {
-  color: var(--text, var(--ink));
-  background: rgba(255, 255, 255, 0.08);
-  outline: none;
-}
-.course-link:hover,
-.course-link:focus,
-.course-link.current,
-.course-menu-button:hover,
-.course-menu-button:focus,
-.course-menu-button.current {
-  color: var(--text, var(--ink));
-  border-color: var(--accent, var(--line-2));
-  outline: none;
-}
-.course-nav ~ .slide-num { top: 98px !important; }
-@media (max-width: 720px) {
-  .course-nav-inner {
-    width: min(100% - 18px, 680px);
-    min-height: 46px;
-    gap: 12px;
-    justify-content: center;
-  }
-  .course-link,
-  .course-menu-button {
-    min-height: 36px;
-    font-size: 18px;
-  }
-  .course-dropdown {
-    position: fixed;
-    top: 88px;
-    left: 12px;
-    right: 12px;
-    min-width: 0;
-    max-height: calc(100vh - 108px);
-    overflow: auto;
-    transform: translateY(-4px);
-  }
-  .course-menu:hover .course-dropdown,
-  .course-menu:focus-within .course-dropdown,
-  .course-menu.open .course-dropdown {
-    transform: translateY(0);
-  }
-  .course-subdropdown {
-    position: static;
-    min-width: 0;
-    margin: 0 0 4px 12px;
-    padding: 4px;
-    box-shadow: none;
-    border-color: rgba(128,128,128,0.2);
-    background: rgba(255, 255, 255, 0.03);
-    transform: none;
-    display: none;
-    opacity: 1;
-    pointer-events: auto;
-  }
-  .course-submenu.open .course-subdropdown,
-  .course-submenu:focus-within .course-subdropdown {
-    display: grid;
-  }
-  .course-submenu:hover .course-subdropdown {
-    display: grid;
-  }
-  .course-submenu-button::after {
-    transform: none;
-  }
-  .course-submenu.open .course-submenu-button::after,
-  .course-submenu:focus-within .course-submenu-button::after,
-  .course-submenu:hover .course-submenu-button::after {
-    transform: rotate(180deg);
-  }
-}
 
 </style>
 <link rel="stylesheet" href="../assets/theme.css">
+<link rel="stylesheet" href="../assets/deck.css">
 </head>
 <body>
 
@@ -477,25 +138,25 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 </nav>
 
 
-<div class="progress" id="progress"></div>
-<div class="slide-num" id="slideNum">01 / 17</div>
+
+
 <div class="deck">
 
 <!-- ═══════════════════════════════════════════════ S1: TITLE -->
-<div class="slide active">
+<div class="slide">
   <div class="content">
     <div class="label">B3.2 · Object-Oriented Programming (HL)</div>
     <h1>OOP for<br><span class="hl-purple">Multiple Classes</span></h1>
-    <p style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.4vw, 1.375rem);color:var(--text3);margin-bottom:20px;">Theme B3 · IB Computer Science HL</p>
+    <p style="font-family:var(--mono);color:var(--text3);margin-bottom:20px">Theme B3 · IB Computer Science HL</p>
     <div class="gold-box">
       <p><strong>👉 Guiding Question:</strong> Is object-oriented programming an appropriate paradigm for solving complex problems involving multiple interacting classes?</p>
     </div>
-    <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:20px;">
-      <div style="padding-left:12px;border-left:2px solid var(--blue);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Inheritance</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">CODE REUSABILITY</div></div>
-      <div style="padding-left:12px;border-left:2px solid var(--purple);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Polymorphism</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">MANY FORMS</div></div>
-      <div style="padding-left:12px;border-left:2px solid var(--cyan);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Abstraction</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">ABSTRACT CLASSES</div></div>
-      <div style="padding-left:12px;border-left:2px solid var(--green);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Composition</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">HAS-A RELATIONSHIPS</div></div>
-      <div style="padding-left:12px;border-left:2px solid var(--orange);"><div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;">Design Patterns</div><div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);letter-spacing:0.1em;margin-top:2px;">PROVEN SOLUTIONS</div></div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:20px">
+      <div style="padding-left:12px;border-left:2px solid var(--blue)"><div style="font-family:var(--mono)">Inheritance</div><div style="font-family:var(--mono);color:var(--text3);margin-top:2px">CODE REUSABILITY</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--purple)"><div style="font-family:var(--mono)">Polymorphism</div><div style="font-family:var(--mono);color:var(--text3);margin-top:2px">MANY FORMS</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--cyan)"><div style="font-family:var(--mono)">Abstraction</div><div style="font-family:var(--mono);color:var(--text3);margin-top:2px">ABSTRACT CLASSES</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--green)"><div style="font-family:var(--mono)">Composition</div><div style="font-family:var(--mono);color:var(--text3);margin-top:2px">HAS-A RELATIONSHIPS</div></div>
+      <div style="padding-left:12px;border-left:2px solid var(--orange)"><div style="font-family:var(--mono)">Design Patterns</div><div style="font-family:var(--mono);color:var(--text3);margin-top:2px">PROVEN SOLUTIONS</div></div>
     </div>
   </div>
 </div>
@@ -509,27 +170,27 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
       <div class="step-row">
         <div class="step-n">3.2.1</div>
         <div class="step-text"><strong>Explain and apply</strong> the concept of inheritance in OOP to promote code reusability <span class="tag hl">HL</span><br>
-        <span style="font-size:0.88em;color:var(--text3);">Parent/child classes, extends keyword, super(), access modifiers (private, public, protected)</span></div>
+        <span style="color:var(--text3)">Parent/child classes, extends keyword, super(), access modifiers (private, public, protected)</span></div>
       </div>
       <div class="step-row">
         <div class="step-n">3.2.2</div>
         <div class="step-text"><strong>Construct</strong> code to model polymorphism and its various forms, such as method overriding <span class="tag hl">HL</span><br>
-        <span style="font-size:0.88em;color:var(--text3);">Dynamic (runtime) polymorphism via overriding; static (compile-time) polymorphism via overloading</span></div>
+        <span style="color:var(--text3)">Dynamic (runtime) polymorphism via overriding; static (compile-time) polymorphism via overloading</span></div>
       </div>
       <div class="step-row">
         <div class="step-n">3.2.3</div>
         <div class="step-text"><strong>Explain</strong> the concept of abstraction in OOP <span class="tag hl">HL</span><br>
-        <span style="font-size:0.88em;color:var(--text3);">Abstract classes as templates that cannot be instantiated; enforcing a common interface for subclasses</span></div>
+        <span style="color:var(--text3)">Abstract classes as templates that cannot be instantiated; enforcing a common interface for subclasses</span></div>
       </div>
       <div class="step-row">
         <div class="step-n">3.2.4</div>
         <div class="step-text"><strong>Explain</strong> the role of composition and aggregation in class relationships <span class="tag hl">HL</span><br>
-        <span style="font-size:0.88em;color:var(--text3);">Composition: strong "has-a" (lifecycle dependent); Aggregation: weak "has-a" (independent lifecycle)</span></div>
+        <span style="color:var(--text3)">Composition: strong "has-a" (lifecycle dependent); Aggregation: weak "has-a" (independent lifecycle)</span></div>
       </div>
       <div class="step-row">
         <div class="step-n">3.2.5</div>
         <div class="step-text"><strong>Explain</strong> commonly used design patterns in OOP <span class="tag hl">HL</span><br>
-        <span style="font-size:0.88em;color:var(--text3);">Singleton, Factory, and Observer patterns — purpose, structure, and real-world application</span></div>
+        <span style="color:var(--text3)">Singleton, Factory, and Observer patterns — purpose, structure, and real-world application</span></div>
       </div>
     </div>
   </div>
@@ -541,7 +202,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
     <div class="label blue">B3.2.1 · Inheritance</div>
     <h2>What is <span class="hl-blue">Inheritance</span>?</h2>
     <p class="lead">Inheritance allows a class (child/subclass) to <strong class="hl-blue">acquire the properties and methods</strong> of another class (parent/superclass), promoting code reuse and hierarchical organization.</p>
-    <div class="grid g2" style="gap:2px;margin-bottom:14px;">
+    <div class="grid g2" style="gap:2px;margin-bottom:14px">
       <div class="card blue">
         <div class="card-title">The "is-a" Relationship</div>
         <div class="card-body">A <strong>Customer</strong> <em>is a</em> Person. An <strong>Employee</strong> <em>is a</em> Person. Both inherit name, phone, email, and address from Person — and then add their own specialized fields.</div>
@@ -551,38 +212,38 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
         <div class="card-body"><strong>Write once, reuse everywhere.</strong> Common code lives in the parent class. Subclasses only define what makes them different. Changes to shared behavior only need to be made in one place.</div>
       </div>
     </div>
-    <div class="uml-diagram">
+    
+  </div>
+</div><div class="slide"><div class="content"><div class="label blue">B3.2.1 · Inheritance<span class="continued"> · continued</span></div><h2>What is <span class="hl-blue">Inheritance</span>?</h2><div class="uml-diagram">
       <div class="uml-class">
         <div class="uml-class-name">Person</div>
         <div class="uml-class-body">- name: str<br>- phone: str<br>- email: str<br>- address: str</div>
         <div class="uml-class-methods">+ __str__(): str</div>
       </div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;justify-content:center;">
-        <div style="color:var(--text3);font-size:1.5rem;">△</div>
-        <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);">inherits</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;justify-content:center">
+        <div style="color:var(--text3)">△</div>
+        <div style="font-family:var(--mono);color:var(--text3)">inherits</div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:8px;">
+      <div style="display:flex;flex-direction:column;gap:8px">
         <div class="uml-class">
-          <div class="uml-class-name" style="color:var(--blue);">Customer</div>
+          <div class="uml-class-name" style="color:var(--blue)">Customer</div>
           <div class="uml-class-body">- membership: int<br>- points: int<br>- signup: date</div>
           <div class="uml-class-methods">+ __str__(): str</div>
         </div>
         <div class="uml-class">
-          <div class="uml-class-name" style="color:var(--green);">Employee</div>
+          <div class="uml-class-name" style="color:var(--green)">Employee</div>
           <div class="uml-class-body">- salary: float<br>- bankaccount: str<br>- supervisor: Person</div>
           <div class="uml-class-methods">+ __str__(): str</div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
+    </div></div></div>
 
 <!-- ═══════════════════════════════════════════════ S4: INHERITANCE CODE -->
-<div class="slide scroll-slide">
+<div class="slide">
   <div class="content">
     <div class="label blue">B3.2.1 · Inheritance in Code</div>
     <h2>Inheritance — <span class="hl-blue">Python</span></h2>
-    <div class="code-block"><span class="kw">class</span> <span class="cls">Person</span>:
+    <div class="code-block cols-2"><span class="kw">class</span> <span class="cls">Person</span>:
     <span class="kw">def</span> <span class="fn">__init__</span>(self, name, phone, email, address):
         self.name = name
         self.phone = phone
@@ -603,17 +264,17 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 
     <span class="kw">def</span> <span class="fn">__str__</span>(self):   <span class="cm"># overrides parent's __str__</span>
         <span class="kw">return</span> <span class="str">"Customer: "</span> + self.name + <span class="str">" has "</span> + str(self.points) + <span class="str">" points."</span></div>
-    <div class="steps" style="margin-top:14px;">
+    <div class="steps" style="margin-top:14px">
       <div class="step-row">
-        <div class="step-n" style="color:var(--blue);">①</div>
+        <div class="step-n" style="color:var(--blue)">①</div>
         <div class="step-text"><strong>class Customer(Person)</strong> — the parentheses declare the parent class</div>
       </div>
       <div class="step-row">
-        <div class="step-n" style="color:var(--blue);">②</div>
+        <div class="step-n" style="color:var(--blue)">②</div>
         <div class="step-text"><strong>super().__init__(...)</strong> — must be the first line in the child constructor to initialize inherited attributes</div>
       </div>
       <div class="step-row">
-        <div class="step-n" style="color:var(--blue);">③</div>
+        <div class="step-n" style="color:var(--blue)">③</div>
         <div class="step-text">Child class then adds its <strong>own unique attributes</strong> after calling super()</div>
       </div>
     </div>
@@ -626,17 +287,17 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
     <div class="label blue">B3.2.1 · Access Modifiers in Inheritance</div>
     <h2>Access <span class="hl-blue">Modifiers</span></h2>
     <p class="lead">Access modifiers control which members of a parent class are accessible in subclasses. This becomes critical when designing class hierarchies.</p>
-    <div class="grid g3" style="gap:2px;margin-bottom:14px;">
+    <div class="grid g3" style="gap:2px;margin-bottom:14px">
       <div class="card red">
-        <div class="card-title" style="color:var(--red);">private</div>
+        <div class="card-title" style="color:var(--red)">private</div>
         <div class="card-body"><strong>Not inherited.</strong> Only accessible within the class that declares it. Subclasses cannot directly access private members — they must use getters/setters.</div>
       </div>
       <div class="card green">
-        <div class="card-title" style="color:var(--green);">public</div>
+        <div class="card-title" style="color:var(--green)">public</div>
         <div class="card-body"><strong>Fully inherited.</strong> Accessible everywhere — inside the class, in subclasses, and from outside code. No restrictions.</div>
       </div>
       <div class="card cyan">
-        <div class="card-title" style="color:var(--cyan);">protected</div>
+        <div class="card-title" style="color:var(--cyan)">protected</div>
         <div class="card-body"><strong>Inherited but not public.</strong> Accessible within the class and all subclasses, but not from outside code. The "middle ground" — common in Java inheritance hierarchies.</div>
       </div>
     </div>
@@ -652,7 +313,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
     <div class="label purple">B3.2.2 · Polymorphism</div>
     <h2>What is <span class="hl-purple">Polymorphism</span>?</h2>
     <p class="lead">Polymorphism means <em>"many forms"</em>. Related objects can respond to the <strong class="hl-purple">same method call</strong> in different ways, depending on their actual class.</p>
-    <div class="grid g2" style="gap:2px;margin-bottom:14px;">
+    <div class="grid g2" style="gap:2px;margin-bottom:14px">
       <div class="card purple">
         <div class="card-title">Dynamic (Runtime) Polymorphism</div>
         <div class="card-body">Achieved through <strong>method overriding</strong>. A subclass provides a different implementation of a method that already exists in the parent. The correct version is selected at runtime.<br><br><em>Example: Customer and Employee both override <code>__str__()</code> from Person.</em></div>
@@ -669,11 +330,11 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 </div>
 
 <!-- ═══════════════════════════════════════════════ S7: METHOD OVERRIDING -->
-<div class="slide scroll-slide">
+<div class="slide">
   <div class="content">
     <div class="label purple">B3.2.2 · Method Overriding</div>
     <h2>Overriding — <span class="hl-purple">in Practice</span></h2>
-    <p style="font-size: clamp(1.125rem, 1.5vw, 1.15rem);color:var(--text2);margin-bottom:14px;font-weight:300;">When <code>print(obj)</code> is called, Python calls <code>__str__()</code>. Each class has its own version — the correct one runs automatically.</p>
+    <p style="color:var(--text2);margin-bottom:14px;font-weight:300">When <code>print(obj)</code> is called, Python calls <code>__str__()</code>. Each class has its own version — the correct one runs automatically.</p>
     <div class="code-block"><span class="cm"># Main code using polymorphism</span>
 p = <span class="cls">Person</span>(<span class="str">"Jordan McFly"</span>, <span class="str">"555-1234"</span>, <span class="str">"jordan@example.com"</span>, <span class="str">"1885 Brown Estate"</span>)
 c = <span class="cls">Customer</span>(<span class="str">"Skyler Serenity"</span>, <span class="str">"555-2345"</span>, <span class="str">"skyler@example.com"</span>, <span class="str">"1701 Asimov Plaza"</span>, <span class="num">1</span>, <span class="num">0</span>, <span class="str">"2024-01-15"</span>)
@@ -682,17 +343,17 @@ e = <span class="cls">Employee</span>(<span class="str">"Avery Shephard"</span>,
 <span class="fn">print</span>(p)   <span class="cm"># → Person: Jordan McFly</span>
 <span class="fn">print</span>(c)   <span class="cm"># → Customer: Skyler Serenity has 0 points.</span>
 <span class="fn">print</span>(e)   <span class="cm"># → Employee: Avery Shephard earns $75000</span></div>
-    <div class="steps" style="margin-top:14px;">
+    <div class="steps" style="margin-top:14px">
       <div class="step-row">
-        <div class="step-n" style="color:var(--purple);">①</div>
+        <div class="step-n" style="color:var(--purple)">①</div>
         <div class="step-text">Each object's <strong>actual class</strong> determines which <code>__str__()</code> runs — not the variable type</div>
       </div>
       <div class="step-row">
-        <div class="step-n" style="color:var(--purple);">②</div>
+        <div class="step-n" style="color:var(--purple)">②</div>
         <div class="step-text">If a subclass does <strong>not</strong> override the method, it falls back to the parent's version</div>
       </div>
       <div class="step-row">
-        <div class="step-n" style="color:var(--purple);">③</div>
+        <div class="step-n" style="color:var(--purple)">③</div>
         <div class="step-text">Real-world benefit: GUI toolkits (password, date, file inputs) share a base TextInput, each overriding only what differs</div>
       </div>
     </div>
@@ -705,7 +366,7 @@ e = <span class="cls">Employee</span>(<span class="str">"Avery Shephard"</span>,
     <div class="label cyan">B3.2.3 · Abstraction</div>
     <h2>Abstract <span class="hl-cyan">Classes</span></h2>
     <p class="lead">An <strong class="hl-cyan">abstract class</strong> is a template that <strong>cannot be instantiated directly</strong>. It defines methods that all subclasses must implement — enforcing a consistent interface.</p>
-    <div class="grid g2" style="gap:2px;margin-bottom:14px;">
+    <div class="grid g2" style="gap:2px;margin-bottom:14px">
       <div class="card cyan">
         <div class="card-title">When to Use Abstract Classes</div>
         <div class="card-body">When all subclasses <strong>must</strong> have certain methods, but the implementation differs for each subclass. The abstract class provides the contract — subclasses provide the implementation.<br><br><em>Example: All 2D shapes must have <code>getArea()</code> and <code>getPerimeter()</code>, but rectangles and circles calculate them differently.</em></div>
@@ -728,11 +389,11 @@ e = <span class="cls">Employee</span>(<span class="str">"Avery Shephard"</span>,
 </div>
 
 <!-- ═══════════════════════════════════════════════ S9: ABSTRACTION CODE -->
-<div class="slide scroll-slide">
+<div class="slide">
   <div class="content">
     <div class="label cyan">B3.2.3 · Abstract Class in Python</div>
     <h2>Abstract Class — <span class="hl-cyan">Code</span></h2>
-    <div class="code-block"><span class="kw">from</span> abc <span class="kw">import</span> ABC, abstractmethod
+    <div class="code-block cols-2"><span class="kw">from</span> abc <span class="kw">import</span> ABC, abstractmethod
 <span class="kw">import</span> math
 
 <span class="kw">class</span> <span class="cls">Shape</span>(ABC):          <span class="cm"># ABC = Abstract Base Class</span>
@@ -767,11 +428,11 @@ e = <span class="cls">Employee</span>(<span class="str">"Avery Shephard"</span>,
 shapes = [<span class="cls">Rectangle</span>(<span class="num">10</span>, <span class="num">4</span>), <span class="cls">Circle</span>(<span class="num">5</span>)]
 <span class="kw">for</span> s <span class="kw">in</span> shapes:
     <span class="fn">print</span>(s.<span class="fn">get_area</span>(), s.<span class="fn">get_perimeter</span>())</div>
-    <div class="red-box" style="margin-top:12px;">
-      <p><strong>Common error:</strong> Trying to instantiate an abstract class — <code>s = Shape()</code> — raises a <code>TypeError</code>. Abstract classes exist only to be extended, not instantiated.</p>
-    </div>
+    
   </div>
-</div>
+</div><div class="slide"><div class="content"><div class="label cyan">B3.2.3 · Abstract Class in Python<span class="continued"> · continued</span></div><h2>Abstract Class — <span class="hl-cyan">Code</span></h2><div class="red-box" style="margin-top:12px">
+      <p><strong>Common error:</strong> Trying to instantiate an abstract class — <code>s = Shape()</code> — raises a <code>TypeError</code>. Abstract classes exist only to be extended, not instantiated.</p>
+    </div></div></div>
 
 <!-- ═══════════════════════════════════════════════ S10: COMPOSITION VS AGGREGATION CONCEPT -->
 <div class="slide">
@@ -779,16 +440,16 @@ shapes = [<span class="cls">Rectangle</span>(<span class="num">10</span>, <span 
     <div class="label green">B3.2.4 · Composition &amp; Aggregation</div>
     <h2>Composition vs <span class="hl-green">Aggregation</span></h2>
     <p class="lead">Both describe "has-a" relationships between objects — the key difference is <strong class="hl-green">lifecycle dependency</strong>.</p>
-    <div class="grid g2" style="gap:2px;margin-bottom:14px;">
+    <div class="grid g2" style="gap:2px;margin-bottom:14px">
       <div class="card red">
-        <div class="card-title" style="color:var(--red);">Composition — Strong "has-a"</div>
+        <div class="card-title" style="color:var(--red)">Composition — Strong "has-a"</div>
         <div class="card-body">The contained objects <strong>cannot exist independently</strong> of the container. If the container is destroyed, the parts are destroyed too — a "death relationship".<br><br>
         <strong>Car → Engine</strong> (engine doesn't function outside the car)<br>
         <strong>House → Room</strong> (rooms cease to exist if house is demolished)<br>
         <strong>Human → Heart</strong> (heart cannot live outside the body)</div>
       </div>
       <div class="card green">
-        <div class="card-title" style="color:var(--green);">Aggregation — Weak "has-a"</div>
+        <div class="card-title" style="color:var(--green)">Aggregation — Weak "has-a"</div>
         <div class="card-body">The contained objects <strong>can exist independently</strong>. The container references the object but doesn't own its lifecycle.<br><br>
         <strong>University → Student</strong> (student continues after university closes)<br>
         <strong>Library → Books</strong> (books exist independently of the library)<br>
@@ -802,11 +463,11 @@ shapes = [<span class="cls">Rectangle</span>(<span class="num">10</span>, <span 
 </div>
 
 <!-- ═══════════════════════════════════════════════ S11: COMPOSITION CODE -->
-<div class="slide scroll-slide">
+<div class="slide">
   <div class="content">
     <div class="label green">B3.2.4 · Composition in Code</div>
     <h2>Composition — <span class="hl-green">Example</span></h2>
-    <div class="code-block"><span class="kw">class</span> <span class="cls">Engine</span>:
+    <div class="code-block cols-2"><span class="kw">class</span> <span class="cls">Engine</span>:
     <span class="kw">def</span> <span class="fn">__init__</span>(self, horsepower):
         self.horsepower = horsepower
 
@@ -825,17 +486,17 @@ shapes = [<span class="cls">Rectangle</span>(<span class="num">10</span>, <span 
 my_car = <span class="cls">Car</span>(<span class="str">"Tesla"</span>, <span class="num">300</span>)
 <span class="fn">print</span>(my_car.<span class="fn">drive</span>())   <span class="cm"># Tesla: Engine (300hp) started</span>
 <span class="cm"># When my_car is deleted, its Engine is also gone</span></div>
-    <div class="steps" style="margin-top:14px;">
+    <div class="steps" style="margin-top:14px">
       <div class="step-row">
-        <div class="step-n" style="color:var(--green);">①</div>
+        <div class="step-n" style="color:var(--green)">①</div>
         <div class="step-text"><strong>Composition:</strong> Engine is created inside the Car constructor — the Car owns it</div>
       </div>
       <div class="step-row">
-        <div class="step-n" style="color:var(--cyan);">②</div>
+        <div class="step-n" style="color:var(--cyan)">②</div>
         <div class="step-text"><strong>Aggregation:</strong> Would pass an already-existing object in — e.g. <code>Car(make, existing_engine)</code> — the Engine can exist independently</div>
       </div>
       <div class="step-row">
-        <div class="step-n" style="color:var(--gold);">③</div>
+        <div class="step-n" style="color:var(--gold)">③</div>
         <div class="step-text">Both let one class use another class as a field — choose based on whether the contained object can exist on its own</div>
       </div>
     </div>
@@ -848,17 +509,17 @@ my_car = <span class="cls">Car</span>(<span class="str">"Tesla"</span>, <span cl
     <div class="label orange">B3.2.5 · Design Patterns</div>
     <h2>Design <span class="hl-orange">Patterns</span></h2>
     <p class="lead">Design patterns are <strong class="hl-orange">proven, reusable solutions</strong> to recurring software design problems. They are best practices from experienced OOP developers — not code, but templates for solving common problems.</p>
-    <div class="grid g3" style="gap:2px;margin-bottom:14px;">
+    <div class="grid g3" style="gap:2px;margin-bottom:14px">
       <div class="card gold">
-        <div class="card-title" style="color:var(--gold2);">Singleton</div>
+        <div class="card-title" style="color:var(--gold2)">Singleton</div>
         <div class="card-body">Ensures a class has <strong>only one instance</strong> and provides global access to it.<br><br>Use for: database connections, settings managers, logging systems.</div>
       </div>
       <div class="card orange">
-        <div class="card-title" style="color:var(--orange);">Factory</div>
+        <div class="card-title" style="color:var(--orange)">Factory</div>
         <div class="card-body">Provides an <strong>interface for creating objects</strong> without specifying the exact class. A factory decides which class to instantiate.<br><br>Use for: UI elements, document exporters, payment gateways.</div>
       </div>
       <div class="card blue">
-        <div class="card-title" style="color:var(--blue);">Observer</div>
+        <div class="card-title" style="color:var(--blue)">Observer</div>
         <div class="card-body">One object (subject) <strong>notifies many observers</strong> when its state changes — a subscription model.<br><br>Use for: event listeners, news feeds, stock price alerts.</div>
       </div>
     </div>
@@ -869,12 +530,12 @@ my_car = <span class="cls">Car</span>(<span class="str">"Tesla"</span>, <span cl
 </div>
 
 <!-- ═══════════════════════════════════════════════ S13: SINGLETON PATTERN -->
-<div class="slide scroll-slide">
+<div class="slide">
   <div class="content">
     <div class="label gold">B3.2.5 · Singleton Pattern</div>
     <h2>Singleton — <span class="hl-gold">One Instance Only</span></h2>
-    <p style="font-size: clamp(1.125rem, 1.5vw, 1.15rem);color:var(--text2);margin-bottom:14px;font-weight:300;">Only one instance of the class ever exists. Every call to "get the instance" returns the same object.</p>
-    <div class="code-block"><span class="kw">class</span> <span class="cls">DatabaseConnection</span>:
+    <p style="color:var(--text2);margin-bottom:14px;font-weight:300">Only one instance of the class ever exists. Every call to "get the instance" returns the same object.</p>
+    <div class="code-block cols-2"><span class="kw">class</span> <span class="cls">DatabaseConnection</span>:
     _instance = <span class="kw">None</span>   <span class="cm"># class-level variable holds the single instance</span>
 
     <span class="kw">def</span> <span class="fn">__new__</span>(cls):
@@ -894,13 +555,13 @@ db2 = <span class="cls">DatabaseConnection</span>()
 <span class="fn">print</span>(db1 <span class="kw">is</span> db2)   <span class="cm"># → True</span>
 db1.<span class="fn">connect</span>(<span class="str">"mysql://localhost/school"</span>)
 <span class="fn">print</span>(db2.url)       <span class="cm"># → mysql://localhost/school</span></div>
-    <div class="steps" style="margin-top:12px;">
+    <div class="steps" style="margin-top:12px">
       <div class="step-row">
-        <div class="step-n" style="color:var(--gold);">①</div>
+        <div class="step-n" style="color:var(--gold)">①</div>
         <div class="step-text"><code>__new__</code> controls object creation — if an instance exists, return it; otherwise create one</div>
       </div>
       <div class="step-row">
-        <div class="step-n" style="color:var(--gold);">②</div>
+        <div class="step-n" style="color:var(--gold)">②</div>
         <div class="step-text">Guarantees that all parts of a program share one database connection — no wasted resources</div>
       </div>
     </div>
@@ -908,12 +569,12 @@ db1.<span class="fn">connect</span>(<span class="str">"mysql://localhost/school"
 </div>
 
 <!-- ═══════════════════════════════════════════════ S14: FACTORY PATTERN -->
-<div class="slide scroll-slide">
+<div class="slide">
   <div class="content">
     <div class="label orange">B3.2.5 · Factory Pattern</div>
     <h2>Factory — <span class="hl-orange">Object Creation Interface</span></h2>
-    <p style="font-size: clamp(1.125rem, 1.5vw, 1.15rem);color:var(--text2);margin-bottom:14px;font-weight:300;">A factory function/class creates objects without exposing the instantiation logic. The caller says <em>what</em> it wants; the factory decides <em>how</em> to create it.</p>
-    <div class="code-block"><span class="kw">class</span> <span class="cls">PrimaryButton</span>:
+    <p style="color:var(--text2);margin-bottom:14px;font-weight:300">A factory function/class creates objects without exposing the instantiation logic. The caller says <em>what</em> it wants; the factory decides <em>how</em> to create it.</p>
+    <div class="code-block cols-2"><span class="kw">class</span> <span class="cls">PrimaryButton</span>:
     <span class="kw">def</span> <span class="fn">render</span>(self): <span class="kw">return</span> <span class="str">"[PRIMARY BUTTON]"</span>
 
 <span class="kw">class</span> <span class="cls">DangerButton</span>:
@@ -933,19 +594,19 @@ db1.<span class="fn">connect</span>(<span class="str">"mysql://localhost/school"
 
 btn = <span class="fn">create_button</span>(<span class="str">"danger"</span>)
 <span class="fn">print</span>(btn.<span class="fn">render</span>())   <span class="cm"># → [DANGER BUTTON]</span></div>
-    <div class="info-box" style="margin-top:12px;">
+    <div class="info-box" style="margin-top:12px">
       <p><strong>Use case:</strong> Adding a new button type only requires adding a new class and updating the factory dictionary — the rest of the codebase is unaffected. This makes systems easy to extend.</p>
     </div>
   </div>
 </div>
 
 <!-- ═══════════════════════════════════════════════ S15: OBSERVER PATTERN -->
-<div class="slide scroll-slide">
+<div class="slide">
   <div class="content">
     <div class="label blue">B3.2.5 · Observer Pattern</div>
     <h2>Observer — <span class="hl-blue">Subscribe &amp; Notify</span></h2>
-    <p style="font-size: clamp(1.125rem, 1.5vw, 1.15rem);color:var(--text2);margin-bottom:14px;font-weight:300;">One <strong>Subject</strong> maintains a list of <strong>Observers</strong>. When the subject's state changes, it notifies all subscribed observers automatically.</p>
-    <div class="code-block"><span class="kw">class</span> <span class="cls">StockTicker</span>:       <span class="cm"># Subject</span>
+    <p style="color:var(--text2);margin-bottom:14px;font-weight:300">One <strong>Subject</strong> maintains a list of <strong>Observers</strong>. When the subject's state changes, it notifies all subscribed observers automatically.</p>
+    <div class="code-block cols-2"><span class="kw">class</span> <span class="cls">StockTicker</span>:       <span class="cm"># Subject</span>
     <span class="kw">def</span> <span class="fn">__init__</span>(self):
         self._observers = []
         self._price = <span class="num">0</span>
@@ -985,29 +646,29 @@ ticker.<span class="fn">set_price</span>(<span class="num">142.50</span>)
     <h2>Class Relationships — <span class="hl-gold">Compared</span></h2>
     <div class="steps">
       <div class="step-row">
-        <div class="step-n" style="color:var(--blue);">IS-A</div>
+        <div class="step-n" style="color:var(--blue)">IS-A</div>
         <div class="step-text"><strong>Inheritance</strong> — Dog is-a Animal. Child class extends parent class. Use <code>class Dog(Animal)</code>. Promotes code reuse; parent changes affect all children.</div>
       </div>
       <div class="step-row">
-        <div class="step-n" style="color:var(--red);">HAS-A<br><span style="font-size:0.7em;color:var(--red);">strong</span></div>
+        <div class="step-n" style="color:var(--red)">HAS-A<br><span style="color:var(--red)">strong</span></div>
         <div class="step-text"><strong>Composition</strong> — Car has-a Engine (strong). The engine is created and destroyed with the car. The contained object <em>cannot</em> exist independently.</div>
       </div>
       <div class="step-row">
-        <div class="step-n" style="color:var(--green);">HAS-A<br><span style="font-size:0.7em;color:var(--green);">weak</span></div>
+        <div class="step-n" style="color:var(--green)">HAS-A<br><span style="color:var(--green)">weak</span></div>
         <div class="step-text"><strong>Aggregation</strong> — University has-a Student (weak). The student continues to exist even if the university closes. The contained object <em>can</em> exist independently.</div>
       </div>
     </div>
-    <div class="grid g3" style="gap:2px;margin-top:14px;">
+    <div class="grid g3" style="gap:2px;margin-top:14px">
       <div class="card gold">
-        <div class="card-title" style="color:var(--gold2);">Singleton</div>
+        <div class="card-title" style="color:var(--gold2)">Singleton</div>
         <div class="card-body">One instance only, globally shared. Database connections, app settings.</div>
       </div>
       <div class="card orange">
-        <div class="card-title" style="color:var(--orange);">Factory</div>
+        <div class="card-title" style="color:var(--orange)">Factory</div>
         <div class="card-body">Centralized object creation. Easy to add new types without changing callers.</div>
       </div>
       <div class="card blue">
-        <div class="card-title" style="color:var(--blue);">Observer</div>
+        <div class="card-title" style="color:var(--blue)">Observer</div>
         <div class="card-body">One-to-many notification. Subject changes → all observers auto-notified.</div>
       </div>
     </div>
@@ -1021,23 +682,23 @@ ticker.<span class="fn">set_price</span>(<span class="num">142.50</span>)
     <h2>Key Exam <span class="hl-gold">Points</span></h2>
     <div class="steps">
       <div class="step-row">
-        <div class="step-n" style="color:var(--gold);">①</div>
+        <div class="step-n" style="color:var(--gold)">①</div>
         <div class="step-text"><strong>Inheritance vs Composition:</strong> Use inheritance for <em>is-a</em> relationships. Use composition for <em>has-a</em> relationships. Don't inherit just to reuse code if there is no logical is-a relationship.</div>
       </div>
       <div class="step-row">
-        <div class="step-n" style="color:var(--gold);">②</div>
+        <div class="step-n" style="color:var(--gold)">②</div>
         <div class="step-text"><strong>Overriding vs Overloading:</strong> Overriding = subclass redefines parent method (same signature, different class). Overloading = same class, same name, different parameters.</div>
       </div>
       <div class="step-row">
-        <div class="step-n" style="color:var(--gold);">③</div>
+        <div class="step-n" style="color:var(--gold)">③</div>
         <div class="step-text"><strong>Abstract classes:</strong> Cannot be instantiated. Must override all abstract methods in subclasses or the subclass is also abstract. Enforces a "contract".</div>
       </div>
       <div class="step-row">
-        <div class="step-n" style="color:var(--gold);">④</div>
+        <div class="step-n" style="color:var(--gold)">④</div>
         <div class="step-text"><strong>Access modifiers in inheritance:</strong> <code>private</code> — not inherited directly; <code>protected</code> — accessible in subclasses but not externally; <code>public</code> — accessible everywhere.</div>
       </div>
       <div class="step-row">
-        <div class="step-n" style="color:var(--gold);">⑤</div>
+        <div class="step-n" style="color:var(--gold)">⑤</div>
         <div class="step-text"><strong>Design patterns:</strong> Name the pattern, state its purpose, and give a real-world context. Don't just describe the code — explain <em>why</em> this pattern is appropriate for the scenario.</div>
       </div>
     </div>
@@ -1047,118 +708,11 @@ ticker.<span class="fn">set_price</span>(<span class="num">142.50</span>)
 </div><!-- /deck -->
 
 <!-- NAVIGATION -->
-<nav class="nav">
-  <button class="nav-btn" id="prevBtn" onclick="move(-1)" disabled>← Prev</button>
-  <div class="nav-sep"></div>
-  <div class="nav-dots" id="dots"></div>
-  <div class="nav-sep"></div>
-  <button class="nav-btn" id="nextBtn" onclick="move(1)">Next →</button>
-</nav>
 
-<script>
-const slides = document.querySelectorAll('.slide');
-const total = slides.length;
-let cur = 0;
 
-const dotsEl = document.getElementById('dots');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-const progress = document.getElementById('progress');
-const slideNum = document.getElementById('slideNum');
 
-slides.forEach((_, i) => {
-  const d = document.createElement('div');
-  d.className = 'dot' + (i === 0 ? ' active' : '');
-  d.onclick = () => goTo(i);
-  dotsEl.appendChild(d);
-});
 
-function goTo(n) {
-  slides[cur].classList.remove('active');
-  slides[cur].classList.add('exit');
-  setTimeout(() => slides[cur < n ? cur : n + 1]?.classList.remove('exit'), 400);
-  // remove exit after anim
-  const old = cur;
-  cur = n;
-  slides[old].classList.remove('active');
-  slides[cur].classList.add('active');
-  dotsEl.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
-  prevBtn.disabled = cur === 0;
-  nextBtn.disabled = cur === total - 1;
-  progress.style.width = ((cur + 1) / total * 100) + '%';
-  slideNum.textContent = String(cur + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
-  if (slides[cur].classList.contains('scroll-slide')) slides[cur].scrollTop = 0;
-}
-
-function move(dir) { if (cur + dir >= 0 && cur + dir < total) goTo(cur + dir); }
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') move(1);
-  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') move(-1);
-});
-
-// init progress
-progress.style.width = (1 / total * 100) + '%';
-</script>
-
-<script>
-(function () {
-  const menus = document.querySelectorAll('.course-menu');
-  const submenus = document.querySelectorAll('.course-submenu');
-  const closeSubmenus = except => {
-    submenus.forEach(submenu => {
-      if (submenu !== except) {
-        submenu.classList.remove('open');
-        const button = submenu.querySelector('.course-submenu-button');
-        if (button) button.setAttribute('aria-expanded', 'false');
-      }
-    });
-  };
-  const closeMenus = except => {
-    menus.forEach(menu => {
-      if (menu !== except) {
-        menu.classList.remove('open');
-        const button = menu.querySelector('.course-menu-button');
-        if (button) button.setAttribute('aria-expanded', 'false');
-      }
-    });
-    if (!except) closeSubmenus(null);
-  };
-
-  menus.forEach(menu => {
-    const button = menu.querySelector('.course-menu-button');
-    if (!button) return;
-    button.addEventListener('click', event => {
-      event.preventDefault();
-      const targetId = button.getAttribute('data-scroll-target');
-      const target = targetId ? document.getElementById(targetId) : null;
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      const isOpen = menu.classList.toggle('open');
-      button.setAttribute('aria-expanded', String(isOpen));
-      closeMenus(isOpen ? menu : null);
-    });
-  });
-
-  submenus.forEach(submenu => {
-    const button = submenu.querySelector('.course-submenu-button');
-    if (!button) return;
-    button.addEventListener('click', event => {
-      event.preventDefault();
-      const isOpen = submenu.classList.toggle('open');
-      button.setAttribute('aria-expanded', String(isOpen));
-      closeSubmenus(isOpen ? submenu : null);
-    });
-  });
-
-  document.addEventListener('click', event => {
-    if (!event.target.closest('.course-menu')) closeMenus(null);
-  });
-
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape') closeMenus(null);
-  });
-})();
-</script>
-
+<script src="../assets/site.js"></script>
+<script src="../assets/deck.js"></script>
 </body>
 </html>

@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Course Overview — IB Computer Science</title>
-<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;700;800&family=Google+Sans+Code:wght@400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #15120f;
@@ -19,15 +18,15 @@
     --text3: #93876f;
     --green: #8fc25a;
     --red: #f0654a;
-    --font-head: 'Google Sans', 'Noto Sans KR', sans-serif;
-    --font-mono: 'Google Sans Code', monospace;
-    --font-body: 'Google Sans', 'Noto Sans KR', sans-serif;
+    --font-head: "Google Sans", "Noto Sans KR", sans-serif;
+    --font-mono: "Google Sans Code", monospace;
+    --font-body: "Google Sans", "Noto Sans KR", sans-serif;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 18px; line-height: 1.6; overflow-x: hidden; }
   body::before {
-    content: ''; position: fixed; inset: 0;
+    content: ""; position: fixed; inset: 0;
     background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
     background-size: 40px 40px; opacity: 0.22; pointer-events: none; z-index: 0;
   }
@@ -38,7 +37,7 @@
   .glow1 { position: absolute; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(128,128,128,0.07) 0%, transparent 70%); top: -100px; left: -100px; pointer-events: none; }
   .glow2 { position: absolute; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(128,128,128,0.07) 0%, transparent 70%); bottom: -50px; right: -50px; pointer-events: none; }
   .badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 18px; color: var(--accent); border: 1px solid rgba(128,128,128,0.3); padding: 6px 14px; border-radius: 2px; margin-bottom: 28px; letter-spacing: 0.15em; text-transform: uppercase; animation: fsd 0.6s ease both; }
-  .badge::before { content: '●'; font-size: 18px; animation: pulse 2s infinite; }
+  .badge::before { content: "●"; font-size: 18px; animation: pulse 2s infinite; }
   @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
   h1 { font-family: var(--font-head); font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 800; line-height: 1; letter-spacing: -0.03em; animation: fsd 0.6s 0.1s ease both; }
   h1 .ib { color: var(--accent); }
@@ -46,7 +45,7 @@
   .tagline { font-size: clamp(1.125rem, 2.5vw, 1.2rem); color: var(--text2); font-weight: 300; max-width: 540px; margin-top: 20px; animation: fsd 0.6s 0.2s ease both; }
   .hstats { display: flex; gap: 40px; margin-top: 48px; flex-wrap: wrap; animation: fsd 0.6s 0.3s ease both; }
   .stat { display: flex; flex-direction: column; gap: 4px; position: relative; padding-left: 16px; }
-  .stat::before { content: ''; position: absolute; left: 0; top: 4px; bottom: 4px; width: 2px; background: var(--accent); }
+  .stat::before { content: ""; position: absolute; left: 0; top: 4px; bottom: 4px; width: 2px; background: var(--accent); }
   .stat-num { font-family: var(--font-mono); font-size: 1.6rem; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
   .stat-label { font-size: 1.125rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; }
   .scroll-hint { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--text3); font-family: var(--font-mono); font-size: 18px; letter-spacing: 0.15em; animation: fsd 0.6s 0.5s ease both; }
@@ -55,13 +54,13 @@
   @keyframes sl { 0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom} }
 
   /* NAV */
-  nav { position: sticky; top: 0; z-index: 100; background: rgba(128,128,128,0.14); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 14px 0; }
-  nav .container { display: flex; align-items: center; overflow-x: auto; scrollbar-width: none; }
-  nav .container::-webkit-scrollbar { display: none; }
+  nav:not(.course-nav) { position: sticky; top: 0; z-index: 100; background: rgba(128,128,128,0.14); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 14px 0; }
+  nav:not(.course-nav) .container { display: flex; align-items: center; overflow-x: auto; scrollbar-width: none; }
+  nav:not(.course-nav) .container::-webkit-scrollbar { display: none; }
   .nav-logo { font-family: var(--font-mono); font-size: 18px; font-weight: 700; color: var(--accent); white-space: nowrap; margin-right: 32px; letter-spacing: 0.1em; }
   .nav-links { display: flex; gap: 4px; }
-  nav a { font-family: var(--font-mono); font-size: 18px; color: var(--text3); text-decoration: none; padding: 6px 12px; border-radius: 2px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; transition: color 0.2s, background 0.2s; }
-  nav a:hover { color: var(--accent); background: rgba(128,128,128,0.06); }
+  nav:not(.course-nav) a { font-family: var(--font-mono); font-size: 18px; color: var(--text3); text-decoration: none; padding: 6px 12px; border-radius: 2px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; transition: color 0.2s, background 0.2s; }
+  nav:not(.course-nav) a:hover { color: var(--accent); background: rgba(128,128,128,0.06); }
 
   /* SECTIONS */
   section { padding: 100px 0; }
@@ -74,7 +73,7 @@
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
   .lcard { background: var(--surface); padding: 40px; position: relative; overflow: hidden; transition: background 0.3s; }
   .lcard:hover { background: var(--surface2); }
-  .lcard::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .lcard::after { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
   .sl::after { background: var(--green); }
   .hl::after { background: var(--accent2); }
   .level-tag { font-family: var(--font-mono); font-size: 18px; letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 10px; border-radius: 2px; display: inline-block; margin-bottom: 16px; }
@@ -190,241 +189,31 @@
   }
 
 /* COURSE NAVIGATION */
-.course-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1200;
-  border-bottom: 1px solid rgba(128,128,128,0.2);
-  background: rgba(128,128,128,0.14);
-  -webkit-backdrop-filter: blur(18px);
-  backdrop-filter: blur(18px);
-  font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
-}
-.course-nav-inner {
-  width: min(1120px, calc(100% - 32px));
-  margin: 0 auto;
-  min-height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  flex-wrap: wrap;
-}
-.course-nav a,
-.course-menu-button,
-.course-submenu-button {
-  color: var(--text2, var(--ink));
-  text-decoration: none;
-  white-space: nowrap;
-  line-height: 1;
-}
-.course-link,
-.course-menu-button {
-  min-height: 48px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 0;
-  border-radius: 0;
-  border-bottom: 2px solid transparent;
-  background: transparent;
-  color: var(--text2, var(--ink));
-  font: inherit;
-  font-size: 18px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: color 0.18s ease, border-color 0.18s ease;
-}
-.course-home-link {
-  color: var(--text, var(--ink)) !important;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-}
 
-.course-menu,
-.course-submenu {
-  position: relative;
-}
-.course-menu-button,
-.course-submenu-button {
-  gap: 6px;
-}
-.course-menu-button::after,
-.course-submenu-button::after {
-  content: "▾";
-  font-size: 18px;
-  color: var(--text3, var(--ink));
-  transition: transform 0.18s ease;
-}
-.course-submenu-button::after {
-  transform: rotate(-90deg);
-}
-.course-menu.open .course-menu-button::after,
-.course-menu:focus-within .course-menu-button::after,
-.course-menu:hover .course-menu-button::after {
-  transform: rotate(180deg);
-}
-.course-submenu.open .course-submenu-button::after,
-.course-submenu:focus-within .course-submenu-button::after,
-.course-submenu:hover .course-submenu-button::after {
-  transform: rotate(90deg);
-}
-.course-dropdown,
-.course-subdropdown {
-  display: grid;
-  gap: 2px;
-  padding: 8px;
-  border: 1px solid rgba(128,128,128,0.22);
-  border-radius: 6px;
-  background: rgba(128,128,128,0.14);
-  box-shadow: 0 18px 40px rgba(128,128,128,0.14);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.16s ease, transform 0.16s ease;
-}
-.course-dropdown {
-  position: absolute;
-  top: calc(100% + 1px);
-  left: 50%;
-  min-width: 306px;
-  transform: translate(-50%, -4px);
-}
-.course-subdropdown {
-  position: absolute;
-  top: -8px;
-  left: calc(100% + 8px);
-  min-width: 310px;
-  transform: translateX(-4px);
-  display: none;
-}
-.course-menu:hover .course-dropdown,
-.course-menu:focus-within .course-dropdown,
-.course-menu.open .course-dropdown,
-.course-submenu:hover .course-subdropdown,
-.course-submenu:focus-within .course-subdropdown,
-.course-submenu.open .course-subdropdown {
-  display: grid;
-  opacity: 1;
-  transform: translate(0, 0);
-  pointer-events: auto;
-}
-.course-menu:hover .course-dropdown,
-.course-menu:focus-within .course-dropdown,
-.course-menu.open .course-dropdown {
-  transform: translate(-50%, 0);
-}
-.course-dropdown a,
-.course-subdropdown a,
-.course-submenu-button {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 10px 11px;
-  border: 0;
-  border-radius: 4px;
-  background: transparent;
-  color: var(--text2, var(--ink));
-  font: inherit;
-  font-size: 18px;
-  letter-spacing: 0.04em;
-  line-height: 1.35;
-  text-align: left;
-  text-transform: none;
-  cursor: pointer;
-}
-.course-subdropdown a {
-  justify-content: flex-start;
-  white-space: normal;
-}
-.course-topic-link,
-.course-subdropdown a.current-page {
-  color: var(--accent, var(--ink)) !important;
-}
-.course-subdropdown a.current-page {
-  background: rgba(128,128,128,0.08);
-}
-.course-dropdown a:hover,
-.course-dropdown a:focus,
-.course-subdropdown a:hover,
-.course-subdropdown a:focus,
-.course-submenu-button:hover,
-.course-submenu-button:focus {
-  color: var(--text, var(--ink));
-  background: rgba(255, 255, 255, 0.08);
-  outline: none;
-}
-.course-link:hover,
-.course-link:focus,
-.course-link.current,
-.course-menu-button:hover,
-.course-menu-button:focus,
-.course-menu-button.current {
-  color: var(--text, var(--ink));
-  border-color: var(--accent, var(--line-2));
-  outline: none;
-}
-.course-nav ~ .slide-num { top: 62px !important; }
-@media (max-width: 720px) {
-  .course-nav-inner {
-    width: min(100% - 18px, 680px);
-    min-height: 46px;
-    gap: 12px;
-    justify-content: center;
-  }
-  .course-link,
-  .course-menu-button {
-    min-height: 36px;
-    font-size: 18px;
-  }
-  .course-dropdown {
-    position: fixed;
-    top: 88px;
-    left: 12px;
-    right: 12px;
-    min-width: 0;
-    max-height: calc(100vh - 108px);
-    overflow: auto;
-    transform: translateY(-4px);
-  }
-  .course-menu:hover .course-dropdown,
-  .course-menu:focus-within .course-dropdown,
-  .course-menu.open .course-dropdown {
-    transform: translateY(0);
-  }
-  .course-subdropdown {
-    position: static;
-    min-width: 0;
-    margin: 0 0 4px 12px;
-    padding: 4px;
-    box-shadow: none;
-    border-color: rgba(128,128,128,0.2);
-    background: rgba(255, 255, 255, 0.03);
-    transform: none;
-    display: none;
-    opacity: 1;
-    pointer-events: auto;
-  }
-  .course-submenu.open .course-subdropdown,
-  .course-submenu:focus-within .course-subdropdown {
-    display: grid;
-  }
-  .course-submenu:hover .course-subdropdown {
-    display: grid;
-  }
-  .course-submenu-button::after {
-    transform: none;
-  }
-  .course-submenu.open .course-submenu-button::after,
-  .course-submenu:focus-within .course-submenu-button::after,
-  .course-submenu:hover .course-submenu-button::after {
-    transform: rotate(180deg);
-  }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </style>
 <link rel="stylesheet" href="../assets/theme.css">
@@ -874,64 +663,7 @@
   document.querySelectorAll('.aitem').forEach(el => pobs.observe(el));
 </script>
 
-<script>
-(function () {
-  const menus = document.querySelectorAll('.course-menu');
-  const submenus = document.querySelectorAll('.course-submenu');
-  const closeSubmenus = except => {
-    submenus.forEach(submenu => {
-      if (submenu !== except) {
-        submenu.classList.remove('open');
-        const button = submenu.querySelector('.course-submenu-button');
-        if (button) button.setAttribute('aria-expanded', 'false');
-      }
-    });
-  };
-  const closeMenus = except => {
-    menus.forEach(menu => {
-      if (menu !== except) {
-        menu.classList.remove('open');
-        const button = menu.querySelector('.course-menu-button');
-        if (button) button.setAttribute('aria-expanded', 'false');
-      }
-    });
-    if (!except) closeSubmenus(null);
-  };
 
-  menus.forEach(menu => {
-    const button = menu.querySelector('.course-menu-button');
-    if (!button) return;
-    button.addEventListener('click', event => {
-      event.preventDefault();
-      const targetId = button.getAttribute('data-scroll-target');
-      const target = targetId ? document.getElementById(targetId) : null;
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      const isOpen = menu.classList.toggle('open');
-      button.setAttribute('aria-expanded', String(isOpen));
-      closeMenus(isOpen ? menu : null);
-    });
-  });
-
-  submenus.forEach(submenu => {
-    const button = submenu.querySelector('.course-submenu-button');
-    if (!button) return;
-    button.addEventListener('click', event => {
-      event.preventDefault();
-      const isOpen = submenu.classList.toggle('open');
-      button.setAttribute('aria-expanded', String(isOpen));
-      closeSubmenus(isOpen ? submenu : null);
-    });
-  });
-
-  document.addEventListener('click', event => {
-    if (!event.target.closest('.course-menu')) closeMenus(null);
-  });
-
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape') closeMenus(null);
-  });
-})();
-</script>
-
+<script src="../assets/site.js"></script>
 </body>
 </html>

@@ -1,0 +1,452 @@
+/* ============================================================
+   IB CS — slide template
+   Every slide deck loads theme.css, then this file, then deck.js.
+
+   Each slide is a fixed 1280 × 720 canvas. deck.js scales the whole
+   canvas to fit the window, so a slide looks the same on a laptop,
+   a projector or a large screen, and nothing ever needs scrolling.
+   Everything is left-aligned and uses one type scale (below).
+
+   If a slide's content is taller than the canvas, deck.js marks it
+   with a dashed outline and logs a warning in the browser console:
+   shorten it or split it into two slides.
+   ============================================================ */
+
+:root {
+  --canvas-w: 1280px;
+  --canvas-h: 720px;
+  --bar-top: 52px;      /* course top bar */
+  --bar-bottom: 64px;   /* slide controls */
+  --s: 1;               /* scale, set by deck.js */
+  --pad-x: 64px;
+  --pad-top: 44px;
+  --pad-bottom: 36px;
+
+  /* Type scale, in canvas pixels */
+  --fs-title: 60px;     /* h1 on cover slides */
+  --fs-h2: 38px;        /* slide title */
+  --fs-h3: 22px;
+  --fs-lead: 21px;      /* intro sentence under a title */
+  --fs-body: 19px;      /* paragraphs, cards, lists, tables */
+  --fs-tiny: 13px;      /* tags, badges */
+  --fs-small: 16px;     /* table headers, captions */
+  --fs-label: 16px;     /* eyebrow above a title */
+  --fs-code: 16px;
+  --fs-display: 32px;   /* big numbers and letters inside diagrams */
+  --gap: 12px;
+}
+
+html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+body { background: var(--page); }
+*, *::before, *::after { box-sizing: border-box; }
+/* Reset inside slides (zero specificity, so any component style wins) */
+:where(.deck *, .deck *::before, .deck *::after) { margin: 0; padding: 0; }
+
+/* ---------- Canvas ---------- */
+
+.deck {
+  position: fixed;
+  z-index: 1;
+  width: var(--canvas-w);
+  height: var(--canvas-h);
+  left: calc(50% - var(--canvas-w) / 2);
+  top: calc(var(--bar-top) + (100vh - var(--bar-top) - var(--bar-bottom) - var(--canvas-h) * var(--s)) / 2);
+  transform: scale(var(--s));
+  transform-origin: top center;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  padding: var(--pad-top) var(--pad-x) var(--pad-bottom);
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  color: var(--ink-2);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease), visibility 0s linear 0.35s;
+}
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+}
+/* The first slide of a deck is its cover: vertically centred */
+.slide.cover { justify-content: center; }
+
+/* Content wrappers always span the canvas and start at the left edge */
+.slide > .content,
+.slide > .full-content,
+.slide .content {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+}
+/* Open a deck with ?check in the address to outline slides that are too tall */
+.check .slide.overflowing { outline: 3px dashed #d70015; outline-offset: -6px; }
+
+/* ---------- Type scale ---------- */
+
+.slide h1 {
+  font-size: var(--fs-title);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  margin: 0 0 16px;
+  color: var(--ink);
+  text-align: left;
+}
+.slide h2,
+.slide .slide-title,
+.slide h2.title {
+  font-size: var(--fs-h2);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.028em;
+  margin: 0 0 12px;
+  color: var(--ink);
+  text-align: left;
+}
+.slide.cover h1, .slide.cover .slide-title { font-size: var(--fs-title); font-weight: 700; }
+.slide h3 { font-size: var(--fs-h3); font-weight: 600; letter-spacing: -0.02em; margin: 0 0 8px; color: var(--ink); }
+
+.slide .label,
+.slide .eyebrow,
+.slide .slide-label,
+.slide .slide-head,
+.slide .section {
+  display: block;
+  font-size: var(--fs-label);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: var(--muted) !important;
+  margin: 0 0 10px;
+  text-align: left;
+}
+.slide .slide-head { display: flex; justify-content: space-between; }
+
+.slide .lead,
+.slide .slide-subtitle,
+.slide .body-en {
+  font-size: var(--fs-lead);
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: -0.015em;
+  color: var(--muted);
+  margin: 0 0 18px;
+  max-width: 62em;
+  text-align: left;
+}
+.slide .lead strong, .slide .slide-subtitle strong { color: var(--ink); font-weight: 600; }
+
+.slide p, .slide li, .slide td, .slide th,
+.slide .card-body, .slide .step-text,
+.slide .info-box p, .slide .gold-box p, .slide .green-box p, .slide .red-box p,
+.slide .cyan-box p, .slide .purple-box p, .slide .orange-box p, .slide .teal-box p,
+.slide .amber-box p, .slide .blue-box p, .slide .note {
+  font-size: var(--fs-body);
+  line-height: 1.5;
+}
+.slide strong, .slide b { color: var(--ink); font-weight: 600; }
+.slide ul, .slide ol { padding-left: 1.2em; margin: 0; }
+.slide li + li { margin-top: 4px; }
+
+/* Highlight helpers become plain emphasis */
+.slide [class^="hl-"], .slide [class*=" hl-"],
+.slide [class^="c-"], .slide [class*=" c-"] { color: var(--ink) !important; font-weight: 600; }
+
+/* ---------- Layout ---------- */
+
+.slide .grid, .slide .content-grid, .slide .grid-2, .slide .grid-3 {
+  display: grid;
+  gap: var(--gap);
+  width: 100%;
+}
+.slide .g2, .slide .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.slide .g3, .slide .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.slide .g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.slide .grid + *, .slide * + .grid { margin-top: var(--gap); }
+.slide .divider { height: 1px; background: var(--line); margin: 14px 0; border: 0; }
+
+/* ---------- Figures ---------- */
+
+/* Diagrams and images never grow taller than the canvas allows */
+.slide svg[viewBox] { max-width: 100%; max-height: 520px; }
+.slide img { max-width: 100%; max-height: 480px; height: auto; object-fit: contain; }
+.slide :is(.diagram-frame, .cpu-diagram-frame) {
+  aspect-ratio: auto !important;
+  height: 560px;
+  border: 0 !important;
+  border-radius: 18px;
+}
+.slide :is(.diagram-frame, .cpu-diagram-frame) svg { max-height: 100%; }
+
+/* ---------- Cards ---------- */
+
+.slide .card,
+.slide .hub-card {
+  position: relative;
+  background: var(--tile);
+  border: 0;
+  border-radius: 18px;
+  box-shadow: none;
+  padding: 16px 18px;
+  overflow: hidden;
+}
+.slide .card::before, .slide .card::after { display: none; }
+.slide .card > .accent { display: none; }
+.slide .card .code-block,
+.slide .card table td, .slide .card table th { background: var(--page); }
+.slide .card-title,
+.slide .card-label {
+  font-size: var(--fs-body);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  text-transform: none;
+  color: var(--ink) !important;
+  margin: 0 0 6px;
+}
+.slide .card-body { color: var(--ink-2); }
+
+/* ---------- Callouts ---------- */
+
+.slide .info-box, .slide .gold-box, .slide .green-box, .slide .cyan-box,
+.slide .purple-box, .slide .orange-box, .slide .teal-box, .slide .amber-box,
+.slide .blue-box, .slide .note, .slide .hbox {
+  background: var(--tile);
+  border: 0;
+  border-radius: 16px;
+  padding: 12px 18px;
+  margin-top: var(--gap);
+  color: var(--ink-2);
+}
+.slide .info-box strong, .slide .gold-box strong, .slide .green-box strong,
+.slide .cyan-box strong, .slide .purple-box strong, .slide .orange-box strong,
+.slide .teal-box strong, .slide .amber-box strong, .slide .blue-box strong,
+.slide .note strong, .slide .hbox strong { color: var(--ink); }
+
+/* Common errors: the dark emphasis tile */
+.slide .red-box {
+  background: var(--invert-bg);
+  border: 0;
+  border-radius: 16px;
+  padding: 12px 18px;
+  margin-top: var(--gap);
+  color: var(--invert-muted);
+}
+.slide .red-box p { color: var(--invert-muted); }
+.slide .red-box strong, .slide .red-box code, .slide .red-box .code-inline { color: var(--invert-ink) !important; }
+.slide .red-box :is(code, .code-inline) { background: rgba(127, 127, 127, 0.3); }
+
+/* ---------- Steps ---------- */
+
+.slide .steps { display: flex; flex-direction: column; gap: 8px; }
+.slide .step-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: var(--tile);
+  border: 0;
+  border-radius: 14px;
+  padding: 10px 18px;
+}
+.slide .step-n, .slide .step-num {
+  font-size: var(--fs-label);
+  font-weight: 600;
+  color: var(--ink);
+  min-width: 64px;
+  flex-shrink: 0;
+}
+.slide .step-text { color: var(--ink-2); }
+
+/* ---------- Tags and pills ---------- */
+
+.slide .tag, .slide .hl-badge {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0;
+  text-transform: none;
+  padding: 3px 10px;
+  margin-left: 6px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--page) !important;
+}
+.slide .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.slide .pill {
+  font-size: var(--fs-small);
+  font-weight: 500;
+  padding: 6px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--tile);
+  color: var(--ink);
+}
+
+/* ---------- Code ---------- */
+
+.slide .code-block, .slide pre, .slide .code, .slide .sql {
+  font-family: var(--mono);
+  font-size: var(--fs-code);
+  line-height: 1.55;
+  white-space: pre-wrap;
+  background: var(--tile);
+  color: var(--ink);
+  border: 0;
+  border-radius: 14px;
+  padding: 12px 16px;
+  margin: 0;
+  overflow: hidden;
+}
+.slide .code-inline, .slide code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  background: var(--tile);
+  color: var(--ink);
+  border-radius: 6px;
+  padding: 1px 6px;
+}
+.slide pre code, .slide .code-block code { background: none; padding: 0; font-size: inherit; }
+.slide .kw { color: var(--ink); font-weight: 700; }
+.slide .cm, .slide .cmt { color: var(--muted); font-style: italic; }
+.slide .fn, .slide .cls, .slide .str, .slide .st, .slide .num, .slide .bool, .slide .ret { color: var(--ink); }
+.slide .lang-label {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: var(--muted);
+  margin: 0 0 6px;
+}
+
+/* ---------- Tables ---------- */
+
+.slide table { width: 100%; border-collapse: collapse; }
+.slide th {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: var(--muted);
+  text-align: left;
+  padding: 8px 12px;
+  background: transparent;
+  border-bottom: 1px solid var(--line-2);
+}
+.slide td {
+  padding: 8px 12px;
+  color: var(--ink-2);
+  background: transparent;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.slide tr:last-child td { border-bottom: 0; }
+.slide .compare-table td:first-child,
+.slide .comparison-table td:first-child { color: var(--ink); font-weight: 600; }
+
+/* Tighter spacing (never smaller type) for slides that are just over the canvas */
+.slide.compact { --gap: 8px; --pad-top: 34px; --pad-bottom: 26px; line-height: 1.42; }
+.slide.compact p, .slide.compact li, .slide.compact td, .slide.compact .card-body,
+.slide.compact .step-text { line-height: 1.42; }
+.slide.compact h2 { margin-bottom: 8px; }
+.slide.compact .lead { margin-bottom: 12px; line-height: 1.42; }
+.slide.compact .card { padding: 12px 16px; }
+.slide.compact :is(.info-box, .gold-box, .green-box, .cyan-box, .purple-box, .orange-box,
+  .teal-box, .amber-box, .blue-box, .note, .hbox, .red-box) { padding: 10px 16px; }
+.slide.compact .step-row { padding: 8px 16px; }
+.slide.compact .steps { gap: 6px; }
+.slide.compact td, .slide.compact th { padding-top: 6px; padding-bottom: 6px; }
+.slide.compact :is(.code-block, pre, .code, .sql) { line-height: 1.38; padding-top: 10px; padding-bottom: 10px; }
+
+/* A long code listing flows into two columns instead of running off the slide */
+.slide .code-block.cols-2, .slide pre.cols-2 { column-count: 2; column-gap: 40px; column-rule: 1px solid var(--line); }
+
+/* Continuation slides made when a slide was split to fit the canvas */
+.slide .label .continued { font-weight: 500; }
+
+/* ---------- Slide controls ---------- */
+
+.deck-controls {
+  position: fixed;
+  z-index: 100;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px;
+  border-radius: 999px;
+  background: var(--glass);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border: 1px solid var(--line);
+  font-family: var(--font);
+}
+.deck-controls button {
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  min-height: 36px;
+  padding: 0 18px;
+  white-space: nowrap;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--page);
+  cursor: pointer;
+  transition: transform 0.15s var(--ease), opacity 0.2s;
+}
+.deck-controls button:hover { opacity: 0.85; }
+.deck-controls button:active { transform: scale(0.96); }
+.deck-controls button:disabled { opacity: 0.2; cursor: default; }
+.deck-counter {
+  min-width: 64px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+/* ---------- Phones: no scaling, slides scroll ---------- */
+
+@media (max-width: 720px), (max-height: 460px) {
+  .deck {
+    left: 0;
+    right: 0;
+    top: var(--bar-top);
+    bottom: var(--bar-bottom);
+    width: auto;
+    height: auto;
+    transform: none;
+  }
+  .slide { padding: 20px 16px 24px; overflow-y: auto; }
+  .slide .g2, .slide .g3, .slide .g4, .slide .grid-2, .slide .grid-3 { grid-template-columns: 1fr; }
+  .slide.overflowing { outline: 0; }
+  :root { --fs-title: 40px; --fs-h2: 28px; --fs-lead: 18px; --fs-body: 16px; }
+}
+
+@media print {
+  .deck-controls, .course-nav { display: none; }
+  .deck { position: static; transform: none; width: auto; height: auto; }
+  .slide { position: relative; opacity: 1; visibility: visible; transform: none;
+           width: var(--canvas-w); height: var(--canvas-h); break-after: page; }
+}
