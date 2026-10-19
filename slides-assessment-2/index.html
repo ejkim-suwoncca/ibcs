@@ -203,10 +203,10 @@
     margin: 1px;
   }
 
-  .s-hi  { background: rgba(16,185,129,0.15);  color: var(--green); }
-  .s-mid { background: rgba(167,139,250,0.15); color: var(--purple); }
-  .s-lo  { background: rgba(245,158,11,0.12);  color: var(--amber); }
-  .s-min { background: rgba(239,68,68,0.1);    color: var(--red); }
+  .s-hi  { background: rgba(128,128,128,0.14);  color: var(--green); }
+  .s-mid { background: rgba(128,128,128,0.14); color: var(--purple); }
+  .s-lo  { background: rgba(128,128,128,0.12);  color: var(--amber); }
+  .s-min { background: rgba(128,128,128,0.1);    color: var(--red); }
 
   .step-list {
     display: flex;
@@ -245,27 +245,27 @@
     width: 100%;
     padding: 20px 28px;
     border-left: 4px solid var(--purple);
-    background: rgba(167,139,250,0.04);
-    border-top: 1px solid rgba(167,139,250,0.1);
-    border-right: 1px solid rgba(167,139,250,0.1);
-    border-bottom: 1px solid rgba(167,139,250,0.1);
+    background: rgba(128,128,128,0.04);
+    border-top: 1px solid rgba(128,128,128,0.2);
+    border-right: 1px solid rgba(128,128,128,0.2);
+    border-bottom: 1px solid rgba(128,128,128,0.2);
     margin-top: 16px;
   }
 
   .hbox.red {
     border-left-color: var(--red);
-    background: rgba(239,68,68,0.04);
-    border-top-color: rgba(239,68,68,0.1);
-    border-right-color: rgba(239,68,68,0.1);
-    border-bottom-color: rgba(239,68,68,0.1);
+    background: rgba(128,128,128,0.04);
+    border-top-color: rgba(128,128,128,0.2);
+    border-right-color: rgba(128,128,128,0.2);
+    border-bottom-color: rgba(128,128,128,0.2);
   }
 
   .hbox.green {
     border-left-color: var(--green);
-    background: rgba(16,185,129,0.04);
-    border-top-color: rgba(16,185,129,0.1);
-    border-right-color: rgba(16,185,129,0.1);
-    border-bottom-color: rgba(16,185,129,0.1);
+    background: rgba(128,128,128,0.04);
+    border-top-color: rgba(128,128,128,0.2);
+    border-right-color: rgba(128,128,128,0.2);
+    border-bottom-color: rgba(128,128,128,0.2);
   }
 
   .hbox p {
@@ -287,8 +287,8 @@
     vertical-align: middle;
   }
 
-  .tag.no-ai { background: rgba(239,68,68,0.1); color: var(--red); border: 1px solid rgba(239,68,68,0.25); }
-  .tag.written { background: rgba(167,139,250,0.1); color: var(--purple); border: 1px solid rgba(167,139,250,0.25); }
+  .tag.no-ai { background: rgba(128,128,128,0.1); color: var(--red); border: 1px solid rgba(128,128,128,0.25); }
+  .tag.written { background: rgba(128,128,128,0.1); color: var(--purple); border: 1px solid rgba(128,128,128,0.25); }
 
   .algo-box {
     background: var(--surface);
@@ -330,24 +330,24 @@
   }
 
   .code-block {
-    background: #0d0d14;
+    background: var(--tile);
     border: 1px solid var(--border);
     border-left: 3px solid var(--purple);
     padding: 18px 22px;
     font-family: 'Google Sans Code', monospace;
     font-size: clamp(1.125rem, 1.2vw, 1.375rem);
-    color: #c9d1e0;
+    color: var(--ink);
     line-height: 1.75;
     white-space: pre;
     overflow-x: auto;
     margin-top: 10px;
   }
 
-  .code-block .kw  { color: #c874d1; }
-  .code-block .fn  { color: #00e5ff; }
-  .code-block .cm  { color: #5a5a72; font-style: italic; }
-  .code-block .num { color: #f59e0b; }
-  .code-block .str { color: #8fc25a; }
+  .code-block .kw  { color: var(--ink); }
+  .code-block .fn  { color: var(--ink); }
+  .code-block .cm  { color: var(--muted); font-style: italic; }
+  .code-block .num { color: var(--ink); }
+  .code-block .str { color: var(--ink); }
 
   .full-content {
     width: 100%;
@@ -369,7 +369,7 @@
     align-items: center;
     gap: 20px;
     z-index: 100;
-    background: rgba(10,10,15,0.85);
+    background: rgba(128,128,128,0.14);
     backdrop-filter: blur(20px);
     border: 1px solid var(--border);
     padding: 14px 28px;
@@ -388,7 +388,7 @@
     cursor: pointer;
     transition: all 0.2s; border-radius: 999px;}
 
-  .nav-btn:hover { color: var(--purple); border-color: var(--purple); background: rgba(167,139,250,0.05); }
+  .nav-btn:hover { color: var(--purple); border-color: var(--purple); background: rgba(128,128,128,0.05); }
   .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
   .nav-counter {
@@ -436,8 +436,8 @@
   left: 0;
   right: 0;
   z-index: 1200;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
-  background: rgba(7, 9, 15, 0.9);
+  border-bottom: 1px solid rgba(128,128,128,0.2);
+  background: rgba(128,128,128,0.14);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
@@ -455,7 +455,7 @@
 .course-nav a,
 .course-menu-button,
 .course-submenu-button {
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   text-decoration: none;
   white-space: nowrap;
   line-height: 1;
@@ -470,7 +470,7 @@
   border-radius: 0;
   border-bottom: 2px solid transparent;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.12em;
@@ -479,7 +479,7 @@
   transition: color 0.18s ease, border-color 0.18s ease;
 }
 .course-home-link {
-  color: var(--text, #f8fafc) !important;
+  color: var(--text, var(--ink)) !important;
   font-weight: 700;
   letter-spacing: 0.16em;
 }
@@ -496,7 +496,7 @@
 .course-submenu-button::after {
   content: "▾";
   font-size: 18px;
-  color: var(--text3, #64748b);
+  color: var(--text3, var(--ink));
   transition: transform 0.18s ease;
 }
 .course-submenu-button::after {
@@ -517,10 +517,10 @@
   display: grid;
   gap: 2px;
   padding: 8px;
-  border: 1px solid rgba(148, 163, 184, 0.22);
+  border: 1px solid rgba(128,128,128,0.22);
   border-radius: 6px;
-  background: rgba(8, 13, 24, 0.98);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+  background: rgba(128,128,128,0.14);
+  box-shadow: 0 18px 40px rgba(128,128,128,0.14);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.16s ease, transform 0.16s ease;
@@ -568,7 +568,7 @@
   border: 0;
   border-radius: 4px;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.04em;
@@ -583,10 +583,10 @@
 }
 .course-topic-link,
 .course-subdropdown a.current-page {
-  color: var(--accent, #22b3a0) !important;
+  color: var(--accent, var(--ink)) !important;
 }
 .course-subdropdown a.current-page {
-  background: rgba(34, 211, 238, 0.08);
+  background: rgba(128,128,128,0.08);
 }
 .course-dropdown a:hover,
 .course-dropdown a:focus,
@@ -594,7 +594,7 @@
 .course-subdropdown a:focus,
 .course-submenu-button:hover,
 .course-submenu-button:focus {
-  color: var(--text, #f8fafc);
+  color: var(--text, var(--ink));
   background: rgba(255, 255, 255, 0.08);
   outline: none;
 }
@@ -604,8 +604,8 @@
 .course-menu-button:hover,
 .course-menu-button:focus,
 .course-menu-button.current {
-  color: var(--text, #f8fafc);
-  border-color: var(--accent, #22b3a0);
+  color: var(--text, var(--ink));
+  border-color: var(--accent, var(--line-2));
   outline: none;
 }
 .course-nav ~ .slide-num { top: 98px !important; }
@@ -642,7 +642,7 @@
     margin: 0 0 4px 12px;
     padding: 4px;
     box-shadow: none;
-    border-color: rgba(148, 163, 184, 0.14);
+    border-color: rgba(128,128,128,0.2);
     background: rgba(255, 255, 255, 0.03);
     transform: none;
     display: none;
@@ -667,6 +667,7 @@
 }
 
 </style>
+<link rel="stylesheet" href="../assets/theme.css">
 </head>
 <body>
 
@@ -770,10 +771,10 @@
 
   <!-- SLIDE 1: TITLE -->
   <div class="slide active" id="slide-0">
-    <div class="glow" style="width:700px;height:700px;background:radial-gradient(circle,rgba(167,139,250,0.07) 0%,transparent 70%);top:-200px;left:-150px;"></div>
-    <div class="glow" style="width:500px;height:500px;background:radial-gradient(circle,rgba(245,158,11,0.05) 0%,transparent 70%);bottom:-100px;right:-100px;"></div>
+    <div class="glow" style="width:700px;height:700px;background:radial-gradient(circle,rgba(128,128,128,0.07) 0%,transparent 70%);top:-200px;left:-150px;"></div>
+    <div class="glow" style="width:500px;height:500px;background:radial-gradient(circle,rgba(128,128,128,0.05) 0%,transparent 70%);bottom:-100px;right:-100px;"></div>
     <div class="full-content">
-      <div class="slide-label">// IB Computer Science SL Ⅰ · 2026 · 수행평가 2</div>
+      <div class="slide-label">IB Computer Science SL Ⅰ · 2026 · 수행평가 2</div>
       <h1 class="slide-title" style="font-size: clamp(2.6rem, 6vw, 5rem);margin-bottom:20px;">
         <span class="c-purple">알고리즘</span> 이해<br>및 문제 상황 적용
       </h1>
@@ -800,7 +801,7 @@
   <!-- SLIDE 2: OVERVIEW -->
   <div class="slide" id="slide-1">
     <div class="full-content">
-      <div class="slide-label">// 00 · 평가 구성</div>
+      <div class="slide-label">00 · 평가 구성</div>
       <h2 class="slide-title">두 파트,<br>하나의 흐름.</h2>
       <div class="content-grid grid-2" style="margin-top:8px;">
         <div class="card purple">
@@ -829,7 +830,7 @@
   <!-- SLIDE 3: ALGORITHMS COVERED -->
   <div class="slide" id="slide-2">
     <div class="full-content">
-      <div class="slide-label">// 01 · 평가 범위</div>
+      <div class="slide-label">01 · 평가 범위</div>
       <h2 class="slide-title">출제 범위:<br><span class="c-purple">알고리즘</span></h2>
       <p class="slide-subtitle">B2.4 과정에서 학습한 알고리즘들이 출제됩니다.</p>
       <div class="content-grid grid-2" style="margin-top:0;">
@@ -892,7 +893,7 @@
   <!-- SLIDE 4: PART 2.1 WHAT IS EXPECTED -->
   <div class="slide" id="slide-3">
     <div class="full-content">
-      <div class="slide-label">// 02 · Part 2.1</div>
+      <div class="slide-label">02 · Part 2.1</div>
       <h2 class="slide-title">Part 2.1:<br><span class="c-purple">알고리즘 완성</span></h2>
       <p class="slide-subtitle">주어진 알고리즘을 세 가지 표현 방식으로 완성합니다. (15점)</p>
       <div class="step-list">
@@ -919,7 +920,7 @@
   <!-- SLIDE 5: FLOWCHART SYMBOLS -->
   <div class="slide" id="slide-4">
     <div class="full-content">
-      <div class="slide-label">// 02 · Part 2.1 · 순서도 기호</div>
+      <div class="slide-label">02 · Part 2.1 · 순서도 기호</div>
       <h2 class="slide-title" style="font-size: clamp(1.8rem, 3.5vw, 3rem);margin-bottom:16px;">표준 <span class="c-purple">순서도 기호</span></h2>
       <div class="content-grid grid-3" style="margin-top:0;gap:10px;">
         <div class="card purple">
@@ -972,7 +973,7 @@
   <!-- SLIDE 6: PSEUDOCODE GUIDE -->
   <div class="slide" id="slide-5">
     <div class="full-content">
-      <div class="slide-label">// 02 · Part 2.1 · 의사코드</div>
+      <div class="slide-label">02 · Part 2.1 · 의사코드</div>
       <h2 class="slide-title" style="font-size: clamp(1.8rem, 3.5vw, 3rem);margin-bottom:16px;"><span class="c-purple">의사코드</span> 작성 규칙</h2>
       <div class="content-grid grid-2" style="margin-top:0;">
         <div>
@@ -1015,7 +1016,7 @@ array ← [3, 1, 4, 1, 5]
   <!-- SLIDE 7: PART 2.1 RUBRIC -->
   <div class="slide" id="slide-6">
     <div class="full-content">
-      <div class="slide-label">// 02 · Part 2.1 · 채점 기준</div>
+      <div class="slide-label">02 · Part 2.1 · 채점 기준</div>
       <h2 class="slide-title" style="font-size: clamp(1.8rem, 3.5vw, 3rem);margin-bottom:20px;">Part 2.1 채점 기준 <span style="font-family:'Google Sans Code', monospace;font-size:0.5em;color:var(--text3);">15점</span></h2>
       <table class="rubric">
         <thead>
@@ -1098,7 +1099,7 @@ array ← [3, 1, 4, 1, 5]
   <!-- SLIDE 8: PART 2.2 GUIDE -->
   <div class="slide" id="slide-7">
     <div class="full-content">
-      <div class="slide-label">// 03 · Part 2.2</div>
+      <div class="slide-label">03 · Part 2.2</div>
       <h2 class="slide-title">Part 2.2:<br><span class="c-purple">문제 상황 논술</span></h2>
       <p class="slide-subtitle">실제 문제 상황을 분석하고 가장 적합한 알고리즘을 논리적으로 선정합니다. (15점)</p>
       <div class="step-list">
@@ -1125,7 +1126,7 @@ array ← [3, 1, 4, 1, 5]
   <!-- SLIDE 9: PART 2.2 RUBRIC -->
   <div class="slide" id="slide-8">
     <div class="full-content">
-      <div class="slide-label">// 03 · Part 2.2 · 채점 기준</div>
+      <div class="slide-label">03 · Part 2.2 · 채점 기준</div>
       <h2 class="slide-title" style="font-size: clamp(1.8rem, 3.5vw, 3rem);margin-bottom:20px;">Part 2.2 채점 기준 <span style="font-family:'Google Sans Code', monospace;font-size:0.5em;color:var(--text3);">15점</span></h2>
       <table class="rubric">
         <thead>
@@ -1177,7 +1178,7 @@ array ← [3, 1, 4, 1, 5]
   <!-- SLIDE 10: ALGORITHM SELECTION TIPS -->
   <div class="slide" id="slide-9">
     <div class="full-content">
-      <div class="slide-label">// 03 · Part 2.2 · 선정 가이드</div>
+      <div class="slide-label">03 · Part 2.2 · 선정 가이드</div>
       <h2 class="slide-title" style="font-size: clamp(1.8rem, 3.5vw, 3rem);margin-bottom:16px;"><span class="c-purple">알고리즘 선택</span> 결정 가이드</h2>
       <div class="content-grid grid-2" style="margin-top:0;">
         <div>
@@ -1221,7 +1222,7 @@ array ← [3, 1, 4, 1, 5]
   <!-- SLIDE 11: TOTAL RUBRIC SUMMARY -->
   <div class="slide" id="slide-10">
     <div class="full-content">
-      <div class="slide-label">// 04 · 전체 채점 요약</div>
+      <div class="slide-label">04 · 전체 채점 요약</div>
       <h2 class="slide-title" style="font-size: clamp(1.8rem, 3.5vw, 3rem);margin-bottom:20px;">전체 채점 요약 <span style="font-family:'Google Sans Code', monospace;font-size:0.5em;color:var(--text3);">총 30점</span></h2>
       <table class="rubric">
         <thead>
@@ -1269,7 +1270,7 @@ array ← [3, 1, 4, 1, 5]
   <!-- SLIDE 12: PREPARATION TIPS -->
   <div class="slide" id="slide-11">
     <div class="full-content">
-      <div class="slide-label">// 05 · 준비 전략</div>
+      <div class="slide-label">05 · 준비 전략</div>
       <h2 class="slide-title"><span class="c-purple">준비</span> 전략</h2>
       <p class="slide-subtitle">수기 평가이므로 반복 연습이 핵심입니다.</p>
       <div class="content-grid grid-2" style="margin-top:0;">

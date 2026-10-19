@@ -73,7 +73,7 @@
     font-family: 'Google Sans Code', monospace;
     font-size: 18px;
     color: var(--accent);
-    border: 1px solid rgba(209, 165, 88,0.3);
+    border: 1px solid rgba(128,128,128,0.3);
     padding: 6px 14px;
     border-radius: 2px;
     margin-bottom: 24px;
@@ -276,8 +276,8 @@
   }
 
   .lesson-link:hover {
-    background: #242436;
-    border-color: rgba(167,139,250,0.35);
+    background: var(--tile-2);
+    border-color: rgba(128,128,128,0.35);
     transform: translateX(2px);
   }
 
@@ -316,16 +316,16 @@
 
   /* COLOR VARIANTS */
   .v-cyan .link-card::before { background: var(--accent); }
-  .v-cyan .card-tag { background: rgba(209, 165, 88,0.1); color: var(--accent); border: 1px solid rgba(209, 165, 88,0.2); }
+  .v-cyan .card-tag { background: rgba(128,128,128,0.1); color: var(--accent); border: 1px solid rgba(128,128,128,0.2); }
 
   .v-purple .link-card::before { background: var(--purple); }
-  .v-purple .card-tag { background: rgba(167,139,250,0.1); color: var(--purple); border: 1px solid rgba(167,139,250,0.2); }
+  .v-purple .card-tag { background: rgba(128,128,128,0.1); color: var(--purple); border: 1px solid rgba(128,128,128,0.2); }
 
   .v-amber .link-card::before { background: var(--amber); }
-  .v-amber .card-tag { background: rgba(245,158,11,0.1); color: var(--amber); border: 1px solid rgba(245,158,11,0.2); }
+  .v-amber .card-tag { background: rgba(128,128,128,0.1); color: var(--amber); border: 1px solid rgba(128,128,128,0.2); }
 
   .v-green .link-card::before { background: var(--green); }
-  .v-green .card-tag { background: rgba(16,185,129,0.1); color: var(--green); border: 1px solid rgba(16,185,129,0.2); }
+  .v-green .card-tag { background: rgba(128,128,128,0.1); color: var(--green); border: 1px solid rgba(128,128,128,0.2); }
 
   /* COMING SOON CARD */
   .link-card.coming-soon {
@@ -366,7 +366,7 @@
     font-size: clamp(2.4rem, 6vw, 4.8rem);
     line-height: 0.9;
     font-weight: 700;
-    color: rgba(232, 232, 240, 0.08);
+    color: var(--ink);
   }
 
   .topic-card .card-desc {
@@ -384,7 +384,7 @@
   .topic-accordion,
   .semester-accordion {
     width: 100%;
-    background: rgba(22, 22, 31, 0.72);
+    background: rgba(128,128,128,0.14);
     border: 1px solid var(--border);
     position: relative;
     overflow: hidden;
@@ -421,8 +421,8 @@
   .topic-accordion:focus-within,
   .semester-accordion:hover,
   .semester-accordion:focus-within {
-    background: #1d1d2b;
-    border-color: rgba(209, 165, 88, 0.28);
+    background: var(--tile-2);
+    border-color: rgba(128,128,128,0.28);
   }
 
   .topic-accordion summary,
@@ -486,7 +486,7 @@
   .topic-accordion[open] .accordion-indicator,
   .semester-accordion[open] .accordion-indicator {
     transform: rotate(180deg);
-    border-color: rgba(209, 165, 88, 0.35);
+    border-color: rgba(128,128,128,0.35);
   }
 
   .topic-accordion > .subtopic-grid,
@@ -583,7 +583,7 @@
     font-size: clamp(2.5rem, 6vw, 5rem);
     font-weight: 700;
     line-height: 0.85;
-    color: rgba(232, 232, 240, 0.08);
+    color: var(--ink);
   }
 
   .topic-row {
@@ -593,7 +593,7 @@
     align-items: start;
     padding: 28px;
     margin-bottom: 18px;
-    background: rgba(22, 22, 31, 0.72);
+    background: rgba(128,128,128,0.14);
     border: 1px solid var(--border);
   }
 
@@ -647,8 +647,8 @@
   .subtopic-card:hover,
   .subtopic-card:focus {
     transform: translateY(-2px);
-    background: #242436;
-    border-color: rgba(209, 165, 88, 0.35);
+    background: var(--tile-2);
+    border-color: rgba(128,128,128,0.35);
     outline: none;
   }
 
@@ -691,8 +691,8 @@
 
   .placeholder-card {
     min-height: 170px;
-    border: 1px dashed rgba(148, 163, 184, 0.26);
-    background: rgba(22, 22, 31, 0.42);
+    border: 1px dashed rgba(128,128,128,0.26);
+    background: rgba(128,128,128,0.14);
     padding: 24px;
   }
 
@@ -797,8 +797,8 @@
   left: 0;
   right: 0;
   z-index: 1200;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
-  background: rgba(7, 9, 15, 0.9);
+  border-bottom: 1px solid rgba(128,128,128,0.2);
+  background: rgba(128,128,128,0.14);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
@@ -816,7 +816,7 @@
 .course-nav a,
 .course-menu-button,
 .course-submenu-button {
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   text-decoration: none;
   white-space: nowrap;
   line-height: 1;
@@ -831,7 +831,7 @@
   border-radius: 0;
   border-bottom: 2px solid transparent;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.12em;
@@ -840,7 +840,7 @@
   transition: color 0.18s ease, border-color 0.18s ease;
 }
 .course-home-link {
-  color: var(--text, #f8fafc) !important;
+  color: var(--text, var(--ink)) !important;
   font-weight: 700;
   letter-spacing: 0.16em;
 }
@@ -857,7 +857,7 @@
 .course-submenu-button::after {
   content: "▾";
   font-size: 18px;
-  color: var(--text3, #64748b);
+  color: var(--text3, var(--ink));
   transition: transform 0.18s ease;
 }
 .course-submenu-button::after {
@@ -878,10 +878,10 @@
   display: grid;
   gap: 2px;
   padding: 8px;
-  border: 1px solid rgba(148, 163, 184, 0.22);
+  border: 1px solid rgba(128,128,128,0.22);
   border-radius: 6px;
-  background: rgba(8, 13, 24, 0.98);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+  background: rgba(128,128,128,0.14);
+  box-shadow: 0 18px 40px rgba(128,128,128,0.14);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.16s ease, transform 0.16s ease;
@@ -929,7 +929,7 @@
   border: 0;
   border-radius: 4px;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.04em;
@@ -944,10 +944,10 @@
 }
 .course-topic-link,
 .course-subdropdown a.current-page {
-  color: var(--accent, #22b3a0) !important;
+  color: var(--accent, var(--ink)) !important;
 }
 .course-subdropdown a.current-page {
-  background: rgba(34, 211, 238, 0.08);
+  background: rgba(128,128,128,0.08);
 }
 .course-dropdown a:hover,
 .course-dropdown a:focus,
@@ -955,7 +955,7 @@
 .course-subdropdown a:focus,
 .course-submenu-button:hover,
 .course-submenu-button:focus {
-  color: var(--text, #f8fafc);
+  color: var(--text, var(--ink));
   background: rgba(255, 255, 255, 0.08);
   outline: none;
 }
@@ -965,8 +965,8 @@
 .course-menu-button:hover,
 .course-menu-button:focus,
 .course-menu-button.current {
-  color: var(--text, #f8fafc);
-  border-color: var(--accent, #22b3a0);
+  color: var(--text, var(--ink));
+  border-color: var(--accent, var(--line-2));
   outline: none;
 }
 .course-nav ~ .slide-num { top: 62px !important; }
@@ -1003,7 +1003,7 @@
     margin: 0 0 4px 12px;
     padding: 4px;
     box-shadow: none;
-    border-color: rgba(148, 163, 184, 0.14);
+    border-color: rgba(128,128,128,0.2);
     background: rgba(255, 255, 255, 0.03);
     transform: none;
     display: none;
@@ -1028,6 +1028,7 @@
 }
 
 </style>
+<link rel="stylesheet" href="assets/theme.css">
 </head>
 <body>
 
@@ -1125,8 +1126,8 @@
 </nav>
 
 
-<div class="glow" style="width:600px;height:600px;background:radial-gradient(circle,rgba(209, 165, 88,0.05) 0%,transparent 70%);top:-150px;left:-150px;"></div>
-<div class="glow" style="width:500px;height:500px;background:radial-gradient(circle,rgba(200, 116, 209,0.05) 0%,transparent 70%);top:200px;right:-100px;"></div>
+<div class="glow" style="width:600px;height:600px;background:radial-gradient(circle,rgba(128,128,128,0.05) 0%,transparent 70%);top:-150px;left:-150px;"></div>
+<div class="glow" style="width:500px;height:500px;background:radial-gradient(circle,rgba(128,128,128,0.05) 0%,transparent 70%);top:200px;right:-100px;"></div>
 
 <!-- HEADER -->
 <header class="site-header" id="overview">
@@ -1141,7 +1142,7 @@
   <div class="container">
     <div class="section-heading">
       <div>
-        <div class="section-label">// Overview</div>
+        <div class="section-label">Overview</div>
         <h2>Course Overview</h2>
       </div>
       <div class="section-mark">OV</div>
@@ -1164,7 +1165,7 @@
   <div class="container">
     <div class="section-heading">
       <div>
-        <div class="section-label">// Theme A</div>
+        <div class="section-label">Theme A</div>
         <h2>Concepts of Computer Science</h2>
       </div>
       <div class="section-mark">A</div>
@@ -1232,7 +1233,7 @@
   <div class="container">
     <div class="section-heading">
       <div>
-        <div class="section-label">// Theme B</div>
+        <div class="section-label">Theme B</div>
         <h2>Computational Thinking and Programming</h2>
       </div>
       <div class="section-mark">B</div>
@@ -1289,7 +1290,7 @@
   <div class="container">
     <div class="section-heading">
       <div>
-        <div class="section-label">// Internal Assessment</div>
+        <div class="section-label">Internal Assessment</div>
         <h2>Internal Assessment</h2>
       </div>
       <div class="section-mark">IA</div>
@@ -1312,7 +1313,7 @@
   <div class="container">
     <div class="section-heading">
       <div>
-        <div class="section-label">// Case Study</div>
+        <div class="section-label">Case Study</div>
         <h2>Case Study</h2>
       </div>
       <div class="section-mark">CS</div>
@@ -1335,7 +1336,7 @@
   <div class="container">
     <div class="section-heading">
       <div>
-        <div class="section-label">// Extra Materials</div>
+        <div class="section-label">Extra Materials</div>
         <h2>Extra Materials</h2>
       </div>
       <div class="section-mark">+</div>
@@ -1358,7 +1359,7 @@
   <div class="container">
     <div class="section-heading">
       <div>
-        <div class="section-label">// Class Materials</div>
+        <div class="section-label">Class Materials</div>
         <h2>Semesters</h2>
       </div>
       <div class="section-mark">S</div>

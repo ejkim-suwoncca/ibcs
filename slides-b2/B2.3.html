@@ -28,10 +28,10 @@ body::before {
   content: '';
   position: fixed; inset: 0;
   background-image:
-    linear-gradient(rgba(79,209,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(79,209,255,0.03) 1px, transparent 1px),
-    linear-gradient(rgba(79,209,255,0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(79,209,255,0.015) 1px, transparent 1px);
+    linear-gradient(rgba(128,128,128,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128,128,128,0.03) 1px, transparent 1px),
+    linear-gradient(rgba(128,128,128,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128,128,128,0.015) 1px, transparent 1px);
   background-size: 84px 84px, 84px 84px, 18px 18px, 18px 18px;
   pointer-events: none;
 }
@@ -54,7 +54,7 @@ body::before {
 }
 .slide.scroll-slide::-webkit-scrollbar { width: 10px; }
 .slide.scroll-slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
-.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(13,23,34,0.35); }
+.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(128,128,128,0.14); }
 .progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--green), var(--cyan)); transition: width 0.38s ease; z-index: 100; }
 .slide-num { position: fixed; top: 17px; right: 24px; font-family: 'Google Sans Code', monospace; font-size: 18px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
 .content { width: 100%; max-width: 1120px; }
@@ -82,24 +82,24 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 .card-body strong { color: var(--text); font-weight: 500; }
 .info-box, .gold-box, .green-box, .red-box {
   padding: 12px 18px; margin-top: 12px;
-  border-top: 1px solid rgba(79,209,255,0.08);
-  border-right: 1px solid rgba(79,209,255,0.08);
-  border-bottom: 1px solid rgba(79,209,255,0.08);
+  border-top: 1px solid rgba(128,128,128,0.2);
+  border-right: 1px solid rgba(128,128,128,0.2);
+  border-bottom: 1px solid rgba(128,128,128,0.2);
 }
-.info-box { border-left: 3px solid var(--cyan); background: rgba(79,209,255,0.05); }
-.gold-box { border-left: 3px solid var(--amber); background: rgba(246,183,86,0.05); border-top-color: rgba(246,183,86,0.08); border-right-color: rgba(246,183,86,0.08); border-bottom-color: rgba(246,183,86,0.08); }
-.green-box { border-left: 3px solid var(--green); background: rgba(71,209,140,0.05); border-top-color: rgba(71,209,140,0.08); border-right-color: rgba(71,209,140,0.08); border-bottom-color: rgba(71,209,140,0.08); }
-.red-box { border-left: 3px solid var(--red); background: rgba(255,122,122,0.05); border-top-color: rgba(255,122,122,0.08); border-right-color: rgba(255,122,122,0.08); border-bottom-color: rgba(255,122,122,0.08); }
+.info-box { border-left: 3px solid var(--cyan); background: rgba(128,128,128,0.05); }
+.gold-box { border-left: 3px solid var(--amber); background: rgba(128,128,128,0.05); border-top-color: rgba(128,128,128,0.2); border-right-color: rgba(128,128,128,0.2); border-bottom-color: rgba(128,128,128,0.2); }
+.green-box { border-left: 3px solid var(--green); background: rgba(128,128,128,0.05); border-top-color: rgba(128,128,128,0.2); border-right-color: rgba(128,128,128,0.2); border-bottom-color: rgba(128,128,128,0.2); }
+.red-box { border-left: 3px solid var(--red); background: rgba(128,128,128,0.05); border-top-color: rgba(128,128,128,0.2); border-right-color: rgba(128,128,128,0.2); border-bottom-color: rgba(128,128,128,0.2); }
 .info-box p, .gold-box p, .green-box p, .red-box p { font-size: clamp(1.125rem, 1.38vw, 1.2rem); color: var(--text2); line-height: 1.6; }
 .info-box strong { color: var(--cyan); }
 .gold-box strong { color: var(--amber); }
 .green-box strong { color: var(--green); }
 .red-box strong { color: var(--red); }
 .code-block {
-  background: #08111a; border: 1px solid var(--border2);
+  background: var(--tile); border: 1px solid var(--border2);
   padding: 14px 18px; font-family: 'Google Sans Code', monospace;
   font-size: clamp(1.125rem, 1.2vw, 1.375rem); line-height: 1.75;
-  color: #d9f4ff; white-space: pre-wrap; margin-top: 8px;
+  color: var(--ink); white-space: pre-wrap; margin-top: 8px;
 }
 .code-block .cm { color: var(--text3); }
 .code-block .kw { color: var(--purple); }
@@ -119,14 +119,14 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 .compare-table td { background: var(--surface); color: var(--text2); font-size: clamp(1.125rem, 1.3vw, 1.375rem); line-height: 1.55; }
 .compare-table td strong { color: var(--text); font-weight: 500; }
 .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
-.pill { border: 1px solid var(--border2); background: rgba(19,33,49,0.9); padding: 7px 11px; font-family: 'Google Sans Code', monospace; font-size: 1.125rem; color: var(--text2); letter-spacing: 0.08em; text-transform: uppercase; }
+.pill { border: 1px solid var(--border2); background: rgba(128,128,128,0.14); padding: 7px 11px; font-family: 'Google Sans Code', monospace; font-size: 1.125rem; color: var(--text2); letter-spacing: 0.08em; text-transform: uppercase; }
 .divider { width: 100%; height: 1px; background: var(--border); margin: 12px 0; }
 .tag { display: inline-block; font-family: 'Google Sans Code', monospace; font-size: 1.125rem; letter-spacing: 0.1em; padding: 2px 7px; border-radius: 2px; text-transform: uppercase; font-weight: 500; }
-.tag.must { background: rgba(71,209,140,0.12); color: var(--green); border: 1px solid rgba(71,209,140,0.3); }
-.tag.exam { background: rgba(246,183,86,0.12); color: var(--amber); border: 1px solid rgba(246,183,86,0.3); }
-.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,16,24,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; border-radius: 999px;}
+.tag.must { background: rgba(128,128,128,0.12); color: var(--green); border: 1px solid rgba(128,128,128,0.3); }
+.tag.exam { background: rgba(128,128,128,0.12); color: var(--amber); border: 1px solid rgba(128,128,128,0.3); }
+.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(128,128,128,0.14); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; border-radius: 999px;}
 .nav-btn { font-family: 'Google Sans Code', monospace; font-size: 18px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; border-radius: 999px;}
-.nav-btn:hover { color: var(--green); border-color: var(--green); background: rgba(71,209,140,0.05); }
+.nav-btn:hover { color: var(--green); border-color: var(--green); background: rgba(128,128,128,0.05); }
 .nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
 .nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 240px; justify-content: center; }
 .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); cursor: pointer; transition: all 0.2s; }
@@ -144,8 +144,8 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
   left: 0;
   right: 0;
   z-index: 1200;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
-  background: rgba(7, 9, 15, 0.9);
+  border-bottom: 1px solid rgba(128,128,128,0.2);
+  background: rgba(128,128,128,0.14);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
@@ -163,7 +163,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 .course-nav a,
 .course-menu-button,
 .course-submenu-button {
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   text-decoration: none;
   white-space: nowrap;
   line-height: 1;
@@ -178,7 +178,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
   border-radius: 0;
   border-bottom: 2px solid transparent;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.12em;
@@ -187,7 +187,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
   transition: color 0.18s ease, border-color 0.18s ease;
 }
 .course-home-link {
-  color: var(--text, #f8fafc) !important;
+  color: var(--text, var(--ink)) !important;
   font-weight: 700;
   letter-spacing: 0.16em;
 }
@@ -204,7 +204,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 .course-submenu-button::after {
   content: "▾";
   font-size: 18px;
-  color: var(--text3, #64748b);
+  color: var(--text3, var(--ink));
   transition: transform 0.18s ease;
 }
 .course-submenu-button::after {
@@ -225,10 +225,10 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
   display: grid;
   gap: 2px;
   padding: 8px;
-  border: 1px solid rgba(148, 163, 184, 0.22);
+  border: 1px solid rgba(128,128,128,0.22);
   border-radius: 6px;
-  background: rgba(8, 13, 24, 0.98);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+  background: rgba(128,128,128,0.14);
+  box-shadow: 0 18px 40px rgba(128,128,128,0.14);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.16s ease, transform 0.16s ease;
@@ -276,7 +276,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
   border: 0;
   border-radius: 4px;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.04em;
@@ -291,10 +291,10 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 }
 .course-topic-link,
 .course-subdropdown a.current-page {
-  color: var(--accent, #22b3a0) !important;
+  color: var(--accent, var(--ink)) !important;
 }
 .course-subdropdown a.current-page {
-  background: rgba(34, 211, 238, 0.08);
+  background: rgba(128,128,128,0.08);
 }
 .course-dropdown a:hover,
 .course-dropdown a:focus,
@@ -302,7 +302,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 .course-subdropdown a:focus,
 .course-submenu-button:hover,
 .course-submenu-button:focus {
-  color: var(--text, #f8fafc);
+  color: var(--text, var(--ink));
   background: rgba(255, 255, 255, 0.08);
   outline: none;
 }
@@ -312,8 +312,8 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 .course-menu-button:hover,
 .course-menu-button:focus,
 .course-menu-button.current {
-  color: var(--text, #f8fafc);
-  border-color: var(--accent, #22b3a0);
+  color: var(--text, var(--ink));
+  border-color: var(--accent, var(--line-2));
   outline: none;
 }
 .course-nav ~ .slide-num { top: 98px !important; }
@@ -350,7 +350,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
     margin: 0 0 4px 12px;
     padding: 4px;
     box-shadow: none;
-    border-color: rgba(148, 163, 184, 0.14);
+    border-color: rgba(128,128,128,0.2);
     background: rgba(255, 255, 255, 0.03);
     transform: none;
     display: none;
@@ -375,6 +375,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 }
 
 </style>
+<link rel="stylesheet" href="../assets/theme.css">
 </head>
 <body>
 
@@ -479,7 +480,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 <!-- ═══ S1  TITLE ═══ -->
 <div class="slide active">
   <div class="content">
-    <div class="label">// IB CS SL · B2 Programming · B2.3</div>
+    <div class="label">IB CS SL · B2 Programming · B2.3</div>
     <h1>Programming<br><span style="color:var(--green);">Constructs</span></h1>
     <p class="lead">Covers <strong style="color:var(--text);">B2.3 Programming constructs</strong>: sequence, selection, loops, and functions with modularization.<br>Python is the primary language. Java equivalents are shown where the guide requires both.</p>
     <div class="gold-box">
@@ -500,7 +501,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 <!-- ═══ S2  LESSON MAP ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label green">// Syllabus Map · B2.3</div>
+    <div class="label green">Syllabus Map · B2.3</div>
     <h2>What the IB Requires You to Do</h2>
     <div class="steps">
       <div class="step-row">
@@ -526,7 +527,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 <!-- ═══ S3  SEQUENCE ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label">// B2.3.1 · Sequence</div>
+    <div class="label">B2.3.1 · Sequence</div>
     <h2>Order of Instructions Changes Everything</h2>
     <p class="lead">A program executes <strong>line by line</strong>. If steps are in the wrong order, the output can be wrong even when each line looks reasonable.</p>
     <div class="grid g2">
@@ -552,7 +553,7 @@ print(total)</div>
 <!-- ═══ S4  SELECTION ═══ -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label purple">// B2.3.2 · Selection</div>
+    <div class="label purple">B2.3.2 · Selection</div>
     <h2>Making Decisions in Code</h2>
     <p class="lead">Selection structures execute different code blocks depending on whether a condition is True or False. Use <strong>Boolean operators</strong> (AND, OR, NOT) and <strong>relational operators</strong> (&lt;, &lt;=, &gt;, &gt;=, ==, !=) to build conditions.</p>
     <div class="grid g2" style="margin-bottom:10px;">
@@ -604,7 +605,7 @@ print(total)</div>
 <!-- ═══ S5  LOOP VOCABULARY ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label">// B2.3.3 · Iteration</div>
+    <div class="label">B2.3.3 · Iteration</div>
     <h2>Loops Repeat Instructions</h2>
     <p class="lead">Iteration means repeating a block of code. Use a loop when the same action should happen more than once.</p>
     <div class="grid g3" style="gap:2px; margin-bottom:10px;">
@@ -630,7 +631,7 @@ print(total)</div>
 <!-- ═══ S6  LOOP TRACING ═══ -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label">// B2.3.3 · Counted Loops</div>
+    <div class="label">B2.3.3 · Counted Loops</div>
     <h2>Using <span class="code-inline">range()</span> in Python</h2>
     <p class="lead">A counted loop repeats a known number of times. In Python, <span class="code-inline">range()</span> creates the numbers the loop will use.</p>
     <div class="grid g2" style="margin-bottom:10px;">
@@ -663,7 +664,7 @@ for i in range(2, 11, 2):
 <!-- ═══ S7  LOOP TRACING ═══ -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label green">// B2.3.3 · Tracing Iteration</div>
+    <div class="label green">B2.3.3 · Tracing Iteration</div>
     <h2>Trace the Value Each Time</h2>
     <div class="grid g2" style="margin-bottom:10px;">
       <div>
@@ -695,7 +696,7 @@ print("Final:", total)</div>
 <!-- ═══ S8  COUNTED LOOP EXAMPLES ═══ -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label">// B2.3.3 · Counted Loop Examples</div>
+    <div class="label">B2.3.3 · Counted Loop Examples</div>
     <h2>Use a Counted Loop When the Amount Is Known</h2>
     <div class="grid g2" style="margin-bottom:10px;">
       <div class="card cyan">
@@ -731,7 +732,7 @@ print("Average:", average)</div>
 <!-- ═══ S9  CONDITIONAL LOOP EXAMPLES ═══ -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label green">// B2.3.3 · Conditional Loop Examples</div>
+    <div class="label green">B2.3.3 · Conditional Loop Examples</div>
     <h2>Use a While Loop When the Amount Is Unknown</h2>
     <p class="lead">A conditional loop keeps running while its condition is True. It is useful when the program does not know how many attempts will be needed.</p>
     <div class="grid g2" style="margin-bottom:10px;">
@@ -766,7 +767,7 @@ print("Total:", total)</div>
 <!-- ═══ S10  IF INSIDE LOOPS ═══ -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label purple">// B2.3.3 · Selection Within Iteration</div>
+    <div class="label purple">B2.3.3 · Selection Within Iteration</div>
     <h2>Use <span class="code-inline">if</span> Inside a Loop to Filter</h2>
     <p class="lead">Loops often repeat the same check for every value in a collection or for every user input.</p>
     <div class="grid g2" style="margin-bottom:10px;">
@@ -802,7 +803,7 @@ print("Highest:", highest)</div>
 <!-- ═══ S11  LOOP DRY RUN PRACTICE ═══ -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label amber">// B2.3.3 · Dry Run Practice</div>
+    <div class="label amber">B2.3.3 · Dry Run Practice</div>
     <h2>Predict the Output Before Running</h2>
     <div class="grid g2" style="margin-bottom:10px;">
       <div class="card amber">
@@ -837,7 +838,7 @@ print(count)</div>
 <!-- ═══ S12  ITERATION ═══ -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label">// B2.3.3 · Iteration (Loops)</div>
+    <div class="label">B2.3.3 · Iteration (Loops)</div>
     <h2>Counted Loops vs Conditional Loops</h2>
     <p class="lead">Use a <strong>counted loop</strong> (for) when you know in advance how many times to repeat. Use a <strong>conditional loop</strong> (while) when you repeat until a condition changes.</p>
     <div class="grid g2" style="margin-bottom:10px;">
@@ -888,7 +889,7 @@ System.out.println("Access granted");</div>
 <!-- ═══ S  AVOIDING ERRORS ═══ -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label red">// B2.3.1 · Ways to Avoid Errors</div>
+    <div class="label red">B2.3.1 · Ways to Avoid Errors</div>
     <h2>Infinite Loops, Deadlock and Incorrect Output <span class="tag must">must include</span></h2>
     <p class="lead">Now that you have seen sequence, selection and loops, here are three errors the guide names, and how to avoid each one.</p>
     <div class="grid g3" style="margin-bottom:10px;">
@@ -914,9 +915,9 @@ while count &lt;= 5:
         <div class="card-body">The program runs but the answer is wrong, often because instructions are in the wrong order.
           <div class="code-block" style="margin-top:8px;">total = 0
 for n in [2, 4, 6]:
-    total = 0          <span class="cm"># reset every time</span>
+    total = 0   <span class="cm"># resets!</span>
     total = total + n
-print(total)           <span class="cm"># 6, not 12</span></div>
+print(total)    <span class="cm"># 6, not 12</span></div>
           <strong>Avoid:</strong> trace the values line by line.
         </div>
       </div>
@@ -927,7 +928,7 @@ print(total)           <span class="cm"># 6, not 12</span></div>
 <!-- ═══ S14  FUNCTIONS ═══ -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label amber">// B2.3.4 · Functions &amp; Modularization</div>
+    <div class="label amber">B2.3.4 · Functions &amp; Modularization</div>
     <h2>Breaking Programs Into Focused, Reusable Parts</h2>
     <div class="grid g2" style="margin-bottom:10px;">
       <div>
@@ -974,7 +975,7 @@ System.out.println(grade);  <span class="cm">// B</span></div>
 <!-- ═══ S  SCOPE ═══ -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label amber">// B2.3.4 · Scope</div>
+    <div class="label amber">B2.3.4 · Scope</div>
     <h2>Local and Global Variables</h2>
     <p class="lead">The <strong>scope</strong> of a variable is the part of the program where it can be used. A <strong>local</strong> variable is created inside a function and only exists there. A <strong>global</strong> variable is created outside all functions and can be read anywhere.</p>
     <div class="grid g2" style="margin-bottom:10px;">
@@ -1010,7 +1011,7 @@ print(message)   <span class="cm"># NameError: local only</span></div>
 <!-- ═══ S  EXIT TICKET ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Practice · Exit Ticket</div>
+    <div class="label">Practice · Exit Ticket</div>
     <h2>Check Your Understanding</h2>
     <div class="grid g2">
       <div class="card cyan">

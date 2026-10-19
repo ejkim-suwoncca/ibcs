@@ -29,10 +29,10 @@ body::before {
   content: '';
   position: fixed; inset: 0;
   background-image:
-    linear-gradient(rgba(99,164,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(99,164,255,0.03) 1px, transparent 1px),
-    radial-gradient(circle at 15% 10%, rgba(82,212,142,0.07), transparent 28%),
-    radial-gradient(circle at 85% 20%, rgba(174,146,255,0.07), transparent 24%);
+    linear-gradient(rgba(128,128,128,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128,128,128,0.03) 1px, transparent 1px),
+    radial-gradient(circle at 15% 10%, rgba(128,128,128,0.07), transparent 28%),
+    radial-gradient(circle at 85% 20%, rgba(128,128,128,0.07), transparent 24%);
   background-size: 80px 80px, 80px 80px, auto, auto;
   pointer-events: none;
 }
@@ -55,7 +55,7 @@ body::before {
 }
 .slide.scroll-slide::-webkit-scrollbar { width: 10px; }
 .slide.scroll-slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
-.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(19,22,32,0.35); }
+.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(128,128,128,0.14); }
 .progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--teal), var(--blue)); transition: width 0.38s ease; z-index: 100; }
 .slide-num { position: fixed; top: 17px; right: 24px; font-family: 'Google Sans Code', monospace; font-size: 18px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
 .content { width: 100%; max-width: 1120px; }
@@ -84,20 +84,20 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 .info-box, .gold-box, .green-box, .red-box {
   padding: 12px 18px; margin-top: 12px;
 }
-.info-box { border-left: 3px solid var(--blue); background: rgba(99,164,255,0.05); border-top: 1px solid rgba(99,164,255,0.08); border-right: 1px solid rgba(99,164,255,0.08); border-bottom: 1px solid rgba(99,164,255,0.08); }
-.gold-box { border-left: 3px solid var(--amber); background: rgba(243,179,91,0.05); border-top: 1px solid rgba(243,179,91,0.08); border-right: 1px solid rgba(243,179,91,0.08); border-bottom: 1px solid rgba(243,179,91,0.08); }
-.green-box { border-left: 3px solid var(--green); background: rgba(82,212,142,0.05); border-top: 1px solid rgba(82,212,142,0.08); border-right: 1px solid rgba(82,212,142,0.08); border-bottom: 1px solid rgba(82,212,142,0.08); }
-.red-box { border-left: 3px solid var(--red); background: rgba(255,125,136,0.05); border-top: 1px solid rgba(255,125,136,0.08); border-right: 1px solid rgba(255,125,136,0.08); border-bottom: 1px solid rgba(255,125,136,0.08); }
+.info-box { border-left: 3px solid var(--blue); background: rgba(128,128,128,0.05); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); }
+.gold-box { border-left: 3px solid var(--amber); background: rgba(128,128,128,0.05); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); }
+.green-box { border-left: 3px solid var(--green); background: rgba(128,128,128,0.05); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); }
+.red-box { border-left: 3px solid var(--red); background: rgba(128,128,128,0.05); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); }
 .info-box p, .gold-box p, .green-box p, .red-box p { font-size: clamp(1.125rem, 1.38vw, 1.2rem); color: var(--text2); line-height: 1.6; }
 .info-box strong { color: var(--blue); }
 .gold-box strong { color: var(--amber); }
 .green-box strong { color: var(--green); }
 .red-box strong { color: var(--red); }
 .code-block {
-  background: #0c1018; border: 1px solid var(--border2);
+  background: var(--tile); border: 1px solid var(--border2);
   padding: 13px 17px; font-family: 'Google Sans Code', monospace;
   font-size: clamp(1.125rem, 1.2vw, 1.375rem); line-height: 1.75;
-  color: #dde7ff; white-space: pre-wrap; margin-top: 8px;
+  color: var(--ink); white-space: pre-wrap; margin-top: 8px;
 }
 .code-block .cm { color: var(--text3); }
 .code-block .kw { color: var(--purple); }
@@ -120,12 +120,12 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 .stack-step strong { color: var(--text); font-weight: 500; }
 .tiny { font-family: 'Google Sans Code', monospace; font-size: 1.125rem; color: var(--text3); letter-spacing: 0.08em; }
 .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
-.pill { border: 1px solid var(--border2); background: rgba(26,32,48,0.92); padding: 7px 11px; font-family: 'Google Sans Code', monospace; font-size: 1.125rem; color: var(--text2); letter-spacing: 0.08em; text-transform: uppercase; }
+.pill { border: 1px solid var(--border2); background: rgba(128,128,128,0.14); padding: 7px 11px; font-family: 'Google Sans Code', monospace; font-size: 1.125rem; color: var(--text2); letter-spacing: 0.08em; text-transform: uppercase; }
 .tag { display: inline-block; font-family: 'Google Sans Code', monospace; font-size: 1.125rem; letter-spacing: 0.1em; padding: 2px 7px; border-radius: 2px; text-transform: uppercase; font-weight: 500; }
-.tag.must { background: rgba(82,212,142,0.12); color: var(--green); border: 1px solid rgba(82,212,142,0.3); }
-.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(10,11,18,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; border-radius: 999px;}
+.tag.must { background: rgba(128,128,128,0.12); color: var(--green); border: 1px solid rgba(128,128,128,0.3); }
+.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(128,128,128,0.14); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; border-radius: 999px;}
 .nav-btn { font-family: 'Google Sans Code', monospace; font-size: 18px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; border-radius: 999px;}
-.nav-btn:hover { color: var(--teal); border-color: var(--teal); background: rgba(57,208,201,0.05); }
+.nav-btn:hover { color: var(--teal); border-color: var(--teal); background: rgba(128,128,128,0.05); }
 .nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
 .nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 240px; justify-content: center; }
 .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); cursor: pointer; transition: all 0.2s; }
@@ -143,8 +143,8 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
   left: 0;
   right: 0;
   z-index: 1200;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
-  background: rgba(7, 9, 15, 0.9);
+  border-bottom: 1px solid rgba(128,128,128,0.2);
+  background: rgba(128,128,128,0.14);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
@@ -162,7 +162,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 .course-nav a,
 .course-menu-button,
 .course-submenu-button {
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   text-decoration: none;
   white-space: nowrap;
   line-height: 1;
@@ -177,7 +177,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
   border-radius: 0;
   border-bottom: 2px solid transparent;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.12em;
@@ -186,7 +186,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
   transition: color 0.18s ease, border-color 0.18s ease;
 }
 .course-home-link {
-  color: var(--text, #f8fafc) !important;
+  color: var(--text, var(--ink)) !important;
   font-weight: 700;
   letter-spacing: 0.16em;
 }
@@ -203,7 +203,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 .course-submenu-button::after {
   content: "▾";
   font-size: 18px;
-  color: var(--text3, #64748b);
+  color: var(--text3, var(--ink));
   transition: transform 0.18s ease;
 }
 .course-submenu-button::after {
@@ -224,10 +224,10 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
   display: grid;
   gap: 2px;
   padding: 8px;
-  border: 1px solid rgba(148, 163, 184, 0.22);
+  border: 1px solid rgba(128,128,128,0.22);
   border-radius: 6px;
-  background: rgba(8, 13, 24, 0.98);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+  background: rgba(128,128,128,0.14);
+  box-shadow: 0 18px 40px rgba(128,128,128,0.14);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.16s ease, transform 0.16s ease;
@@ -275,7 +275,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
   border: 0;
   border-radius: 4px;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.04em;
@@ -290,10 +290,10 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 }
 .course-topic-link,
 .course-subdropdown a.current-page {
-  color: var(--accent, #22b3a0) !important;
+  color: var(--accent, var(--ink)) !important;
 }
 .course-subdropdown a.current-page {
-  background: rgba(34, 211, 238, 0.08);
+  background: rgba(128,128,128,0.08);
 }
 .course-dropdown a:hover,
 .course-dropdown a:focus,
@@ -301,7 +301,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 .course-subdropdown a:focus,
 .course-submenu-button:hover,
 .course-submenu-button:focus {
-  color: var(--text, #f8fafc);
+  color: var(--text, var(--ink));
   background: rgba(255, 255, 255, 0.08);
   outline: none;
 }
@@ -311,8 +311,8 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 .course-menu-button:hover,
 .course-menu-button:focus,
 .course-menu-button.current {
-  color: var(--text, #f8fafc);
-  border-color: var(--accent, #22b3a0);
+  color: var(--text, var(--ink));
+  border-color: var(--accent, var(--line-2));
   outline: none;
 }
 .course-nav ~ .slide-num { top: 98px !important; }
@@ -349,7 +349,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
     margin: 0 0 4px 12px;
     padding: 4px;
     box-shadow: none;
-    border-color: rgba(148, 163, 184, 0.14);
+    border-color: rgba(128,128,128,0.2);
     background: rgba(255, 255, 255, 0.03);
     transform: none;
     display: none;
@@ -374,6 +374,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 }
 
 </style>
+<link rel="stylesheet" href="../assets/theme.css">
 </head>
 <body>
 
@@ -478,7 +479,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 <!-- ═══ S1  TITLE ═══ -->
 <div class="slide active">
   <div class="content">
-    <div class="label">// IB CS SL · B2 Programming · B2.2</div>
+    <div class="label">IB CS SL · B2 Programming · B2.2</div>
     <h1>Data<br><span style="color:var(--teal);">Structures</span></h1>
     <p class="lead">Covers <strong style="color:var(--text);">B2.2 Data structures</strong> — how to store, organise, and process <em>collections</em> of values. Builds on the variables from B2.1 and the loops from B2.3.</p>
     <div class="gold-box">
@@ -498,7 +499,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 <!-- ═══ S2  LESSON MAP ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label green">// Syllabus Map · B2.2</div>
+    <div class="label green">Syllabus Map · B2.2</div>
     <h2>What the IB Requires You to Do</h2>
     <div class="steps">
       <div class="step-row">
@@ -524,7 +525,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 <!-- ═══ S3  STATIC VS DYNAMIC ═══ -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label amber">// B2.2.1 · Static vs Dynamic Data Structures</div>
+    <div class="label amber">B2.2.1 · Static vs Dynamic Data Structures</div>
     <h2>How Memory Is Allocated and Resized</h2>
     <p class="lead">The key difference is <strong>whether the size is fixed at creation or can change during execution</strong>. This affects speed, memory use, and flexibility.</p>
     <table class="compare-table" style="margin-bottom:10px;">
@@ -565,7 +566,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 <!-- ═══ S4  1D ARRAYS / LISTS ═══ -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label teal">// B2.2.2 · 1D Arrays and Lists</div>
+    <div class="label teal">B2.2.2 · 1D Arrays and Lists</div>
     <h2>Storing a Sequence of Related Values</h2>
     <p class="lead">A 1D array (Java) or 1D list (Python) stores many values under one name, each accessible by its <strong>index</strong> (starting at 0).</p>
     <div class="grid g2" style="margin-bottom:10px;">
@@ -618,7 +619,7 @@ int size = list.size();
 <!-- ═══ S5  2D ARRAYS / LISTS ═══ -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label green">// B2.2.2 · 2D Arrays and Lists</div>
+    <div class="label green">B2.2.2 · 2D Arrays and Lists</div>
     <h2>Rows and Columns — Tables and Grids</h2>
     <p class="lead">A 2D structure is a list of lists (Python) or a 2D array (Java). Use <strong>two indices</strong>: first for the <strong>row</strong>, then for the <strong>column</strong>.</p>
     <div class="grid g2" style="margin-bottom:10px;">
@@ -678,7 +679,7 @@ print(grades[2][2])   <span class="cm"># 95     (row 2, col 2)</span>
 <!-- ═══ S6  STACK CONCEPT ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label purple">// B2.2.3 · Stack — LIFO</div>
+    <div class="label purple">B2.2.3 · Stack — LIFO</div>
     <h2>Last In, First Out <span class="tag must">must include</span></h2>
     <p class="lead">A <strong>stack</strong> is a data structure where the most recently added item is always the first to be removed — like a stack of plates.</p>
     <div class="grid g2">
@@ -723,7 +724,7 @@ empty = len(stack) == 0    <span class="cm"># isEmpty → False</span></div>
 <!-- ═══ S7  STACK PERFORMANCE ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label purple">// B2.2.3 · Stack — Performance &amp; Memory</div>
+    <div class="label purple">B2.2.3 · Stack — Performance &amp; Memory</div>
     <h2>How Stack Operations Affect the Program</h2>
     <p class="lead">The IB requires you to explain <strong>performance and memory impact</strong>, not just name the operations.</p>
     <table class="compare-table" style="margin-bottom:10px;">
@@ -762,7 +763,7 @@ empty = len(stack) == 0    <span class="cm"># isEmpty → False</span></div>
 <!-- ═══ S8  QUEUE CONCEPT ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label blue">// B2.2.4 · Queue — FIFO</div>
+    <div class="label blue">B2.2.4 · Queue — FIFO</div>
     <h2>First In, First Out <span class="tag must">must include</span></h2>
     <p class="lead">A <strong>queue</strong> processes items in the order they arrive — like a ticket line. The first item to join is the first to be served.</p>
     <div class="grid g2">
@@ -808,7 +809,7 @@ empty = len(queue) == 0 <span class="cm"># isEmpty → False</span></div>
 <!-- ═══ S9  QUEUE PERFORMANCE ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label blue">// B2.2.4 · Queue — Performance &amp; Memory</div>
+    <div class="label blue">B2.2.4 · Queue — Performance &amp; Memory</div>
     <h2>How Queue Operations Affect the Program</h2>
     <table class="compare-table" style="margin-bottom:12px;">
       <thead>
@@ -844,7 +845,7 @@ empty = len(queue) == 0 <span class="cm"># isEmpty → False</span></div>
 <!-- ═══ S10  STACK vs QUEUE COMPARISON ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label teal">// B2.2.3–4 · Comparison</div>
+    <div class="label teal">B2.2.3–4 · Comparison</div>
     <h2>Stack vs Queue — Choosing the Right Structure</h2>
     <table class="compare-table" style="margin-bottom:12px;">
       <thead>
@@ -871,7 +872,7 @@ empty = len(queue) == 0 <span class="cm"># isEmpty → False</span></div>
 <!-- ═══ S11  TRAVERSAL PATTERNS ═══ -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label amber">// B2.2.2 · Traversal Patterns</div>
+    <div class="label amber">B2.2.2 · Traversal Patterns</div>
     <h2>Processing Every Element</h2>
     <p class="lead"><strong>Traversal</strong> means visiting every element in a structure. The IB expects you to construct traversal code and use it for calculations.</p>
     <div class="grid g2" style="margin-bottom:10px;">
@@ -936,7 +937,7 @@ System.out.println(total);</div>
 <!-- ═══ S12  EXIT TICKET ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Practice · Exit Ticket</div>
+    <div class="label">Practice · Exit Ticket</div>
     <h2>Check Your Understanding</h2>
     <div class="grid g2">
       <div class="card teal">

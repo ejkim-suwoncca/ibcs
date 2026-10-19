@@ -24,7 +24,7 @@
 html, body {
   width: 100%; height: 100%;
   overflow: hidden;
-  background: #1c1917;
+  background: var(--tile);
 }
 body { display: flex; flex-direction: column; }
 
@@ -75,21 +75,21 @@ body { display: flex; flex-direction: column; }
 .part-nav button:hover,
 .part-nav button.active {
   background: var(--ink);
-  color: #f7f5f0;
+  color: var(--ink);
 }
 .part-nav button:hover span,
 .part-nav button.active span { color: var(--accent2); }
 .deck.dark-part-nav .part-nav button {
   border-color: rgba(247,245,240,0.2);
   border-top-color: var(--accent2);
-  background: rgba(20,20,18,0.92);
-  color: #f7f5f0;
+  background: rgba(128,128,128,0.14);
+  color: var(--ink);
 }
 .deck.dark-part-nav .part-nav button span { color: var(--accent2); }
 .deck.dark-part-nav .part-nav button:hover,
 .deck.dark-part-nav .part-nav button.active {
   background: var(--accent);
-  color: #f7f5f0;
+  color: var(--ink);
 }
 
 /* ── SLIDE ── */
@@ -116,62 +116,62 @@ body { display: flex; flex-direction: column; }
 .slide.section-slide .content { background: var(--ink); }
 .slide.section-slide .bar     { background: var(--accent); }
 .slide.section-slide h1.en,
-.slide.section-slide h1.big   { color: #f7f5f0; }
+.slide.section-slide h1.big   { color: var(--ink); }
 .slide.section-slide .eyebrow { color: var(--accent2); }
 .slide.section-slide .divider { background: var(--accent2); }
-.slide.section-slide .slide-num { color: rgba(255,255,255,0.06); }
-.slide.section-slide .presenter { color: rgba(255,255,255,0.28); }
-.slide.section-slide .body-en   { color: rgba(255,255,255,0.45); }
+.slide.section-slide .slide-num { color: var(--ink); }
+.slide.section-slide .presenter { color: var(--ink); }
+.slide.section-slide .body-en   { color: var(--ink); }
 
 /* RICE color slides */
-.slide.rice-R .content  { background: #1a3a2a; }
-.slide.rice-R .bar      { background: #52b788; }
-.slide.rice-I  .content { background: #1c2a3a; }
-.slide.rice-I  .bar     { background: #4a90d9; }
-.slide.rice-C  .content { background: #2a1a3a; }
-.slide.rice-C  .bar     { background: #9b72cf; }
-.slide.rice-E  .content { background: #3a2a1a; }
+.slide.rice-R .content  { background: var(--tile-2); }
+.slide.rice-R .bar      { background: var(--tile-2); }
+.slide.rice-I  .content { background: var(--tile-2); }
+.slide.rice-I  .bar     { background: var(--tile-2); }
+.slide.rice-C  .content { background: var(--tile-2); }
+.slide.rice-C  .bar     { background: var(--tile-2); }
+.slide.rice-E  .content { background: var(--tile-2); }
 .slide.rice-E  .bar     { background: var(--accent-warm); }
 .slide.rice-R .eyebrow,
 .slide.rice-I  .eyebrow,
 .slide.rice-C  .eyebrow,
-.slide.rice-E  .eyebrow { color: #aaa; }
+.slide.rice-E  .eyebrow { color: var(--muted); }
 .slide.rice-R h1.big,
 .slide.rice-I  h1.big,
 .slide.rice-C  h1.big,
-.slide.rice-E  h1.big   { color: #f7f5f0; }
-.slide.rice-R .divider  { background: #52b788; }
-.slide.rice-I  .divider { background: #4a90d9; }
-.slide.rice-C  .divider { background: #9b72cf; }
+.slide.rice-E  h1.big   { color: var(--ink); }
+.slide.rice-R .divider  { background: var(--tile-2); }
+.slide.rice-I  .divider { background: var(--tile-2); }
+.slide.rice-C  .divider { background: var(--tile-2); }
 .slide.rice-E  .divider { background: var(--accent-warm); }
 .slide.rice-R .slide-num,
 .slide.rice-I  .slide-num,
 .slide.rice-C  .slide-num,
-.slide.rice-E  .slide-num { color: rgba(255,255,255,0.06); }
+.slide.rice-E  .slide-num { color: var(--ink); }
 .slide.rice-R .presenter,
 .slide.rice-I  .presenter,
 .slide.rice-C  .presenter,
-.slide.rice-E  .presenter { color: rgba(255,255,255,0.28); }
+.slide.rice-E  .presenter { color: var(--ink); }
 .slide.rice-R .body-en,
 .slide.rice-I  .body-en,
 .slide.rice-C  .body-en,
-.slide.rice-E  .body-en  { color: rgba(255,255,255,0.55); }
+.slide.rice-E  .body-en  { color: var(--ink); }
 .slide.rice-R .sub-label,
 .slide.rice-I  .sub-label,
 .slide.rice-C  .sub-label,
-.slide.rice-E  .sub-label { color: rgba(255,255,255,0.5); }
+.slide.rice-E  .sub-label { color: var(--ink); }
 .slide.rice-R .rice-desc,
 .slide.rice-I  .rice-desc,
 .slide.rice-C  .rice-desc,
-.slide.rice-E  .rice-desc { color: rgba(255,255,255,0.75); }
-.slide.rice-R .deco-letter { color: rgba(82,183,136,0.12); }
-.slide.rice-I  .deco-letter { color: rgba(74,144,217,0.12); }
-.slide.rice-C  .deco-letter { color: rgba(155,114,207,0.12); }
-.slide.rice-E  .deco-letter { color: rgba(212,168,83,0.12); }
-.slide.rice-R .prompt-tag { background: rgba(82,183,136,0.25); color: #a3d9be; border-color: rgba(82,183,136,0.4); }
-.slide.rice-I  .prompt-tag { background: rgba(74,144,217,0.25); color: #a3c8f0; border-color: rgba(74,144,217,0.4); }
-.slide.rice-C  .prompt-tag { background: rgba(155,114,207,0.25); color: #ccb3e8; border-color: rgba(155,114,207,0.4); }
-.slide.rice-E  .prompt-tag { background: rgba(212,168,83,0.25); color: #e8d4a3; border-color: rgba(212,168,83,0.4); }
+.slide.rice-E  .rice-desc { color: var(--ink); }
+.slide.rice-R .deco-letter { color: var(--ink); }
+.slide.rice-I  .deco-letter { color: var(--ink); }
+.slide.rice-C  .deco-letter { color: var(--ink); }
+.slide.rice-E  .deco-letter { color: var(--ink); }
+.slide.rice-R .prompt-tag { background: rgba(128,128,128,0.14); color: var(--ink); border-color: rgba(128,128,128,0.4); }
+.slide.rice-I  .prompt-tag { background: rgba(128,128,128,0.14); color: var(--ink); border-color: rgba(128,128,128,0.4); }
+.slide.rice-C  .prompt-tag { background: rgba(128,128,128,0.14); color: var(--ink); border-color: rgba(128,128,128,0.4); }
+.slide.rice-E  .prompt-tag { background: rgba(128,128,128,0.14); color: var(--ink); border-color: rgba(128,128,128,0.4); }
 
 /* ── TYPE ── */
 .eyebrow {
@@ -262,7 +262,7 @@ p.body-en {
   font-family: 'Fraunces', serif;
   font-size: clamp(36px, 5vw, 64px);
   font-weight: 900;
-  color: #e8e4dc;
+  color: var(--ink);
   line-height: 1;
 }
 
@@ -292,7 +292,7 @@ p.body-en {
   font-family: 'Fraunces', serif;
   font-size: clamp(120px, 22vw, 260px);
   font-weight: 900;
-  color: rgba(28,25,23,0.04);
+  color: var(--ink);
   line-height: 1;
   pointer-events: none;
   user-select: none;
@@ -341,8 +341,8 @@ tr:last-child td { border-bottom: none; }
   text-transform: uppercase;
   margin-bottom: 10px;
 }
-.col-label.bad  { color: #c0392b; }
-.col-label.good { color: #27ae60; }
+.col-label.bad  { color: var(--ink); }
+.col-label.good { color: var(--ink); }
 .prompt-box {
   background: var(--card);
   border-radius: 8px;
@@ -352,7 +352,7 @@ tr:last-child td { border-bottom: none; }
   color: var(--ink);
   line-height: 1.85;
 }
-.prompt-box.bad  { border-left: 3px solid #e74c3c; }
+.prompt-box.bad  { border-left: 3px solid var(--line-2); }
 .prompt-box.good { border-left: 3px solid var(--accent); }
 .prompt-box .key {
   font-family: 'Cabinet Grotesk', sans-serif;
@@ -380,9 +380,9 @@ tr:last-child td { border-bottom: none; }
   border: 1px solid;
   margin-right: 6px;
   vertical-align: middle;
-  background: #e0f0e8;
+  background: var(--tile-2);
   color: var(--accent);
-  border-color: rgba(45,106,79,0.3);
+  border-color: rgba(128,128,128,0.3);
 }
 
 /* ── BULLET LIST ── */
@@ -406,7 +406,7 @@ tr:last-child td { border-bottom: none; }
 
 /* ── HIGHLIGHT ── */
 .highlight {
-  background: #e8f4ed;
+  background: var(--tile-2);
   border-left: 3px solid var(--accent);
   border-radius: 0 8px 8px 0;
   padding: 12px 16px;
@@ -440,12 +440,12 @@ tr:last-child td { border-bottom: none; }
   height: clamp(44px, 5.5vw, 64px);
   display: flex; align-items: center; justify-content: center;
   border-radius: 10px;
-  color: #fff;
+  color: var(--ink);
 }
-.rice-card-R .rice-letter-badge { background: #2d6a4f; }
-.rice-card-I .rice-letter-badge  { background: #2563ab; }
-.rice-card-C .rice-letter-badge { background: #6d3fa8; }
-.rice-card-E .rice-letter-badge { background: #b87c1a; }
+.rice-card-R .rice-letter-badge { background: var(--tile-2); }
+.rice-card-I .rice-letter-badge  { background: var(--tile-2); }
+.rice-card-C .rice-letter-badge { background: var(--tile-2); }
+.rice-card-E .rice-letter-badge { background: var(--tile-2); }
 .rice-card-body { flex: 1; }
 .rice-card-title {
   font-family: 'Fraunces', serif;
@@ -605,7 +605,7 @@ tr:last-child td { border-bottom: none; }
   font-family: 'Fraunces', serif;
   font-size: clamp(32px, 4vw, 50px);
   font-weight: 900;
-  color: rgba(28,25,23,0.07);
+  color: var(--ink);
   position: absolute;
   top: 4px; right: 10px;
   line-height: 1;
@@ -628,14 +628,14 @@ tr:last-child td { border-bottom: none; }
 /* ── NAV BAR ── */
 .nav {
   flex-shrink: 0;
-  background: #111;
+  background: var(--tile);
   display: flex; align-items: center; gap: 14px;
   padding: 0 18px;
   height: 48px;
 }
 .nav button {
   background: none; border: 1px solid rgba(255,255,255,0.15);
-  color: #f7f5f0; width: 34px; height: 34px;
+  color: var(--ink); width: 34px; height: 34px;
   border-radius: 6px; font-size: 15px; cursor: pointer;
   font-family: 'Cabinet Grotesk', sans-serif;
   transition: background 0.15s;
@@ -647,7 +647,7 @@ tr:last-child td { border-bottom: none; }
 .counter {
   font-family: 'Cabinet Grotesk', sans-serif;
   font-size: 13px; font-weight: 700;
-  color: rgba(255,255,255,0.4); letter-spacing: 1px;
+  color: var(--ink); letter-spacing: 1px;
 }
 
 /* COURSE NAVIGATION */
@@ -657,8 +657,8 @@ tr:last-child td { border-bottom: none; }
   left: 0;
   right: 0;
   z-index: 1200;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
-  background: rgba(7, 9, 15, 0.9);
+  border-bottom: 1px solid rgba(128,128,128,0.2);
+  background: rgba(128,128,128,0.14);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   font-family: 'DM Mono', 'Space Mono', monospace;
@@ -676,7 +676,7 @@ tr:last-child td { border-bottom: none; }
 .course-nav a,
 .course-menu-button,
 .course-submenu-button {
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   text-decoration: none;
   white-space: nowrap;
   line-height: 1;
@@ -691,7 +691,7 @@ tr:last-child td { border-bottom: none; }
   border-radius: 0;
   border-bottom: 2px solid transparent;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 10px;
   letter-spacing: 0.12em;
@@ -700,7 +700,7 @@ tr:last-child td { border-bottom: none; }
   transition: color 0.18s ease, border-color 0.18s ease;
 }
 .course-home-link {
-  color: var(--text, #f8fafc) !important;
+  color: var(--text, var(--ink)) !important;
   font-weight: 700;
   letter-spacing: 0.16em;
 }
@@ -717,7 +717,7 @@ tr:last-child td { border-bottom: none; }
 .course-submenu-button::after {
   content: "▾";
   font-size: 10px;
-  color: var(--text3, #64748b);
+  color: var(--text3, var(--ink));
   transition: transform 0.18s ease;
 }
 .course-submenu-button::after {
@@ -738,10 +738,10 @@ tr:last-child td { border-bottom: none; }
   display: grid;
   gap: 2px;
   padding: 8px;
-  border: 1px solid rgba(148, 163, 184, 0.22);
+  border: 1px solid rgba(128,128,128,0.22);
   border-radius: 6px;
-  background: rgba(8, 13, 24, 0.98);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+  background: rgba(128,128,128,0.14);
+  box-shadow: 0 18px 40px rgba(128,128,128,0.14);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.16s ease, transform 0.16s ease;
@@ -789,7 +789,7 @@ tr:last-child td { border-bottom: none; }
   border: 0;
   border-radius: 4px;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 10px;
   letter-spacing: 0.04em;
@@ -804,10 +804,10 @@ tr:last-child td { border-bottom: none; }
 }
 .course-topic-link,
 .course-subdropdown a.current-page {
-  color: var(--accent, #22d3ee) !important;
+  color: var(--accent, var(--ink)) !important;
 }
 .course-subdropdown a.current-page {
-  background: rgba(34, 211, 238, 0.08);
+  background: rgba(128,128,128,0.08);
 }
 .course-dropdown a:hover,
 .course-dropdown a:focus,
@@ -815,7 +815,7 @@ tr:last-child td { border-bottom: none; }
 .course-subdropdown a:focus,
 .course-submenu-button:hover,
 .course-submenu-button:focus {
-  color: var(--text, #f8fafc);
+  color: var(--text, var(--ink));
   background: rgba(255, 255, 255, 0.08);
   outline: none;
 }
@@ -825,8 +825,8 @@ tr:last-child td { border-bottom: none; }
 .course-menu-button:hover,
 .course-menu-button:focus,
 .course-menu-button.current {
-  color: var(--text, #f8fafc);
-  border-color: var(--accent, #22d3ee);
+  color: var(--text, var(--ink));
+  border-color: var(--accent, var(--line-2));
   outline: none;
 }
 .course-nav ~ .slide-num { top: 62px !important; }
@@ -863,7 +863,7 @@ tr:last-child td { border-bottom: none; }
     margin: 0 0 4px 12px;
     padding: 4px;
     box-shadow: none;
-    border-color: rgba(148, 163, 184, 0.14);
+    border-color: rgba(128,128,128,0.2);
     background: rgba(255, 255, 255, 0.03);
     transform: none;
     display: none;
@@ -887,7 +887,67 @@ tr:last-child td { border-bottom: none; }
   }
 }
 
+
+/* ── SHARED THEME ADJUSTMENTS ──
+   Fits this deck to assets/theme.css: no side bar, part tabs as pills,
+   and the section / RICE slides as the theme's dark emphasis band. */
+body { padding-top: 52px; background: var(--page) !important; }
+.slide { background: var(--page) !important; }
+.slide.active { grid-template-columns: 1fr !important; }
+.bar { display: none !important; }
+.part-nav button,
+.deck.dark-part-nav .part-nav button {
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: var(--tile) !important;
+  color: var(--ink) !important;
+  text-align: center;
+  padding: 9px 14px;
+}
+.part-nav button span,
+.deck.dark-part-nav .part-nav button span {
+  display: inline;
+  margin-right: 6px;
+  color: var(--muted) !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+.part-nav button:hover, .part-nav button.active,
+.deck.dark-part-nav .part-nav button:hover, .deck.dark-part-nav .part-nav button.active {
+  background: var(--ink) !important;
+  color: var(--page) !important;
+}
+.part-nav button:hover span, .part-nav button.active span,
+.deck.dark-part-nav .part-nav button:hover span, .deck.dark-part-nav .part-nav button.active span {
+  color: var(--invert-muted) !important;
+}
+.slide.section-slide .content, .slide.rice-R .content, .slide.rice-I .content,
+.slide.rice-C .content, .slide.rice-E .content { background: var(--invert-bg) !important; }
+:is(.section-slide, .rice-R, .rice-I, .rice-C, .rice-E) :is(h1.big, h1.en, h2.title, .rice-desc strong, .body-en strong, .body-en em) {
+  color: var(--invert-ink) !important;
+}
+:is(.section-slide, .rice-R, .rice-I, .rice-C, .rice-E) :is(.eyebrow, .body-en, .rice-desc, .sub-label, .presenter) {
+  color: var(--invert-muted) !important;
+}
+:is(.section-slide, .rice-R, .rice-I, .rice-C, .rice-E) .slide-num { color: var(--invert-muted) !important; opacity: 0.5; }
+:is(.section-slide, .rice-R, .rice-I, .rice-C, .rice-E) .divider { background: var(--invert-muted) !important; }
+:is(.section-slide, .rice-R, .rice-I, .rice-C, .rice-E) .deco-letter { color: color-mix(in srgb, var(--invert-ink) 8%, transparent) !important; }
+:is(.section-slide, .rice-R, .rice-I, .rice-C, .rice-E) .deco-circle,
+:is(.section-slide, .rice-R, .rice-I, .rice-C, .rice-E) .deco-circle::before { border-color: color-mix(in srgb, var(--invert-ink) 10%, transparent) !important; }
+:is(.rice-R, .rice-I, .rice-C, .rice-E) .prompt-tag { background: rgba(128,128,128,0.14) !important; color: var(--invert-ink) !important; border: 0 !important; }
+.rice-letter-badge { background: var(--ink) !important; color: var(--page) !important; }
+.nav button { color: var(--ink) !important; background: var(--tile) !important; border: 0 !important; border-radius: 999px !important; }
+.nav button:hover:not(:disabled) { background: var(--tile-2) !important; }
+.counter { color: var(--muted) !important; }
+.deck.dark-part-nav .part-nav button { background: rgba(127,127,127,0.28) !important; color: var(--invert-ink) !important; }
+.deck.dark-part-nav .part-nav button span { color: var(--invert-muted) !important; }
+.deck.dark-part-nav .part-nav button:hover, .deck.dark-part-nav .part-nav button.active { background: var(--invert-ink) !important; color: var(--invert-bg) !important; }
+.deck.dark-part-nav .part-nav button:hover span, .deck.dark-part-nav .part-nav button.active span { color: var(--muted) !important; }
+:is(.rice-R, .rice-I, .rice-C, .rice-E) .highlight { background: rgba(127,127,127,0.22) !important; border: 0 !important; color: var(--invert-muted) !important; }
+:is(.rice-R, .rice-I, .rice-C, .rice-E) .highlight strong { color: var(--invert-ink) !important; }
+:is(.rice-R, .rice-I, .rice-C, .rice-E) .prompt-box .prompt-tag { background: var(--ink) !important; color: var(--page) !important; }
 </style>
+<link rel="stylesheet" href="../assets/theme.css">
 </head>
 <body>
 
@@ -1003,8 +1063,8 @@ tr:last-child td { border-bottom: none; }
     <div class="content">
       <div class="eyebrow">Prompt Engineering · Student Guide</div>
       <div class="divider"></div>
-      <h1 class="big" style="font-size: clamp(42px, 7vw, 88px); color:#f7f5f0;">Talk to AI<br><em style="font-weight:400; font-style:italic;">like a pro.</em></h1>
-      <p class="body-en" style="margin-top:10px; max-width:520px;">How Large Language Models work, and how to write prompts that actually get you what you want — using the <strong style="color:#52b788;">RICE</strong> framework.</p>
+      <h1 class="big" style="font-size: clamp(42px, 7vw, 88px); color:var(--ink);">Talk to AI<br><em style="font-weight:400; font-style:italic;">like a pro.</em></h1>
+      <p class="body-en" style="margin-top:10px; max-width:520px;">How Large Language Models work, and how to write prompts that actually get you what you want — using the <strong style="color:var(--ink);">RICE</strong> framework.</p>
       <div class="bottom-row">
         <span class="presenter">Prompt Engineering · Student Guide</span>
         <span class="slide-num">01</span>
@@ -1307,10 +1367,10 @@ tr:last-child td { border-bottom: none; }
       <h1 class="big" style="font-size: clamp(52px, 9vw, 110px); letter-spacing:-0.03em;">RICE</h1>
       <p class="body-en" style="margin-top: 10px; font-size: clamp(16px, 1.6vw, 22px);">Your four-part framework for writing prompts that work.</p>
       <div style="display:flex; gap:12px; margin-top:20px; flex-wrap:wrap;">
-        <div style="background:rgba(82,183,136,0.2); border:1px solid rgba(82,183,136,0.4); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.4vw,17px); color:#52b788;">R — Role</div>
-        <div style="background:rgba(74,144,217,0.2); border:1px solid rgba(74,144,217,0.4); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.4vw,17px); color:#4a90d9;">I — Instructions</div>
-        <div style="background:rgba(155,114,207,0.2); border:1px solid rgba(155,114,207,0.4); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.4vw,17px); color:#9b72cf;">C — Context</div>
-        <div style="background:rgba(212,168,83,0.2); border:1px solid rgba(212,168,83,0.4); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.4vw,17px); color:#d4a853;">E — Examples</div>
+        <div style="background:rgba(128,128,128,0.14); border:1px solid rgba(128,128,128,0.4); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.4vw,17px); color:var(--invert-ink);">R — Role</div>
+        <div style="background:rgba(128,128,128,0.14); border:1px solid rgba(128,128,128,0.4); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.4vw,17px); color:var(--invert-ink);">I — Instructions</div>
+        <div style="background:rgba(128,128,128,0.14); border:1px solid rgba(128,128,128,0.4); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.4vw,17px); color:var(--invert-ink);">C — Context</div>
+        <div style="background:rgba(128,128,128,0.14); border:1px solid rgba(128,128,128,0.4); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.4vw,17px); color:var(--invert-ink);">E — Examples</div>
       </div>
       <div class="bottom-row">
         <span class="presenter">Prompt Engineering · Student Guide</span>
@@ -1373,26 +1433,26 @@ tr:last-child td { border-bottom: none; }
     <div class="bar"></div>
     <div class="content">
       <div class="eyebrow">Part 3 · RICE</div>
-      <h1 class="big" style="font-size:clamp(28px, 5vw, 60px); color:#f7f5f0; margin-bottom:6px;">R — Role</h1>
+      <h1 class="big" style="font-size:clamp(28px, 5vw, 60px); color:var(--ink); margin-bottom:6px;">R — Role</h1>
       <div class="divider"></div>
       <p class="body-en" style="margin-bottom:16px;">Tell the AI <em>who it should be</em>. This sets the persona, expertise, and tone.</p>
       <div class="two-col">
         <div>
           <div class="sub-label">Without Role</div>
-          <div class="prompt-box bad" style="background:rgba(255,255,255,0.07); border-left-color:#e74c3c; color:#e8e0d5;">
+          <div class="prompt-box bad" style="background:rgba(255,255,255,0.07); border-left-color:var(--line-2); color:var(--ink);">
             "Explain object-oriented programming."
-            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:rgba(255,255,255,0.35);">→ Generic answer. Could be for anyone, any level.</div>
+            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:var(--ink);">→ Generic answer. Could be for anyone, any level.</div>
           </div>
         </div>
         <div>
           <div class="sub-label">With Role</div>
-          <div class="prompt-box good" style="background:rgba(255,255,255,0.07); border-left-color:#52b788; color:#e8e0d5;">
+          <div class="prompt-box good" style="background:rgba(255,255,255,0.07); border-left-color:var(--line-2); color:var(--ink);">
             <span class="prompt-tag">Role</span> You are a patient IB Computer Science teacher explaining to a Year 11 student for the first time.
-            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:rgba(255,255,255,0.35);">→ Approachable tone, right level of depth, relevant vocabulary.</div>
+            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:var(--ink);">→ Approachable tone, right level of depth, relevant vocabulary.</div>
           </div>
         </div>
       </div>
-      <div class="highlight" style="background:rgba(82,183,136,0.15); border-left-color:#52b788; color:#d0ede2; margin-top:12px;">💡 Try roles like: "experienced developer reviewing code", "examiner giving IB-style feedback", "classmate explaining simply"</div>
+      <div class="highlight" style="background:rgba(128,128,128,0.14); border-left-color:var(--line-2); color:var(--ink); margin-top:12px;">💡 Try roles like: "experienced developer reviewing code", "examiner giving IB-style feedback", "classmate explaining simply"</div>
       <div class="bottom-row">
         <span class="presenter">Prompt Engineering · Student Guide</span>
         <span class="slide-num">13</span>
@@ -1408,26 +1468,26 @@ tr:last-child td { border-bottom: none; }
     <div class="bar"></div>
     <div class="content">
       <div class="eyebrow">Part 3 · RICE</div>
-      <h1 class="big" style="font-size:clamp(28px, 5vw, 60px); color:#f7f5f0; margin-bottom:6px;">I — Instructions</h1>
+      <h1 class="big" style="font-size:clamp(28px, 5vw, 60px); color:var(--ink); margin-bottom:6px;">I — Instructions</h1>
       <div class="divider"></div>
       <p class="body-en" style="margin-bottom:16px;">Tell the AI <em>exactly what you want it to do</em>. Be specific about task, format, length, and constraints.</p>
       <div class="two-col">
         <div>
           <div class="sub-label">Vague Instructions</div>
-          <div class="prompt-box bad" style="background:rgba(255,255,255,0.07); border-left-color:#e74c3c; color:#e8e0d5;">
+          <div class="prompt-box bad" style="background:rgba(255,255,255,0.07); border-left-color:var(--line-2); color:var(--ink);">
             "Write something about my website."
-            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:rgba(255,255,255,0.35);">→ What to write? How long? For who? In what style?</div>
+            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:var(--ink);">→ What to write? How long? For who? In what style?</div>
           </div>
         </div>
         <div>
           <div class="sub-label">Precise Instructions</div>
-          <div class="prompt-box good" style="background:rgba(255,255,255,0.07); border-left-color:#4a90d9; color:#e8e0d5;">
-            <span class="prompt-tag" style="background:rgba(74,144,217,0.25); color:#a3c8f0; border-color:rgba(74,144,217,0.4);">Instructions</span> Write a 3-sentence introduction for my portfolio website. Use a professional but friendly tone. Do not use the word "passionate".
-            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:rgba(255,255,255,0.35);">→ Length ✓ Tone ✓ Specific constraint ✓</div>
+          <div class="prompt-box good" style="background:rgba(255,255,255,0.07); border-left-color:var(--line-2); color:var(--ink);">
+            <span class="prompt-tag" style="background:rgba(128,128,128,0.14); color:var(--ink); border-color:rgba(128,128,128,0.4);">Instructions</span> Write a 3-sentence introduction for my portfolio website. Use a professional but friendly tone. Do not use the word "passionate".
+            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:var(--ink);">→ Length ✓ Tone ✓ Specific constraint ✓</div>
           </div>
         </div>
       </div>
-      <div class="highlight" style="background:rgba(74,144,217,0.15); border-left-color:#4a90d9; color:#ccddf5; margin-top:12px;">💡 Include: what to produce, what format (list/table/paragraph/code), what length, what to avoid, what to include.</div>
+      <div class="highlight" style="background:rgba(128,128,128,0.14); border-left-color:var(--line-2); color:var(--ink); margin-top:12px;">💡 Include: what to produce, what format (list/table/paragraph/code), what length, what to avoid, what to include.</div>
       <div class="bottom-row">
         <span class="presenter">Prompt Engineering · Student Guide</span>
         <span class="slide-num">14</span>
@@ -1443,26 +1503,26 @@ tr:last-child td { border-bottom: none; }
     <div class="bar"></div>
     <div class="content">
       <div class="eyebrow">Part 3 · RICE</div>
-      <h1 class="big" style="font-size:clamp(28px, 5vw, 60px); color:#f7f5f0; margin-bottom:6px;">C — Context</h1>
+      <h1 class="big" style="font-size:clamp(28px, 5vw, 60px); color:var(--ink); margin-bottom:6px;">C — Context</h1>
       <div class="divider"></div>
       <p class="body-en" style="margin-bottom:16px;">Give the AI the <em>background it needs</em> to understand your situation. The AI only knows what you tell it.</p>
       <div class="two-col">
         <div>
           <div class="sub-label">No Context</div>
-          <div class="prompt-box bad" style="background:rgba(255,255,255,0.07); border-left-color:#e74c3c; color:#e8e0d5;">
+          <div class="prompt-box bad" style="background:rgba(255,255,255,0.07); border-left-color:var(--line-2); color:var(--ink);">
             "Why isn't my login working?"
-            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:rgba(255,255,255,0.35);">→ The AI has no idea what you've built, what language you're using, or what the error says.</div>
+            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:var(--ink);">→ The AI has no idea what you've built, what language you're using, or what the error says.</div>
           </div>
         </div>
         <div>
           <div class="sub-label">Rich Context</div>
-          <div class="prompt-box good" style="background:rgba(255,255,255,0.07); border-left-color:#9b72cf; color:#e8e0d5;">
-            <span class="prompt-tag" style="background:rgba(155,114,207,0.25); color:#ccb3e8; border-color:rgba(155,114,207,0.4);">Context</span> I'm a Year 11 IB CS student. My website uses Node.js + Express for the backend and plain HTML/CSS/JS for the front end. When I click the login button, nothing happens and the console shows "TypeError: Cannot read properties of null."
-            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:rgba(255,255,255,0.35);">→ Stack, symptom, error message all provided. AI can actually help.</div>
+          <div class="prompt-box good" style="background:rgba(255,255,255,0.07); border-left-color:var(--line-2); color:var(--ink);">
+            <span class="prompt-tag" style="background:rgba(128,128,128,0.14); color:var(--ink); border-color:rgba(128,128,128,0.4);">Context</span> I'm a Year 11 IB CS student. My website uses Node.js + Express for the backend and plain HTML/CSS/JS for the front end. When I click the login button, nothing happens and the console shows "TypeError: Cannot read properties of null."
+            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:var(--ink);">→ Stack, symptom, error message all provided. AI can actually help.</div>
           </div>
         </div>
       </div>
-      <div class="highlight" style="background:rgba(155,114,207,0.15); border-left-color:#9b72cf; color:#ddd0f0; margin-top:12px;">💡 Context checklist: Who are you? What's the goal? What have you tried? What went wrong? What tools/languages are you using?</div>
+      <div class="highlight" style="background:rgba(128,128,128,0.14); border-left-color:var(--line-2); color:var(--ink); margin-top:12px;">💡 Context checklist: Who are you? What's the goal? What have you tried? What went wrong? What tools/languages are you using?</div>
       <div class="bottom-row">
         <span class="presenter">Prompt Engineering · Student Guide</span>
         <span class="slide-num">15</span>
@@ -1478,26 +1538,26 @@ tr:last-child td { border-bottom: none; }
     <div class="bar"></div>
     <div class="content">
       <div class="eyebrow">Part 3 · RICE</div>
-      <h1 class="big" style="font-size:clamp(28px, 5vw, 60px); color:#f7f5f0; margin-bottom:6px;">E — Examples</h1>
+      <h1 class="big" style="font-size:clamp(28px, 5vw, 60px); color:var(--ink); margin-bottom:6px;">E — Examples</h1>
       <div class="divider"></div>
       <p class="body-en" style="margin-bottom:16px;">Show the AI what <em>good output looks like</em>. One example teaches more than ten sentences of description.</p>
       <div class="two-col">
         <div>
           <div class="sub-label">No Example</div>
-          <div class="prompt-box bad" style="background:rgba(255,255,255,0.07); border-left-color:#e74c3c; color:#e8e0d5;">
+          <div class="prompt-box bad" style="background:rgba(255,255,255,0.07); border-left-color:var(--line-2); color:var(--ink);">
             "Write a comment explaining this function."
-            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:rgba(255,255,255,0.35);">→ The AI doesn't know the style, format, or detail level you want.</div>
+            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:var(--ink);">→ The AI doesn't know the style, format, or detail level you want.</div>
           </div>
         </div>
         <div>
           <div class="sub-label">With Example</div>
-          <div class="prompt-box good" style="background:rgba(255,255,255,0.07); border-left-color:#d4a853; color:#e8e0d5;">
-            <span class="prompt-tag" style="background:rgba(212,168,83,0.25); color:#e8d4a3; border-color:rgba(212,168,83,0.4);">Example</span> Here's the style I want: <em>// Checks if the username already exists in the database. Returns true if found, false otherwise.</em> — Now write one for the function below: [paste code]
-            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:rgba(255,255,255,0.35);">→ AI matches your exact style and detail level.</div>
+          <div class="prompt-box good" style="background:rgba(255,255,255,0.07); border-left-color:var(--line-2); color:var(--ink);">
+            <span class="prompt-tag" style="background:rgba(128,128,128,0.14); color:var(--ink); border-color:rgba(128,128,128,0.4);">Example</span> Here's the style I want: <em>// Checks if the username already exists in the database. Returns true if found, false otherwise.</em> — Now write one for the function below: [paste code]
+            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:var(--ink);">→ AI matches your exact style and detail level.</div>
           </div>
         </div>
       </div>
-      <div class="highlight" style="background:rgba(212,168,83,0.15); border-left-color:#d4a853; color:#f0e0bb; margin-top:12px;">💡 You can show examples of: writing style, code style, layout, tone, answer format, or what you <em>don't</em> want ("avoid responses like this: …")</div>
+      <div class="highlight" style="background:rgba(128,128,128,0.14); border-left-color:var(--line-2); color:var(--ink); margin-top:12px;">💡 You can show examples of: writing style, code style, layout, tone, answer format, or what you <em>don't</em> want ("avoid responses like this: …")</div>
       <div class="bottom-row">
         <span class="presenter">Prompt Engineering · Student Guide</span>
         <span class="slide-num">16</span>
@@ -1681,10 +1741,10 @@ tr:last-child td { border-bottom: none; }
       <table>
         <thead><tr><th>Letter</th><th>Ask yourself</th><th>Example phrase to use</th></tr></thead>
         <tbody>
-          <tr><td style="color:#2d6a4f;">R — Role</td><td>Who should the AI be?</td><td>"You are a [role] who [expertise]…"</td></tr>
-          <tr><td style="color:#2563ab;">I — Instructions</td><td>What exactly do I want?</td><td>"Write / Review / Explain / Fix / List [X] in [format] of [length]…"</td></tr>
-          <tr><td style="color:#6d3fa8;">C — Context</td><td>What background does AI need?</td><td>"I am a Year 11 student. I am building [X]. The problem is [Y]…"</td></tr>
-          <tr><td style="color:#b87c1a;">E — Examples</td><td>What does good output look like?</td><td>"Here is an example of the style I want: [paste example]…"</td></tr>
+          <tr><td style="color:var(--ink);">R — Role</td><td>Who should the AI be?</td><td>"You are a [role] who [expertise]…"</td></tr>
+          <tr><td style="color:var(--ink);">I — Instructions</td><td>What exactly do I want?</td><td>"Write / Review / Explain / Fix / List [X] in [format] of [length]…"</td></tr>
+          <tr><td style="color:var(--ink);">C — Context</td><td>What background does AI need?</td><td>"I am a Year 11 student. I am building [X]. The problem is [Y]…"</td></tr>
+          <tr><td style="color:var(--ink);">E — Examples</td><td>What does good output look like?</td><td>"Here is an example of the style I want: [paste example]…"</td></tr>
         </tbody>
       </table>
       <div class="highlight" style="margin-top:12px;">📌 You don't need all four every time — but the more you include, the better. Start with <strong>Instructions + Context</strong> at minimum.</div>
@@ -1747,10 +1807,10 @@ tr:last-child td { border-bottom: none; }
       <h1 class="big">Now go build<br><em style="font-weight:400;">something great.</em></h1>
       <p class="body-en" style="margin-top:16px; font-size: clamp(14px, 1.4vw, 18px);">Remember: AI is a tool. You are the designer, the thinker, and the author. Use RICE to communicate clearly — and always own your work.</p>
       <div style="display:flex; gap:12px; margin-top:22px; flex-wrap:wrap;">
-        <div style="background:rgba(82,183,136,0.2); border:1px solid rgba(82,183,136,0.35); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.3vw,16px); color:#52b788;">R — Role</div>
-        <div style="background:rgba(74,144,217,0.2); border:1px solid rgba(74,144,217,0.35); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.3vw,16px); color:#4a90d9;">I — Instructions</div>
-        <div style="background:rgba(155,114,207,0.2); border:1px solid rgba(155,114,207,0.35); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.3vw,16px); color:#9b72cf;">C — Context</div>
-        <div style="background:rgba(212,168,83,0.2); border:1px solid rgba(212,168,83,0.35); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.3vw,16px); color:#d4a853;">E — Examples</div>
+        <div style="background:rgba(128,128,128,0.14); border:1px solid rgba(128,128,128,0.35); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.3vw,16px); color:var(--invert-ink);">R — Role</div>
+        <div style="background:rgba(128,128,128,0.14); border:1px solid rgba(128,128,128,0.35); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.3vw,16px); color:var(--invert-ink);">I — Instructions</div>
+        <div style="background:rgba(128,128,128,0.14); border:1px solid rgba(128,128,128,0.35); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.3vw,16px); color:var(--invert-ink);">C — Context</div>
+        <div style="background:rgba(128,128,128,0.14); border:1px solid rgba(128,128,128,0.35); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.3vw,16px); color:var(--invert-ink);">E — Examples</div>
       </div>
       <div class="bottom-row">
         <span class="presenter">Prompt Engineering · Student Guide</span>

@@ -19,7 +19,7 @@
 html,body{width:100%;height:100%;overflow:hidden;}
 body{background:var(--bg);color:var(--text);font-family: 'Google Sans', 'Noto Sans KR', sans-serif;}
 body::before{content:'';position:fixed;inset:0;
-  background-image:linear-gradient(rgba(74,158,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,.03) 1px,transparent 1px),linear-gradient(rgba(74,158,255,.01) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,.01) 1px,transparent 1px);
+  background-image:linear-gradient(rgba(128,128,128,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(128,128,128,0.03) 1px,transparent 1px),linear-gradient(rgba(128,128,128,0.01) 1px,transparent 1px),linear-gradient(90deg,rgba(128,128,128,0.01) 1px,transparent 1px);
   background-size:80px 80px,80px 80px,16px 16px,16px 16px;pointer-events:none;z-index:0;}
 .deck{position:relative;width:100vw;height:100vh;z-index:1;}
 .slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content: flex-start;align-items: flex-start;
@@ -50,13 +50,13 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 .card-title{font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.05vw, 1.375rem);font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:7px;}
 .card-body{font-size: clamp(1.25rem, 1.3vw, 1.5rem);color:var(--text2);line-height:1.6;font-weight:300;}
 .card-body strong{color:var(--text);font-weight:500;}
-.gold-box{border-left:3px solid var(--gold);padding:11px 18px;background:rgba(201,168,76,.04);border-top:1px solid rgba(201,168,76,.08);border-right:1px solid rgba(201,168,76,.08);border-bottom:1px solid rgba(201,168,76,.08);margin-top:12px;}
+.gold-box{border-left:3px solid var(--gold);padding:11px 18px;background:rgba(128,128,128,0.04);border-top:1px solid rgba(128,128,128,0.2);border-right:1px solid rgba(128,128,128,0.2);border-bottom:1px solid rgba(128,128,128,0.2);margin-top:12px;}
 .gold-box p{font-size: clamp(1.25rem, 1.35vw, 1.5rem);color:var(--text2);line-height:1.6;}
 .gold-box strong{color:var(--gold2);}
-.cyan-box{border-left:3px solid var(--cyan);padding:11px 18px;background:rgba(34,211,238,.04);border-top:1px solid rgba(34,211,238,.08);border-right:1px solid rgba(34,211,238,.08);border-bottom:1px solid rgba(34,211,238,.08);margin-top:12px;}
+.cyan-box{border-left:3px solid var(--cyan);padding:11px 18px;background:rgba(128,128,128,0.04);border-top:1px solid rgba(128,128,128,0.2);border-right:1px solid rgba(128,128,128,0.2);border-bottom:1px solid rgba(128,128,128,0.2);margin-top:12px;}
 .cyan-box p{font-size: clamp(1.125rem, 1.35vw, 1.375rem);color:var(--text2);line-height:1.6;}
 .cyan-box strong{color:var(--cyan);}
-.info-box{border-left:3px solid var(--blue);padding:11px 18px;background:rgba(74,158,255,.04);border-top:1px solid rgba(74,158,255,.08);border-right:1px solid rgba(74,158,255,.08);border-bottom:1px solid rgba(74,158,255,.08);margin-top:12px;}
+.info-box{border-left:3px solid var(--blue);padding:11px 18px;background:rgba(128,128,128,0.04);border-top:1px solid rgba(128,128,128,0.2);border-right:1px solid rgba(128,128,128,0.2);border-bottom:1px solid rgba(128,128,128,0.2);margin-top:12px;}
 .info-box p{font-size: clamp(1.25rem, 1.35vw, 1.5rem);color:var(--text2);line-height:1.6;}
 .info-box strong{color:var(--blue);}
 /* chain */
@@ -67,14 +67,14 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 .chain-arrow{color:var(--gold);font-size:1.125rem;padding:0 6px;display:flex;align-items:center;flex-shrink:0;}
 /* summary table */
 .summary-table{border-collapse:collapse;width:100%;}
-.summary-table th{background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.18);padding:9px 12px;text-align:left;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, .9vw, 1.375rem);color:var(--cyan);font-weight:500;letter-spacing:.08em;text-transform:uppercase;}
+.summary-table th{background:rgba(128,128,128,0.08);border:1px solid rgba(128,128,128,0.2);padding:9px 12px;text-align:left;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, .9vw, 1.375rem);color:var(--cyan);font-weight:500;letter-spacing:.08em;text-transform:uppercase;}
 .summary-table td{border:1px solid var(--border);padding:9px 12px;background:var(--surface);font-size: clamp(1.125rem, 1.18vw, 1.375rem);color:var(--text2);vertical-align:top;}
 .summary-table tr:hover td{background:var(--surface2);}
 .summary-table td:first-child{font-family:'Google Sans Code', monospace;font-weight:700;font-size: clamp(1.125rem, 1.25vw, 1.375rem);white-space:nowrap;}
 /* nav */
-.nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;z-index:100;background:rgba(7,9,15,.92);backdrop-filter:blur(16px);border:1px solid var(--border2);padding:9px 18px; border-radius: 999px;}
+.nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;z-index:100;background:rgba(128,128,128,0.14);backdrop-filter:blur(16px);border:1px solid var(--border2);padding:9px 18px; border-radius: 999px;}
 .nav-btn{font-family:'Google Sans Code', monospace;font-size:18px;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);background:none;border:1px solid var(--border2);padding:6px 13px;cursor:pointer;transition:all .2s; border-radius: 999px;}
-.nav-btn:hover{color:var(--gold);border-color:var(--gold);background:rgba(201,168,76,.05);}
+.nav-btn:hover{color:var(--gold);border-color:var(--gold);background:rgba(128,128,128,0.05);}
 .nav-btn:disabled{opacity:.25;cursor:not-allowed;}
 .nav-dots{display:flex;gap:4px;flex-wrap:wrap;max-width:260px;justify-content:center;}
 .dot{width:5px;height:5px;border-radius:50%;background:var(--border2);cursor:pointer;transition:all .2s;}
@@ -88,8 +88,8 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
   left: 0;
   right: 0;
   z-index: 1200;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
-  background: rgba(7, 9, 15, 0.9);
+  border-bottom: 1px solid rgba(128,128,128,0.2);
+  background: rgba(128,128,128,0.14);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
@@ -107,7 +107,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 .course-nav a,
 .course-menu-button,
 .course-submenu-button {
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   text-decoration: none;
   white-space: nowrap;
   line-height: 1;
@@ -122,7 +122,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
   border-radius: 0;
   border-bottom: 2px solid transparent;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.12em;
@@ -131,7 +131,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
   transition: color 0.18s ease, border-color 0.18s ease;
 }
 .course-home-link {
-  color: var(--text, #f8fafc) !important;
+  color: var(--text, var(--ink)) !important;
   font-weight: 700;
   letter-spacing: 0.16em;
 }
@@ -148,7 +148,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 .course-submenu-button::after {
   content: "▾";
   font-size: 18px;
-  color: var(--text3, #64748b);
+  color: var(--text3, var(--ink));
   transition: transform 0.18s ease;
 }
 .course-submenu-button::after {
@@ -169,10 +169,10 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
   display: grid;
   gap: 2px;
   padding: 8px;
-  border: 1px solid rgba(148, 163, 184, 0.22);
+  border: 1px solid rgba(128,128,128,0.22);
   border-radius: 6px;
-  background: rgba(8, 13, 24, 0.98);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+  background: rgba(128,128,128,0.14);
+  box-shadow: 0 18px 40px rgba(128,128,128,0.14);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.16s ease, transform 0.16s ease;
@@ -220,7 +220,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
   border: 0;
   border-radius: 4px;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.04em;
@@ -235,10 +235,10 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 }
 .course-topic-link,
 .course-subdropdown a.current-page {
-  color: var(--accent, #22b3a0) !important;
+  color: var(--accent, var(--ink)) !important;
 }
 .course-subdropdown a.current-page {
-  background: rgba(34, 211, 238, 0.08);
+  background: rgba(128,128,128,0.08);
 }
 .course-dropdown a:hover,
 .course-dropdown a:focus,
@@ -246,7 +246,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 .course-subdropdown a:focus,
 .course-submenu-button:hover,
 .course-submenu-button:focus {
-  color: var(--text, #f8fafc);
+  color: var(--text, var(--ink));
   background: rgba(255, 255, 255, 0.08);
   outline: none;
 }
@@ -256,8 +256,8 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 .course-menu-button:hover,
 .course-menu-button:focus,
 .course-menu-button.current {
-  color: var(--text, #f8fafc);
-  border-color: var(--accent, #22b3a0);
+  color: var(--text, var(--ink));
+  border-color: var(--accent, var(--line-2));
   outline: none;
 }
 .course-nav ~ .slide-num { top: 98px !important; }
@@ -294,7 +294,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
     margin: 0 0 4px 12px;
     padding: 4px;
     box-shadow: none;
-    border-color: rgba(148, 163, 184, 0.14);
+    border-color: rgba(128,128,128,0.2);
     background: rgba(255, 255, 255, 0.03);
     transform: none;
     display: none;
@@ -319,6 +319,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 }
 
 </style>
+<link rel="stylesheet" href="../assets/theme.css">
 </head>
 <body>
 
@@ -423,7 +424,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S1 TITLE ═══ -->
 <div class="slide active">
   <div class="content">
-    <div class="label">// A1.4.1 · Translation</div>
+    <div class="label">A1.4.1 · Translation</div>
     <h1>Translation<br><span class="hl-orange">Processes</span></h1>
     <p style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.3vw, 1.375rem);color:var(--text3);margin-bottom:18px;">Summary Lesson</p>
     <div class="gold-box"><p><strong>👉 Guiding Question:</strong> How is high-level code turned into something a computer can actually run?</p></div>
@@ -438,7 +439,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S2 BIG PICTURE ═══ -->
 <div class="slide">
   <div class="content" style="max-width:960px;">
-    <div class="label orange">// The Big Picture</div>
+    <div class="label orange">The Big Picture</div>
     <h2>Why Do We Need <span class="hl-orange">Translation</span>?</h2>
     <p class="lead" style="margin-bottom:14px;">Computers only understand machine code (0s and 1s). Humans write in high-level languages. <em>Translation</em> bridges the gap.</p>
     <div class="chain" style="margin-bottom:14px;">
@@ -470,7 +471,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S3 INTERPRETERS ═══ -->
 <div class="slide">
   <div class="content" style="max-width:980px;">
-    <div class="label orange">// Interpreters</div>
+    <div class="label orange">Interpreters</div>
     <h2>How an <span class="hl-orange">Interpreter</span> Works</h2>
     <div class="grid g2" style="gap:10px;align-items:start;">
       <div>
@@ -492,8 +493,8 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
       <div>
         <table style="border-collapse:collapse;width:100%;font-family:'Google Sans Code', monospace;font-size:1.125rem;">
           <tr>
-            <td style="background:rgba(61,214,140,.08);border:1px solid rgba(61,214,140,.2);padding:8px 12px;color:var(--green);font-weight:500;width:50%;">✓ Advantages</td>
-            <td style="background:rgba(255,107,107,.06);border:1px solid rgba(255,107,107,.18);padding:8px 12px;color:var(--red);font-weight:500;">✗ Disadvantages</td>
+            <td style="background:rgba(128,128,128,0.08);border:1px solid rgba(128,128,128,0.2);padding:8px 12px;color:var(--green);font-weight:500;width:50%;">✓ Advantages</td>
+            <td style="background:rgba(128,128,128,0.06);border:1px solid rgba(128,128,128,0.2);padding:8px 12px;color:var(--red);font-weight:500;">✗ Disadvantages</td>
           </tr>
           <tr>
             <td style="background:var(--surface);border:1px solid var(--border2);padding:8px 12px;color:var(--text2);vertical-align:top;">Immediate execution — no wait<br><br>Easy to test and debug interactively<br><br>Highly portable across platforms<br><br>Errors shown as they occur — helpful for learning</td>
@@ -509,7 +510,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S4 COMPILERS ═══ -->
 <div class="slide">
   <div class="content" style="max-width:980px;">
-    <div class="label blue">// Compilers</div>
+    <div class="label blue">Compilers</div>
     <h2>How a <span class="hl-blue">Compiler</span> Works</h2>
     <div class="grid g2" style="gap:10px;align-items:start;">
       <div>
@@ -531,8 +532,8 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
       <div>
         <table style="border-collapse:collapse;width:100%;font-family:'Google Sans Code', monospace;font-size:1.125rem;">
           <tr>
-            <td style="background:rgba(74,158,255,.08);border:1px solid rgba(74,158,255,.2);padding:8px 12px;color:var(--blue);font-weight:500;width:50%;">✓ Advantages</td>
-            <td style="background:rgba(255,107,107,.06);border:1px solid rgba(255,107,107,.18);padding:8px 12px;color:var(--red);font-weight:500;">✗ Disadvantages</td>
+            <td style="background:rgba(128,128,128,0.08);border:1px solid rgba(128,128,128,0.2);padding:8px 12px;color:var(--blue);font-weight:500;width:50%;">✓ Advantages</td>
+            <td style="background:rgba(128,128,128,0.06);border:1px solid rgba(128,128,128,0.2);padding:8px 12px;color:var(--red);font-weight:500;">✗ Disadvantages</td>
           </tr>
           <tr>
             <td style="background:var(--surface);border:1px solid var(--border2);padding:8px 12px;color:var(--text2);vertical-align:top;"><strong>Fast execution</strong> — translated once, runs instantly<br><br>All syntax errors caught <strong>before</strong> the program runs<br><br>More secure — source code not needed at runtime<br><br>Can be optimized for target hardware</td>
@@ -548,7 +549,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S5 BYTECODE + JIT ═══ -->
 <div class="slide">
   <div class="content" style="max-width:980px;">
-    <div class="label purple">// Advanced Approaches</div>
+    <div class="label purple">Advanced Approaches</div>
     <h2>Bytecode Interpreters & <span class="hl-purple">JIT</span></h2>
     <div class="grid g2" style="gap:8px;align-items:start;">
       <div>
@@ -580,7 +581,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S6 ERROR DETECTION ═══ -->
 <div class="slide">
   <div class="content" style="max-width:960px;">
-    <div class="label red">// Evaluation · Error Detection</div>
+    <div class="label red">Evaluation · Error Detection</div>
     <h2>When Are <span class="hl-red">Errors</span> Caught?</h2>
     <p class="lead" style="margin-bottom:12px;">One of the biggest practical differences between translation methods.</p>
     <div class="grid g2" style="gap:8px;margin-bottom:10px;">
@@ -608,7 +609,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S7 FULL COMPARISON TABLE ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label gold">// Evaluation · Full Comparison</div>
+    <div class="label gold">Evaluation · Full Comparison</div>
     <h2>All Four — <span class="hl-gold">At a Glance</span></h2>
     <table class="summary-table">
       <thead>
@@ -658,7 +659,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S8 SCENARIO EXAMPLES ═══ -->
 <div class="slide">
   <div class="content" style="max-width:980px;">
-    <div class="label cyan">// Evaluation · Scenario Examples</div>
+    <div class="label cyan">Evaluation · Scenario Examples</div>
     <h2>Which to <span class="hl-cyan">Choose</span>?</h2>
     <p class="lead" style="margin-bottom:12px;">The right translation method depends on the project's needs.</p>
     <div class="grid g3" style="gap:2px;">
@@ -694,7 +695,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S9 SUMMARY ═══ -->
 <div class="slide">
   <div class="content" style="max-width:980px;">
-    <div class="label">// Summary</div>
+    <div class="label">Summary</div>
     <h2>What We <span class="hl-gold">Covered</span></h2>
     <div class="grid g2" style="gap:2px;margin-bottom:10px;">
       <div class="card orange">

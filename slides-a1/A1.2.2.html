@@ -19,7 +19,7 @@
 html,body{width:100%;height:100%;overflow:hidden;}
 body{background:var(--bg);color:var(--text);font-family: 'Google Sans', 'Noto Sans KR', sans-serif;}
 body::before{content:'';position:fixed;inset:0;
-  background-image:linear-gradient(rgba(74,158,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,.03) 1px,transparent 1px),linear-gradient(rgba(74,158,255,.01) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,.01) 1px,transparent 1px);
+  background-image:linear-gradient(rgba(128,128,128,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(128,128,128,0.03) 1px,transparent 1px),linear-gradient(rgba(128,128,128,0.01) 1px,transparent 1px),linear-gradient(90deg,rgba(128,128,128,0.01) 1px,transparent 1px);
   background-size:80px 80px,80px 80px,16px 16px,16px 16px;pointer-events:none;z-index:0;}
 .deck{position:relative;width:100vw;height:100vh;z-index:1;}
 .slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content: flex-start;align-items: flex-start;
@@ -51,19 +51,19 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 .card-body{font-size: clamp(1.25rem, 1.3vw, 1.5rem);color:var(--text2);line-height:1.6;font-weight:300;}
 .card-body strong{color:var(--text);font-weight:500;}
 /* boxes */
-.info-box{border-left:3px solid var(--blue);padding:11px 18px;background:rgba(74,158,255,.04);border-top:1px solid rgba(74,158,255,.08);border-right:1px solid rgba(74,158,255,.08);border-bottom:1px solid rgba(74,158,255,.08);margin-top:12px;}
+.info-box{border-left:3px solid var(--blue);padding:11px 18px;background:rgba(128,128,128,0.04);border-top:1px solid rgba(128,128,128,0.2);border-right:1px solid rgba(128,128,128,0.2);border-bottom:1px solid rgba(128,128,128,0.2);margin-top:12px;}
 .info-box p{font-size: clamp(1.25rem, 1.35vw, 1.5rem);color:var(--text2);line-height:1.6;}
 .info-box strong{color:var(--blue);}
-.gold-box{border-left:3px solid var(--gold);padding:11px 18px;background:rgba(201,168,76,.04);border-top:1px solid rgba(201,168,76,.08);border-right:1px solid rgba(201,168,76,.08);border-bottom:1px solid rgba(201,168,76,.08);margin-top:12px;}
+.gold-box{border-left:3px solid var(--gold);padding:11px 18px;background:rgba(128,128,128,0.04);border-top:1px solid rgba(128,128,128,0.2);border-right:1px solid rgba(128,128,128,0.2);border-bottom:1px solid rgba(128,128,128,0.2);margin-top:12px;}
 .gold-box p{font-size: clamp(1.25rem, 1.35vw, 1.5rem);color:var(--text2);line-height:1.6;}
 .gold-box strong{color:var(--gold2);}
-.cyan-box{border-left:3px solid var(--cyan);padding:11px 18px;background:rgba(34,211,238,.04);border-top:1px solid rgba(34,211,238,.08);border-right:1px solid rgba(34,211,238,.08);border-bottom:1px solid rgba(34,211,238,.08);margin-top:12px;}
+.cyan-box{border-left:3px solid var(--cyan);padding:11px 18px;background:rgba(128,128,128,0.04);border-top:1px solid rgba(128,128,128,0.2);border-right:1px solid rgba(128,128,128,0.2);border-bottom:1px solid rgba(128,128,128,0.2);margin-top:12px;}
 .cyan-box p{font-size: clamp(1.125rem, 1.35vw, 1.375rem);color:var(--text2);line-height:1.6;}
 .cyan-box strong{color:var(--cyan);}
-.purple-box{border-left:3px solid var(--purple);padding:11px 18px;background:rgba(155,138,251,.04);border-top:1px solid rgba(155,138,251,.08);border-right:1px solid rgba(155,138,251,.08);border-bottom:1px solid rgba(155,138,251,.08);margin-top:12px;}
+.purple-box{border-left:3px solid var(--purple);padding:11px 18px;background:rgba(128,128,128,0.04);border-top:1px solid rgba(128,128,128,0.2);border-right:1px solid rgba(128,128,128,0.2);border-bottom:1px solid rgba(128,128,128,0.2);margin-top:12px;}
 .purple-box p{font-size: clamp(1.125rem, 1.35vw, 1.375rem);color:var(--text2);line-height:1.6;}
 .purple-box strong{color:var(--purple);}
-.teal-box{border-left:3px solid var(--teal);padding:11px 18px;background:rgba(45,212,191,.04);border-top:1px solid rgba(45,212,191,.08);border-right:1px solid rgba(45,212,191,.08);border-bottom:1px solid rgba(45,212,191,.08);margin-top:12px;}
+.teal-box{border-left:3px solid var(--teal);padding:11px 18px;background:rgba(128,128,128,0.04);border-top:1px solid rgba(128,128,128,0.2);border-right:1px solid rgba(128,128,128,0.2);border-bottom:1px solid rgba(128,128,128,0.2);margin-top:12px;}
 .teal-box p{font-size: clamp(1.125rem, 1.35vw, 1.375rem);color:var(--text2);line-height:1.6;}
 .teal-box strong{color:var(--teal);}
 /* steps */
@@ -74,27 +74,27 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 .step-text strong{color:var(--text);font-weight:500;}
 /* bit table */
 .bit-table{border-collapse:collapse;width:100%;table-layout:fixed;}
-.bit-table th{background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.18);padding:9px 6px;text-align:center;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.2vw, 1.375rem);color:var(--cyan);letter-spacing:.04em;font-weight:500;}
+.bit-table th{background:rgba(128,128,128,0.08);border:1px solid rgba(128,128,128,0.2);padding:9px 6px;text-align:center;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.2vw, 1.375rem);color:var(--cyan);letter-spacing:.04em;font-weight:500;}
 .bit-table td{border:1px solid var(--border2);padding:11px 6px;text-align:center;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.8vw, 1.5rem);font-weight:500;background:var(--surface);color:var(--text);}
-.bit-table td.bit-1{background:rgba(34,211,238,.12);color:var(--cyan);}
-.bit-table td.bit-0{background:rgba(34,211,238,.04);color:var(--text2);}
-.bit-table td.bit-s{background:rgba(34,211,238,.18);color:var(--cyan);}
+.bit-table td.bit-1{background:rgba(128,128,128,0.12);color:var(--cyan);}
+.bit-table td.bit-0{background:rgba(128,128,128,0.04);color:var(--text2);}
+.bit-table td.bit-s{background:rgba(128,128,128,0.14);color:var(--cyan);}
 .bit-table td.power{background:var(--surface);color:var(--cyan);font-size: clamp(1.125rem, 1.1vw, 1.375rem);font-weight:500;}
-.bit-table td.value{background:rgba(34,211,238,.08);color:var(--cyan);font-size: clamp(1.125rem, 1.7vw, 1.35rem);font-weight:700;border-color:rgba(34,211,238,.22);}
-.bit-table td.value-neg{background:rgba(34,211,238,.08);color:var(--cyan);font-size: clamp(1.125rem, 1.7vw, 1.35rem);font-weight:700;border-color:rgba(34,211,238,.22);}
-.bit-table td.row-label{background:rgba(34,211,238,.04);color:var(--cyan);font-size: clamp(1.125rem, .95vw, 1.375rem);letter-spacing:.08em;text-transform:uppercase;width:72px;border-color:rgba(34,211,238,.16);}
-.bit-table td.result{background:rgba(34,211,238,.14);color:var(--cyan);font-size: clamp(1.125rem, 1.7vw, 1.35rem);font-weight:700;border:1px solid rgba(34,211,238,.28);}
+.bit-table td.value{background:rgba(128,128,128,0.08);color:var(--cyan);font-size: clamp(1.125rem, 1.7vw, 1.35rem);font-weight:700;border-color:rgba(128,128,128,0.22);}
+.bit-table td.value-neg{background:rgba(128,128,128,0.08);color:var(--cyan);font-size: clamp(1.125rem, 1.7vw, 1.35rem);font-weight:700;border-color:rgba(128,128,128,0.22);}
+.bit-table td.row-label{background:rgba(128,128,128,0.04);color:var(--cyan);font-size: clamp(1.125rem, .95vw, 1.375rem);letter-spacing:.08em;text-transform:uppercase;width:72px;border-color:rgba(128,128,128,0.2);}
+.bit-table td.result{background:rgba(128,128,128,0.14);color:var(--cyan);font-size: clamp(1.125rem, 1.7vw, 1.35rem);font-weight:700;border:1px solid rgba(128,128,128,0.28);}
 /* ascii chart */
 .ascii-chart{border-collapse:collapse;width:100%;font-family:'Google Sans Code', monospace;}
-.ascii-chart th{background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.18);padding:6px 8px;text-align:center;font-size: clamp(1.125rem, .95vw, 1.375rem);color:var(--cyan);letter-spacing:.06em;font-weight:500;text-transform:uppercase;}
+.ascii-chart th{background:rgba(128,128,128,0.08);border:1px solid rgba(128,128,128,0.2);padding:6px 8px;text-align:center;font-size: clamp(1.125rem, .95vw, 1.375rem);color:var(--cyan);letter-spacing:.06em;font-weight:500;text-transform:uppercase;}
 .ascii-chart td{border:1px solid var(--border);padding:5px 6px;text-align:center;background:var(--surface);}
 .ascii-char{font-size: clamp(1.125rem, 1.6vw, 1.25rem);font-weight:700;color:var(--text);}
 .ascii-dec{font-size: clamp(1.125rem, 1.05vw, 1.375rem);color:var(--cyan);}
 .ascii-bin{font-size: clamp(1.125rem, .82vw, 1.375rem);color:var(--cyan);letter-spacing:.04em;}
 /* pixel grid */
 .pixel-grid{display:grid;gap:3px;}
-.px-1{background:#1a1a2e;color:#dde4f0;border:1px solid #3d4f6a;border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:'Google Sans Code', monospace;font-weight:700;}
-.px-0{background:#dde4f0;color:#1a1a2e;border:1px solid #9090a8;border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:'Google Sans Code', monospace;font-weight:700;}
+.px-1{background:var(--tile-2);color:var(--ink);border:1px solid var(--line-2);border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:'Google Sans Code', monospace;font-weight:700;}
+.px-0{background:var(--tile-2);color:var(--ink);border:1px solid #9090a8;border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:'Google Sans Code', monospace;font-weight:700;}
 /* chain */
 .chain{display:flex;align-items:center;flex-wrap:wrap;margin:10px 0;}
 .chain-box{background:var(--surface);border:1px solid var(--border2);padding:9px 14px;text-align:center;}
@@ -106,7 +106,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 .q-bar{height:26px;border-radius:2px;display:flex;align-items:center;padding:0 11px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.05vw, 1.375rem);font-weight:500;}
 /* summary table */
 .summary-table{border-collapse:collapse;width:100%;}
-.summary-table th{background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.18);padding:10px 14px;text-align:left;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, .95vw, 1.375rem);color:var(--cyan);font-weight:500;letter-spacing:.08em;text-transform:uppercase;}
+.summary-table th{background:rgba(128,128,128,0.08);border:1px solid rgba(128,128,128,0.2);padding:10px 14px;text-align:left;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, .95vw, 1.375rem);color:var(--cyan);font-weight:500;letter-spacing:.08em;text-transform:uppercase;}
 .summary-table td{border:1px solid var(--border);padding:13px 14px;background:var(--surface);font-size: clamp(1.125rem, 1.3vw, 1.375rem);color:var(--text2);vertical-align:top;}
 .summary-table tr:hover td{background:var(--surface2);}
 .summary-table td:first-child{font-family:'Google Sans Code', monospace;font-weight:700;font-size: clamp(1.125rem, 1.4vw, 1.375rem);width:100px;color:var(--cyan);}
@@ -114,11 +114,11 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 .divider{width:100%;height:1px;background:var(--border);margin:12px 0;}
 /* term badge */
 .term{display:inline-block;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, .95vw, 1.375rem);padding:3px 9px;border-radius:2px;letter-spacing:.06em;margin:0 4px;vertical-align:middle;}
-.term.new{background:rgba(201,168,76,.12);color:var(--gold2);border:1px solid rgba(201,168,76,.3);}
+.term.new{background:rgba(128,128,128,0.12);color:var(--gold2);border:1px solid rgba(128,128,128,0.3);}
 /* nav */
-.nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;z-index:100;background:rgba(7,9,15,.92);backdrop-filter:blur(16px);border:1px solid var(--border2);padding:9px 18px; border-radius: 999px;}
+.nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;z-index:100;background:rgba(128,128,128,0.14);backdrop-filter:blur(16px);border:1px solid var(--border2);padding:9px 18px; border-radius: 999px;}
 .nav-btn{font-family:'Google Sans Code', monospace;font-size:18px;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);background:none;border:1px solid var(--border2);padding:6px 13px;cursor:pointer;transition:all .2s; border-radius: 999px;}
-.nav-btn:hover{color:var(--gold);border-color:var(--gold);background:rgba(201,168,76,.05);}
+.nav-btn:hover{color:var(--gold);border-color:var(--gold);background:rgba(128,128,128,0.05);}
 .nav-btn:disabled{opacity:.25;cursor:not-allowed;}
 .nav-dots{display:flex;gap:4px;flex-wrap:wrap;max-width:260px;justify-content:center;}
 .dot{width:5px;height:5px;border-radius:50%;background:var(--border2);cursor:pointer;transition:all .2s;}
@@ -132,8 +132,8 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
   left: 0;
   right: 0;
   z-index: 1200;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
-  background: rgba(7, 9, 15, 0.9);
+  border-bottom: 1px solid rgba(128,128,128,0.2);
+  background: rgba(128,128,128,0.14);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
@@ -151,7 +151,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 .course-nav a,
 .course-menu-button,
 .course-submenu-button {
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   text-decoration: none;
   white-space: nowrap;
   line-height: 1;
@@ -166,7 +166,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
   border-radius: 0;
   border-bottom: 2px solid transparent;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.12em;
@@ -175,7 +175,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
   transition: color 0.18s ease, border-color 0.18s ease;
 }
 .course-home-link {
-  color: var(--text, #f8fafc) !important;
+  color: var(--text, var(--ink)) !important;
   font-weight: 700;
   letter-spacing: 0.16em;
 }
@@ -192,7 +192,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 .course-submenu-button::after {
   content: "▾";
   font-size: 18px;
-  color: var(--text3, #64748b);
+  color: var(--text3, var(--ink));
   transition: transform 0.18s ease;
 }
 .course-submenu-button::after {
@@ -213,10 +213,10 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
   display: grid;
   gap: 2px;
   padding: 8px;
-  border: 1px solid rgba(148, 163, 184, 0.22);
+  border: 1px solid rgba(128,128,128,0.22);
   border-radius: 6px;
-  background: rgba(8, 13, 24, 0.98);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+  background: rgba(128,128,128,0.14);
+  box-shadow: 0 18px 40px rgba(128,128,128,0.14);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.16s ease, transform 0.16s ease;
@@ -264,7 +264,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
   border: 0;
   border-radius: 4px;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.04em;
@@ -279,10 +279,10 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 }
 .course-topic-link,
 .course-subdropdown a.current-page {
-  color: var(--accent, #22b3a0) !important;
+  color: var(--accent, var(--ink)) !important;
 }
 .course-subdropdown a.current-page {
-  background: rgba(34, 211, 238, 0.08);
+  background: rgba(128,128,128,0.08);
 }
 .course-dropdown a:hover,
 .course-dropdown a:focus,
@@ -290,7 +290,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 .course-subdropdown a:focus,
 .course-submenu-button:hover,
 .course-submenu-button:focus {
-  color: var(--text, #f8fafc);
+  color: var(--text, var(--ink));
   background: rgba(255, 255, 255, 0.08);
   outline: none;
 }
@@ -300,8 +300,8 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 .course-menu-button:hover,
 .course-menu-button:focus,
 .course-menu-button.current {
-  color: var(--text, #f8fafc);
-  border-color: var(--accent, #22b3a0);
+  color: var(--text, var(--ink));
+  border-color: var(--accent, var(--line-2));
   outline: none;
 }
 .course-nav ~ .slide-num { top: 98px !important; }
@@ -338,7 +338,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
     margin: 0 0 4px 12px;
     padding: 4px;
     box-shadow: none;
-    border-color: rgba(148, 163, 184, 0.14);
+    border-color: rgba(128,128,128,0.2);
     background: rgba(255, 255, 255, 0.03);
     transform: none;
     display: none;
@@ -363,6 +363,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 }
 
 </style>
+<link rel="stylesheet" href="../assets/theme.css">
 </head>
 <body>
 
@@ -467,7 +468,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S1 TITLE ═══ -->
 <div class="slide active">
   <div class="content">
-    <div class="label">// A1.2.2 · Data Representation</div>
+    <div class="label">A1.2.2 · Data Representation</div>
     <h1>Data<br><span class="hl-purple">Representation</span></h1>
     <p style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.3vw, 1.375rem);color:var(--text3);margin-bottom:18px;">Review Lesson</p>
     <div class="gold-box"><p><strong>👉 Guiding Question:</strong> How does a computer represent text, images, sound, and video using binary?</p></div>
@@ -508,7 +509,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S3 TEXT → NUMBERS ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label cyan">// Text Representation</div>
+    <div class="label cyan">Text Representation</div>
     <h2>Text → <span class="hl-cyan">Numbers → Binary</span></h2>
     <div class="grid g2" style="gap:12px;align-items:start;">
       <div>
@@ -529,24 +530,24 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
         <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);letter-spacing:.15em;margin-bottom:10px;">CHARACTER ENCODING EXAMPLES</div>
         <div style="display:flex;flex-direction:column;gap:2px;">
           <div style="display:flex;gap:0;align-items:stretch;">
-            <div style="background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.15);padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 2vw, 1.6rem);color:var(--cyan);font-weight:700;min-width:50px;text-align:center;">A</div>
+            <div style="background:rgba(128,128,128,0.08);border:1px solid rgba(128,128,128,0.2);padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 2vw, 1.6rem);color:var(--cyan);font-weight:700;min-width:50px;text-align:center;">A</div>
             <div style="background:var(--surface2);border:1px solid var(--border2);border-left:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.3vw, 1.375rem);color:var(--gold2);display:flex;align-items:center;">→ 65</div>
-            <div style="background:rgba(61,214,140,.06);border:1px solid rgba(61,214,140,.15);border-left:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.1vw, 1.375rem);color:var(--green);display:flex;align-items:center;flex:1;letter-spacing:.06em;">0100 0001</div>
+            <div style="background:rgba(128,128,128,0.06);border:1px solid rgba(128,128,128,0.2);border-left:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.1vw, 1.375rem);color:var(--green);display:flex;align-items:center;flex:1;letter-spacing:.06em;">0100 0001</div>
           </div>
           <div style="display:flex;gap:0;align-items:stretch;">
-            <div style="background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.15);border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 2vw, 1.6rem);color:var(--cyan);font-weight:700;min-width:50px;text-align:center;">a</div>
+            <div style="background:rgba(128,128,128,0.08);border:1px solid rgba(128,128,128,0.2);border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 2vw, 1.6rem);color:var(--cyan);font-weight:700;min-width:50px;text-align:center;">a</div>
             <div style="background:var(--surface2);border:1px solid var(--border2);border-left:none;border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.3vw, 1.375rem);color:var(--gold2);display:flex;align-items:center;">→ 97</div>
-            <div style="background:rgba(61,214,140,.06);border:1px solid rgba(61,214,140,.15);border-left:none;border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.1vw, 1.375rem);color:var(--green);display:flex;align-items:center;flex:1;letter-spacing:.06em;">0110 0001</div>
+            <div style="background:rgba(128,128,128,0.06);border:1px solid rgba(128,128,128,0.2);border-left:none;border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.1vw, 1.375rem);color:var(--green);display:flex;align-items:center;flex:1;letter-spacing:.06em;">0110 0001</div>
           </div>
           <div style="display:flex;gap:0;align-items:stretch;">
-            <div style="background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.15);border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 2vw, 1.6rem);color:var(--cyan);font-weight:700;min-width:50px;text-align:center;">가</div>
+            <div style="background:rgba(128,128,128,0.08);border:1px solid rgba(128,128,128,0.2);border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 2vw, 1.6rem);color:var(--cyan);font-weight:700;min-width:50px;text-align:center;">가</div>
             <div style="background:var(--surface2);border:1px solid var(--border2);border-left:none;border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.3vw, 1.375rem);color:var(--gold2);display:flex;align-items:center;">→ 44032</div>
-            <div style="background:rgba(155,138,251,.06);border:1px solid rgba(155,138,251,.15);border-left:none;border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.1vw, 1.375rem);color:var(--purple);display:flex;align-items:center;flex:1;letter-spacing:.04em;">1010 1100 0000 0000</div>
+            <div style="background:rgba(128,128,128,0.06);border:1px solid rgba(128,128,128,0.2);border-left:none;border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.1vw, 1.375rem);color:var(--purple);display:flex;align-items:center;flex:1;letter-spacing:.04em;">1010 1100 0000 0000</div>
           </div>
           <div style="display:flex;gap:0;align-items:stretch;">
-            <div style="background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.15);border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 2vw, 1.6rem);color:var(--cyan);font-weight:700;min-width:50px;text-align:center;">😊</div>
+            <div style="background:rgba(128,128,128,0.08);border:1px solid rgba(128,128,128,0.2);border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 2vw, 1.6rem);color:var(--cyan);font-weight:700;min-width:50px;text-align:center;">😊</div>
             <div style="background:var(--surface2);border:1px solid var(--border2);border-left:none;border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.3vw, 1.375rem);color:var(--gold2);display:flex;align-items:center;">→ 128522</div>
-            <div style="background:rgba(155,138,251,.06);border:1px solid rgba(155,138,251,.15);border-left:none;border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.1vw, 1.375rem);color:var(--purple);display:flex;align-items:center;flex:1;">Unicode range</div>
+            <div style="background:rgba(128,128,128,0.06);border:1px solid rgba(128,128,128,0.2);border-left:none;border-top:none;padding:8px 13px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.1vw, 1.375rem);color:var(--purple);display:flex;align-items:center;flex:1;">Unicode range</div>
           </div>
         </div>
       </div>
@@ -557,7 +558,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S4 ASCII CHART ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label cyan">// ASCII · American Standard Code for Information Interchange</div>
+    <div class="label cyan">ASCII · American Standard Code for Information Interchange</div>
     <h2>The ASCII <span class="hl-cyan">Chart</span></h2>
     <p class="lead" style="margin-bottom:11px;">128 characters. Codes 32–126 are printable. Each stored as 7 bits (1 byte with leading 0).</p>
     <table class="ascii-chart">
@@ -624,7 +625,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S5 UNICODE ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label cyan">// Unicode · The World's Character Set</div>
+    <div class="label cyan">Unicode · The World's Character Set</div>
     <h2>ASCII → <span class="hl-purple">Unicode</span></h2>
     <p class="lead" style="margin-bottom:14px;">ASCII only has 128 characters — enough for English, but not the world's languages. Unicode solves this.</p>
     <div class="grid g2" style="gap:12px;align-items:start;">
@@ -674,7 +675,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
             <span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);">Arabic</span>
           </div>
         </div>
-        <div style="margin-top:10px;background:rgba(155,138,251,.06);border:1px solid rgba(155,138,251,.15);padding:10px 14px;">
+        <div style="margin-top:10px;background:rgba(128,128,128,0.06);border:1px solid rgba(128,128,128,0.2);padding:10px 14px;">
           <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);margin-bottom:4px;">UTF-8 (most common encoding)</div>
           <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--purple);">Variable width: 1–4 bytes per character. ASCII chars still 1 byte.</div>
         </div>
@@ -686,7 +687,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S6 IMAGES ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label purple">// Image Representation</div>
+    <div class="label purple">Image Representation</div>
     <h2>Images = <span class="hl-purple">Pixels</span></h2>
     <div class="grid g2" style="gap:12px;align-items:start;">
       <div>
@@ -740,7 +741,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S7 COLOUR DEPTH ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label purple">// Colour Depth</div>
+    <div class="label purple">Colour Depth</div>
     <h2>Colour Depth — <span class="hl-purple">Bits per Pixel</span></h2>
     <p class="lead" style="margin-bottom:12px;">More bits per pixel = more possible colours = better image = larger file.</p>
     <table class="bit-table" style="width:100%;">
@@ -790,7 +791,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S8 ANALOG ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label pink">// Sound · Analog vs Digital</div>
+    <div class="label pink">Sound · Analog vs Digital</div>
     <h2>Sound is <span class="hl-pink">Analog</span></h2>
     <div class="grid g2" style="gap:12px;align-items:start;">
       <div>
@@ -866,7 +867,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S9 SAMPLING ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label pink">// Sound Quality</div>
+    <div class="label pink">Sound Quality</div>
     <h2>Sample Rate &amp; <span class="hl-pink">Bit Depth</span></h2>
     <p class="lead" style="margin-bottom:12px;">Two numbers control sound quality. Together they determine how accurately digital audio recreates the original analog wave.</p>
     <div class="grid g2" style="gap:2px;margin-bottom:9px;">
@@ -912,7 +913,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S10 VIDEO BIG IDEA ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label teal">// Video Representation</div>
+    <div class="label teal">Video Representation</div>
     <h2>Video = <span class="hl-teal">Frames + More</span></h2>
     <p class="lead" style="margin-bottom:12px;">A video file is not just moving pictures — it's a combination of several data types bundled together.</p>
     <div class="grid g4" style="gap:2px;margin-bottom:10px;">
@@ -944,7 +945,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S11 VIDEO FRAMES ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label teal">// Video · Frames & Compression</div>
+    <div class="label teal">Video · Frames & Compression</div>
     <h2>Frames — <span class="hl-teal">Why Compression Matters</span></h2>
     <div class="grid g2" style="gap:12px;align-items:start;">
       <div>
@@ -1035,7 +1036,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S12 METADATA ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label gold">// Metadata</div>
+    <div class="label gold">Metadata</div>
     <h2>Metadata — <span class="hl-gold">Data About Data</span></h2>
     <p class="lead" style="margin-bottom:12px;"><strong style="color:var(--gold2);">Metadata</strong> = information that <em>describes</em> a file rather than being the content itself. <span class="term new">KEY TERM</span></p>
     <div class="grid g2" style="gap:12px;align-items:start;">
@@ -1079,7 +1080,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S13 SIGNED/UNSIGNED ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label orange">// Integers · Signed vs Unsigned</div>
+    <div class="label orange">Integers · Signed vs Unsigned</div>
     <h2>Signed vs. <span class="hl-orange">Unsigned</span></h2>
     <p class="lead" style="margin-bottom:12px;">The same 8 bits can represent two completely different ranges — depending on whether the value is signed or unsigned.</p>
     <div class="grid g2" style="gap:2px;margin-bottom:9px;">
@@ -1118,7 +1119,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
     </table>
     <div class="grid g2" style="gap:2px;margin-top:8px;">
       <div class="info-box" style="margin-top:0;"><p><strong>Same bits, different interpretation.</strong> The system decides whether the MSB is a sign bit or part of the value.</p></div>
-      <div style="background:rgba(251,146,60,.04);border:1px solid rgba(251,146,60,.12);border-left:3px solid var(--orange);padding:11px 18px;margin-top:0;">
+      <div style="background:rgba(128,128,128,0.04);border:1px solid rgba(128,128,128,0.2);border-left:3px solid var(--orange);padding:11px 18px;margin-top:0;">
         <p style="font-size: clamp(1.125rem, 1.35vw, 1.375rem);color:var(--text2);line-height:1.6;">Signed: MSB = <strong style="color:var(--orange);">sign bit</strong> → only 7 bits for magnitude. Range: −128 to +127 (2⁷ = 128).</p>
       </div>
     </div>
@@ -1128,7 +1129,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S14 SUMMARY ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Summary · All Data Types</div>
+    <div class="label">Summary · All Data Types</div>
     <h2>Everything in <span class="hl-gold">One Table</span></h2>
     <table class="summary-table">
       <thead>
@@ -1174,7 +1175,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S15 KEY TERMS ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Vocabulary · Key Terms</div>
+    <div class="label">Vocabulary · Key Terms</div>
     <h2>Terms to <span class="hl-gold">Know</span></h2>
     <div class="grid g3" style="gap:2px;">
       <div class="card cyan" style="padding:14px 16px;">

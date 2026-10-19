@@ -30,10 +30,10 @@ body::before {
   content: '';
   position: fixed; inset: 0;
   background-image:
-    linear-gradient(rgba(74,158,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(74,158,255,0.03) 1px, transparent 1px),
-    linear-gradient(rgba(74,158,255,0.01) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(74,158,255,0.01) 1px, transparent 1px);
+    linear-gradient(rgba(128,128,128,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128,128,128,0.03) 1px, transparent 1px),
+    linear-gradient(rgba(128,128,128,0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128,128,128,0.01) 1px, transparent 1px);
   background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
   pointer-events: none; z-index: 0;
 }
@@ -59,7 +59,7 @@ body::before {
 }
 .slide.scroll-slide::-webkit-scrollbar { width: 10px; }
 .slide.scroll-slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
-.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(14,17,23,0.3); }
+.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(128,128,128,0.14); }
 .progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--gold), var(--blue)); transition: width 0.38s ease; z-index: 100; }
 .slide-num { position: fixed; top: 17px; right: 24px; font-family: 'Google Sans Code', monospace; font-size: 18px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
 .content { width: 100%; max-width: 1120px; }
@@ -79,10 +79,10 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .card-title { font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.1vw, 1.375rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
 .card-body { font-size: clamp(1.25rem, 1.3vw, 1.5rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
 .card-body strong { color: var(--text); font-weight: 500; }
-.info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(74,158,255,0.04); border-top: 1px solid rgba(74,158,255,0.08); border-right: 1px solid rgba(74,158,255,0.08); border-bottom: 1px solid rgba(74,158,255,0.08); margin-top: 14px; }
+.info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
 .info-box p { font-size: clamp(1.25rem, 1.35vw, 1.5rem); color: var(--text2); line-height: 1.6; }
 .info-box strong { color: var(--blue); }
-.gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(201,168,76,0.04); border-top: 1px solid rgba(201,168,76,0.08); border-right: 1px solid rgba(201,168,76,0.08); border-bottom: 1px solid rgba(201,168,76,0.08); margin-top: 14px; }
+.gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
 .gold-box p { font-size: clamp(1.25rem, 1.35vw, 1.5rem); color: var(--text2); line-height: 1.6; }
 .gold-box strong { color: var(--gold2); }
 .divider { width: 100%; height: 1px; background: var(--border); margin: 14px 0; }
@@ -160,14 +160,14 @@ svg text { font-family: 'Google Sans Code', monospace; }
 
 /* TAG */
 .tag { display: inline-block; font-family: 'Google Sans Code', monospace; font-size: 18px; padding: 2px 7px; border-radius: 2px; letter-spacing: 0.06em; vertical-align: middle; margin-left: 4px; }
-.tag.volatile { background: rgba(255,107,107,0.1); color: var(--red); border: 1px solid rgba(255,107,107,0.25); }
-.tag.perm { background: rgba(61,214,140,0.1); color: var(--green); border: 1px solid rgba(61,214,140,0.25); }
-.tag.fast { background: rgba(74,158,255,0.1); color: var(--blue); border: 1px solid rgba(74,158,255,0.2); }
+.tag.volatile { background: rgba(128,128,128,0.1); color: var(--red); border: 1px solid rgba(128,128,128,0.25); }
+.tag.perm { background: rgba(128,128,128,0.1); color: var(--green); border: 1px solid rgba(128,128,128,0.25); }
+.tag.fast { background: rgba(128,128,128,0.1); color: var(--blue); border: 1px solid rgba(128,128,128,0.2); }
 
 /* NAV */
-.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; border-radius: 999px;}
+.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(128,128,128,0.14); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; border-radius: 999px;}
 .nav-btn { font-family: 'Google Sans Code', monospace; font-size: 18px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; border-radius: 999px;}
-.nav-btn:hover { color: var(--gold); border-color: var(--gold); background: rgba(201,168,76,0.05); }
+.nav-btn:hover { color: var(--gold); border-color: var(--gold); background: rgba(128,128,128,0.05); }
 .nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
 .nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 180px; justify-content: center; }
 .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); cursor: pointer; transition: all 0.2s; }
@@ -181,8 +181,8 @@ svg text { font-family: 'Google Sans Code', monospace; }
   left: 0;
   right: 0;
   z-index: 1200;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
-  background: rgba(7, 9, 15, 0.9);
+  border-bottom: 1px solid rgba(128,128,128,0.2);
+  background: rgba(128,128,128,0.14);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
@@ -200,7 +200,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
 .course-nav a,
 .course-menu-button,
 .course-submenu-button {
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   text-decoration: none;
   white-space: nowrap;
   line-height: 1;
@@ -215,7 +215,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
   border-radius: 0;
   border-bottom: 2px solid transparent;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.12em;
@@ -224,7 +224,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
   transition: color 0.18s ease, border-color 0.18s ease;
 }
 .course-home-link {
-  color: var(--text, #f8fafc) !important;
+  color: var(--text, var(--ink)) !important;
   font-weight: 700;
   letter-spacing: 0.16em;
 }
@@ -241,7 +241,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
 .course-submenu-button::after {
   content: "▾";
   font-size: 18px;
-  color: var(--text3, #64748b);
+  color: var(--text3, var(--ink));
   transition: transform 0.18s ease;
 }
 .course-submenu-button::after {
@@ -262,10 +262,10 @@ svg text { font-family: 'Google Sans Code', monospace; }
   display: grid;
   gap: 2px;
   padding: 8px;
-  border: 1px solid rgba(148, 163, 184, 0.22);
+  border: 1px solid rgba(128,128,128,0.22);
   border-radius: 6px;
-  background: rgba(8, 13, 24, 0.98);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+  background: rgba(128,128,128,0.14);
+  box-shadow: 0 18px 40px rgba(128,128,128,0.14);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.16s ease, transform 0.16s ease;
@@ -313,7 +313,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
   border: 0;
   border-radius: 4px;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.04em;
@@ -328,10 +328,10 @@ svg text { font-family: 'Google Sans Code', monospace; }
 }
 .course-topic-link,
 .course-subdropdown a.current-page {
-  color: var(--accent, #22b3a0) !important;
+  color: var(--accent, var(--ink)) !important;
 }
 .course-subdropdown a.current-page {
-  background: rgba(34, 211, 238, 0.08);
+  background: rgba(128,128,128,0.08);
 }
 .course-dropdown a:hover,
 .course-dropdown a:focus,
@@ -339,7 +339,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
 .course-subdropdown a:focus,
 .course-submenu-button:hover,
 .course-submenu-button:focus {
-  color: var(--text, #f8fafc);
+  color: var(--text, var(--ink));
   background: rgba(255, 255, 255, 0.08);
   outline: none;
 }
@@ -349,8 +349,8 @@ svg text { font-family: 'Google Sans Code', monospace; }
 .course-menu-button:hover,
 .course-menu-button:focus,
 .course-menu-button.current {
-  color: var(--text, #f8fafc);
-  border-color: var(--accent, #22b3a0);
+  color: var(--text, var(--ink));
+  border-color: var(--accent, var(--line-2));
   outline: none;
 }
 .course-nav ~ .slide-num { top: 98px !important; }
@@ -387,7 +387,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
     margin: 0 0 4px 12px;
     padding: 4px;
     box-shadow: none;
-    border-color: rgba(148, 163, 184, 0.14);
+    border-color: rgba(128,128,128,0.2);
     background: rgba(255, 255, 255, 0.03);
     transform: none;
     display: none;
@@ -412,6 +412,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
 }
 
 </style>
+<link rel="stylesheet" href="../assets/theme.css">
 </head>
 <body>
 
@@ -516,7 +517,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
 <!-- ═══════════════════════════════════════════════ S1: TITLE -->
 <div class="slide active">
   <div class="content">
-    <div class="label">// A1.1 · Computer Hardware & Operation</div>
+    <div class="label">A1.1 · Computer Hardware & Operation</div>
     <h1>Computer Hardware<br>& <span class="hl-gold">Operation</span></h1>
     <p style="font-size: clamp(1.125rem, 1.5vw, 1.2rem);color:var(--text3);font-family:'Google Sans Code', monospace;letter-spacing:0.05em;margin-bottom:24px;">Review Lesson</p>
     <div class="gold-box">
@@ -537,7 +538,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
   <div class="content cpu-scroll-content">
     <div class="cpu-hero">
       <div class="cpu-text-stack">
-        <div class="label">// Slide 2 · The Processor</div>
+        <div class="label">Slide 2 · The Processor</div>
         <h2>CPU — Central<br><span class="hl-gold">Processing Unit</span></h2>
         <div class="card gold" style="margin-bottom:2px;">
           <div class="card-title">What it does</div>
@@ -563,7 +564,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
       </div>
     </div>
     <div class="cpu-diagram-section">
-      <div class="label blue">// CPU Diagram</div>
+      <div class="label blue">CPU Diagram</div>
       <!-- Original layout pseudocode: two-column grid; left=text cards, right=CPU diagram card; same SVG content rendered at smaller fixed height. -->
       <div class="cpu-diagram-frame">
         <svg viewBox="0 0 360 340" width="100%">
@@ -609,7 +610,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
   <div class="content stack-slide-content">
     <div class="stack-slide-hero">
       <div class="stack-text">
-        <div class="label">// Slide 3 · Inside the CPU</div>
+        <div class="label">Slide 3 · Inside the CPU</div>
         <h2><span class="hl-gold">Registers</span> — Fast<br>CPU Storage</h2>
         <table class="reg-table">
           <thead><tr><th>Register</th><th>Full Name</th><th>Role</th></tr></thead>
@@ -627,7 +628,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
       </div>
     </div>
     <div class="diagram-section">
-      <div class="label blue">// Register Flow Diagram</div>
+      <div class="label blue">Register Flow Diagram</div>
       <div class="diagram-frame">
         <svg viewBox="0 0 320 360" width="100%">
           <text x="160" y="20" text-anchor="middle" fill="#3d4f6a" font-size="9" letter-spacing="2">REGISTER FLOW IN FDE CYCLE</text>
@@ -678,7 +679,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
   <div class="content stack-slide-content">
     <div class="stack-slide-hero">
       <div class="stack-text">
-        <div class="label">// Slide 4 · Data Transfer</div>
+        <div class="label">Slide 4 · Data Transfer</div>
         <h2><span class="hl-blue">Buses</span> — How Components<br>Communicate</h2>
         <div class="grid" style="gap:2px;">
           <div class="card blue">
@@ -700,7 +701,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
       </div>
     </div>
     <div class="diagram-section">
-      <div class="label blue">// Bus Diagram</div>
+      <div class="label blue">Bus Diagram</div>
       <div class="diagram-frame">
         <svg viewBox="0 0 300 280" width="100%">
           <!-- CPU -->
@@ -751,7 +752,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
   <div class="content stack-slide-content">
     <div class="stack-slide-hero">
       <div class="stack-text">
-        <div class="label">// Slide 5 · CPU Performance</div>
+        <div class="label">Slide 5 · CPU Performance</div>
         <h2>Cores — <span class="hl-green">Processing Power</span></h2>
         <div class="card green" style="margin-bottom:2px;">
           <div class="card-title">What is a Core?</div>
@@ -773,7 +774,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
       </div>
     </div>
     <div class="diagram-section">
-      <div class="label green">// Core Diagram</div>
+      <div class="label green">Core Diagram</div>
       <div class="diagram-frame">
         <svg viewBox="0 0 320 300" width="100%">
           <!-- Single core -->
@@ -818,7 +819,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
   <div class="content stack-slide-content">
     <div class="stack-slide-hero">
       <div class="stack-text">
-        <div class="label">// Slide 6 · Graphics Processing</div>
+        <div class="label">Slide 6 · Graphics Processing</div>
         <h2>GPU — <span class="hl-purple">Graphics Processing</span><br>Unit</h2>
         <div class="card purple" style="margin-bottom:2px;">
           <div class="card-title">What it does</div>
@@ -844,7 +845,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
       </div>
     </div>
     <div class="diagram-section">
-      <div class="label purple">// CPU vs GPU Diagram</div>
+      <div class="label purple">CPU vs GPU Diagram</div>
       <div class="diagram-frame">
         <svg viewBox="0 0 280 240" width="100%">
           <!-- CPU side -->
@@ -919,7 +920,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
   <div class="content stack-slide-content">
     <div class="stack-slide-hero">
       <div class="stack-text">
-        <div class="label">// Slide 7 · Primary Memory</div>
+        <div class="label">Slide 7 · Primary Memory</div>
         <h2>RAM — <span class="hl-red">Random Access</span><br>Memory</h2>
         <div class="card red">
           <div class="card-title">What RAM is</div>
@@ -946,7 +947,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
       </div>
     </div>
     <div class="diagram-section">
-      <div class="label red">// RAM Diagram</div>
+      <div class="label red">RAM Diagram</div>
       <div class="diagram-frame">
         <svg viewBox="0 0 240 260" width="100%">
           <text x="120" y="16" text-anchor="middle" fill="#3d4f6a" font-size="8.5" letter-spacing="2">RAM IN THE SYSTEM</text>
@@ -985,7 +986,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
   <div class="content stack-slide-content">
     <div class="stack-slide-hero">
       <div class="stack-text">
-        <div class="label">// Slide 8 · Long-Term Storage</div>
+        <div class="label">Slide 8 · Long-Term Storage</div>
         <h2><span class="hl-green">Secondary Storage</span><br>— Permanent Memory</h2>
         <div class="card green">
           <div class="card-title">What it is <span class="tag perm">NON-VOLATILE</span></div>
@@ -1011,7 +1012,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
       </div>
     </div>
     <div class="diagram-section">
-      <div class="label green">// Storage Diagram</div>
+      <div class="label green">Storage Diagram</div>
       <div class="diagram-frame">
         <svg viewBox="0 0 260 240" width="100%">
           <!-- HDD -->
@@ -1066,7 +1067,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
 <!-- ═══════════════════════════════════════════════ S9: INTERNAL vs EXTERNAL -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label">// Slide 9 · Storage Locations</div>
+    <div class="label">Slide 9 · Storage Locations</div>
     <h2>Internal vs. <span class="hl-gold">External</span> Storage</h2>
     <div class="grid g2" style="gap:12px;align-items:start;">
       <div class="card blue">
@@ -1102,7 +1103,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
 <!-- ═══════════════════════════════════════════════ S10: CLOUD COMPUTING -->
 <div class="slide">
   <div class="content">
-    <div class="label cyan">// Slide 10 · Cloud Services</div>
+    <div class="label cyan">Slide 10 · Cloud Services</div>
     <h2><span class="hl-cyan">Cloud</span> Computing</h2>
     <p class="lead" style="margin-bottom:16px;">Three service models — each gives you a different layer of the computing stack.</p>
     <div class="grid g3" style="gap:2px;">
@@ -1151,7 +1152,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
   <div class="content stack-slide-content">
     <div class="stack-slide-hero">
       <div class="stack-text">
-        <div class="label">// Slide 11 · File Size</div>
+        <div class="label">Slide 11 · File Size</div>
         <h2>Compression — <span class="hl-gold">Reducing</span> File Size</h2>
         <div class="card red">
           <div class="card-title">❌ Lossy Compression</div>
@@ -1175,7 +1176,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
       </div>
     </div>
     <div class="diagram-section">
-      <div class="label gold">// Compression Diagram</div>
+      <div class="label gold">Compression Diagram</div>
       <div class="diagram-frame">
         <svg viewBox="0 0 340 320" width="100%">
           <!-- Original file -->
@@ -1224,7 +1225,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
 <!-- ═══════════════════════════════════════════════ S12: BOOT PROCESS -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label">// Slide 12 · System Startup</div>
+    <div class="label">Slide 12 · System Startup</div>
     <h2>The Boot <span class="hl-gold">Sequence</span></h2>
     <div style="display:flex;justify-content:center;margin-top:14px;">
       <div style="width:min(100%, 640px);background:var(--surface);border:1px solid var(--border);padding:18px;min-height:440px;display:flex;align-items:center;justify-content:center;">
@@ -1277,7 +1278,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
 <!-- ═══════════════════════════════════════════════ S13: FDE CYCLE -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Slide 13 · CPU Operation</div>
+    <div class="label">Slide 13 · CPU Operation</div>
     <h2>Fetch–Decode–<span class="hl-purple">Execute</span></h2>
     <p class="lead" style="margin-bottom:12px;">The CPU repeats this cycle billions of times per second. Every program instruction goes through it.</p>
     <div class="fde">
@@ -1332,7 +1333,7 @@ svg text { font-family: 'Google Sans Code', monospace; }
 <!-- ═══════════════════════════════════════════════ S14: BIG PICTURE -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Slide 14 · The Big Idea</div>
+    <div class="label">Slide 14 · The Big Idea</div>
     <h2>A Computer is a <span class="hl-gold">System</span></h2>
     <div class="grid g2" style="gap:12px;align-items:start;">
       <div>

@@ -19,7 +19,7 @@
 html,body{width:100%;height:100%;overflow:hidden;}
 body{background:var(--bg);color:var(--text);font-family: 'Google Sans', 'Noto Sans KR', sans-serif;}
 body::before{content:'';position:fixed;inset:0;
-  background-image:linear-gradient(rgba(74,158,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,.03) 1px,transparent 1px),linear-gradient(rgba(74,158,255,.01) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,.01) 1px,transparent 1px);
+  background-image:linear-gradient(rgba(128,128,128,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(128,128,128,0.03) 1px,transparent 1px),linear-gradient(rgba(128,128,128,0.01) 1px,transparent 1px),linear-gradient(90deg,rgba(128,128,128,0.01) 1px,transparent 1px);
   background-size:80px 80px,80px 80px,16px 16px,16px 16px;pointer-events:none;z-index:0;}
 .deck{position:relative;width:100vw;height:100vh;z-index:1;}
 .slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content: flex-start;align-items: flex-start;
@@ -50,31 +50,31 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 .card-title{font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.05vw, 1.375rem);font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:7px;}
 .card-body{font-size: clamp(1.25rem, 1.3vw, 1.5rem);color:var(--text2);line-height:1.6;font-weight:300;}
 .card-body strong{color:var(--text);font-weight:500;}
-.info-box{border-left:3px solid var(--blue);padding:11px 18px;background:rgba(74,158,255,.04);border-top:1px solid rgba(74,158,255,.08);border-right:1px solid rgba(74,158,255,.08);border-bottom:1px solid rgba(74,158,255,.08);margin-top:12px;}
+.info-box{border-left:3px solid var(--blue);padding:11px 18px;background:rgba(128,128,128,0.04);border-top:1px solid rgba(128,128,128,0.2);border-right:1px solid rgba(128,128,128,0.2);border-bottom:1px solid rgba(128,128,128,0.2);margin-top:12px;}
 .info-box p{font-size: clamp(1.25rem, 1.35vw, 1.5rem);color:var(--text2);line-height:1.6;}
 .info-box strong{color:var(--blue);}
-.gold-box{border-left:3px solid var(--gold);padding:11px 18px;background:rgba(201,168,76,.04);border-top:1px solid rgba(201,168,76,.08);border-right:1px solid rgba(201,168,76,.08);border-bottom:1px solid rgba(201,168,76,.08);margin-top:12px;}
+.gold-box{border-left:3px solid var(--gold);padding:11px 18px;background:rgba(128,128,128,0.04);border-top:1px solid rgba(128,128,128,0.2);border-right:1px solid rgba(128,128,128,0.2);border-bottom:1px solid rgba(128,128,128,0.2);margin-top:12px;}
 .gold-box p{font-size: clamp(1.25rem, 1.35vw, 1.5rem);color:var(--text2);line-height:1.6;}
 .gold-box strong{color:var(--gold2);}
-.cyan-box{border-left:3px solid var(--cyan);padding:11px 18px;background:rgba(34,211,238,.04);border-top:1px solid rgba(34,211,238,.08);border-right:1px solid rgba(34,211,238,.08);border-bottom:1px solid rgba(34,211,238,.08);margin-top:12px;}
+.cyan-box{border-left:3px solid var(--cyan);padding:11px 18px;background:rgba(128,128,128,0.04);border-top:1px solid rgba(128,128,128,0.2);border-right:1px solid rgba(128,128,128,0.2);border-bottom:1px solid rgba(128,128,128,0.2);margin-top:12px;}
 .cyan-box p{font-size: clamp(1.125rem, 1.35vw, 1.375rem);color:var(--text2);line-height:1.6;}
 .cyan-box strong{color:var(--cyan);}
-.green-box{border-left:3px solid var(--green);padding:11px 18px;background:rgba(61,214,140,.04);border-top:1px solid rgba(61,214,140,.08);border-right:1px solid rgba(61,214,140,.08);border-bottom:1px solid rgba(61,214,140,.08);margin-top:12px;}
+.green-box{border-left:3px solid var(--green);padding:11px 18px;background:rgba(128,128,128,0.04);border-top:1px solid rgba(128,128,128,0.2);border-right:1px solid rgba(128,128,128,0.2);border-bottom:1px solid rgba(128,128,128,0.2);margin-top:12px;}
 .green-box p{font-size: clamp(1.125rem, 1.35vw, 1.375rem);color:var(--text2);line-height:1.6;}
 .green-box strong{color:var(--green);}
-.purple-box{border-left:3px solid var(--purple);padding:11px 18px;background:rgba(155,138,251,.04);border-top:1px solid rgba(155,138,251,.08);border-right:1px solid rgba(155,138,251,.08);border-bottom:1px solid rgba(155,138,251,.08);margin-top:12px;}
+.purple-box{border-left:3px solid var(--purple);padding:11px 18px;background:rgba(128,128,128,0.04);border-top:1px solid rgba(128,128,128,0.2);border-right:1px solid rgba(128,128,128,0.2);border-bottom:1px solid rgba(128,128,128,0.2);margin-top:12px;}
 .purple-box p{font-size: clamp(1.125rem, 1.35vw, 1.375rem);color:var(--text2);line-height:1.6;}
 .purple-box strong{color:var(--purple);}
 /* truth table */
 .tt{border-collapse:collapse;width:100%;}
-.tt th{background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.18);padding:7px 10px;text-align:center;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1vw, 1.375rem);color:var(--cyan);letter-spacing:.06em;font-weight:500;}
+.tt th{background:rgba(128,128,128,0.08);border:1px solid rgba(128,128,128,0.2);padding:7px 10px;text-align:center;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1vw, 1.375rem);color:var(--cyan);letter-spacing:.06em;font-weight:500;}
 .tt td{border:1px solid var(--border2);padding:8px 10px;text-align:center;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.4vw, 1.375rem);font-weight:500;background:var(--surface);color:var(--text);}
-.tt td.one{background:rgba(61,214,140,.10);color:var(--green);}
-.tt td.zero{background:rgba(34,211,238,.04);color:var(--text3);}
+.tt td.one{background:rgba(128,128,128,0.1);color:var(--green);}
+.tt td.zero{background:rgba(128,128,128,0.04);color:var(--text3);}
 /* gate symbol */
 .gate-sym{font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.2vw, 1.375rem);padding:4px 12px;border-radius:2px;display:inline-block;margin-bottom:6px;letter-spacing:.08em;font-weight:500;}
 /* bool badge */
-.bool{font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.2vw, 1.375rem);color:var(--gold2);background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);padding:4px 12px;display:inline-block;margin-top:5px;}
+.bool{font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.2vw, 1.375rem);color:var(--gold2);background:rgba(128,128,128,0.07);border:1px solid rgba(128,128,128,0.2);padding:4px 12px;display:inline-block;margin-top:5px;}
 /* steps */
 .steps{display:flex;flex-direction:column;gap:7px;width:100%;}
 .step-row{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);padding:12px 16px;}
@@ -91,13 +91,13 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 .divider{width:100%;height:1px;background:var(--border);margin:12px 0;}
 /* summary table */
 .summary-table{border-collapse:collapse;width:100%;}
-.summary-table th{background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.18);padding:10px 14px;text-align:left;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, .95vw, 1.375rem);color:var(--cyan);font-weight:500;letter-spacing:.08em;text-transform:uppercase;}
+.summary-table th{background:rgba(128,128,128,0.08);border:1px solid rgba(128,128,128,0.2);padding:10px 14px;text-align:left;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, .95vw, 1.375rem);color:var(--cyan);font-weight:500;letter-spacing:.08em;text-transform:uppercase;}
 .summary-table td{border:1px solid var(--border);padding:11px 14px;background:var(--surface);font-size: clamp(1.125rem, 1.25vw, 1.375rem);color:var(--text2);vertical-align:middle;}
 .summary-table tr:hover td{background:var(--surface2);}
 /* nav */
-.nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;z-index:100;background:rgba(7,9,15,.92);backdrop-filter:blur(16px);border:1px solid var(--border2);padding:9px 18px; border-radius: 999px;}
+.nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;z-index:100;background:rgba(128,128,128,0.14);backdrop-filter:blur(16px);border:1px solid var(--border2);padding:9px 18px; border-radius: 999px;}
 .nav-btn{font-family:'Google Sans Code', monospace;font-size:18px;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);background:none;border:1px solid var(--border2);padding:6px 13px;cursor:pointer;transition:all .2s; border-radius: 999px;}
-.nav-btn:hover{color:var(--gold);border-color:var(--gold);background:rgba(201,168,76,.05);}
+.nav-btn:hover{color:var(--gold);border-color:var(--gold);background:rgba(128,128,128,0.05);}
 .nav-btn:disabled{opacity:.25;cursor:not-allowed;}
 .nav-dots{display:flex;gap:4px;flex-wrap:wrap;max-width:260px;justify-content:center;}
 .dot{width:5px;height:5px;border-radius:50%;background:var(--border2);cursor:pointer;transition:all .2s;}
@@ -111,8 +111,8 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
   left: 0;
   right: 0;
   z-index: 1200;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
-  background: rgba(7, 9, 15, 0.9);
+  border-bottom: 1px solid rgba(128,128,128,0.2);
+  background: rgba(128,128,128,0.14);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
@@ -130,7 +130,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 .course-nav a,
 .course-menu-button,
 .course-submenu-button {
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   text-decoration: none;
   white-space: nowrap;
   line-height: 1;
@@ -145,7 +145,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
   border-radius: 0;
   border-bottom: 2px solid transparent;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.12em;
@@ -154,7 +154,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
   transition: color 0.18s ease, border-color 0.18s ease;
 }
 .course-home-link {
-  color: var(--text, #f8fafc) !important;
+  color: var(--text, var(--ink)) !important;
   font-weight: 700;
   letter-spacing: 0.16em;
 }
@@ -171,7 +171,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 .course-submenu-button::after {
   content: "▾";
   font-size: 18px;
-  color: var(--text3, #64748b);
+  color: var(--text3, var(--ink));
   transition: transform 0.18s ease;
 }
 .course-submenu-button::after {
@@ -192,10 +192,10 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
   display: grid;
   gap: 2px;
   padding: 8px;
-  border: 1px solid rgba(148, 163, 184, 0.22);
+  border: 1px solid rgba(128,128,128,0.22);
   border-radius: 6px;
-  background: rgba(8, 13, 24, 0.98);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+  background: rgba(128,128,128,0.14);
+  box-shadow: 0 18px 40px rgba(128,128,128,0.14);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.16s ease, transform 0.16s ease;
@@ -243,7 +243,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
   border: 0;
   border-radius: 4px;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.04em;
@@ -258,10 +258,10 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 }
 .course-topic-link,
 .course-subdropdown a.current-page {
-  color: var(--accent, #22b3a0) !important;
+  color: var(--accent, var(--ink)) !important;
 }
 .course-subdropdown a.current-page {
-  background: rgba(34, 211, 238, 0.08);
+  background: rgba(128,128,128,0.08);
 }
 .course-dropdown a:hover,
 .course-dropdown a:focus,
@@ -269,7 +269,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 .course-subdropdown a:focus,
 .course-submenu-button:hover,
 .course-submenu-button:focus {
-  color: var(--text, #f8fafc);
+  color: var(--text, var(--ink));
   background: rgba(255, 255, 255, 0.08);
   outline: none;
 }
@@ -279,8 +279,8 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 .course-menu-button:hover,
 .course-menu-button:focus,
 .course-menu-button.current {
-  color: var(--text, #f8fafc);
-  border-color: var(--accent, #22b3a0);
+  color: var(--text, var(--ink));
+  border-color: var(--accent, var(--line-2));
   outline: none;
 }
 .course-nav ~ .slide-num { top: 98px !important; }
@@ -317,7 +317,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
     margin: 0 0 4px 12px;
     padding: 4px;
     box-shadow: none;
-    border-color: rgba(148, 163, 184, 0.14);
+    border-color: rgba(128,128,128,0.2);
     background: rgba(255, 255, 255, 0.03);
     transform: none;
     display: none;
@@ -342,6 +342,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 }
 
 </style>
+<link rel="stylesheet" href="../assets/theme.css">
 </head>
 <body>
 
@@ -446,7 +447,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S1 TITLE ═══ -->
 <div class="slide active">
   <div class="content">
-    <div class="label">// A1.2.3–A1.2.5 · Logic Gates & Truth Tables</div>
+    <div class="label">A1.2.3–A1.2.5 · Logic Gates & Truth Tables</div>
     <h1>Logic Gates &<br><span class="hl-green">Truth Tables</span></h1>
     <p style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.3vw, 1.375rem);color:var(--text3);margin-bottom:18px;">Summary Lesson</p>
     <div class="gold-box"><p><strong>👉 Guiding Question:</strong> How do computers make decisions using logic?</p></div>
@@ -461,7 +462,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S2 WHAT ARE LOGIC GATES ═══ -->
 <div class="slide">
   <div class="content" style="max-width:960px;">
-    <div class="label green">// A1.2.3 · Logic Gates</div>
+    <div class="label green">A1.2.3 · Logic Gates</div>
     <h2>What are <span class="hl-green">Logic Gates</span>?</h2>
     <p class="lead" style="margin-bottom:14px;">Logic gates are the fundamental building blocks of digital circuits. They take binary inputs and produce a binary output based on a logical rule.</p>
     <div class="grid g3" style="gap:2px;">
@@ -493,7 +494,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S3 BASIC GATES ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label green">// Basic Gates</div>
+    <div class="label green">Basic Gates</div>
     <h2>AND · OR · <span class="hl-cyan">NOT</span></h2>
     <div class="grid g3" style="gap:8px;align-items:start;">
       <!-- AND -->
@@ -550,7 +551,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S4 DERIVED GATES 1 ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label orange">// Derived Gates · Part 1</div>
+    <div class="label orange">Derived Gates · Part 1</div>
     <h2>NAND · <span class="hl-orange">NOR</span></h2>
     <p class="lead" style="margin-bottom:10px;">Derived gates combine basic gates. Think of them as AND/OR with a NOT applied to the output.</p>
     <div class="grid g2" style="gap:8px;align-items:start;">
@@ -594,7 +595,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S5 DERIVED GATES 2 ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label purple">// Derived Gates · Part 2</div>
+    <div class="label purple">Derived Gates · Part 2</div>
     <h2>XOR · <span class="hl-purple">XNOR</span></h2>
     <p class="lead" style="margin-bottom:10px;">XOR and XNOR care about whether the inputs are the <em>same or different</em>.</p>
     <div class="grid g2" style="gap:8px;align-items:start;">
@@ -637,7 +638,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S6 GATE SUMMARY ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label gold">// Quick Reference</div>
+    <div class="label gold">Quick Reference</div>
     <h2>All 7 Gates — <span class="hl-gold">At a Glance</span></h2>
     <table class="summary-table">
       <thead>
@@ -699,7 +700,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S7 TRUTH TABLES INTRO ═══ -->
 <div class="slide">
   <div class="content" style="max-width:960px;">
-    <div class="label cyan">// A1.2.4 · Truth Tables</div>
+    <div class="label cyan">A1.2.4 · Truth Tables</div>
     <h2>Building a <span class="hl-cyan">Truth Table</span></h2>
     <p class="lead" style="margin-bottom:12px;">A truth table lists every possible input combination and its output. For <strong style="color:var(--text);">n inputs</strong>, there are always <strong style="color:var(--cyan);">2ⁿ rows</strong>.</p>
     <div class="steps">
@@ -731,7 +732,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S8 TRUTH TABLE EXAMPLE ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label cyan">// A1.2.4 · Worked Example</div>
+    <div class="label cyan">A1.2.4 · Worked Example</div>
     <h2>Truth Table <span class="hl-cyan">Worked Example</span></h2>
     <p class="lead" style="margin-bottom:10px;">Circuit: <span class="bool" style="margin:0 6px;">P = A AND B</span> <span class="bool" style="margin:0 6px;">Q = B NOR C</span> <span class="bool" style="margin:0 6px;">R = P OR Q</span> <span class="bool" style="margin:0 6px;">X = C XOR R</span></p>
     <table class="tt">
@@ -754,7 +755,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S9 TRUTH TABLE FROM PROBLEM DESCRIPTION ═══ -->
 <div class="slide">
   <div class="content" style="max-width:1000px;">
-    <div class="label cyan">// A1.2.4 · From Problem Description</div>
+    <div class="label cyan">A1.2.4 · From Problem Description</div>
     <h2>Problem → <span class="hl-cyan">Truth Table</span></h2>
     <p class="lead" style="margin-bottom:10px;"><em>Example: A baby alarm goes off when the alarm is switched on AND the baby is crying OR the room is too cold.</em></p>
     <div class="grid g2" style="gap:10px;align-items:start;">
@@ -786,7 +787,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S10 KARNAUGH MAPS ═══ -->
 <div class="slide">
   <div class="content" style="max-width:980px;">
-    <div class="label gold">// A1.2.4 · K-Maps</div>
+    <div class="label gold">A1.2.4 · K-Maps</div>
     <h2>Karnaugh Maps — <span class="hl-gold">Simplifying</span> Expressions</h2>
     <p class="lead" style="margin-bottom:10px;">K-maps let you visually simplify Boolean expressions — reducing the number of gates needed.</p>
     <div class="grid g2" style="gap:10px;align-items:start;">
@@ -821,7 +822,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S11 LOGIC DIAGRAMS ═══ -->
 <div class="slide">
   <div class="content" style="max-width:980px;">
-    <div class="label purple">// A1.2.5 · Logic Diagrams</div>
+    <div class="label purple">A1.2.5 · Logic Diagrams</div>
     <h2>Drawing <span class="hl-purple">Logic Diagrams</span></h2>
     <p class="lead" style="margin-bottom:10px;">Convert a Boolean expression into a circuit diagram step by step.</p>
     <div class="grid g2" style="gap:10px;align-items:start;">
@@ -854,7 +855,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.8rem
 <!-- ═══ S12 SUMMARY ═══ -->
 <div class="slide">
   <div class="content" style="max-width:980px;">
-    <div class="label">// Summary</div>
+    <div class="label">Summary</div>
     <h2>What We <span class="hl-gold">Covered</span></h2>
     <div class="grid g3" style="gap:2px;margin-bottom:12px;">
       <div class="card green">

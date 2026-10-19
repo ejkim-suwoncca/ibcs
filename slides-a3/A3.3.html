@@ -31,10 +31,10 @@ body::before {
   content: '';
   position: fixed; inset: 0;
   background-image:
-    linear-gradient(rgba(61,214,140,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(61,214,140,0.025) 1px, transparent 1px),
-    linear-gradient(rgba(61,214,140,0.01) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(61,214,140,0.01) 1px, transparent 1px);
+    linear-gradient(rgba(128,128,128,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128,128,128,0.025) 1px, transparent 1px),
+    linear-gradient(rgba(128,128,128,0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128,128,128,0.01) 1px, transparent 1px);
   background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
   pointer-events: none; z-index: 0;
 }
@@ -60,7 +60,7 @@ body::before {
 }
 .slide.scroll-slide::-webkit-scrollbar { width: 10px; }
 .slide.scroll-slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
-.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(14,17,23,0.3); }
+.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(128,128,128,0.14); }
 .progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--green), var(--cyan)); transition: width 0.38s ease; z-index: 100; }
 .slide-num { position: fixed; top: 17px; right: 24px; font-family: 'Google Sans Code', monospace; font-size: 18px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
 .content { width: 100%; max-width: 1120px; }
@@ -81,13 +81,13 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .card-title { font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.1vw, 1.375rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
 .card-body { font-size: clamp(1.25rem, 1.3vw, 1.5rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
 .card-body strong { color: var(--text); font-weight: 500; }
-.info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(74,158,255,0.04); border-top: 1px solid rgba(74,158,255,0.08); border-right: 1px solid rgba(74,158,255,0.08); border-bottom: 1px solid rgba(74,158,255,0.08); margin-top: 14px; }
+.info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
 .info-box p { font-size: clamp(1.25rem, 1.35vw, 1.5rem); color: var(--text2); line-height: 1.6; }
 .info-box strong { color: var(--blue); }
-.gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(201,168,76,0.04); border-top: 1px solid rgba(201,168,76,0.08); border-right: 1px solid rgba(201,168,76,0.08); border-bottom: 1px solid rgba(201,168,76,0.08); margin-top: 14px; }
+.gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
 .gold-box p { font-size: clamp(1.25rem, 1.35vw, 1.5rem); color: var(--text2); line-height: 1.6; }
 .gold-box strong { color: var(--gold2); }
-.green-box { border-left: 3px solid var(--green); padding: 13px 20px; background: rgba(61,214,140,0.04); border-top: 1px solid rgba(61,214,140,0.08); border-right: 1px solid rgba(61,214,140,0.08); border-bottom: 1px solid rgba(61,214,140,0.08); margin-top: 14px; }
+.green-box { border-left: 3px solid var(--green); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
 .green-box p { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.6; }
 .green-box strong { color: var(--green); }
 .steps { display: flex; flex-direction: column; gap: 2px; }
@@ -96,7 +96,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .step-text { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.5; font-weight: 300; }
 .step-text strong { color: var(--text); font-weight: 500; }
 /* SQL code blocks */
-.sql { background: #0a0d14; border: 1px solid var(--border2); border-left: 3px solid var(--green); padding: 14px 18px; font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.2vw, 1.375rem); line-height: 1.7; overflow-x: auto; margin-top: 10px; }
+.sql { background: var(--tile); border: 1px solid var(--border2); border-left: 3px solid var(--green); padding: 14px 18px; font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.2vw, 1.375rem); line-height: 1.7; overflow-x: auto; margin-top: 10px; }
 .kw { color: var(--cyan); font-weight: 500; }
 .fn { color: var(--gold2); }
 .str { color: var(--green); }
@@ -111,9 +111,9 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .comparison-table tr:last-child td { border-bottom: none; }
 .comparison-table tr:hover td { background: var(--surface2); }
 .comparison-table td:first-child { font-family: 'Google Sans Code', monospace; font-size: 0.88em; color: var(--green); font-weight: 500; }
-.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; border-radius: 999px;}
+.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(128,128,128,0.14); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; border-radius: 999px;}
 .nav-btn { font-family: 'Google Sans Code', monospace; font-size: 18px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; border-radius: 999px;}
-.nav-btn:hover { color: var(--green); border-color: var(--green); background: rgba(61,214,140,0.05); }
+.nav-btn:hover { color: var(--green); border-color: var(--green); background: rgba(128,128,128,0.05); }
 .nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
 .nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 200px; justify-content: center; }
 .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); cursor: pointer; transition: all 0.2s; }
@@ -127,8 +127,8 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   left: 0;
   right: 0;
   z-index: 1200;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
-  background: rgba(7, 9, 15, 0.9);
+  border-bottom: 1px solid rgba(128,128,128,0.2);
+  background: rgba(128,128,128,0.14);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
@@ -146,7 +146,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .course-nav a,
 .course-menu-button,
 .course-submenu-button {
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   text-decoration: none;
   white-space: nowrap;
   line-height: 1;
@@ -161,7 +161,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   border-radius: 0;
   border-bottom: 2px solid transparent;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.12em;
@@ -170,7 +170,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   transition: color 0.18s ease, border-color 0.18s ease;
 }
 .course-home-link {
-  color: var(--text, #f8fafc) !important;
+  color: var(--text, var(--ink)) !important;
   font-weight: 700;
   letter-spacing: 0.16em;
 }
@@ -187,7 +187,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .course-submenu-button::after {
   content: "▾";
   font-size: 18px;
-  color: var(--text3, #64748b);
+  color: var(--text3, var(--ink));
   transition: transform 0.18s ease;
 }
 .course-submenu-button::after {
@@ -208,10 +208,10 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   display: grid;
   gap: 2px;
   padding: 8px;
-  border: 1px solid rgba(148, 163, 184, 0.22);
+  border: 1px solid rgba(128,128,128,0.22);
   border-radius: 6px;
-  background: rgba(8, 13, 24, 0.98);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+  background: rgba(128,128,128,0.14);
+  box-shadow: 0 18px 40px rgba(128,128,128,0.14);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.16s ease, transform 0.16s ease;
@@ -259,7 +259,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   border: 0;
   border-radius: 4px;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.04em;
@@ -274,10 +274,10 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 }
 .course-topic-link,
 .course-subdropdown a.current-page {
-  color: var(--accent, #22b3a0) !important;
+  color: var(--accent, var(--ink)) !important;
 }
 .course-subdropdown a.current-page {
-  background: rgba(34, 211, 238, 0.08);
+  background: rgba(128,128,128,0.08);
 }
 .course-dropdown a:hover,
 .course-dropdown a:focus,
@@ -285,7 +285,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .course-subdropdown a:focus,
 .course-submenu-button:hover,
 .course-submenu-button:focus {
-  color: var(--text, #f8fafc);
+  color: var(--text, var(--ink));
   background: rgba(255, 255, 255, 0.08);
   outline: none;
 }
@@ -295,8 +295,8 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .course-menu-button:hover,
 .course-menu-button:focus,
 .course-menu-button.current {
-  color: var(--text, #f8fafc);
-  border-color: var(--accent, #22b3a0);
+  color: var(--text, var(--ink));
+  border-color: var(--accent, var(--line-2));
   outline: none;
 }
 .course-nav ~ .slide-num { top: 98px !important; }
@@ -333,7 +333,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
     margin: 0 0 4px 12px;
     padding: 4px;
     box-shadow: none;
-    border-color: rgba(148, 163, 184, 0.14);
+    border-color: rgba(128,128,128,0.2);
     background: rgba(255, 255, 255, 0.03);
     transform: none;
     display: none;
@@ -358,6 +358,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 }
 
 </style>
+<link rel="stylesheet" href="../assets/theme.css">
 </head>
 <body>
 
@@ -462,7 +463,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S1: TITLE -->
 <div class="slide active">
   <div class="content">
-    <div class="label">// A3.3 · Database Programming</div>
+    <div class="label">A3.3 · Database Programming</div>
     <h1>SQL<br><span class="hl-green">Programming</span></h1>
     <p style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.4vw, 1.375rem);color:var(--text3);margin-bottom:20px;">Theme A3 · IB Computer Science SL</p>
     <div class="gold-box">
@@ -480,7 +481,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S2: IB SPEC -->
 <div class="slide">
   <div class="content">
-    <div class="label">// IB Specification · A3.3</div>
+    <div class="label">IB Specification · A3.3</div>
     <h2>What IB Requires</h2>
     <div class="steps">
       <div class="step-row"><div class="step-n">3.3.1</div><div class="step-text"><strong>Outline</strong> differences between DDL and DML within SQL</div></div>
@@ -499,7 +500,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S3: DDL vs DML -->
 <div class="slide">
   <div class="content" style="max-width:960px;margin:0 auto;">
-    <div class="label">// A3.3.1 · DDL vs DML</div>
+    <div class="label">A3.3.1 · DDL vs DML</div>
     <h2>DDL vs <span class="hl-green">DML</span></h2>
     <p class="lead" style="margin-bottom:14px;">SQL has two main categories of commands:</p>
     <div class="grid g2" style="gap:2px;margin-bottom:14px;">
@@ -540,7 +541,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S4: CREATE TABLE -->
 <div class="slide scroll-slide">
   <div class="content" style="max-width:900px;margin:0 auto;">
-    <div class="label">// DDL · CREATE TABLE</div>
+    <div class="label">DDL · CREATE TABLE</div>
     <h2>Creating <span class="hl-green">Tables</span></h2>
     <p class="lead" style="margin-bottom:12px;">The <strong style="color:var(--cyan);">CREATE TABLE</strong> statement defines a new table, its columns, data types, and constraints.</p>
     <div class="sql"><span class="kw">CREATE TABLE</span> Students (
@@ -567,7 +568,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S5: SELECT basics -->
 <div class="slide scroll-slide">
   <div class="content" style="max-width:900px;margin:0 auto;">
-    <div class="label">// DML · SELECT Basics</div>
+    <div class="label">DML · SELECT Basics</div>
     <h2>Querying with <span class="hl-cyan">SELECT</span></h2>
     <p class="lead" style="margin-bottom:12px;">SELECT retrieves data from a table. It is the most used SQL command.</p>
     <div class="sql"><span class="cmt">-- Retrieve all columns and all rows</span>
@@ -592,7 +593,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S6: WHERE, BETWEEN, LIKE -->
 <div class="slide scroll-slide">
   <div class="content" style="max-width:900px;margin:0 auto;">
-    <div class="label">// DML · Filtering</div>
+    <div class="label">DML · Filtering</div>
     <h2>Filtering with <span class="hl-gold">WHERE</span></h2>
     <div class="sql"><span class="cmt">-- Relational operators</span>
 <span class="kw">SELECT</span> * <span class="kw">FROM</span> Students <span class="kw">WHERE</span> Age &gt; <span class="num">16</span>;
@@ -616,7 +617,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S7: JOIN -->
 <div class="slide scroll-slide">
   <div class="content" style="max-width:900px;margin:0 auto;">
-    <div class="label">// A3.3.2 · JOIN</div>
+    <div class="label">A3.3.2 · JOIN</div>
     <h2>Joining <span class="hl-blue">Tables</span></h2>
     <p class="lead" style="margin-bottom:12px;">A <strong style="color:var(--blue);">JOIN</strong> combines rows from two tables based on a related column (usually a foreign key linking to a primary key).</p>
     <div class="sql"><span class="cmt">-- Get student names with their enrolled course codes</span>
@@ -644,7 +645,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S8: GROUP BY / HAVING -->
 <div class="slide scroll-slide">
   <div class="content" style="max-width:900px;margin:0 auto;">
-    <div class="label">// DML · Grouping &amp; Ordering</div>
+    <div class="label">DML · Grouping &amp; Ordering</div>
     <h2>GROUP BY &amp; <span class="hl-gold">HAVING</span></h2>
     <p class="lead" style="margin-bottom:12px;"><strong style="color:var(--gold2);">GROUP BY</strong> groups rows with the same value. <strong style="color:var(--gold2);">HAVING</strong> filters groups (like WHERE, but for groups after aggregation).</p>
     <div class="sql"><span class="cmt">-- Count how many students are in each year group</span>
@@ -671,7 +672,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S9: INSERT -->
 <div class="slide scroll-slide">
   <div class="content" style="max-width:900px;margin:0 auto;">
-    <div class="label">// A3.3.3 · DML · INSERT</div>
+    <div class="label">A3.3.3 · DML · INSERT</div>
     <h2>Adding Data: <span class="hl-green">INSERT INTO</span></h2>
     <p class="lead" style="margin-bottom:12px;"><strong style="color:var(--green);">INSERT INTO</strong> adds new records to a table.</p>
     <div class="sql"><span class="cmt">-- Insert a single record (specify columns)</span>
@@ -695,7 +696,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S10: UPDATE -->
 <div class="slide scroll-slide">
   <div class="content" style="max-width:900px;margin:0 auto;">
-    <div class="label">// A3.3.3 · DML · UPDATE</div>
+    <div class="label">A3.3.3 · DML · UPDATE</div>
     <h2>Modifying Data: <span class="hl-blue">UPDATE</span></h2>
     <p class="lead" style="margin-bottom:12px;"><strong style="color:var(--blue);">UPDATE</strong> modifies existing records. Always use WHERE to target specific rows.</p>
     <div class="sql"><span class="cmt">-- Update one student's email</span>
@@ -719,7 +720,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S11: DELETE -->
 <div class="slide scroll-slide">
   <div class="content" style="max-width:900px;margin:0 auto;">
-    <div class="label">// A3.3.3 · DML · DELETE</div>
+    <div class="label">A3.3.3 · DML · DELETE</div>
     <h2>Removing Data: <span class="hl-red">DELETE</span></h2>
     <p class="lead" style="margin-bottom:12px;"><strong style="color:var(--red);">DELETE FROM</strong> removes records. Like UPDATE, always use WHERE — or all rows are deleted.</p>
     <div class="sql"><span class="cmt">-- Delete a specific student record</span>
@@ -746,7 +747,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S12: WORKED EXAMPLE -->
 <div class="slide scroll-slide">
   <div class="content" style="max-width:1000px;margin:0 auto;">
-    <div class="label">// Worked Example · School DB</div>
+    <div class="label">Worked Example · School DB</div>
     <h2>Complete <span class="hl-green">SQL Scenario</span></h2>
     <p style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);margin-bottom:10px;">Given: STUDENT(StudentID, FirstName, LastName, YearGroup) and COURSE(CourseCode, Title, TeacherID) and ENROLMENT(EnrolID, StudentID, CourseCode)</p>
     <div class="sql"><span class="cmt">-- Q1: List the full name of all students enrolled in IBCS-SL</span>
@@ -772,7 +773,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S13: SQL REFERENCE TABLE -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label">// Reference</div>
+    <div class="label">Reference</div>
     <h2>SQL <span class="hl-cyan">Quick Reference</span></h2>
     <table class="comparison-table">
       <thead><tr><th>Keyword</th><th>Purpose</th><th>Example</th></tr></thead>
@@ -794,7 +795,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S14: COMMON MISTAKES -->
 <div class="slide">
   <div class="content" style="max-width:900px;margin:0 auto;">
-    <div class="label">// Common Errors</div>
+    <div class="label">Common Errors</div>
     <h2>Common SQL <span class="hl-red">Mistakes</span></h2>
     <div class="steps">
       <div class="step-row" style="border-left:3px solid var(--red);">
@@ -824,7 +825,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S15: SUMMARY -->
 <div class="slide">
   <div class="content" style="max-width:960px;margin:0 auto;">
-    <div class="label">// A3.3 · Summary</div>
+    <div class="label">A3.3 · Summary</div>
     <h2>Key <span class="hl-green">Takeaways</span></h2>
     <div class="grid g2" style="gap:2px;">
       <div class="card green">
