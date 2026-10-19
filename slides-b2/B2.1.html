@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>B2 Programming Fundamentals — Part 1.1</title>
+<title>B2.1 — Programming Fundamentals</title>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Code:wght@400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -435,15 +435,15 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
         <div class="course-submenu">
           <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-b1">B1: Computational Thinking</button>
           <div class="course-subdropdown" id="course-submenu-b1">
-            <a href="B1.1.html">B1.1 Approaches to Computational Thinking</a>
+            <a href="../slides-b1/B1.1.html">B1.1 Approaches to Computational Thinking</a>
           </div>
         </div>
         <div class="course-submenu">
-          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-b2">B2: Programming, Algorithms and Files</button>
+          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-b2">B2: Programming</button>
           <div class="course-subdropdown" id="course-submenu-b2">
-            <a class="current-page" href="ProgrammingFundamentals_Part1.1.html">B2.1 + B2.3 Programming Fundamentals Part 1.1</a>
-            <a href="ProgrammingFundamentals_Part1.2.html">B2.3 Programming Fundamentals Part 1.2</a>
-            <a href="ProgrammingFundamentals_Part2.html">B2.1 + B2.2 Lists, Stacks and Queues</a>
+            <a class="current-page" href="B2.1.html">B2.1 Programming Fundamentals</a>
+            <a href="B2.2.html">B2.2 Data Structures</a>
+            <a href="B2.3.html">B2.3 Programming Constructs</a>
             <a href="B2.4.html">B2.4 Search, Sort and Big O</a>
             <a href="B2.4_Recursion.html">B2.4 HL Recursion</a>
             <a href="B2.5.html">B2.5 File Processing</a>
@@ -473,26 +473,24 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 
 
 <div class="progress" id="progress"></div>
-<div class="slide-num" id="slideNum">01 / 14</div>
+<div class="slide-num" id="slideNum">01 / 13</div>
 <div class="deck">
 
 <!-- ═══ S1  TITLE ═══ -->
 <div class="slide active">
   <div class="content">
-    <div class="label">// IB CS SL · B2 Programming · Part 1.1</div>
+    <div class="label">// IB CS SL · B2 Programming · B2.1</div>
     <h1>Programming<br><span style="color:var(--green);">Fundamentals</span></h1>
-    <p class="lead">Covers <strong style="color:var(--text);">B2.1 Programming fundamentals</strong> and the first programming construct in <strong style="color:var(--text);">B2.3</strong>.<br>Python is the primary language. Java equivalents are shown where the guide requires both.</p>
+    <p class="lead">Covers <strong style="color:var(--text);">B2.1 Programming fundamentals</strong>: data types, substrings, exception handling and debugging.<br>Python is the primary language. Java equivalents are shown where the guide requires both.</p>
     <div class="gold-box">
       <p><strong>Guiding question:</strong> What is an efficient way to communicate with computers?</p>
     </div>
     <div class="pill-row">
       <div class="pill">variables &amp; data types</div>
       <div class="pill">substrings</div>
-      <div class="pill">sequence</div>
+      <div class="pill">points of failure</div>
       <div class="pill">exception handling</div>
       <div class="pill">debugging</div>
-      <div class="pill">selection</div>
-      <div class="pill">failure types</div>
     </div>
   </div>
 </div>
@@ -500,29 +498,28 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 <!-- ═══ S2  LESSON MAP ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label green">// Syllabus Map · B2.1 + B2.3</div>
+    <div class="label green">// Syllabus Map · B2.1</div>
     <h2>What the IB Requires You to Do</h2>
     <div class="steps">
       <div class="step-row">
         <div class="step-n">B2.1.1</div>
-        <div class="step-text"><strong>Construct and trace</strong> programs using variables across five data types: <strong>Boolean, char, decimal/float, integer, string</strong>.</div>
+        <div class="step-text"><strong>Construct and trace</strong> programs using a range of global and local variables of various data types: <strong>Boolean, char, decimal, integer, string</strong>.</div>
       </div>
       <div class="step-row">
         <div class="step-n">B2.1.2</div>
-        <div class="step-text"><strong>Construct</strong> programs that identify, extract, alter, concatenate and replace substrings.</div>
+        <div class="step-text"><strong>Construct</strong> programs that identify and extract substrings, and alter, concatenate or replace them.</div>
       </div>
       <div class="step-row">
         <div class="step-n">B2.1.3</div>
-        <div class="step-text"><strong>Describe</strong> exception handling for unexpected inputs, resource unavailability and logic errors. Must include <strong>try/except</strong> (Python), <strong>try/catch</strong> (Java) and the <strong>finally</strong> block.</div>
+        <div class="step-text"><strong>Describe</strong> points of failure (<strong>unexpected inputs, resource unavailability, logic errors</strong>) and the role of exception handling. Must include <strong>try/except</strong> (Python), <strong>try/catch</strong> (Java) and the <strong>finally</strong> block.</div>
       </div>
       <div class="step-row">
         <div class="step-n">B2.1.4</div>
-        <div class="step-text"><strong>Construct and use</strong> debugging techniques: trace tables, print statements, breakpoints, step-by-step execution.</div>
+        <div class="step-text"><strong>Construct and use</strong> debugging techniques: trace tables, breakpoint debugging, print statements, step-by-step execution.</div>
       </div>
-      <div class="step-row">
-        <div class="step-n">B2.3.1–2</div>
-        <div class="step-text"><strong>Construct</strong> programs using correct sequence and selection (if/elif/else). Loops and functions continue in Part 1.2.</div>
-      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>Note:</strong> Global and local variables are introduced with functions in <strong>B2.3.4</strong>, once you can write a function.</p>
     </div>
   </div>
 </div>
@@ -730,28 +727,28 @@ clean  = "  hello  ".strip() <span class="cm"># "hello"</span></div>
   </div>
 </div>
 
-<!-- ═══ S9  SEQUENCE ═══ -->
+<!-- ═══ S9  FAILURE TYPES ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label">// B2.3.1 · Sequence</div>
-    <h2>Order of Instructions Changes Everything</h2>
-    <p class="lead">A program executes <strong>line by line</strong>. If steps are in the wrong order, the output can be wrong even when each line looks reasonable.</p>
-    <div class="grid g2">
-      <div class="card green">
-        <div class="card-title" style="color:var(--green);">Correct sequence</div>
-        <div class="code-block">total = 0           <span class="cm"># 1. initialise</span>
-total = total + 5   <span class="cm"># 2. update</span>
-print(total)        <span class="cm"># 3. output: 5</span></div>
-      </div>
+    <div class="label red">// B2.1.3 · Why Programs Fail</div>
+    <h2>Three Sources of Failure <span class="tag must">must include</span></h2>
+    <p class="lead">Failure means the program cannot complete the task correctly. Sometimes it crashes; sometimes it runs but gives the wrong result.</p>
+    <div class="grid g3">
       <div class="card red">
-        <div class="card-title" style="color:var(--red);">Broken sequence</div>
-        <div class="code-block">total = total + 5   <span class="cm"># NameError: total not defined</span>
-total = 0
-print(total)</div>
+        <div class="card-title" style="color:var(--red);">Unexpected input</div>
+        <div class="card-body">The user enters a value the program was not prepared for, such as <strong>"ten"</strong> when a number is needed.</div>
+      </div>
+      <div class="card amber">
+        <div class="card-title" style="color:var(--amber);">Resource unavailable</div>
+        <div class="card-body">The program needs something it cannot access, such as a missing file, offline printer, or failed network connection.</div>
+      </div>
+      <div class="card purple">
+        <div class="card-title" style="color:var(--purple);">Logic error</div>
+        <div class="card-body">The instructions run, but the thinking is wrong. The program may finish with an incorrect answer.</div>
       </div>
     </div>
     <div class="info-box">
-      <p><strong>Guide requirement:</strong> B2.3.1 expects you to construct programs that use sequence correctly. Trace the values after each line to check the order.</p>
+      <p><strong>Connection:</strong> Exception handling is one way to respond to failures that would otherwise stop the program suddenly.</p>
     </div>
   </div>
 </div>
@@ -846,85 +843,43 @@ print(total)</div>
   </div>
 </div>
 
-<!-- ═══ S12  SELECTION ═══ -->
+<!-- ═══ S  DEBUGGING IN ACTION ═══ -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label purple">// B2.3.2 · Selection</div>
-    <h2>Making Decisions in Code</h2>
-    <p class="lead">Selection structures execute different code blocks depending on whether a condition is True or False. Use <strong>Boolean operators</strong> (AND, OR, NOT) and <strong>relational operators</strong> (&lt;, &lt;=, &gt;, &gt;=, ==, !=) to build conditions.</p>
+    <div class="label green">// B2.1.4 · Debugging in Action</div>
+    <h2>Use Evidence to Find the Wrong Line</h2>
+    <p class="lead">This program should print the average of three quiz scores, <strong>85.0</strong>. It prints <strong>195.0</strong> instead. Add print statements, then trace the values.</p>
     <div class="grid g2" style="margin-bottom:10px;">
-      <div>
-        <div class="lang-label">Python — if / elif / else</div>
-        <div class="code-block">score = 78
-
-<span class="kw">if</span> score >= 80:
-    print("Pass with distinction")
-<span class="kw">elif</span> score >= 50:
-    print("Pass")
-<span class="kw">else</span>:
-    print("Fail")
-
-<span class="cm"># Boolean operators in conditions:</span>
-<span class="kw">if</span> score >= 50 <span class="kw">and</span> score <= 100:
-    print("Valid score, passed")</div>
-      </div>
-      <div>
-        <div class="lang-label">Java — if / else if / else</div>
-        <div class="code-block"><span class="kw">if</span> (score >= 80) {
-    System.out.println("Pass with distinction");
-} <span class="kw">else if</span> (score >= 50) {
-    System.out.println("Pass");
-} <span class="kw">else</span> {
-    System.out.println("Fail");
-}
-
-<span class="cm">// Boolean operators:</span>
-<span class="kw">if</span> (score >= 50 &amp;&amp; score <= 100) {
-    System.out.println("Valid score, passed");
-}</div>
-      </div>
-    </div>
-    <table class="compare-table">
-      <thead><tr><th>Operator type</th><th>Symbols</th><th>Example</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Relational</strong></td><td><span class="code-inline">&lt;  &lt;=  &gt;  &gt;=  ==  !=</span></td><td><span class="code-inline">score != 0</span></td></tr>
-        <tr><td><strong>Boolean (Python)</strong></td><td><span class="code-inline">and  or  not</span></td><td><span class="code-inline">x &gt; 0 and x &lt; 10</span></td></tr>
-        <tr><td><strong>Boolean (Java)</strong></td><td><span class="code-inline">&amp;&amp;  ||  !</span></td><td><span class="code-inline">x &gt; 0 &amp;&amp; x &lt; 10</span></td></tr>
-      </tbody>
-    </table>
-    <div class="gold-box">
-      <p><strong>Guide requirement:</strong> Must include <strong>if, else</strong> and <strong>else if</strong> (Java) / <strong>elif</strong> (Python). Must also demonstrate use with Boolean and relational operators.</p>
-    </div>
-  </div>
-</div>
-
-<!-- ═══ S13  FAILURE TYPES ═══ -->
-<div class="slide">
-  <div class="content">
-    <div class="label red">// B2.1.3 · Why Programs Fail</div>
-    <h2>Three Sources of Failure <span class="tag must">must include</span></h2>
-    <p class="lead">Failure means the program cannot complete the task correctly. Sometimes it crashes; sometimes it runs but gives the wrong result.</p>
-    <div class="grid g3">
       <div class="card red">
-        <div class="card-title" style="color:var(--red);">Unexpected input</div>
-        <div class="card-body">The user enters a value the program was not prepared for, such as <strong>"ten"</strong> when a number is needed.</div>
+        <div class="card-title">Buggy code with print statements</div>
+        <div class="code-block">q1 = 80
+q2 = 85
+q3 = 90
+
+average = q1 + q2 + q3 / 3
+print("DEBUG average:", average)  <span class="cm"># 195.0</span>
+
+print("DEBUG q3 / 3:", q3 / 3)    <span class="cm"># 30.0</span></div>
       </div>
-      <div class="card amber">
-        <div class="card-title" style="color:var(--amber);">Resource unavailable</div>
-        <div class="card-body">The program needs something it cannot access, such as a missing file, offline printer, or failed network connection.</div>
-      </div>
-      <div class="card purple">
-        <div class="card-title" style="color:var(--purple);">Logic error</div>
-        <div class="card-body">The instructions run, but the thinking is wrong. The program may finish with an incorrect answer.</div>
+      <div class="card cyan">
+        <div class="card-title">Trace table</div>
+        <table class="compare-table">
+          <thead><tr><th>Step</th><th>Expression</th><th>Value</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td><span class="code-inline">q3 / 3</span></td><td>30.0</td></tr>
+            <tr><td>2</td><td><span class="code-inline">q1 + q2 + 30.0</span></td><td>195.0</td></tr>
+            <tr><td>Fix</td><td><span class="code-inline">(q1 + q2 + q3) / 3</span></td><td>85.0</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
-    <div class="info-box">
-      <p><strong>Connection:</strong> Exception handling is one way to respond to failures that would otherwise stop the program suddenly.</p>
+    <div class="red-box">
+      <p><strong>Common error:</strong> Division happens before addition. Without brackets, only <span class="code-inline">q3</span> is divided by 3. This is a <strong>logic error</strong>: the program runs, so there is no error message to help you.</p>
     </div>
   </div>
 </div>
 
-<!-- ═══ S14  EXIT TICKET ═══ -->
+<!-- ═══ S  EXIT TICKET ═══ -->
 <div class="slide">
   <div class="content">
     <div class="label">// Practice · Exit Ticket</div>
@@ -934,10 +889,8 @@ print(total)</div>
         <div class="card-title">Trace &amp; Construct</div>
         <div class="card-body">
           <strong>1.</strong> What does this print?
-          <div class="code-block" style="margin-top:8px;">score = 9
-bonus = 3
-total = score + bonus
-print(total)</div>
+          <div class="code-block" style="margin-top:8px;">email = "ej.kim@suwoncca.org"
+print(email[:2].upper() + "!")</div>
           <br>
           <strong>2.</strong> Write code that stores <span class="code-inline">first</span>, <span class="code-inline">last</span>, and <span class="code-inline">email</span>, then prints a full name.
         </div>
@@ -947,12 +900,13 @@ print(total)</div>
         <div class="card-body">
           <strong>3.</strong> Identify the data type of <span class="code-inline">True</span>, <span class="code-inline">42</span>, <span class="code-inline">3.14</span>, and <span class="code-inline">"EJ"</span>.<br><br>
           <strong>4.</strong> A user types <span class="code-inline">"abc"</span> when an integer is expected. Name the exception type and write a <span class="code-inline">try/except</span> block to handle it.<br><br>
-          <strong>5.</strong> Give one example of unexpected input, resource unavailability, and a logic error.
+          <strong>5.</strong> Give one example of unexpected input, resource unavailability, and a logic error.<br><br>
+          <strong>6.</strong> Name two debugging techniques and say when you would use each.
         </div>
       </div>
     </div>
     <div class="gold-box">
-      <p><strong>Success check:</strong> You can choose suitable data types, trace sequence, manipulate strings, handle simple exceptions, debug with evidence, and explain common failure sources.</p>
+      <p><strong>Success check:</strong> You can choose suitable data types, manipulate strings, explain points of failure, handle simple exceptions, and debug with evidence.</p>
     </div>
   </div>
 </div>

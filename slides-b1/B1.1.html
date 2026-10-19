@@ -581,14 +581,14 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
           </div>
         </div>
         <div class="course-submenu">
-          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-b2">B2: Programming, Algorithms and Files</button>
+          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-b2">B2: Programming</button>
           <div class="course-subdropdown" id="course-submenu-b2">
-            <a href="ProgrammingFundamentals_Part1.1.html">B2.1 + B2.3 Programming Fundamentals Part 1.1</a>
-            <a href="ProgrammingFundamentals_Part1.2.html">B2.3 Programming Fundamentals Part 1.2</a>
-            <a href="ProgrammingFundamentals_Part2.html">B2.1 + B2.2 Lists, Stacks and Queues</a>
-            <a href="B2.4.html">B2.4 Search, Sort and Big O</a>
-            <a href="B2.4_Recursion.html">B2.4 HL Recursion</a>
-            <a href="B2.5.html">B2.5 File Processing</a>
+            <a href="../slides-b2/B2.1.html">B2.1 Programming Fundamentals</a>
+            <a href="../slides-b2/B2.2.html">B2.2 Data Structures</a>
+            <a href="../slides-b2/B2.3.html">B2.3 Programming Constructs</a>
+            <a href="../slides-b2/B2.4.html">B2.4 Search, Sort and Big O</a>
+            <a href="../slides-b2/B2.4_Recursion.html">B2.4 HL Recursion</a>
+            <a href="../slides-b2/B2.5.html">B2.5 File Processing</a>
           </div>
         </div>
         <div class="course-submenu">
@@ -672,31 +672,31 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
       </div>
       <div class="card a-amber">
         <span class="accent"></span>
-        <div class="card-title">Constraints</div>
+        <div class="card-title">Constraints &amp; Limitations</div>
         <div class="card-body">What limits the solution? E.g. budget, time, hardware, laws.</div>
       </div>
       <div class="card a-green">
         <span class="accent"></span>
-        <div class="card-title">Objectives</div>
-        <div class="card-body">What must the solution do? Agreed with the stakeholders.</div>
+        <div class="card-title">Objectives &amp; Goals</div>
+        <div class="card-body">What must the solution do? Agree the goals with the people who will use it.</div>
       </div>
       <div class="card a-purple">
         <span class="accent"></span>
-        <div class="card-title">Inputs &amp; Outputs</div>
-        <div class="card-body">What data goes in? What is produced? In what format?</div>
+        <div class="card-title">Input Specifications</div>
+        <div class="card-body">What data goes in? In what format, and what values are valid?</div>
       </div>
       <div class="card a-teal">
         <span class="accent"></span>
-        <div class="card-title">Success Criteria</div>
-        <div class="card-body">Specific, measurable tests that tell you the solution works.</div>
+        <div class="card-title">Output Specifications</div>
+        <div class="card-body">What does the solution produce? In what format, and for whom?</div>
       </div>
       <div class="card a-coral">
         <span class="accent"></span>
-        <div class="card-title">Stakeholders</div>
-        <div class="card-body">People who use or are affected by the solution. Interview them first.</div>
+        <div class="card-title">Evaluation Criteria</div>
+        <div class="card-body">Specific, measurable tests that tell you the solution works.</div>
       </div>
     </div>
-    <div class="note"><strong>IA link:</strong> Your success criteria here are reused at the end of your project to evaluate your final product.</div>
+    <div class="note"><strong>IA link:</strong> Your evaluation criteria here are reused at the end of your project to evaluate your final product.</div>
   </div>
 </section>
 
@@ -774,12 +774,12 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
       </thead>
       <tbody>
         <tr><td class="step">1</td><td class="term">Real-world problem</td><td>Identify a situation that needs a computational solution.</td></tr>
-        <tr><td class="step">2</td><td class="term">Problem specification</td><td>Define inputs, outputs, constraints, objectives and success criteria.</td></tr>
+        <tr><td class="step">2</td><td class="term">Problem specification</td><td>Define inputs, outputs, constraints, objectives and evaluation criteria.</td></tr>
         <tr><td class="step">3</td><td class="term">Decomposition</td><td>Break the big problem into smaller, manageable sub-problems.</td></tr>
         <tr><td class="step">4</td><td class="term">Pattern recognition</td><td>Find similarities or repetition across sub-problems.</td></tr>
         <tr><td class="step">5</td><td class="term">Abstraction</td><td>Keep only the details that matter; ignore the rest.</td></tr>
         <tr><td class="step">6</td><td class="term">Algorithmic thinking</td><td>Design a clear, ordered set of steps to solve each part.</td></tr>
-        <tr><td class="step">7</td><td class="term">Testing &amp; evaluation</td><td>Check correctness against your success criteria.</td></tr>
+        <tr><td class="step">7</td><td class="term">Testing &amp; evaluation</td><td>Check correctness against your evaluation criteria.</td></tr>
       </tbody>
     </table>
     <div class="note green" style="margin-top:12px;"><strong>Key point:</strong> Steps 3–6 are the four pillars of computational thinking. You need to know each one by name and definition for the exam.</div>
@@ -920,7 +920,7 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
     <span>08 / 11</span>
   </div>
   <div style="flex:1;display:flex;flex-direction:column;">
-    <h2>Five symbols — memorise them all.</h2>
+    <h2>Six symbols — know them all.</h2>
     <div class="grid g2" style="align-items:start;gap:clamp(18px,2vw,36px);">
       <div>
         <div class="sym-row">
@@ -958,6 +958,13 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
             <div class="ds">Shows the direction the algorithm flows.</div>
           </div>
         </div>
+        <div class="sym-row">
+          <div class="pic"><div class="flow"><div class="proc" style="width:44px;height:44px;min-width:0;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center;">A</div></div></div>
+          <div class="meta">
+            <div class="nm">Circle / Connector</div>
+            <div class="ds">Joins flowlines, or continues a flowchart in another place. Matching letters link the two ends.</div>
+          </div>
+        </div>
       </div>
       <div>
         <div class="eyebrow">Example flowchart — average of two numbers</div>
@@ -974,7 +981,7 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
           <div class="arrow">&darr;</div>
           <div class="term">END</div>
         </div>
-        <div class="note" style="margin-top:12px;"><strong>Exam tip:</strong> A flowchart question will ask you to draw or complete a diagram. Use the correct symbol for each step — wrong symbol = lost marks.</div>
+        <div class="note" style="margin-top:12px;"><strong>Common error:</strong> Using a rectangle for input or output. Reading or displaying data always uses a parallelogram; a rectangle is only for a process.</div>
       </div>
     </div>
   </div>
@@ -1039,7 +1046,7 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
   </div>
   <div style="flex:1;display:flex;flex-direction:column;">
     <h2>The same four skills, everywhere.</h2>
-    <p class="lead">Decomposition, pattern recognition, abstraction, and algorithmic thinking appear across all areas of computer science — the labels just change.</p>
+    <p class="lead">Computational thinking <strong>does not necessarily involve programming</strong>: it is a toolkit of problem-solving techniques. Decomposition, pattern recognition, abstraction and algorithmic design appear across all areas of computer science.</p>
     <div class="grid g2" style="align-items:start;">
       <div class="card a-blue">
         <span class="accent"></span>
@@ -1063,7 +1070,7 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
       </div>
     </div>
     <div class="note" style="margin-top:auto;">
-      <strong>Think about it:</strong> Can you identify all four CT skills in your IA project? Examiners reward students who name and apply them explicitly.
+      <strong>Network security too:</strong> recognize the pattern of attack traffic, abstract it to the rules that matter, and design an algorithm that blocks it. Can you find all four skills in your own IA project?
     </div>
   </div>
 </section>
@@ -1079,10 +1086,10 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
   <div style="flex:1;display:flex;flex-direction:column;">
     <h2>Key takeaways for the exam.</h2>
     <div class="recap">
-      <div class="recap-line"><span class="tag">B1.1.1</span><span>A problem specification includes: problem statement, constraints, objectives, inputs &amp; outputs, success criteria, stakeholders.</span></div>
+      <div class="recap-line"><span class="tag">B1.1.1</span><span>A problem specification may include: problem statement, constraints and limitations, objectives and goals, input specifications, output specifications, evaluation criteria.</span></div>
       <div class="recap-line"><span class="tag">B1.1.2</span><span>The CT process has 7 steps. The four core CT skills are: <strong>decomposition, pattern recognition, abstraction, algorithmic thinking</strong>.</span></div>
       <div class="recap-line"><span class="tag">B1.1.3</span><span>The same CT skills appear in software, databases, data analysis, and AI. Learn to name them in context.</span></div>
-      <div class="recap-line"><span class="tag">B1.1.4</span><span>Flowcharts use 5 symbols (oval, parallelogram, rectangle, diamond, arrow). Trace tables track variables line by line.</span></div>
+      <div class="recap-line"><span class="tag">B1.1.4</span><span>Flowcharts use 6 symbols (oval, parallelogram, rectangle, diamond, arrow, connector). Trace tables track variables line by line.</span></div>
     </div>
     <div class="grid g4">
       <div class="card a-coral">

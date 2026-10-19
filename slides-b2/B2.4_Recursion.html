@@ -441,15 +441,15 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
         <div class="course-submenu">
           <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-b1">B1: Computational Thinking</button>
           <div class="course-subdropdown" id="course-submenu-b1">
-            <a href="B1.1.html">B1.1 Approaches to Computational Thinking</a>
+            <a href="../slides-b1/B1.1.html">B1.1 Approaches to Computational Thinking</a>
           </div>
         </div>
         <div class="course-submenu">
-          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-b2">B2: Programming, Algorithms and Files</button>
+          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-b2">B2: Programming</button>
           <div class="course-subdropdown" id="course-submenu-b2">
-            <a href="ProgrammingFundamentals_Part1.1.html">B2.1 + B2.3 Programming Fundamentals Part 1.1</a>
-            <a href="ProgrammingFundamentals_Part1.2.html">B2.3 Programming Fundamentals Part 1.2</a>
-            <a href="ProgrammingFundamentals_Part2.html">B2.1 + B2.2 Lists, Stacks and Queues</a>
+            <a href="B2.1.html">B2.1 Programming Fundamentals</a>
+            <a href="B2.2.html">B2.2 Data Structures</a>
+            <a href="B2.3.html">B2.3 Programming Constructs</a>
             <a href="B2.4.html">B2.4 Search, Sort and Big O</a>
             <a class="current-page" href="B2.4_Recursion.html">B2.4 HL Recursion</a>
             <a href="B2.5.html">B2.5 File Processing</a>
@@ -509,7 +509,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S2: IB SPEC -->
 <div class="slide" id="s2">
   <div class="content">
-    <div class="label">IB Specification</div>
+    <div class="label">B2.4.4–5 · IB Specification</div>
     <h2>What You Are Required to Do</h2>
     <div class="steps" style="margin-top:20px;">
       <div class="step-row">
@@ -530,7 +530,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S3: WHAT IS RECURSION -->
 <div class="slide" id="s3">
   <div class="content">
-    <div class="label">Concept</div>
+    <div class="label">B2.4.4 · Concept</div>
     <h2>What Is Recursion?</h2>
     <p class="lead">Recursion is a technique where a <span class="hl-purple">function calls itself</span> one or more times until a stopping condition is reached.</p>
     <div class="grid g3" style="margin-top:4px;">
@@ -556,7 +556,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S4: CALL STACK -->
 <div class="slide" id="s4">
   <div class="content">
-    <div class="label">How It Works</div>
+    <div class="label">B2.4.4 · How It Works</div>
     <h2>The Call Stack — Visualised</h2>
     <p class="lead">Each function call is pushed onto the <span class="hl-cyan">call stack</span>. When the base case is reached, calls unwind (pop) in reverse order.</p>
     <div class="grid g2" style="margin-top:8px; gap:16px;">
@@ -591,7 +591,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S5: FACTORIAL CONCEPT -->
 <div class="slide" id="s5">
   <div class="content">
-    <div class="label">Example 1 — Factorial</div>
+    <div class="label">B2.4.5 · Example 1 — Factorial</div>
     <h2>Factorial: n!</h2>
     <p class="lead">The factorial of <em>n</em> is defined as <span class="hl-gold">n! = n × (n−1)!</span>, with the base case <span class="hl-green">1! = 1</span>.</p>
     <div class="grid g2" style="margin-top:8px;">
@@ -625,7 +625,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S6: FACTORIAL CODE -->
 <div class="slide" id="s6">
   <div class="content">
-    <div class="label">Example 1 — Code</div>
+    <div class="label">B2.4.5 · Example 1 — Code</div>
     <h2>Factorial in Python &amp; Java</h2>
     <div class="code-pair">
       <div>
@@ -662,7 +662,7 @@ System.out.<span class="fn">println</span>(fact); <span class="cm">// 120</span>
 <!-- ═══════════════════════════════════════════════ S7: FACTORIAL TRACE -->
 <div class="slide scroll-slide" id="s7">
   <div class="content">
-    <div class="label">Trace Table — Factorial(4)</div>
+    <div class="label">B2.4.5 · Trace Table — Factorial(4)</div>
     <h2>Tracing factorial(4) Step by Step</h2>
     <table class="trace-table">
       <thead>
@@ -735,7 +735,7 @@ System.out.<span class="fn">println</span>(fact); <span class="cm">// 120</span>
 <!-- ═══════════════════════════════════════════════ S8: FIBONACCI CONCEPT -->
 <div class="slide" id="s8">
   <div class="content">
-    <div class="label">Example 2 — Fibonacci</div>
+    <div class="label">B2.4.4 · Example 2 — Fibonacci</div>
     <h2>The Fibonacci Sequence</h2>
     <p class="lead">Each number is the <span class="hl-blue">sum of the two before it</span>: <span class="hl-gold">0, 1, 1, 2, 3, 5, 8, 13, 21, 34 …</span></p>
     <div class="grid g2" style="margin-top:8px;">
@@ -761,7 +761,7 @@ System.out.<span class="fn">println</span>(fact); <span class="cm">// 120</span>
 <!-- ═══════════════════════════════════════════════ S9: FIBONACCI CODE -->
 <div class="slide" id="s9">
   <div class="content">
-    <div class="label">Example 2 — Code</div>
+    <div class="label">B2.4.4 · Example 2 — Code</div>
     <h2>Fibonacci in Python &amp; Java</h2>
     <div class="code-pair">
       <div>
@@ -800,7 +800,7 @@ n = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">
 <!-- ═══════════════════════════════════════════════ S10: QUICKSORT CONCEPT -->
 <div class="slide" id="s10">
   <div class="content">
-    <div class="label">Example 3 — Quicksort</div>
+    <div class="label">B2.4.4 · Example 3 — Quicksort</div>
     <h2>Quicksort: Divide and Conquer</h2>
     <p class="lead">Quicksort is a <span class="hl-purple">recursive sorting algorithm</span> that repeatedly partitions an array around a <span class="hl-gold">pivot element</span>.</p>
     <div class="grid g2" style="margin-top:8px;">
@@ -852,7 +852,7 @@ n = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">
 <!-- ═══════════════════════════════════════════════ S11: QUICKSORT CODE -->
 <div class="slide scroll-slide" id="s11">
   <div class="content">
-    <div class="label">Example 3 — Code</div>
+    <div class="label">B2.4.4 · Example 3 — Code</div>
     <h2>Quicksort in Python &amp; Java</h2>
     <div class="code-pair">
       <div>
@@ -911,7 +911,7 @@ nums = [<span class="num">16</span>, <span class="num">4</span>, <span class="nu
 <!-- ═══════════════════════════════════════════════ S12: TREE TRAVERSAL -->
 <div class="slide" id="s12">
   <div class="content">
-    <div class="label">Example 4 — Binary Trees</div>
+    <div class="label">B2.4.4 · Example 4 — Binary Trees</div>
     <h2>Recursive Tree Traversal</h2>
     <p class="lead">Binary search trees (covered in B4) can be traversed recursively. The <span class="hl-cyan">order of visits</span> defines the traversal type.</p>
     <div class="grid g3" style="margin-top:8px;">
@@ -941,7 +941,7 @@ nums = [<span class="num">16</span>, <span class="num">4</span>, <span class="nu
 <!-- ═══════════════════════════════════════════════ S13: RECURSION VS ITERATION -->
 <div class="slide" id="s13">
   <div class="content">
-    <div class="label">Comparison</div>
+    <div class="label">B2.4.4 · Comparison</div>
     <h2>Recursion vs. Iteration</h2>
     <div class="grid g2" style="margin-top:16px;">
       <div class="card purple">
@@ -987,7 +987,7 @@ nums = [<span class="num">16</span>, <span class="num">4</span>, <span class="nu
 <!-- ═══════════════════════════════════════════════ S14: COMMON ERRORS -->
 <div class="slide" id="s14">
   <div class="content">
-    <div class="label">Common Errors</div>
+    <div class="label">B2.4.4–5 · Common Errors</div>
     <h2>Mistakes to Avoid</h2>
     <div class="steps" style="margin-top:20px;">
       <div class="step-row" style="border-left:3px solid var(--red);">
@@ -1017,7 +1017,7 @@ nums = [<span class="num">16</span>, <span class="num">4</span>, <span class="nu
 <!-- ═══════════════════════════════════════════════ S15: APPLICATIONS SUMMARY -->
 <div class="slide" id="s15">
   <div class="content">
-    <div class="label">Applications</div>
+    <div class="label">B2.4.4 · Applications</div>
     <h2>Where Recursion Is Used</h2>
     <p class="lead">The IB syllabus explicitly lists the following real-world and algorithmic applications:</p>
     <div class="grid g2" style="margin-top:16px; gap:2px;">
