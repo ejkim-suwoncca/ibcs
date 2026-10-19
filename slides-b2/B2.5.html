@@ -419,15 +419,15 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
         <div class="course-submenu">
           <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-b1">B1: Computational Thinking</button>
           <div class="course-subdropdown" id="course-submenu-b1">
-            <a href="B1.1.html">B1.1 Approaches to Computational Thinking</a>
+            <a href="../slides-b1/B1.1.html">B1.1 Approaches to Computational Thinking</a>
           </div>
         </div>
         <div class="course-submenu">
-          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-b2">B2: Programming, Algorithms and Files</button>
+          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-b2">B2: Programming</button>
           <div class="course-subdropdown" id="course-submenu-b2">
-            <a href="ProgrammingFundamentals_Part1.1.html">B2.1 + B2.3 Programming Fundamentals Part 1.1</a>
-            <a href="ProgrammingFundamentals_Part1.2.html">B2.3 Programming Fundamentals Part 1.2</a>
-            <a href="ProgrammingFundamentals_Part2.html">B2.1 + B2.2 Lists, Stacks and Queues</a>
+            <a href="B2.1.html">B2.1 Programming Fundamentals</a>
+            <a href="B2.2.html">B2.2 Data Structures</a>
+            <a href="B2.3.html">B2.3 Programming Constructs</a>
             <a href="B2.4.html">B2.4 Search, Sort and Big O</a>
             <a href="B2.4_Recursion.html">B2.4 HL Recursion</a>
             <a class="current-page" href="B2.5.html">B2.5 File Processing</a>
@@ -529,7 +529,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S4: FILE MODES -->
 <div class="slide scroll-slide">
   <div class="content" style="max-width:1000px;margin:0 auto;">
-    <div class="label">// B2.5.2 · File Modes</div>
+    <div class="label">// B2.5.1 · File Modes</div>
     <h2>Opening a File: <span class="hl-teal">Modes</span></h2>
     <p class="lead" style="margin-bottom:12px;">The <strong style="color:var(--teal);">second argument</strong> to <span style="font-family:'Google Sans Code', monospace;">open()</span> sets the mode — it controls what you can do with the file and what happens to existing content.</p>
     <table class="comparison-table">
@@ -577,7 +577,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S5: READING METHODS -->
 <div class="slide scroll-slide">
   <div class="content" style="max-width:1000px;margin:0 auto;">
-    <div class="label blue">// B2.5.3 · Reading from a File</div>
+    <div class="label blue">// B2.5.1 · Reading from a File</div>
     <h2>Reading: <span class="hl-blue">Three Methods</span></h2>
     <div class="grid g3" style="gap:2px;margin-bottom:14px;">
       <div class="card blue">
@@ -620,7 +620,7 @@ f.<span class="fn">close</span>()</div>
 <!-- ═══════════════════════════════════════════════ S6: WRITING TO A FILE -->
 <div class="slide scroll-slide">
   <div class="content" style="max-width:1000px;margin:0 auto;">
-    <div class="label green">// B2.5.3 · Writing to a File</div>
+    <div class="label green">// B2.5.1 · Writing to a File</div>
     <h2>Writing: <span class="hl-green">write() and append</span></h2>
     <p class="lead" style="margin-bottom:12px;">Use <span style="font-family:'Google Sans Code', monospace;color:var(--green);">write()</span> to output text to a file. You must manually add newline characters (<span style="font-family:'Google Sans Code', monospace;">\n</span>) — they are not added automatically.</p>
     <div class="code"><span class="cmt"># Writing — creates new file (or wipes existing)</span>
@@ -650,7 +650,7 @@ f.<span class="fn">close</span>()</div>
 <!-- ═══════════════════════════════════════════════ S7: CLOSE AND WITH -->
 <div class="slide">
   <div class="content">
-    <div class="label">// B2.5.3 · Closing Files</div>
+    <div class="label">// B2.5.1 · Closing Files</div>
     <h2>Always <span class="hl-teal">Close</span> Your File</h2>
     <p class="lead" style="margin-bottom:16px;">Calling <span style="font-family:'Google Sans Code', monospace;color:var(--teal);">close()</span> releases the file back to the OS. Without it, data may not be saved (it stays in the write buffer) and the file may be locked.</p>
     <div class="grid g2" style="gap:2px;margin-bottom:14px;">
@@ -680,7 +680,7 @@ f.<span class="fn">close</span>()</div>
 <!-- ═══════════════════════════════════════════════ S8: READLINE LOOP TRACE -->
 <div class="slide scroll-slide">
   <div class="content" style="max-width:900px;margin:0 auto;">
-    <div class="label blue">// B2.5.3 · Tracing</div>
+    <div class="label blue">// B2.5.1 · Tracing</div>
     <h2>Trace: <span class="hl-blue">Reading Line by Line</span></h2>
     <p style="font-size: clamp(1.125rem, 1.4vw, 1.375rem);color:var(--text2);margin-bottom:10px;">File <span style="font-family:'Google Sans Code', monospace;">grades.txt</span> contains:</p>
     <div class="file-box">
@@ -713,7 +713,7 @@ find_top(<span class="str">"grades.txt"</span>, <span class="num">90</span>)</di
 <!-- ═══════════════════════════════════════════════ S9: WRITE TRACE -->
 <div class="slide scroll-slide">
   <div class="content" style="max-width:900px;margin:0 auto;">
-    <div class="label green">// B2.5.3 · Tracing</div>
+    <div class="label green">// B2.5.1 · Tracing</div>
     <h2>Trace: <span class="hl-green">Writing Records</span></h2>
     <p style="font-size: clamp(1.125rem, 1.4vw, 1.375rem);color:var(--text2);margin-bottom:10px;">This program collects names and scores from the user and saves them to a file:</p>
     <div class="code"><span class="cmt"># Collect data from user and write to file</span>
@@ -741,7 +741,7 @@ f.<span class="fn">close</span>()
 <!-- ═══════════════════════════════════════════════ S10: STRIP AND SPLIT -->
 <div class="slide">
   <div class="content">
-    <div class="label">// B2.5.3 · Parsing File Data</div>
+    <div class="label">// B2.5.1 · Parsing File Data</div>
     <h2>strip() and <span class="hl-teal">split()</span></h2>
     <p class="lead" style="margin-bottom:16px;">Raw lines from a file include the newline character (<span style="font-family:'Google Sans Code', monospace;">\n</span>) at the end. Two string methods are essential for cleaning and splitting data.</p>
     <div class="grid g2" style="gap:2px;margin-bottom:14px;">

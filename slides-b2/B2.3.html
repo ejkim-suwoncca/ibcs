@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>B2 Programming Fundamentals — Part 1.2</title>
+<title>B2.3 — Programming Constructs</title>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Code:wght@400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -435,15 +435,15 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
         <div class="course-submenu">
           <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-b1">B1: Computational Thinking</button>
           <div class="course-subdropdown" id="course-submenu-b1">
-            <a href="B1.1.html">B1.1 Approaches to Computational Thinking</a>
+            <a href="../slides-b1/B1.1.html">B1.1 Approaches to Computational Thinking</a>
           </div>
         </div>
         <div class="course-submenu">
-          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-b2">B2: Programming, Algorithms and Files</button>
+          <button class="course-submenu-button" type="button" aria-expanded="false" aria-controls="course-submenu-b2">B2: Programming</button>
           <div class="course-subdropdown" id="course-submenu-b2">
-            <a href="ProgrammingFundamentals_Part1.1.html">B2.1 + B2.3 Programming Fundamentals Part 1.1</a>
-            <a class="current-page" href="ProgrammingFundamentals_Part1.2.html">B2.3 Programming Fundamentals Part 1.2</a>
-            <a href="ProgrammingFundamentals_Part2.html">B2.1 + B2.2 Lists, Stacks and Queues</a>
+            <a href="B2.1.html">B2.1 Programming Fundamentals</a>
+            <a href="B2.2.html">B2.2 Data Structures</a>
+            <a class="current-page" href="B2.3.html">B2.3 Programming Constructs</a>
             <a href="B2.4.html">B2.4 Search, Sort and Big O</a>
             <a href="B2.4_Recursion.html">B2.4 HL Recursion</a>
             <a href="B2.5.html">B2.5 File Processing</a>
@@ -473,25 +473,26 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 
 
 <div class="progress" id="progress"></div>
-<div class="slide-num" id="slideNum">01 / 12</div>
+<div class="slide-num" id="slideNum">01 / 16</div>
 <div class="deck">
 
 <!-- ═══ S1  TITLE ═══ -->
 <div class="slide active">
   <div class="content">
-    <div class="label">// IB CS SL · B2 Programming · Part 1.2</div>
-    <h1>Programming<br><span style="color:var(--green);">Fundamentals</span></h1>
-    <p class="lead">Continues <strong style="color:var(--text);">B2.3 Programming constructs</strong> with iteration and functions.<br>Python is the primary language. Java equivalents are shown where the guide requires both.</p>
+    <div class="label">// IB CS SL · B2 Programming · B2.3</div>
+    <h1>Programming<br><span style="color:var(--green);">Constructs</span></h1>
+    <p class="lead">Covers <strong style="color:var(--text);">B2.3 Programming constructs</strong>: sequence, selection, loops, and functions with modularization.<br>Python is the primary language. Java equivalents are shown where the guide requires both.</p>
     <div class="gold-box">
-      <p><strong>Guiding question:</strong> How can programs repeat useful work and organize instructions into reusable parts?</p>
+      <p><strong>Guiding question:</strong> How do we control the order, choices and repetition in a program, and organize it into reusable parts?</p>
     </div>
     <div class="pill-row">
-      <div class="pill">functions &amp; modularization</div>
+      <div class="pill">sequence</div>
+      <div class="pill">selection</div>
       <div class="pill">counted loops</div>
       <div class="pill">conditional loops</div>
-      <div class="pill">parameters</div>
-      <div class="pill">return values</div>
-      <div class="pill">local variables</div>
+      <div class="pill">avoiding errors</div>
+      <div class="pill">functions &amp; modularization</div>
+      <div class="pill">local &amp; global scope</div>
     </div>
   </div>
 </div>
@@ -503,18 +504,104 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
     <h2>What the IB Requires You to Do</h2>
     <div class="steps">
       <div class="step-row">
+        <div class="step-n">B2.3.1</div>
+        <div class="step-text"><strong>Construct</strong> programs that use the correct sequence of instructions. Explain the impact of instruction order and ways to avoid errors such as <strong>infinite loops, deadlock and incorrect output</strong>.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-n">B2.3.2</div>
+        <div class="step-text"><strong>Construct</strong> programs using selection: <strong>if, else, else if</strong> (Java) / <strong>elif</strong> (Python), with Boolean operators (AND, OR, NOT) and relational operators (&lt;, &lt;=, &gt;, &gt;=, ==, !=).</div>
+      </div>
+      <div class="step-row">
         <div class="step-n">B2.3.3</div>
-        <div class="step-text"><strong>Construct</strong> programs using iteration, including counted loops and conditional loops.</div>
+        <div class="step-text"><strong>Construct</strong> programs using <strong>counted and conditional loops</strong>, including conditional statements inside loops.</div>
       </div>
       <div class="step-row">
         <div class="step-n">B2.3.4</div>
-        <div class="step-text"><strong>Construct</strong> programs using functions and modularization, including parameters, return values and local variables.</div>
+        <div class="step-text"><strong>Construct</strong> functions and modularization: reusable blocks with different inputs, the principles of <strong>scope (local versus global)</strong>, and the benefits of modular code.</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ═══ S3  LOOP VOCABULARY ═══ -->
+<!-- ═══ S3  SEQUENCE ═══ -->
+<div class="slide">
+  <div class="content">
+    <div class="label">// B2.3.1 · Sequence</div>
+    <h2>Order of Instructions Changes Everything</h2>
+    <p class="lead">A program executes <strong>line by line</strong>. If steps are in the wrong order, the output can be wrong even when each line looks reasonable.</p>
+    <div class="grid g2">
+      <div class="card green">
+        <div class="card-title" style="color:var(--green);">Correct sequence</div>
+        <div class="code-block">total = 0           <span class="cm"># 1. initialise</span>
+total = total + 5   <span class="cm"># 2. update</span>
+print(total)        <span class="cm"># 3. output: 5</span></div>
+      </div>
+      <div class="card red">
+        <div class="card-title" style="color:var(--red);">Broken sequence</div>
+        <div class="code-block">total = total + 5   <span class="cm"># NameError: total not defined</span>
+total = 0
+print(total)</div>
+      </div>
+    </div>
+    <div class="info-box">
+      <p><strong>Guide requirement:</strong> B2.3.1 expects you to construct programs that use sequence correctly. Trace the values after each line to check the order.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S4  SELECTION ═══ -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label purple">// B2.3.2 · Selection</div>
+    <h2>Making Decisions in Code</h2>
+    <p class="lead">Selection structures execute different code blocks depending on whether a condition is True or False. Use <strong>Boolean operators</strong> (AND, OR, NOT) and <strong>relational operators</strong> (&lt;, &lt;=, &gt;, &gt;=, ==, !=) to build conditions.</p>
+    <div class="grid g2" style="margin-bottom:10px;">
+      <div>
+        <div class="lang-label">Python — if / elif / else</div>
+        <div class="code-block">score = 78
+
+<span class="kw">if</span> score >= 80:
+    print("Pass with distinction")
+<span class="kw">elif</span> score >= 50:
+    print("Pass")
+<span class="kw">else</span>:
+    print("Fail")
+
+<span class="cm"># Boolean operators in conditions:</span>
+<span class="kw">if</span> score >= 50 <span class="kw">and</span> score <= 100:
+    print("Valid score, passed")</div>
+      </div>
+      <div>
+        <div class="lang-label">Java — if / else if / else</div>
+        <div class="code-block"><span class="kw">if</span> (score >= 80) {
+    System.out.println("Pass with distinction");
+} <span class="kw">else if</span> (score >= 50) {
+    System.out.println("Pass");
+} <span class="kw">else</span> {
+    System.out.println("Fail");
+}
+
+<span class="cm">// Boolean operators:</span>
+<span class="kw">if</span> (score >= 50 &amp;&amp; score <= 100) {
+    System.out.println("Valid score, passed");
+}</div>
+      </div>
+    </div>
+    <table class="compare-table">
+      <thead><tr><th>Operator type</th><th>Symbols</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Relational</strong></td><td><span class="code-inline">&lt;  &lt;=  &gt;  &gt;=  ==  !=</span></td><td><span class="code-inline">score != 0</span></td></tr>
+        <tr><td><strong>Boolean (Python)</strong></td><td><span class="code-inline">and  or  not</span></td><td><span class="code-inline">x &gt; 0 and x &lt; 10</span></td></tr>
+        <tr><td><strong>Boolean (Java)</strong></td><td><span class="code-inline">&amp;&amp;  ||  !</span></td><td><span class="code-inline">x &gt; 0 &amp;&amp; x &lt; 10</span></td></tr>
+      </tbody>
+    </table>
+    <div class="gold-box">
+      <p><strong>Guide requirement:</strong> Must include <strong>if, else</strong> and <strong>else if</strong> (Java) / <strong>elif</strong> (Python). Must also demonstrate use with Boolean and relational operators.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S5  LOOP VOCABULARY ═══ -->
 <div class="slide">
   <div class="content">
     <div class="label">// B2.3.3 · Iteration</div>
@@ -540,7 +627,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
   </div>
 </div>
 
-<!-- ═══ S4  LOOP TRACING ═══ -->
+<!-- ═══ S6  LOOP TRACING ═══ -->
 <div class="slide scroll-slide">
   <div class="content">
     <div class="label">// B2.3.3 · Counted Loops</div>
@@ -573,7 +660,7 @@ for i in range(2, 11, 2):
   </div>
 </div>
 
-<!-- ═══ S5  LOOP TRACING ═══ -->
+<!-- ═══ S7  LOOP TRACING ═══ -->
 <div class="slide scroll-slide">
   <div class="content">
     <div class="label green">// B2.3.3 · Tracing Iteration</div>
@@ -605,7 +692,7 @@ print("Final:", total)</div>
   </div>
 </div>
 
-<!-- ═══ S6  COUNTED LOOP EXAMPLES ═══ -->
+<!-- ═══ S8  COUNTED LOOP EXAMPLES ═══ -->
 <div class="slide scroll-slide">
   <div class="content">
     <div class="label">// B2.3.3 · Counted Loop Examples</div>
@@ -641,7 +728,7 @@ print("Average:", average)</div>
   </div>
 </div>
 
-<!-- ═══ S7  CONDITIONAL LOOP EXAMPLES ═══ -->
+<!-- ═══ S9  CONDITIONAL LOOP EXAMPLES ═══ -->
 <div class="slide scroll-slide">
   <div class="content">
     <div class="label green">// B2.3.3 · Conditional Loop Examples</div>
@@ -676,7 +763,7 @@ print("Total:", total)</div>
   </div>
 </div>
 
-<!-- ═══ S8  IF INSIDE LOOPS ═══ -->
+<!-- ═══ S10  IF INSIDE LOOPS ═══ -->
 <div class="slide scroll-slide">
   <div class="content">
     <div class="label purple">// B2.3.3 · Selection Within Iteration</div>
@@ -712,7 +799,7 @@ print("Highest:", highest)</div>
   </div>
 </div>
 
-<!-- ═══ S9  LOOP DRY RUN PRACTICE ═══ -->
+<!-- ═══ S11  LOOP DRY RUN PRACTICE ═══ -->
 <div class="slide scroll-slide">
   <div class="content">
     <div class="label amber">// B2.3.3 · Dry Run Practice</div>
@@ -747,7 +834,7 @@ print(count)</div>
   </div>
 </div>
 
-<!-- ═══ S10  ITERATION ═══ -->
+<!-- ═══ S12  ITERATION ═══ -->
 <div class="slide scroll-slide">
   <div class="content">
     <div class="label">// B2.3.3 · Iteration (Loops)</div>
@@ -798,7 +885,46 @@ System.out.println("Access granted");</div>
   </div>
 </div>
 
-<!-- ═══ S11  FUNCTIONS ═══ -->
+<!-- ═══ S  AVOIDING ERRORS ═══ -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label red">// B2.3.1 · Ways to Avoid Errors</div>
+    <h2>Infinite Loops, Deadlock and Incorrect Output <span class="tag must">must include</span></h2>
+    <p class="lead">Now that you have seen sequence, selection and loops, here are three errors the guide names, and how to avoid each one.</p>
+    <div class="grid g3" style="margin-bottom:10px;">
+      <div class="card red">
+        <div class="card-title" style="color:var(--red);">Infinite loop</div>
+        <div class="card-body">The loop condition never becomes False, so the program never stops.
+          <div class="code-block" style="margin-top:8px;">count = 1
+while count &lt;= 5:
+    print(count)
+<span class="cm"># count never changes</span></div>
+          <strong>Avoid:</strong> update the loop variable inside the loop: <span class="code-inline">count = count + 1</span>.
+        </div>
+      </div>
+      <div class="card amber">
+        <div class="card-title" style="color:var(--amber);">Deadlock</div>
+        <div class="card-body">Two processes each hold something the other needs, and each waits for the other to let go. Neither can continue.<br><br>
+          Example: Program A has the <strong>file</strong> and waits for the <strong>printer</strong>. Program B has the <strong>printer</strong> and waits for the <strong>file</strong>.<br><br>
+          <strong>Avoid:</strong> always request shared resources in the same order, and release them when finished.
+        </div>
+      </div>
+      <div class="card purple">
+        <div class="card-title" style="color:var(--purple);">Incorrect output</div>
+        <div class="card-body">The program runs but the answer is wrong, often because instructions are in the wrong order.
+          <div class="code-block" style="margin-top:8px;">total = 0
+for n in [2, 4, 6]:
+    total = 0          <span class="cm"># reset every time</span>
+    total = total + n
+print(total)           <span class="cm"># 6, not 12</span></div>
+          <strong>Avoid:</strong> trace the values line by line.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S14  FUNCTIONS ═══ -->
 <div class="slide scroll-slide">
   <div class="content">
     <div class="label amber">// B2.3.4 · Functions &amp; Modularization</div>
@@ -845,7 +971,43 @@ System.out.println(grade);  <span class="cm">// B</span></div>
   </div>
 </div>
 
-<!-- ═══ S12  EXIT TICKET ═══ -->
+<!-- ═══ S  SCOPE ═══ -->
+<div class="slide scroll-slide">
+  <div class="content">
+    <div class="label amber">// B2.3.4 · Scope</div>
+    <h2>Local and Global Variables</h2>
+    <p class="lead">The <strong>scope</strong> of a variable is the part of the program where it can be used. A <strong>local</strong> variable is created inside a function and only exists there. A <strong>global</strong> variable is created outside all functions and can be read anywhere.</p>
+    <div class="grid g2" style="margin-bottom:10px;">
+      <div class="card cyan">
+        <div class="card-title">Python</div>
+        <div class="code-block">school = "SCCA"          <span class="cm"># global</span>
+
+<span class="kw">def</span> <span class="fn">greet</span>(name):
+    message = "Hi " + name   <span class="cm"># local</span>
+    print(message, "from", school)
+
+greet("EJ")      <span class="cm"># Hi EJ from SCCA</span>
+print(school)    <span class="cm"># works: global</span>
+print(message)   <span class="cm"># NameError: local only</span></div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">Java</div>
+        <div class="code-block"><span class="kw">static</span> String school = "SCCA";   <span class="cm">// global (class-level)</span>
+
+<span class="kw">static</span> void greet(String name) {
+    String message = "Hi " + name;  <span class="cm">// local</span>
+    System.out.println(message + " from " + school);
+}
+<span class="cm">// message cannot be used outside greet()</span></div>
+      </div>
+    </div>
+    <div class="red-box">
+      <p><strong>Common error:</strong> Trying to use a local variable outside its function causes a <strong>NameError</strong>. Return the value instead: <span class="code-inline">return message</span>. Prefer parameters and return values over changing global variables, so each function stays independent and easy to test.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ S  EXIT TICKET ═══ -->
 <div class="slide">
   <div class="content">
     <div class="label">// Practice · Exit Ticket</div>
@@ -857,23 +1019,26 @@ System.out.println(grade);  <span class="cm">// B</span></div>
           <strong>1.</strong> What does this print?
           <div class="code-block" style="margin-top:8px;">total = 0
 for n in [2, 4, 6]:
-    total = total + n
+    if n &gt; 3:
+        total = total + n
 print(total)</div>
           <br>
-          <strong>2.</strong> Write a <span class="code-inline">while</span> loop that keeps asking for a password until the user enters <span class="code-inline">"ib2027"</span>.
+          <strong>2.</strong> Write a <span class="code-inline">while</span> loop that keeps asking for a password until the user enters <span class="code-inline">"ib2027"</span>.<br><br>
+          <strong>3.</strong> Write a function called <span class="code-inline">letter_grade(score)</span> that uses <span class="code-inline">if / elif / else</span> to return <span class="code-inline">"A"</span>, <span class="code-inline">"B"</span>, or <span class="code-inline">"C"</span>.
         </div>
       </div>
       <div class="card amber">
         <div class="card-title">Describe &amp; Explain</div>
         <div class="card-body">
-          <strong>3.</strong> Explain when a counted loop is better than a conditional loop.<br><br>
-          <strong>4.</strong> Write a function called <span class="code-inline">letter_grade(score)</span> that returns <span class="code-inline">"A"</span>, <span class="code-inline">"B"</span>, or <span class="code-inline">"C"</span>.<br><br>
-          <strong>5.</strong> State one advantage of splitting a program into functions.
+          <strong>4.</strong> Explain when a counted loop is better than a conditional loop.<br><br>
+          <strong>5.</strong> Explain how an infinite loop happens and how to prevent it.<br><br>
+          <strong>6.</strong> What is the difference between a local and a global variable?<br><br>
+          <strong>7.</strong> State one advantage of splitting a program into functions.
         </div>
       </div>
     </div>
     <div class="gold-box">
-      <p><strong>Success check:</strong> You can choose the right loop type, trace repeated updates, avoid infinite loops, write functions with parameters and return values, and explain modularization.</p>
+      <p><strong>Success check:</strong> You can order instructions correctly, choose between selection structures, pick the right loop type, avoid infinite loops and deadlock, and write functions with parameters, return values and correct scope.</p>
     </div>
   </div>
 </div>
