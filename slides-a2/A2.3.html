@@ -17,7 +17,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{width:100%;height:100%;overflow:hidden;}
 body{background:var(--bg);color:var(--text);font-family: 'Google Sans', 'Noto Sans KR', sans-serif;}
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(74,158,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,0.03) 1px,transparent 1px),linear-gradient(rgba(74,158,255,0.01) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,0.01) 1px,transparent 1px);background-size:80px 80px,80px 80px,16px 16px,16px 16px;pointer-events:none;z-index:0;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(128,128,128,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(128,128,128,0.03) 1px,transparent 1px),linear-gradient(rgba(128,128,128,0.01) 1px,transparent 1px),linear-gradient(90deg,rgba(128,128,128,0.01) 1px,transparent 1px);background-size:80px 80px,80px 80px,16px 16px,16px 16px;pointer-events:none;z-index:0;}
 .deck{position:relative;width:100vw;height:100vh;z-index:1;}
 .slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content: flex-start;align-items: flex-start;padding:100px 72px 92px; overflow-y: auto; overscroll-behavior: contain;opacity:0;pointer-events:none;transition:opacity 0.38s ease,transform 0.38s ease;transform:translateY(12px);}
 .slide.active{opacity:1;pointer-events:all;transform:translateY(0);}
@@ -45,13 +45,13 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 .card-title{font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.1vw, 1.375rem);font-weight:500;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;}
 .card-body{font-size: clamp(1.25rem, 1.3vw, 1.5rem);color:var(--text2);line-height:1.65;font-weight:300;}
 .card-body strong{color:var(--text);font-weight:500;}
-.info-box{border-left:3px solid var(--blue);padding:13px 20px;background:rgba(74,158,255,0.04);border-top:1px solid rgba(74,158,255,0.08);border-right:1px solid rgba(74,158,255,0.08);border-bottom:1px solid rgba(74,158,255,0.08);margin-top:14px;}
+.info-box{border-left:3px solid var(--blue);padding:13px 20px;background:rgba(128,128,128,0.04);border-top:1px solid rgba(128,128,128,0.2);border-right:1px solid rgba(128,128,128,0.2);border-bottom:1px solid rgba(128,128,128,0.2);margin-top:14px;}
 .info-box p{font-size: clamp(1.25rem, 1.35vw, 1.5rem);color:var(--text2);line-height:1.6;}
 .info-box strong{color:var(--blue);}
-.gold-box{border-left:3px solid var(--gold);padding:13px 20px;background:rgba(201,168,76,0.04);border-top:1px solid rgba(201,168,76,0.08);border-right:1px solid rgba(201,168,76,0.08);border-bottom:1px solid rgba(201,168,76,0.08);margin-top:14px;}
+.gold-box{border-left:3px solid var(--gold);padding:13px 20px;background:rgba(128,128,128,0.04);border-top:1px solid rgba(128,128,128,0.2);border-right:1px solid rgba(128,128,128,0.2);border-bottom:1px solid rgba(128,128,128,0.2);margin-top:14px;}
 .gold-box p{font-size: clamp(1.25rem, 1.35vw, 1.5rem);color:var(--text2);line-height:1.6;}
 .gold-box strong{color:var(--gold2);}
-.green-box{border-left:3px solid var(--green);padding:13px 20px;background:rgba(61,214,140,0.04);border-top:1px solid rgba(61,214,140,0.08);border-right:1px solid rgba(61,214,140,0.08);border-bottom:1px solid rgba(61,214,140,0.08);margin-top:14px;}
+.green-box{border-left:3px solid var(--green);padding:13px 20px;background:rgba(128,128,128,0.04);border-top:1px solid rgba(128,128,128,0.2);border-right:1px solid rgba(128,128,128,0.2);border-bottom:1px solid rgba(128,128,128,0.2);margin-top:14px;}
 .green-box p{font-size: clamp(1.125rem, 1.4vw, 1.375rem);color:var(--text2);line-height:1.6;}
 .green-box strong{color:var(--green);}
 .divider{width:100%;height:1px;background:var(--border);margin:14px 0;}
@@ -66,9 +66,9 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 .comparison-table tr:last-child td{border-bottom:none;}
 .comparison-table tr:hover td{background:var(--surface2);}
 .comparison-table td:first-child{font-family:'Google Sans Code', monospace;font-size:0.88em;color:var(--green);font-weight:500;}
-.nav{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:13px;z-index:100;background:rgba(7,9,15,0.92);backdrop-filter:blur(16px);border:1px solid var(--border2);padding:10px 20px; border-radius: 999px;}
+.nav{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:13px;z-index:100;background:rgba(128,128,128,0.14);backdrop-filter:blur(16px);border:1px solid var(--border2);padding:10px 20px; border-radius: 999px;}
 .nav-btn{font-family:'Google Sans Code', monospace;font-size:18px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text2);background:none;border:1px solid var(--border2);padding:6px 14px;cursor:pointer;transition:all 0.2s; border-radius: 999px;}
-.nav-btn:hover{color:var(--green);border-color:var(--green);background:rgba(61,214,140,0.05);}
+.nav-btn:hover{color:var(--green);border-color:var(--green);background:rgba(128,128,128,0.05);}
 .nav-btn:disabled{opacity:0.25;cursor:not-allowed;}
 .nav-dots{display:flex;gap:4px;flex-wrap:wrap;max-width:200px;justify-content:center;}
 .dot{width:5px;height:5px;border-radius:50%;background:var(--border2);cursor:pointer;transition:all 0.2s;}
@@ -82,8 +82,8 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
   left: 0;
   right: 0;
   z-index: 1200;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
-  background: rgba(7, 9, 15, 0.9);
+  border-bottom: 1px solid rgba(128,128,128,0.2);
+  background: rgba(128,128,128,0.14);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
@@ -101,7 +101,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 .course-nav a,
 .course-menu-button,
 .course-submenu-button {
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   text-decoration: none;
   white-space: nowrap;
   line-height: 1;
@@ -116,7 +116,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
   border-radius: 0;
   border-bottom: 2px solid transparent;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.12em;
@@ -125,7 +125,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
   transition: color 0.18s ease, border-color 0.18s ease;
 }
 .course-home-link {
-  color: var(--text, #f8fafc) !important;
+  color: var(--text, var(--ink)) !important;
   font-weight: 700;
   letter-spacing: 0.16em;
 }
@@ -142,7 +142,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 .course-submenu-button::after {
   content: "▾";
   font-size: 18px;
-  color: var(--text3, #64748b);
+  color: var(--text3, var(--ink));
   transition: transform 0.18s ease;
 }
 .course-submenu-button::after {
@@ -163,10 +163,10 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
   display: grid;
   gap: 2px;
   padding: 8px;
-  border: 1px solid rgba(148, 163, 184, 0.22);
+  border: 1px solid rgba(128,128,128,0.22);
   border-radius: 6px;
-  background: rgba(8, 13, 24, 0.98);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+  background: rgba(128,128,128,0.14);
+  box-shadow: 0 18px 40px rgba(128,128,128,0.14);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.16s ease, transform 0.16s ease;
@@ -214,7 +214,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
   border: 0;
   border-radius: 4px;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.04em;
@@ -229,10 +229,10 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 }
 .course-topic-link,
 .course-subdropdown a.current-page {
-  color: var(--accent, #22b3a0) !important;
+  color: var(--accent, var(--ink)) !important;
 }
 .course-subdropdown a.current-page {
-  background: rgba(34, 211, 238, 0.08);
+  background: rgba(128,128,128,0.08);
 }
 .course-dropdown a:hover,
 .course-dropdown a:focus,
@@ -240,7 +240,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 .course-subdropdown a:focus,
 .course-submenu-button:hover,
 .course-submenu-button:focus {
-  color: var(--text, #f8fafc);
+  color: var(--text, var(--ink));
   background: rgba(255, 255, 255, 0.08);
   outline: none;
 }
@@ -250,8 +250,8 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 .course-menu-button:hover,
 .course-menu-button:focus,
 .course-menu-button.current {
-  color: var(--text, #f8fafc);
-  border-color: var(--accent, #22b3a0);
+  color: var(--text, var(--ink));
+  border-color: var(--accent, var(--line-2));
   outline: none;
 }
 .course-nav ~ .slide-num { top: 98px !important; }
@@ -288,7 +288,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
     margin: 0 0 4px 12px;
     padding: 4px;
     box-shadow: none;
-    border-color: rgba(148, 163, 184, 0.14);
+    border-color: rgba(128,128,128,0.2);
     background: rgba(255, 255, 255, 0.03);
     transform: none;
     display: none;
@@ -313,6 +313,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 }
 
 </style>
+<link rel="stylesheet" href="../assets/theme.css">
 </head>
 <body>
 
@@ -417,7 +418,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S1: TITLE -->
 <div class="slide active">
   <div class="content">
-    <div class="label">// A2.3 · Data Transmissions</div>
+    <div class="label">A2.3 · Data Transmissions</div>
     <h1>Data<br><span class="hl-green">Transmissions</span></h1>
     <p style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.4vw, 1.375rem);color:var(--text3);margin-bottom:20px;">Theme A2 · IB Computer Science SL</p>
     <div class="gold-box">
@@ -434,7 +435,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S2: IB SPEC -->
 <div class="slide">
   <div class="content">
-    <div class="label">// IB Specification · A2.3</div>
+    <div class="label">IB Specification · A2.3</div>
     <h2>What IB Requires</h2>
     <div class="steps">
       <div class="step-row">
@@ -460,7 +461,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S3: IP ADDRESSES -->
 <div class="slide">
   <div class="content">
-    <div class="label">// A2.3.1 · IP Addressing</div>
+    <div class="label">A2.3.1 · IP Addressing</div>
     <h2>What is an <span class="hl-green">IP Address?</span></h2>
     <p class="lead" style="margin-bottom:14px;">An IP address is a <strong style="color:var(--green);">unique numerical label</strong> assigned to each device on a network — like a postal address for data.</p>
     <div class="grid g2" style="gap:2px;">
@@ -494,7 +495,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S4: PUBLIC/PRIVATE, STATIC/DYNAMIC -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label">// A2.3.1 · IP Address Types</div>
+    <div class="label">A2.3.1 · IP Address Types</div>
     <h2>IP Address <span class="hl-green">Categories</span></h2>
     <div class="grid g2" style="gap:2px;margin-bottom:14px;">
       <div class="card green">
@@ -544,7 +545,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S5: TRANSMISSION MEDIA -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label">// A2.3.2 · Transmission Media</div>
+    <div class="label">A2.3.2 · Transmission Media</div>
     <h2>Transmission <span class="hl-cyan">Media</span></h2>
     <p class="lead" style="margin-bottom:12px;">The physical medium through which data is transmitted. Each has tradeoffs.</p>
     <div class="grid g3" style="gap:2px;margin-bottom:14px;">
@@ -604,7 +605,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S6: PACKET SWITCHING INTRO -->
 <div class="slide">
   <div class="content">
-    <div class="label">// A2.3.3 · Packet Switching</div>
+    <div class="label">A2.3.3 · Packet Switching</div>
     <h2>Why <span class="hl-blue">Packet Switching?</span></h2>
     <p class="lead" style="margin-bottom:14px;">The alternative is <em>circuit switching</em> — but the internet uses packet switching. Why?</p>
     <div class="grid g2" style="gap:2px;">
@@ -637,7 +638,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S7: PACKET STRUCTURE AND PROCESS -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label">// A2.3.3 · Packet Switching</div>
+    <div class="label">A2.3.3 · Packet Switching</div>
     <h2>How Packet Switching <span class="hl-blue">Works</span></h2>
     <div class="steps" style="margin-bottom:14px;">
       <div class="step-row">
@@ -684,7 +685,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S8: PACKET SWITCHING DIAGRAM -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Visual Explanation</div>
+    <div class="label">Visual Explanation</div>
     <h2>Packets Take <span class="hl-blue">Different Paths</span></h2>
     <div style="background:var(--surface);border:1px solid var(--border);padding:24px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
       <svg viewBox="0 0 560 220" width="100%" style="max-height:220px;">
@@ -744,7 +745,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S9: ATTENUATION AND BANDWIDTH -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Key Concepts</div>
+    <div class="label">Key Concepts</div>
     <h2>Bandwidth &amp; <span class="hl-cyan">Attenuation</span></h2>
     <div class="grid g2" style="gap:2px;margin-top:8px;">
       <div class="card cyan">
@@ -789,7 +790,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S10: STATIC vs DYNAMIC ROUTING (HL) -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label purple">// A2.3.4 · HL — Routing</div>
+    <div class="label purple">A2.3.4 · HL — Routing</div>
     <h2>Static vs Dynamic <span class="hl-purple">Routing</span></h2>
     <p class="lead" style="margin-bottom:14px;">How do routers decide which path to send a packet on?</p>
     <div class="grid g2" style="gap:2px;margin-bottom:14px;">
@@ -835,7 +836,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S11: COMMON ERRORS -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Watch Out</div>
+    <div class="label">Watch Out</div>
     <h2>Common <span class="hl-red">Errors</span></h2>
     <div class="steps" style="gap:2px;">
       <div class="step-row">
@@ -865,7 +866,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S12: REAL WORLD CONNECTION -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Real World</div>
+    <div class="label">Real World</div>
     <h2>What Happens When You Visit <span class="hl-cyan">a Website?</span></h2>
     <div class="steps">
       <div class="step-row">
@@ -895,7 +896,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S13: SUMMARY -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label">// A2.3 · Summary</div>
+    <div class="label">A2.3 · Summary</div>
     <h2>Key <span class="hl-green">Takeaways</span></h2>
     <div class="grid g2" style="gap:2px;margin-top:8px;">
       <div class="card green">

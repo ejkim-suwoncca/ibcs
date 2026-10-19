@@ -17,7 +17,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{width:100%;height:100%;overflow:hidden;}
 body{background:var(--bg);color:var(--text);font-family: 'Google Sans', 'Noto Sans KR', sans-serif;}
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(74,158,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,0.03) 1px,transparent 1px),linear-gradient(rgba(74,158,255,0.01) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,0.01) 1px,transparent 1px);background-size:80px 80px,80px 80px,16px 16px,16px 16px;pointer-events:none;z-index:0;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(128,128,128,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(128,128,128,0.03) 1px,transparent 1px),linear-gradient(rgba(128,128,128,0.01) 1px,transparent 1px),linear-gradient(90deg,rgba(128,128,128,0.01) 1px,transparent 1px);background-size:80px 80px,80px 80px,16px 16px,16px 16px;pointer-events:none;z-index:0;}
 .deck{position:relative;width:100vw;height:100vh;z-index:1;}
 .slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content: flex-start;align-items: flex-start;padding:100px 72px 92px; overflow-y: auto; overscroll-behavior: contain;opacity:0;pointer-events:none;transition:opacity 0.38s ease,transform 0.38s ease;transform:translateY(12px);}
 .slide.active{opacity:1;pointer-events:all;transform:translateY(0);}
@@ -45,13 +45,13 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 .card-title{font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.1vw, 1.375rem);font-weight:500;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;}
 .card-body{font-size: clamp(1.25rem, 1.3vw, 1.5rem);color:var(--text2);line-height:1.65;font-weight:300;}
 .card-body strong{color:var(--text);font-weight:500;}
-.info-box{border-left:3px solid var(--blue);padding:13px 20px;background:rgba(74,158,255,0.04);border-top:1px solid rgba(74,158,255,0.08);border-right:1px solid rgba(74,158,255,0.08);border-bottom:1px solid rgba(74,158,255,0.08);margin-top:14px;}
+.info-box{border-left:3px solid var(--blue);padding:13px 20px;background:rgba(128,128,128,0.04);border-top:1px solid rgba(128,128,128,0.2);border-right:1px solid rgba(128,128,128,0.2);border-bottom:1px solid rgba(128,128,128,0.2);margin-top:14px;}
 .info-box p{font-size: clamp(1.25rem, 1.35vw, 1.5rem);color:var(--text2);line-height:1.6;}
 .info-box strong{color:var(--blue);}
-.gold-box{border-left:3px solid var(--gold);padding:13px 20px;background:rgba(201,168,76,0.04);border-top:1px solid rgba(201,168,76,0.08);border-right:1px solid rgba(201,168,76,0.08);border-bottom:1px solid rgba(201,168,76,0.08);margin-top:14px;}
+.gold-box{border-left:3px solid var(--gold);padding:13px 20px;background:rgba(128,128,128,0.04);border-top:1px solid rgba(128,128,128,0.2);border-right:1px solid rgba(128,128,128,0.2);border-bottom:1px solid rgba(128,128,128,0.2);margin-top:14px;}
 .gold-box p{font-size: clamp(1.25rem, 1.35vw, 1.5rem);color:var(--text2);line-height:1.6;}
 .gold-box strong{color:var(--gold2);}
-.red-box{border-left:3px solid var(--red);padding:13px 20px;background:rgba(255,107,107,0.04);border-top:1px solid rgba(255,107,107,0.08);border-right:1px solid rgba(255,107,107,0.08);border-bottom:1px solid rgba(255,107,107,0.08);margin-top:14px;}
+.red-box{border-left:3px solid var(--red);padding:13px 20px;background:rgba(128,128,128,0.04);border-top:1px solid rgba(128,128,128,0.2);border-right:1px solid rgba(128,128,128,0.2);border-bottom:1px solid rgba(128,128,128,0.2);margin-top:14px;}
 .red-box p{font-size: clamp(1.125rem, 1.4vw, 1.375rem);color:var(--text2);line-height:1.6;}
 .red-box strong{color:var(--red);}
 .divider{width:100%;height:1px;background:var(--border);margin:14px 0;}
@@ -66,9 +66,9 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 .comparison-table tr:last-child td{border-bottom:none;}
 .comparison-table tr:hover td{background:var(--surface2);}
 .comparison-table td:first-child{font-family:'Google Sans Code', monospace;font-size:0.88em;color:var(--orange);font-weight:500;}
-.nav{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:13px;z-index:100;background:rgba(7,9,15,0.92);backdrop-filter:blur(16px);border:1px solid var(--border2);padding:10px 20px; border-radius: 999px;}
+.nav{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:13px;z-index:100;background:rgba(128,128,128,0.14);backdrop-filter:blur(16px);border:1px solid var(--border2);padding:10px 20px; border-radius: 999px;}
 .nav-btn{font-family:'Google Sans Code', monospace;font-size:18px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text2);background:none;border:1px solid var(--border2);padding:6px 14px;cursor:pointer;transition:all 0.2s; border-radius: 999px;}
-.nav-btn:hover{color:var(--orange);border-color:var(--orange);background:rgba(251,146,60,0.05);}
+.nav-btn:hover{color:var(--orange);border-color:var(--orange);background:rgba(128,128,128,0.05);}
 .nav-btn:disabled{opacity:0.25;cursor:not-allowed;}
 .nav-dots{display:flex;gap:4px;flex-wrap:wrap;max-width:200px;justify-content:center;}
 .dot{width:5px;height:5px;border-radius:50%;background:var(--border2);cursor:pointer;transition:all 0.2s;}
@@ -82,8 +82,8 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
   left: 0;
   right: 0;
   z-index: 1200;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
-  background: rgba(7, 9, 15, 0.9);
+  border-bottom: 1px solid rgba(128,128,128,0.2);
+  background: rgba(128,128,128,0.14);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
@@ -101,7 +101,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 .course-nav a,
 .course-menu-button,
 .course-submenu-button {
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   text-decoration: none;
   white-space: nowrap;
   line-height: 1;
@@ -116,7 +116,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
   border-radius: 0;
   border-bottom: 2px solid transparent;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.12em;
@@ -125,7 +125,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
   transition: color 0.18s ease, border-color 0.18s ease;
 }
 .course-home-link {
-  color: var(--text, #f8fafc) !important;
+  color: var(--text, var(--ink)) !important;
   font-weight: 700;
   letter-spacing: 0.16em;
 }
@@ -142,7 +142,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 .course-submenu-button::after {
   content: "▾";
   font-size: 18px;
-  color: var(--text3, #64748b);
+  color: var(--text3, var(--ink));
   transition: transform 0.18s ease;
 }
 .course-submenu-button::after {
@@ -163,10 +163,10 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
   display: grid;
   gap: 2px;
   padding: 8px;
-  border: 1px solid rgba(148, 163, 184, 0.22);
+  border: 1px solid rgba(128,128,128,0.22);
   border-radius: 6px;
-  background: rgba(8, 13, 24, 0.98);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+  background: rgba(128,128,128,0.14);
+  box-shadow: 0 18px 40px rgba(128,128,128,0.14);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.16s ease, transform 0.16s ease;
@@ -214,7 +214,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
   border: 0;
   border-radius: 4px;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.04em;
@@ -229,10 +229,10 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 }
 .course-topic-link,
 .course-subdropdown a.current-page {
-  color: var(--accent, #22b3a0) !important;
+  color: var(--accent, var(--ink)) !important;
 }
 .course-subdropdown a.current-page {
-  background: rgba(34, 211, 238, 0.08);
+  background: rgba(128,128,128,0.08);
 }
 .course-dropdown a:hover,
 .course-dropdown a:focus,
@@ -240,7 +240,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 .course-subdropdown a:focus,
 .course-submenu-button:hover,
 .course-submenu-button:focus {
-  color: var(--text, #f8fafc);
+  color: var(--text, var(--ink));
   background: rgba(255, 255, 255, 0.08);
   outline: none;
 }
@@ -250,8 +250,8 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 .course-menu-button:hover,
 .course-menu-button:focus,
 .course-menu-button.current {
-  color: var(--text, #f8fafc);
-  border-color: var(--accent, #22b3a0);
+  color: var(--text, var(--ink));
+  border-color: var(--accent, var(--line-2));
   outline: none;
 }
 .course-nav ~ .slide-num { top: 98px !important; }
@@ -288,7 +288,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
     margin: 0 0 4px 12px;
     padding: 4px;
     box-shadow: none;
-    border-color: rgba(148, 163, 184, 0.14);
+    border-color: rgba(128,128,128,0.2);
     background: rgba(255, 255, 255, 0.03);
     transform: none;
     display: none;
@@ -313,6 +313,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 }
 
 </style>
+<link rel="stylesheet" href="../assets/theme.css">
 </head>
 <body>
 
@@ -417,7 +418,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S1: TITLE -->
 <div class="slide active">
   <div class="content">
-    <div class="label">// A2.4 · Network Security</div>
+    <div class="label">A2.4 · Network Security</div>
     <h1>Network<br><span class="hl-orange">Security</span></h1>
     <p style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.4vw, 1.375rem);color:var(--text3);margin-bottom:20px;">Theme A2 · IB Computer Science SL</p>
     <div class="gold-box">
@@ -435,7 +436,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S2: IB SPEC -->
 <div class="slide">
   <div class="content">
-    <div class="label">// IB Specification · A2.4</div>
+    <div class="label">IB Specification · A2.4</div>
     <h2>What IB Requires</h2>
     <div class="steps">
       <div class="step-row">
@@ -461,7 +462,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S3: FIREWALLS -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label">// A2.4.1 · Firewalls</div>
+    <div class="label">A2.4.1 · Firewalls</div>
     <h2>How <span class="hl-orange">Firewalls</span> Work</h2>
     <p class="lead" style="margin-bottom:14px;">A firewall <strong style="color:var(--orange);">inspects and filters</strong> network traffic based on rules — allowing legitimate traffic and blocking threats.</p>
     <div class="grid g2" style="gap:2px;margin-bottom:14px;">
@@ -513,7 +514,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S4: ENCRYPTION INTRO -->
 <div class="slide">
   <div class="content">
-    <div class="label">// A2.4.4 · Encryption</div>
+    <div class="label">A2.4.4 · Encryption</div>
     <h2>What is <span class="hl-blue">Encryption?</span></h2>
     <p class="lead" style="margin-bottom:14px;">Encryption transforms <strong style="color:var(--blue);">plaintext</strong> into <strong style="color:var(--blue);">ciphertext</strong> using a key — making data unreadable without the correct key to decrypt it.</p>
     <div class="grid g3" style="gap:2px;">
@@ -551,7 +552,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S5: SYMMETRIC ENCRYPTION -->
 <div class="slide">
   <div class="content">
-    <div class="label">// A2.4.4 · Symmetric Encryption</div>
+    <div class="label">A2.4.4 · Symmetric Encryption</div>
     <h2>Symmetric <span class="hl-blue">Encryption</span></h2>
     <p class="lead" style="margin-bottom:14px;">The same key is used to <strong style="color:var(--blue);">both encrypt and decrypt</strong> data.</p>
     <div class="grid g2" style="gap:2px;">
@@ -599,7 +600,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S6: ASYMMETRIC ENCRYPTION -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label">// A2.4.4 · Asymmetric Encryption</div>
+    <div class="label">A2.4.4 · Asymmetric Encryption</div>
     <h2>Asymmetric <span class="hl-cyan">Encryption</span></h2>
     <p class="lead" style="margin-bottom:14px;">A pair of mathematically linked keys: a <strong style="color:var(--cyan);">public key</strong> (shared openly) and a <strong style="color:var(--blue);">private key</strong> (kept secret).</p>
     <div class="grid g2" style="gap:2px;margin-bottom:14px;">
@@ -664,7 +665,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S7: DIGITAL CERTIFICATES -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label">// A2.4.4 · Digital Certificates</div>
+    <div class="label">A2.4.4 · Digital Certificates</div>
     <h2>Digital <span class="hl-gold">Certificates</span></h2>
     <p class="lead" style="margin-bottom:14px;">A digital certificate is like a <strong style="color:var(--gold2);">digital passport</strong> — it proves that a public key actually belongs to who they claim to be.</p>
     <div class="grid g2" style="gap:2px;margin-bottom:14px;">
@@ -713,7 +714,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S8: NETWORK VULNERABILITIES (HL) -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label red">// A2.4.2 · HL — Network Vulnerabilities</div>
+    <div class="label red">A2.4.2 · HL — Network Vulnerabilities</div>
     <h2>Common <span class="hl-red">Attacks</span></h2>
     <div class="steps" style="gap:2px;">
       <div class="step-row">
@@ -751,7 +752,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S9: COUNTERMEASURES (HL) -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label">// A2.4.3 · HL — Countermeasures</div>
+    <div class="label">A2.4.3 · HL — Countermeasures</div>
     <h2>Network <span class="hl-green">Countermeasures</span></h2>
     <div class="grid g2" style="gap:2px;margin-bottom:14px;">
       <div class="card green">
@@ -788,7 +789,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S10: TLS HANDSHAKE SIMPLIFIED -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label">// How HTTPS Works</div>
+    <div class="label">How HTTPS Works</div>
     <h2>The TLS <span class="hl-cyan">Handshake</span></h2>
     <p class="lead" style="margin-bottom:14px;">How your browser establishes a secure HTTPS connection — combining asymmetric and symmetric encryption.</p>
     <div class="steps">
@@ -826,7 +827,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S11: SYM vs ASYM COMPARISON -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Comparison</div>
+    <div class="label">Comparison</div>
     <h2>Symmetric <span class="hl-gold">vs</span> Asymmetric</h2>
     <table class="comparison-table" style="margin-top:12px;">
       <thead><tr><th>Factor</th><th>Symmetric</th><th>Asymmetric</th></tr></thead>
@@ -848,7 +849,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S12: COMMON ERRORS -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Watch Out</div>
+    <div class="label">Watch Out</div>
     <h2>Common <span class="hl-red">Errors</span></h2>
     <div class="steps" style="gap:2px;">
       <div class="step-row">
@@ -878,7 +879,7 @@ h2{font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size: clamp(1.9rem
 <!-- S13: SUMMARY -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label">// A2.4 · Summary</div>
+    <div class="label">A2.4 · Summary</div>
     <h2>Key <span class="hl-orange">Takeaways</span></h2>
     <div class="grid g2" style="gap:2px;margin-top:8px;">
       <div class="card orange">

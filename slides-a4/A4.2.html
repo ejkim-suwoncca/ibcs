@@ -31,10 +31,10 @@ body::before {
   content: '';
   position: fixed; inset: 0;
   background-image:
-    linear-gradient(rgba(34,211,238,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(34,211,238,0.025) 1px, transparent 1px),
-    linear-gradient(rgba(34,211,238,0.01) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(34,211,238,0.01) 1px, transparent 1px);
+    linear-gradient(rgba(128,128,128,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128,128,128,0.025) 1px, transparent 1px),
+    linear-gradient(rgba(128,128,128,0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128,128,128,0.01) 1px, transparent 1px);
   background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
   pointer-events: none; z-index: 0;
 }
@@ -60,7 +60,7 @@ body::before {
 }
 .slide.scroll-slide::-webkit-scrollbar { width: 10px; }
 .slide.scroll-slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
-.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(14,17,23,0.3); }
+.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(128,128,128,0.14); }
 .progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--cyan), var(--blue)); transition: width 0.38s ease; z-index: 100; }
 .slide-num { position: fixed; top: 17px; right: 24px; font-family: 'Google Sans Code', monospace; font-size: 18px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
 .content { width: 100%; max-width: 1120px; }
@@ -81,22 +81,22 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .card-title { font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.1vw, 1.375rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
 .card-body { font-size: clamp(1.25rem, 1.3vw, 1.5rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
 .card-body strong { color: var(--text); font-weight: 500; }
-.info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(74,158,255,0.04); border-top: 1px solid rgba(74,158,255,0.08); border-right: 1px solid rgba(74,158,255,0.08); border-bottom: 1px solid rgba(74,158,255,0.08); margin-top: 14px; }
+.info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
 .info-box p { font-size: clamp(1.25rem, 1.35vw, 1.5rem); color: var(--text2); line-height: 1.6; }
 .info-box strong { color: var(--blue); }
-.gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(201,168,76,0.04); border-top: 1px solid rgba(201,168,76,0.08); border-right: 1px solid rgba(201,168,76,0.08); border-bottom: 1px solid rgba(201,168,76,0.08); margin-top: 14px; }
+.gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
 .gold-box p { font-size: clamp(1.25rem, 1.35vw, 1.5rem); color: var(--text2); line-height: 1.6; }
 .gold-box strong { color: var(--gold2); }
-.cyan-box { border-left: 3px solid var(--cyan); padding: 13px 20px; background: rgba(34,211,238,0.04); border-top: 1px solid rgba(34,211,238,0.08); border-right: 1px solid rgba(34,211,238,0.08); border-bottom: 1px solid rgba(34,211,238,0.08); margin-top: 14px; }
+.cyan-box { border-left: 3px solid var(--cyan); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
 .cyan-box p { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.6; }
 .cyan-box strong { color: var(--cyan); }
-.purple-box { border-left: 3px solid var(--purple); padding: 13px 20px; background: rgba(155,138,251,0.04); border-top: 1px solid rgba(155,138,251,0.08); border-right: 1px solid rgba(155,138,251,0.08); border-bottom: 1px solid rgba(155,138,251,0.08); margin-top: 14px; }
+.purple-box { border-left: 3px solid var(--purple); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
 .purple-box p { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.6; }
 .purple-box strong { color: var(--purple); }
-.red-box { border-left: 3px solid var(--red); padding: 13px 20px; background: rgba(255,107,107,0.04); border-top: 1px solid rgba(255,107,107,0.08); border-right: 1px solid rgba(255,107,107,0.08); border-bottom: 1px solid rgba(255,107,107,0.08); margin-top: 14px; }
+.red-box { border-left: 3px solid var(--red); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
 .red-box p { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.6; }
 .red-box strong { color: var(--red); }
-.green-box { border-left: 3px solid var(--green); padding: 13px 20px; background: rgba(61,214,140,0.04); border-top: 1px solid rgba(61,214,140,0.08); border-right: 1px solid rgba(61,214,140,0.08); border-bottom: 1px solid rgba(61,214,140,0.08); margin-top: 14px; }
+.green-box { border-left: 3px solid var(--green); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
 .green-box p { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.6; }
 .green-box strong { color: var(--green); }
 .steps { display: flex; flex-direction: column; gap: 2px; }
@@ -110,10 +110,10 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .comparison-table tr:last-child td { border-bottom: none; }
 .comparison-table tr:hover td { background: var(--surface2); }
 .comparison-table td:first-child { font-family: 'Google Sans Code', monospace; font-size: 0.88em; color: var(--cyan); font-weight: 500; }
-.hl-badge { display: inline-block; font-family: 'Google Sans Code', monospace; font-size: 1.125rem; color: var(--orange); padding: 2px 8px; background: rgba(251,146,60,0.1); border: 1px solid rgba(251,146,60,0.25); border-radius: 2px; margin-left: 8px; vertical-align: middle; }
-.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; border-radius: 999px;}
+.hl-badge { display: inline-block; font-family: 'Google Sans Code', monospace; font-size: 1.125rem; color: var(--orange); padding: 2px 8px; background: rgba(128,128,128,0.1); border: 1px solid rgba(128,128,128,0.25); border-radius: 2px; margin-left: 8px; vertical-align: middle; }
+.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(128,128,128,0.14); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; border-radius: 999px;}
 .nav-btn { font-family: 'Google Sans Code', monospace; font-size: 18px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; border-radius: 999px;}
-.nav-btn:hover { color: var(--cyan); border-color: var(--cyan); background: rgba(34,211,238,0.05); }
+.nav-btn:hover { color: var(--cyan); border-color: var(--cyan); background: rgba(128,128,128,0.05); }
 .nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
 .nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 260px; justify-content: center; }
 .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); cursor: pointer; transition: all 0.2s; }
@@ -130,8 +130,8 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   left: 0;
   right: 0;
   z-index: 1200;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
-  background: rgba(7, 9, 15, 0.9);
+  border-bottom: 1px solid rgba(128,128,128,0.2);
+  background: rgba(128,128,128,0.14);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
@@ -149,7 +149,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .course-nav a,
 .course-menu-button,
 .course-submenu-button {
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   text-decoration: none;
   white-space: nowrap;
   line-height: 1;
@@ -164,7 +164,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   border-radius: 0;
   border-bottom: 2px solid transparent;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.12em;
@@ -173,7 +173,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   transition: color 0.18s ease, border-color 0.18s ease;
 }
 .course-home-link {
-  color: var(--text, #f8fafc) !important;
+  color: var(--text, var(--ink)) !important;
   font-weight: 700;
   letter-spacing: 0.16em;
 }
@@ -190,7 +190,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .course-submenu-button::after {
   content: "▾";
   font-size: 18px;
-  color: var(--text3, #64748b);
+  color: var(--text3, var(--ink));
   transition: transform 0.18s ease;
 }
 .course-submenu-button::after {
@@ -211,10 +211,10 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   display: grid;
   gap: 2px;
   padding: 8px;
-  border: 1px solid rgba(148, 163, 184, 0.22);
+  border: 1px solid rgba(128,128,128,0.22);
   border-radius: 6px;
-  background: rgba(8, 13, 24, 0.98);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+  background: rgba(128,128,128,0.14);
+  box-shadow: 0 18px 40px rgba(128,128,128,0.14);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.16s ease, transform 0.16s ease;
@@ -262,7 +262,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   border: 0;
   border-radius: 4px;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.04em;
@@ -277,10 +277,10 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 }
 .course-topic-link,
 .course-subdropdown a.current-page {
-  color: var(--accent, #22b3a0) !important;
+  color: var(--accent, var(--ink)) !important;
 }
 .course-subdropdown a.current-page {
-  background: rgba(34, 211, 238, 0.08);
+  background: rgba(128,128,128,0.08);
 }
 .course-dropdown a:hover,
 .course-dropdown a:focus,
@@ -288,7 +288,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .course-subdropdown a:focus,
 .course-submenu-button:hover,
 .course-submenu-button:focus {
-  color: var(--text, #f8fafc);
+  color: var(--text, var(--ink));
   background: rgba(255, 255, 255, 0.08);
   outline: none;
 }
@@ -298,8 +298,8 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .course-menu-button:hover,
 .course-menu-button:focus,
 .course-menu-button.current {
-  color: var(--text, #f8fafc);
-  border-color: var(--accent, #22b3a0);
+  color: var(--text, var(--ink));
+  border-color: var(--accent, var(--line-2));
   outline: none;
 }
 .course-nav ~ .slide-num { top: 98px !important; }
@@ -336,7 +336,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
     margin: 0 0 4px 12px;
     padding: 4px;
     box-shadow: none;
-    border-color: rgba(148, 163, 184, 0.14);
+    border-color: rgba(128,128,128,0.2);
     background: rgba(255, 255, 255, 0.03);
     transform: none;
     display: none;
@@ -361,6 +361,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 }
 
 </style>
+<link rel="stylesheet" href="../assets/theme.css">
 </head>
 <body>
 
@@ -465,7 +466,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S1: TITLE -->
 <div class="slide active">
   <div class="content">
-    <div class="label">// A4.2 · Data Preprocessing <span class="hl-badge">HL Only</span></div>
+    <div class="label">A4.2 · Data Preprocessing <span class="hl-badge">HL Only</span></div>
     <h1>Data<br><span class="hl-cyan">Preprocessing</span></h1>
     <p style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.4vw, 1.375rem);color:var(--text3);margin-bottom:20px;">Theme A4 · IB Computer Science HL</p>
     <div class="gold-box">
@@ -483,7 +484,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S2: IB SPEC -->
 <div class="slide">
   <div class="content">
-    <div class="label">// IB Specification · A4.2</div>
+    <div class="label">IB Specification · A4.2</div>
     <h2>What IB Requires <span class="hl-badge">HL Only</span></h2>
     <div class="steps">
       <div class="step-row"><div class="step-n">4.2.1</div><div class="step-text"><strong>Describe</strong> the significance of data cleaning — impact on model performance, techniques for handling outliers, duplicates, missing data, normalization and standardization</div></div>
@@ -499,7 +500,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S3: WHY PREPROCESSING MATTERS -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Motivation · Why Preprocessing?</div>
+    <div class="label">Motivation · Why Preprocessing?</div>
     <h2>Garbage In, <span class="hl-red">Garbage Out</span></h2>
     <p class="lead">Machine learning models learn patterns from data. If the data is noisy, incomplete, or biased — the model will learn <em>those flaws</em>, not the underlying truth.</p>
     <div class="grid g3" style="margin-bottom:14px;">
@@ -542,7 +543,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S4: DATA QUALITY & MODEL PERFORMANCE -->
 <div class="slide">
   <div class="content">
-    <div class="label">// A4.2.1 · Data Cleaning</div>
+    <div class="label">A4.2.1 · Data Cleaning</div>
     <h2>Impact of <span class="hl-cyan">Data Quality</span> on Model Performance</h2>
     <p class="lead" style="margin-bottom:16px;">The training data is the model's entire "world view." Poor quality data leads directly to poor predictions.</p>
     <div class="grid g2" style="margin-bottom:14px;">
@@ -574,7 +575,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S5: DATA CLEANING TECHNIQUES -->
 <div class="slide scroll-slide">
   <div class="content" style="max-width:1120px;margin:0 auto;">
-    <div class="label">// A4.2.1 · Data Cleaning Techniques</div>
+    <div class="label">A4.2.1 · Data Cleaning Techniques</div>
     <h2>Fixing <span class="hl-cyan">Dirty Data</span></h2>
     <table class="comparison-table" style="margin-bottom:14px;">
       <tr>
@@ -627,7 +628,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S6: NORMALIZATION & STANDARDIZATION -->
 <div class="slide">
   <div class="content">
-    <div class="label">// A4.2.1 · Scaling</div>
+    <div class="label">A4.2.1 · Scaling</div>
     <h2><span class="hl-blue">Normalization</span> vs <span class="hl-green">Standardization</span></h2>
     <p class="lead" style="margin-bottom:14px;">Features with very different numeric ranges can cause ML algorithms to unfairly weight larger-valued features. Scaling puts everything on the same level.</p>
     <div class="grid g2" style="margin-bottom:14px;">
@@ -659,7 +660,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S7: FEATURE SELECTION INTRO -->
 <div class="slide">
   <div class="content">
-    <div class="label">// A4.2.2 · Feature Selection</div>
+    <div class="label">A4.2.2 · Feature Selection</div>
     <h2>Choosing the <span class="hl-blue">Right Features</span></h2>
     <p class="lead">A feature is any measurable attribute used as input to the model. Not all features are equally useful — some add noise, some are redundant, some are irrelevant.</p>
     <div class="grid g2" style="margin-bottom:14px;">
@@ -688,7 +689,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S8: FEATURE SELECTION STRATEGIES -->
 <div class="slide">
   <div class="content">
-    <div class="label">// A4.2.2 · Feature Selection Strategies</div>
+    <div class="label">A4.2.2 · Feature Selection Strategies</div>
     <h2>Three Strategies <span class="hl-blue">Compared</span></h2>
     <div class="steps" style="margin-bottom:14px;">
       <div class="step-row">
@@ -725,7 +726,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S9: DIMENSIONALITY REDUCTION INTRO -->
 <div class="slide">
   <div class="content">
-    <div class="label">// A4.2.3 · Dimensionality Reduction</div>
+    <div class="label">A4.2.3 · Dimensionality Reduction</div>
     <h2>The <span class="hl-purple">Curse of</span> Dimensionality</h2>
     <p class="lead">A "dimension" = one feature (one column in the dataset). As the number of features grows, data becomes increasingly <em>sparse</em> — and models struggle to find meaningful patterns.</p>
     <div class="grid g3" style="margin-bottom:14px;">
@@ -764,7 +765,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S10: DIMENSIONALITY REDUCTION SOLUTION -->
 <div class="slide">
   <div class="content">
-    <div class="label">// A4.2.3 · Dimensionality Reduction</div>
+    <div class="label">A4.2.3 · Dimensionality Reduction</div>
     <h2>Reducing Dimensions <span class="hl-purple">Without Losing Information</span></h2>
     <p class="lead" style="margin-bottom:16px;">Dimensionality reduction compresses the dataset from many features into fewer, while preserving the most important variation in the data.</p>
     <div class="grid g2" style="margin-bottom:14px;">
@@ -796,7 +797,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S11: THE ML PIPELINE -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Putting It All Together</div>
+    <div class="label">Putting It All Together</div>
     <h2>The ML <span class="hl-green">Preprocessing Pipeline</span></h2>
     <p class="lead" style="margin-bottom:20px;">Preprocessing steps are not isolated — they form a sequential pipeline applied before model training.</p>
     <div style="overflow-x:auto;margin-bottom:18px;">
@@ -837,7 +838,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S12: REAL WORLD EXAMPLE -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Worked Example</div>
+    <div class="label">Worked Example</div>
     <h2>Case Study: <span class="hl-gold">Hospital Patient Data</span></h2>
     <p class="lead" style="margin-bottom:14px;">Goal: predict whether a patient will be readmitted within 30 days.</p>
     <div class="steps">
@@ -868,7 +869,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S13: EXAM REVIEW -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Exam Review · A4.2</div>
+    <div class="label">Exam Review · A4.2</div>
     <h2>Key Concepts <span class="hl-gold">Summary</span></h2>
     <div class="grid g3" style="margin-bottom:14px;">
       <div class="card cyan">
@@ -914,7 +915,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S14: NEXT STEPS -->
 <div class="slide">
   <div class="content">
-    <div class="label">// What's Next</div>
+    <div class="label">What's Next</div>
     <h2>Up Next: <span class="hl-orange">A4.3</span></h2>
     <p class="lead" style="margin-bottom:20px;">Now that the data is clean and prepared, we explore the actual machine learning algorithms — from linear regression to neural networks.</p>
     <div class="grid g2" style="margin-bottom:14px;">

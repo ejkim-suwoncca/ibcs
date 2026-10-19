@@ -31,10 +31,10 @@ body::before {
   content: '';
   position: fixed; inset: 0;
   background-image:
-    linear-gradient(rgba(74,158,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(74,158,255,0.03) 1px, transparent 1px),
-    linear-gradient(rgba(74,158,255,0.01) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(74,158,255,0.01) 1px, transparent 1px);
+    linear-gradient(rgba(128,128,128,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128,128,128,0.03) 1px, transparent 1px),
+    linear-gradient(rgba(128,128,128,0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128,128,128,0.01) 1px, transparent 1px);
   background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
   pointer-events: none; z-index: 0;
 }
@@ -77,13 +77,13 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .card-body strong { color: var(--text); font-weight: 500; }
 
 /* ── INFO / GOLD BOXES */
-.info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(74,158,255,0.04); border-top: 1px solid rgba(74,158,255,0.08); border-right: 1px solid rgba(74,158,255,0.08); border-bottom: 1px solid rgba(74,158,255,0.08); margin-top: 14px; }
+.info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
 .info-box p { font-size: clamp(1.25rem, 1.35vw, 1.5rem); color: var(--text2); line-height: 1.6; }
 .info-box strong { color: var(--blue); }
-.gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(201,168,76,0.04); border-top: 1px solid rgba(201,168,76,0.08); border-right: 1px solid rgba(201,168,76,0.08); border-bottom: 1px solid rgba(201,168,76,0.08); margin-top: 14px; }
+.gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
 .gold-box p { font-size: clamp(1.25rem, 1.35vw, 1.5rem); color: var(--text2); line-height: 1.6; }
 .gold-box strong { color: var(--gold2); }
-.cyan-box { border-left: 3px solid var(--cyan); padding: 13px 20px; background: rgba(34,211,238,0.04); border-top: 1px solid rgba(34,211,238,0.08); border-right: 1px solid rgba(34,211,238,0.08); border-bottom: 1px solid rgba(34,211,238,0.08); margin-top: 14px; }
+.cyan-box { border-left: 3px solid var(--cyan); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
 .cyan-box p { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.6; }
 .cyan-box strong { color: var(--cyan); }
 
@@ -122,14 +122,14 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   font-size: clamp(1.125rem, 2vw, 1.6rem);
   font-weight: 500;
 }
-.bit-table td.bit-1 { background: rgba(61,214,140,0.12); color: var(--green); }
-.bit-table td.bit-0 { background: rgba(255,107,107,0.06); color: var(--text3); }
+.bit-table td.bit-1 { background: rgba(128,128,128,0.12); color: var(--green); }
+.bit-table td.bit-0 { background: rgba(128,128,128,0.06); color: var(--text3); }
 .bit-table td.power { background: var(--surface); color: var(--gold); font-size: clamp(1.125rem, 1.2vw, 1.375rem); font-weight: 400; }
 .bit-table td.value { background: var(--surface); color: var(--blue); font-size: clamp(1.125rem, 2.2vw, 1.8rem); font-weight: 700; }
 .bit-table td.value-dim { background: var(--surface); color: var(--text3); font-size: clamp(1.125rem, 2.2vw, 1.8rem); font-weight: 400; }
 .bit-table td.header-cell { background: var(--surface2); color: var(--text3); font-size: clamp(1.125rem, 1vw, 1.375rem); letter-spacing: 0.08em; }
-.bit-table td.result { background: rgba(201,168,76,0.1); color: var(--gold2); font-size: clamp(1.125rem, 2.2vw, 1.8rem); font-weight: 700; border: 1px solid rgba(201,168,76,0.3); }
-.bit-table td.hex { background: rgba(34,211,238,0.1); color: var(--cyan); font-size: clamp(1.125rem, 2.2vw, 1.8rem); font-weight: 700; border: 1px solid rgba(34,211,238,0.2); }
+.bit-table td.result { background: rgba(128,128,128,0.1); color: var(--gold2); font-size: clamp(1.125rem, 2.2vw, 1.8rem); font-weight: 700; border: 1px solid rgba(128,128,128,0.3); }
+.bit-table td.hex { background: rgba(128,128,128,0.1); color: var(--cyan); font-size: clamp(1.125rem, 2.2vw, 1.8rem); font-weight: 700; border: 1px solid rgba(128,128,128,0.2); }
 .bit-table td.hex-dim { background: var(--surface); color: var(--text3); font-size: clamp(1.125rem, 1.8vw, 1.5rem); font-weight: 400; }
 .bit-table td.spacer { background: transparent; border: none; width: 16px; }
 
@@ -160,7 +160,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .hex-ref th { background: var(--surface2); border: 1px solid var(--border2); padding: 8px 10px; font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.05vw, 1.375rem); color: var(--text3); font-weight: 400; text-align: center; }
 .hex-ref td { border: 1px solid var(--border); padding: 9px 10px; text-align: center; font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.4vw, 1.375rem); }
 .hex-ref td.dec-val { background: var(--surface); color: var(--text2); }
-.hex-ref td.hex-val { background: rgba(34,211,238,0.07); color: var(--cyan); font-weight: 700; }
+.hex-ref td.hex-val { background: rgba(128,128,128,0.07); color: var(--cyan); font-weight: 700; }
 .hex-ref td.bin-val { background: var(--surface); color: var(--green); font-size: clamp(1.125rem, 1.1vw, 1.375rem); }
 
 /* ── CONVERSION STEP CHAIN */
@@ -175,17 +175,17 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .div-table { border-collapse: collapse; }
 .div-table td { border: 1px solid var(--border2); padding: 10px 14px; font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.4vw, 1.375rem); text-align: center; background: var(--surface); color: var(--text2); }
 .div-table td.div-num { color: var(--text); font-weight: 500; }
-.div-table td.div-rem-1 { background: rgba(61,214,140,0.1); color: var(--green); font-weight: 700; }
-.div-table td.div-rem-0 { background: rgba(255,107,107,0.06); color: var(--text3); }
+.div-table td.div-rem-1 { background: rgba(128,128,128,0.1); color: var(--green); font-weight: 700; }
+.div-table td.div-rem-0 { background: rgba(128,128,128,0.06); color: var(--text3); }
 .div-table th { border: 1px solid var(--border2); padding: 8px 14px; font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1vw, 1.375rem); color: var(--text3); background: var(--surface2); text-align: center; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; }
 
 /* ── DIVIDER */
 .divider { width: 100%; height: 1px; background: var(--border); margin: 14px 0; }
 
 /* ── NAV */
-.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; border-radius: 999px;}
+.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(128,128,128,0.14); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; border-radius: 999px;}
 .nav-btn { font-family: 'Google Sans Code', monospace; font-size: 18px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; border-radius: 999px;}
-.nav-btn:hover { color: var(--gold); border-color: var(--gold); background: rgba(201,168,76,0.05); }
+.nav-btn:hover { color: var(--gold); border-color: var(--gold); background: rgba(128,128,128,0.05); }
 .nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
 .nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 220px; justify-content: center; }
 .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); cursor: pointer; transition: all 0.2s; }
@@ -199,8 +199,8 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   left: 0;
   right: 0;
   z-index: 1200;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
-  background: rgba(7, 9, 15, 0.9);
+  border-bottom: 1px solid rgba(128,128,128,0.2);
+  background: rgba(128,128,128,0.14);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
@@ -218,7 +218,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .course-nav a,
 .course-menu-button,
 .course-submenu-button {
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   text-decoration: none;
   white-space: nowrap;
   line-height: 1;
@@ -233,7 +233,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   border-radius: 0;
   border-bottom: 2px solid transparent;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.12em;
@@ -242,7 +242,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   transition: color 0.18s ease, border-color 0.18s ease;
 }
 .course-home-link {
-  color: var(--text, #f8fafc) !important;
+  color: var(--text, var(--ink)) !important;
   font-weight: 700;
   letter-spacing: 0.16em;
 }
@@ -259,7 +259,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .course-submenu-button::after {
   content: "▾";
   font-size: 18px;
-  color: var(--text3, #64748b);
+  color: var(--text3, var(--ink));
   transition: transform 0.18s ease;
 }
 .course-submenu-button::after {
@@ -280,10 +280,10 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   display: grid;
   gap: 2px;
   padding: 8px;
-  border: 1px solid rgba(148, 163, 184, 0.22);
+  border: 1px solid rgba(128,128,128,0.22);
   border-radius: 6px;
-  background: rgba(8, 13, 24, 0.98);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+  background: rgba(128,128,128,0.14);
+  box-shadow: 0 18px 40px rgba(128,128,128,0.14);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.16s ease, transform 0.16s ease;
@@ -331,7 +331,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   border: 0;
   border-radius: 4px;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.04em;
@@ -346,10 +346,10 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 }
 .course-topic-link,
 .course-subdropdown a.current-page {
-  color: var(--accent, #22b3a0) !important;
+  color: var(--accent, var(--ink)) !important;
 }
 .course-subdropdown a.current-page {
-  background: rgba(34, 211, 238, 0.08);
+  background: rgba(128,128,128,0.08);
 }
 .course-dropdown a:hover,
 .course-dropdown a:focus,
@@ -357,7 +357,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .course-subdropdown a:focus,
 .course-submenu-button:hover,
 .course-submenu-button:focus {
-  color: var(--text, #f8fafc);
+  color: var(--text, var(--ink));
   background: rgba(255, 255, 255, 0.08);
   outline: none;
 }
@@ -367,8 +367,8 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .course-menu-button:hover,
 .course-menu-button:focus,
 .course-menu-button.current {
-  color: var(--text, #f8fafc);
-  border-color: var(--accent, #22b3a0);
+  color: var(--text, var(--ink));
+  border-color: var(--accent, var(--line-2));
   outline: none;
 }
 .course-nav ~ .slide-num { top: 98px !important; }
@@ -405,7 +405,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
     margin: 0 0 4px 12px;
     padding: 4px;
     box-shadow: none;
-    border-color: rgba(148, 163, 184, 0.14);
+    border-color: rgba(128,128,128,0.2);
     background: rgba(255, 255, 255, 0.03);
     transform: none;
     display: none;
@@ -430,6 +430,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 }
 
 </style>
+<link rel="stylesheet" href="../assets/theme.css">
 </head>
 <body>
 
@@ -534,7 +535,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══ S1: TITLE ═══ -->
 <div class="slide active">
   <div class="content">
-    <div class="label">// A1.2.1 · Number Systems</div>
+    <div class="label">A1.2.1 · Number Systems</div>
     <h1>Binary &<br><span class="hl-cyan">Hexadecimal</span></h1>
     <p style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.4vw, 1.375rem);color:var(--text3);margin-bottom:20px;">Review Lesson</p>
     <div class="gold-box">
@@ -552,7 +553,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══ S2: IB REQUIREMENT ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label">// IB Specification · A1.2.1</div>
+    <div class="label">IB Specification · A1.2.1</div>
     <h2>What IB Requires</h2>
     <p class="lead" style="margin-bottom:14px;">Command term: <strong style="color:var(--gold2);">Describe</strong></p>
     <div class="steps">
@@ -604,7 +605,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══ S4: WHY BINARY ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label">// A1.2.1 · Motivation</div>
+    <div class="label">A1.2.1 · Motivation</div>
     <h2>Why <span class="hl-green">Binary?</span></h2>
     <div class="grid g2" style="gap:12px;align-items:start;">
       <div>
@@ -645,7 +646,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══ S5: BASE 10 ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Base 10 · Denary</div>
+    <div class="label">Base 10 · Denary</div>
     <h2>Base 10 — <span class="hl-gold">Denary</span></h2>
     <p class="lead" style="margin-bottom:14px;">Each column is a <strong>power of 10</strong>. The digit tells you how many of that power you have.</p>
     <div class="bit-table-wrap">
@@ -706,7 +707,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══ S6: BASE 2 ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Base 2 · Binary</div>
+    <div class="label">Base 2 · Binary</div>
     <h2>Base 2 — <span class="hl-green">Binary</span></h2>
     <p class="lead" style="margin-bottom:14px;">Each column is a <strong>power of 2</strong>. Each digit can only be 0 or 1.</p>
     <div class="bit-table-wrap">
@@ -741,7 +742,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══ S7: POWERS OF 2 ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Reference Table</div>
+    <div class="label">Reference Table</div>
     <h2>Powers of <span class="hl-gold">2</span></h2>
     <p class="lead" style="margin-bottom:14px;">Memorise these. They are the building blocks of every binary conversion.</p>
     <div class="bit-table-wrap">
@@ -789,7 +790,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══ S8: 1 BYTE ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label">// 1 Byte = 8 Bits</div>
+    <div class="label">1 Byte = 8 Bits</div>
     <h2>A <span class="hl-blue">Byte</span> — 8 Bit Positions</h2>
     <p class="lead" style="margin-bottom:14px;">Each position has a fixed value. The bit (0 or 1) tells you whether to include it.</p>
     <div class="bit-table-wrap">
@@ -834,7 +835,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══ S9: MAXIMUM VALUE ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Maximum Value of 1 Byte</div>
+    <div class="label">Maximum Value of 1 Byte</div>
     <h2>All bits = <span class="hl-green">1</span></h2>
     <p class="lead" style="margin-bottom:14px;">When every bit position is turned ON, you get the maximum value a single byte can hold.</p>
     <div class="bit-table-wrap">
@@ -871,7 +872,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══ S10: BITS vs BYTES ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Terminology</div>
+    <div class="label">Terminology</div>
     <h2>Bits vs. <span class="hl-blue">Bytes</span></h2>
     <div class="bit-table-wrap" style="margin-bottom:14px;">
       <table class="bit-table" style="width:100%;">
@@ -918,7 +919,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══ S11: BINARY → DECIMAL (POSITIONAL) ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Conversion Method 1</div>
+    <div class="label">Conversion Method 1</div>
     <h2>Binary → Decimal<br><span class="hl-gold">Positional Method</span></h2>
     <p class="lead" style="margin-bottom:14px;">Write the bit under each column value. Add only the columns with a <strong style="color:var(--green);">1</strong>.</p>
     <div class="bit-table-wrap">
@@ -947,9 +948,9 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
             <td class="bit-table" style="background:transparent;border:none;"></td>
             <td class="bit-table" style="background:transparent;border:none;"></td>
             <td class="bit-table" style="background:transparent;border:none;"></td>
-            <td style="background:rgba(61,214,140,0.1);color:var(--green);font-size: clamp(1.125rem, 1.3vw, 1.375rem);">✓ +8</td>
+            <td style="background:rgba(128,128,128,0.1);color:var(--green);font-size: clamp(1.125rem, 1.3vw, 1.375rem);">✓ +8</td>
             <td class="bit-0" style="font-size: clamp(1.125rem, 1.3vw, 1.375rem);color:var(--text3);">✗</td>
-            <td style="background:rgba(61,214,140,0.1);color:var(--green);font-size: clamp(1.125rem, 1.3vw, 1.375rem);">✓ +2</td>
+            <td style="background:rgba(128,128,128,0.1);color:var(--green);font-size: clamp(1.125rem, 1.3vw, 1.375rem);">✓ +2</td>
             <td class="bit-0" style="font-size: clamp(1.125rem, 1.3vw, 1.375rem);color:var(--text3);">✗</td>
           </tr>
         </tbody>
@@ -964,7 +965,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══ S12: DOUBLING METHOD ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Conversion Method 2</div>
+    <div class="label">Conversion Method 2</div>
     <h2>Binary → Decimal<br><span class="hl-blue">Doubling Method (MSB)</span></h2>
     <p class="lead" style="margin-bottom:12px;"><strong style="color:var(--blue);">MSB</strong> = Most Significant Bit (leftmost). Start there and work right.</p>
     <div class="steps" style="margin-bottom:14px;">
@@ -994,7 +995,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══ S13: DECIMAL → BINARY (DIVISION) ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Conversion Method 3</div>
+    <div class="label">Conversion Method 3</div>
     <h2>Decimal → Binary<br><span class="hl-green">Division Method</span></h2>
     <p class="lead" style="margin-bottom:12px;"><strong style="color:var(--green);">LSB</strong> = Least Significant Bit (rightmost). Divide by 2, record remainders, read bottom to top.</p>
     <div class="grid g2" style="gap:16px;align-items:start;">
@@ -1031,7 +1032,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══ S14: SUBTRACTION METHOD ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Conversion Method 4</div>
+    <div class="label">Conversion Method 4</div>
     <h2>Decimal → Binary<br><span class="hl-gold">Subtraction Method</span></h2>
     <p class="lead" style="margin-bottom:12px;">Use the powers of 2 table. Work left to right — subtract the largest power that fits.</p>
     <div class="bit-table-wrap" style="margin-bottom:14px;">
@@ -1063,7 +1064,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══ S15: HEXADECIMAL ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Base 16</div>
+    <div class="label">Base 16</div>
     <h2><span class="hl-cyan">Hexadecimal</span> — Base 16</h2>
     <p class="lead" style="margin-bottom:14px;">Hex uses 16 symbols. When we run out of digits after 9, we use letters.</p>
     <div class="bit-table-wrap">
@@ -1080,12 +1081,12 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
             <td class="hex-val">0</td><td class="hex-val">1</td><td class="hex-val">2</td><td class="hex-val">3</td>
             <td class="hex-val">4</td><td class="hex-val">5</td><td class="hex-val">6</td><td class="hex-val">7</td>
             <td class="hex-val">8</td><td class="hex-val">9</td>
-            <td class="hex-val" style="background:rgba(34,211,238,0.18);">A</td>
-            <td class="hex-val" style="background:rgba(34,211,238,0.18);">B</td>
-            <td class="hex-val" style="background:rgba(34,211,238,0.18);">C</td>
-            <td class="hex-val" style="background:rgba(34,211,238,0.18);">D</td>
-            <td class="hex-val" style="background:rgba(34,211,238,0.18);">E</td>
-            <td class="hex-val" style="background:rgba(34,211,238,0.18);">F</td>
+            <td class="hex-val" style="background:rgba(128,128,128,0.14);">A</td>
+            <td class="hex-val" style="background:rgba(128,128,128,0.14);">B</td>
+            <td class="hex-val" style="background:rgba(128,128,128,0.14);">C</td>
+            <td class="hex-val" style="background:rgba(128,128,128,0.14);">D</td>
+            <td class="hex-val" style="background:rgba(128,128,128,0.14);">E</td>
+            <td class="hex-val" style="background:rgba(128,128,128,0.14);">F</td>
           </tr>
           <tr>
             <th style="background:var(--surface2);border:1px solid var(--border2);padding:8px 10px;font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.05vw, 1.375rem);color:var(--text3);font-weight:400;">Binary</th>
@@ -1107,7 +1108,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══ S16: WHY HEX ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Why We Use Hex</div>
+    <div class="label">Why We Use Hex</div>
     <h2>Why <span class="hl-cyan">Hexadecimal?</span></h2>
     <p class="lead" style="margin-bottom:14px;">Binary is exact but hard to read. Hex is a compact shorthand.</p>
     <div class="grid g2" style="gap:12px;align-items:start;">
@@ -1148,7 +1149,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══ S17: BINARY ↔ HEX ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label cyan">// IB Requirement · Binary ↔ Hex</div>
+    <div class="label cyan">IB Requirement · Binary ↔ Hex</div>
     <h2>Binary ↔ <span class="hl-cyan">Hex</span> Conversion</h2>
     <p class="lead" style="margin-bottom:12px;">Group binary into <strong>blocks of 4 bits</strong>. Each group = exactly one hex digit.</p>
     <div class="bit-table-wrap">
@@ -1156,9 +1157,9 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
         <thead>
           <tr>
             <td class="row-label"></td>
-            <th colspan="4" style="background:rgba(61,214,140,0.08);color:var(--green);border:1px solid rgba(61,214,140,0.2);">Left group</th>
+            <th colspan="4" style="background:rgba(128,128,128,0.08);color:var(--green);border:1px solid rgba(128,128,128,0.2);">Left group</th>
             <td class="spacer"></td>
-            <th colspan="4" style="background:rgba(34,211,238,0.08);color:var(--cyan);border:1px solid rgba(34,211,238,0.2);">Right group</th>
+            <th colspan="4" style="background:rgba(128,128,128,0.08);color:var(--cyan);border:1px solid rgba(128,128,128,0.2);">Right group</th>
           </tr>
         </thead>
         <tbody>
@@ -1176,9 +1177,9 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
           </tr>
           <tr>
             <td class="row-label">Sum</td>
-            <td colspan="4" style="background:rgba(61,214,140,0.1);color:var(--green);font-size: clamp(1.125rem, 1.5vw, 1.375rem);">8+4+1 = 13</td>
+            <td colspan="4" style="background:rgba(128,128,128,0.1);color:var(--green);font-size: clamp(1.125rem, 1.5vw, 1.375rem);">8+4+1 = 13</td>
             <td class="spacer"></td>
-            <td colspan="4" style="background:rgba(34,211,238,0.1);color:var(--cyan);font-size: clamp(1.125rem, 1.5vw, 1.375rem);">8+2 = 10</td>
+            <td colspan="4" style="background:rgba(128,128,128,0.1);color:var(--cyan);font-size: clamp(1.125rem, 1.5vw, 1.375rem);">8+2 = 10</td>
           </tr>
           <tr>
             <td class="row-label">Hex</td>
@@ -1199,7 +1200,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══ S18: BRUTE FORCE ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Strategy</div>
+    <div class="label">Strategy</div>
     <h2>Brute Force <span class="hl-gold">Strategy</span></h2>
     <p class="lead" style="margin-bottom:14px;">Not sure how to convert directly? There's always a safe path.</p>
     <div class="grid g2" style="gap:12px;align-items:start;">
@@ -1221,21 +1222,21 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
           <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--text3);letter-spacing:0.15em;margin-bottom:14px;">CONVERSION MAP</div>
           <div style="display:flex;flex-direction:column;gap:8px;">
             <div style="display:flex;align-items:center;gap:8px;">
-              <div style="background:rgba(61,214,140,0.1);border:1px solid rgba(61,214,140,0.2);padding:8px 14px;font-family:'Google Sans Code', monospace;color:var(--green);font-size:1.125rem;">Binary</div>
+              <div style="background:rgba(128,128,128,0.1);border:1px solid rgba(128,128,128,0.2);padding:8px 14px;font-family:'Google Sans Code', monospace;color:var(--green);font-size:1.125rem;">Binary</div>
               <div style="color:var(--gold);font-family:'Google Sans Code', monospace;">⟷</div>
-              <div style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);padding:8px 14px;font-family:'Google Sans Code', monospace;color:var(--gold);font-size:1.125rem;">Decimal</div>
+              <div style="background:rgba(128,128,128,0.1);border:1px solid rgba(128,128,128,0.2);padding:8px 14px;font-family:'Google Sans Code', monospace;color:var(--gold);font-size:1.125rem;">Decimal</div>
               <div style="color:var(--text3);font-family:'Google Sans Code', monospace;font-size:1.125rem;">Positional / Division</div>
             </div>
             <div style="display:flex;align-items:center;gap:8px;">
-              <div style="background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.2);padding:8px 14px;font-family:'Google Sans Code', monospace;color:var(--cyan);font-size:1.125rem;">Hex</div>
+              <div style="background:rgba(128,128,128,0.1);border:1px solid rgba(128,128,128,0.2);padding:8px 14px;font-family:'Google Sans Code', monospace;color:var(--cyan);font-size:1.125rem;">Hex</div>
               <div style="color:var(--gold);font-family:'Google Sans Code', monospace;">⟷</div>
-              <div style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);padding:8px 14px;font-family:'Google Sans Code', monospace;color:var(--gold);font-size:1.125rem;">Decimal</div>
+              <div style="background:rgba(128,128,128,0.1);border:1px solid rgba(128,128,128,0.2);padding:8px 14px;font-family:'Google Sans Code', monospace;color:var(--gold);font-size:1.125rem;">Decimal</div>
               <div style="color:var(--text3);font-family:'Google Sans Code', monospace;font-size:1.125rem;">× 16 / ÷ 16</div>
             </div>
             <div style="display:flex;align-items:center;gap:8px;">
-              <div style="background:rgba(61,214,140,0.1);border:1px solid rgba(61,214,140,0.2);padding:8px 14px;font-family:'Google Sans Code', monospace;color:var(--green);font-size:1.125rem;">Binary</div>
+              <div style="background:rgba(128,128,128,0.1);border:1px solid rgba(128,128,128,0.2);padding:8px 14px;font-family:'Google Sans Code', monospace;color:var(--green);font-size:1.125rem;">Binary</div>
               <div style="color:var(--gold);font-family:'Google Sans Code', monospace;">⟷</div>
-              <div style="background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.2);padding:8px 14px;font-family:'Google Sans Code', monospace;color:var(--cyan);font-size:1.125rem;">Hex</div>
+              <div style="background:rgba(128,128,128,0.1);border:1px solid rgba(128,128,128,0.2);padding:8px 14px;font-family:'Google Sans Code', monospace;color:var(--cyan);font-size:1.125rem;">Hex</div>
               <div style="color:var(--text3);font-family:'Google Sans Code', monospace;font-size:1.125rem;">Group by 4 bits</div>
             </div>
           </div>
@@ -1283,11 +1284,11 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
       <table class="bit-table" style="width:100%;">
         <thead>
           <tr>
-            <th colspan="8" style="background:rgba(61,214,140,0.06);color:var(--green);border:1px solid rgba(61,214,140,0.15);letter-spacing:0.1em;">1 1 0 1 1 0 1 0</th>
+            <th colspan="8" style="background:rgba(128,128,128,0.06);color:var(--green);border:1px solid rgba(128,128,128,0.2);letter-spacing:0.1em;">1 1 0 1 1 0 1 0</th>
             <th style="background:transparent;border:none;color:var(--text3);font-size:1.125rem;">= </th>
-            <th style="background:rgba(34,211,238,0.06);color:var(--cyan);border:1px solid rgba(34,211,238,0.15);">D A</th>
+            <th style="background:rgba(128,128,128,0.06);color:var(--cyan);border:1px solid rgba(128,128,128,0.2);">D A</th>
             <th style="background:transparent;border:none;color:var(--text3);font-size:1.125rem;">= </th>
-            <th style="background:rgba(201,168,76,0.06);color:var(--gold2);border:1px solid rgba(201,168,76,0.15);">218</th>
+            <th style="background:rgba(128,128,128,0.06);color:var(--gold2);border:1px solid rgba(128,128,128,0.2);">218</th>
           </tr>
         </thead>
         <tbody>
@@ -1308,7 +1309,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══ S20: PRACTICE ═══ -->
 <div class="slide">
   <div class="content">
-    <div class="label gold">// Practice</div>
+    <div class="label gold">Practice</div>
     <h2>Conversion <span class="hl-gold">Questions</span></h2>
     <p class="lead" style="margin-bottom:14px;">Complete all 5 conversions. Show your working clearly.</p>
     <div class="grid g2" style="gap:12px;align-items:start;">

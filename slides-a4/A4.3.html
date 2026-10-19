@@ -31,10 +31,10 @@ body::before {
   content: '';
   position: fixed; inset: 0;
   background-image:
-    linear-gradient(rgba(155,138,251,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(155,138,251,0.025) 1px, transparent 1px),
-    linear-gradient(rgba(155,138,251,0.01) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(155,138,251,0.01) 1px, transparent 1px);
+    linear-gradient(rgba(128,128,128,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128,128,128,0.025) 1px, transparent 1px),
+    linear-gradient(rgba(128,128,128,0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128,128,128,0.01) 1px, transparent 1px);
   background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
   pointer-events: none; z-index: 0;
 }
@@ -60,7 +60,7 @@ body::before {
 }
 .slide.scroll-slide::-webkit-scrollbar { width: 10px; }
 .slide.scroll-slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
-.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(14,17,23,0.3); }
+.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(128,128,128,0.14); }
 .progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--purple), var(--blue)); transition: width 0.38s ease; z-index: 100; }
 .slide-num { position: fixed; top: 17px; right: 24px; font-family: 'Google Sans Code', monospace; font-size: 18px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
 .content { width: 100%; max-width: 1120px; }
@@ -81,19 +81,19 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .card-title { font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.1vw, 1.375rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
 .card-body { font-size: clamp(1.25rem, 1.3vw, 1.5rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
 .card-body strong { color: var(--text); font-weight: 500; }
-.info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(74,158,255,0.04); border-top: 1px solid rgba(74,158,255,0.08); border-right: 1px solid rgba(74,158,255,0.08); border-bottom: 1px solid rgba(74,158,255,0.08); margin-top: 14px; }
+.info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
 .info-box p { font-size: clamp(1.25rem, 1.35vw, 1.5rem); color: var(--text2); line-height: 1.6; }
 .info-box strong { color: var(--blue); }
-.gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(201,168,76,0.04); border-top: 1px solid rgba(201,168,76,0.08); border-right: 1px solid rgba(201,168,76,0.08); border-bottom: 1px solid rgba(201,168,76,0.08); margin-top: 14px; }
+.gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
 .gold-box p { font-size: clamp(1.25rem, 1.35vw, 1.5rem); color: var(--text2); line-height: 1.6; }
 .gold-box strong { color: var(--gold2); }
-.purple-box { border-left: 3px solid var(--purple); padding: 13px 20px; background: rgba(155,138,251,0.04); border-top: 1px solid rgba(155,138,251,0.08); border-right: 1px solid rgba(155,138,251,0.08); border-bottom: 1px solid rgba(155,138,251,0.08); margin-top: 14px; }
+.purple-box { border-left: 3px solid var(--purple); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
 .purple-box p { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.6; }
 .purple-box strong { color: var(--purple); }
-.red-box { border-left: 3px solid var(--red); padding: 13px 20px; background: rgba(255,107,107,0.04); border-top: 1px solid rgba(255,107,107,0.08); border-right: 1px solid rgba(255,107,107,0.08); border-bottom: 1px solid rgba(255,107,107,0.08); margin-top: 14px; }
+.red-box { border-left: 3px solid var(--red); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
 .red-box p { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.6; }
 .red-box strong { color: var(--red); }
-.green-box { border-left: 3px solid var(--green); padding: 13px 20px; background: rgba(61,214,140,0.04); border-top: 1px solid rgba(61,214,140,0.08); border-right: 1px solid rgba(61,214,140,0.08); border-bottom: 1px solid rgba(61,214,140,0.08); margin-top: 14px; }
+.green-box { border-left: 3px solid var(--green); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
 .green-box p { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.6; }
 .green-box strong { color: var(--green); }
 .steps { display: flex; flex-direction: column; gap: 2px; }
@@ -107,15 +107,15 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .comparison-table tr:last-child td { border-bottom: none; }
 .comparison-table tr:hover td { background: var(--surface2); }
 .comparison-table td:first-child { font-family: 'Google Sans Code', monospace; font-size: 0.88em; color: var(--purple); font-weight: 500; }
-.hl-badge { display: inline-block; font-family: 'Google Sans Code', monospace; font-size: 1.125rem; color: var(--orange); padding: 2px 8px; background: rgba(251,146,60,0.1); border: 1px solid rgba(251,146,60,0.25); border-radius: 2px; margin-left: 8px; vertical-align: middle; }
+.hl-badge { display: inline-block; font-family: 'Google Sans Code', monospace; font-size: 1.125rem; color: var(--orange); padding: 2px 8px; background: rgba(128,128,128,0.1); border: 1px solid rgba(128,128,128,0.25); border-radius: 2px; margin-left: 8px; vertical-align: middle; }
 /* ANN diagram */
 .nn-diagram { display: flex; align-items: center; gap: 0; justify-content: center; }
 .nn-layer { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 0 20px; }
 .nn-node { width: 32px; height: 32px; border-radius: 50%; border: 2px solid; display: flex; align-items: center; justify-content: center; font-family: 'Google Sans Code', monospace; font-size: 18px; }
 .nn-label { font-family: 'Google Sans Code', monospace; font-size: 18px; color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 8px; text-align: center; }
-.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; border-radius: 999px;}
+.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(128,128,128,0.14); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; border-radius: 999px;}
 .nav-btn { font-family: 'Google Sans Code', monospace; font-size: 18px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; border-radius: 999px;}
-.nav-btn:hover { color: var(--purple); border-color: var(--purple); background: rgba(155,138,251,0.05); }
+.nav-btn:hover { color: var(--purple); border-color: var(--purple); background: rgba(128,128,128,0.05); }
 .nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
 .nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 280px; justify-content: center; }
 .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); cursor: pointer; transition: all 0.2s; }
@@ -129,8 +129,8 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   left: 0;
   right: 0;
   z-index: 1200;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
-  background: rgba(7, 9, 15, 0.9);
+  border-bottom: 1px solid rgba(128,128,128,0.2);
+  background: rgba(128,128,128,0.14);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
@@ -148,7 +148,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .course-nav a,
 .course-menu-button,
 .course-submenu-button {
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   text-decoration: none;
   white-space: nowrap;
   line-height: 1;
@@ -163,7 +163,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   border-radius: 0;
   border-bottom: 2px solid transparent;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.12em;
@@ -172,7 +172,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   transition: color 0.18s ease, border-color 0.18s ease;
 }
 .course-home-link {
-  color: var(--text, #f8fafc) !important;
+  color: var(--text, var(--ink)) !important;
   font-weight: 700;
   letter-spacing: 0.16em;
 }
@@ -189,7 +189,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .course-submenu-button::after {
   content: "▾";
   font-size: 18px;
-  color: var(--text3, #64748b);
+  color: var(--text3, var(--ink));
   transition: transform 0.18s ease;
 }
 .course-submenu-button::after {
@@ -210,10 +210,10 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   display: grid;
   gap: 2px;
   padding: 8px;
-  border: 1px solid rgba(148, 163, 184, 0.22);
+  border: 1px solid rgba(128,128,128,0.22);
   border-radius: 6px;
-  background: rgba(8, 13, 24, 0.98);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+  background: rgba(128,128,128,0.14);
+  box-shadow: 0 18px 40px rgba(128,128,128,0.14);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.16s ease, transform 0.16s ease;
@@ -261,7 +261,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   border: 0;
   border-radius: 4px;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.04em;
@@ -276,10 +276,10 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 }
 .course-topic-link,
 .course-subdropdown a.current-page {
-  color: var(--accent, #22b3a0) !important;
+  color: var(--accent, var(--ink)) !important;
 }
 .course-subdropdown a.current-page {
-  background: rgba(34, 211, 238, 0.08);
+  background: rgba(128,128,128,0.08);
 }
 .course-dropdown a:hover,
 .course-dropdown a:focus,
@@ -287,7 +287,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .course-subdropdown a:focus,
 .course-submenu-button:hover,
 .course-submenu-button:focus {
-  color: var(--text, #f8fafc);
+  color: var(--text, var(--ink));
   background: rgba(255, 255, 255, 0.08);
   outline: none;
 }
@@ -297,8 +297,8 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .course-menu-button:hover,
 .course-menu-button:focus,
 .course-menu-button.current {
-  color: var(--text, #f8fafc);
-  border-color: var(--accent, #22b3a0);
+  color: var(--text, var(--ink));
+  border-color: var(--accent, var(--line-2));
   outline: none;
 }
 .course-nav ~ .slide-num { top: 98px !important; }
@@ -335,7 +335,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
     margin: 0 0 4px 12px;
     padding: 4px;
     box-shadow: none;
-    border-color: rgba(148, 163, 184, 0.14);
+    border-color: rgba(128,128,128,0.2);
     background: rgba(255, 255, 255, 0.03);
     transform: none;
     display: none;
@@ -360,6 +360,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 }
 
 </style>
+<link rel="stylesheet" href="../assets/theme.css">
 </head>
 <body>
 
@@ -464,7 +465,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S1: TITLE -->
 <div class="slide active">
   <div class="content">
-    <div class="label">// A4.3 · Machine Learning Approaches <span class="hl-badge">HL Only</span></div>
+    <div class="label">A4.3 · Machine Learning Approaches <span class="hl-badge">HL Only</span></div>
     <h1>ML<br><span class="hl-purple">Approaches</span></h1>
     <p style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.4vw, 1.375rem);color:var(--text3);margin-bottom:20px;">Theme A4 · IB Computer Science HL</p>
     <div class="gold-box">
@@ -482,7 +483,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S2: IB SPEC OVERVIEW -->
 <div class="slide scroll-slide">
   <div class="content" style="max-width:1120px;margin:0 auto;">
-    <div class="label">// IB Specification · A4.3</div>
+    <div class="label">IB Specification · A4.3</div>
     <h2>Learning Objectives <span class="hl-badge">HL Only</span></h2>
     <div class="steps">
       <div class="step-row"><div class="step-n">4.3.1</div><div class="step-text"><strong>Explain</strong> how linear regression predicts continuous outcomes — relationship between predictor/response variables, slope, intercept, r² goodness-of-fit</div></div>
@@ -502,7 +503,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S3: LINEAR REGRESSION -->
 <div class="slide">
   <div class="content">
-    <div class="label">// A4.3.1 · Supervised Learning</div>
+    <div class="label">A4.3.1 · Supervised Learning</div>
     <h2><span class="hl-blue">Linear Regression</span> — Continuous Predictions</h2>
     <p class="lead" style="margin-bottom:14px;">Linear regression predicts a <strong style="color:var(--blue);">continuous numeric output</strong> by finding the best-fit line through training data.</p>
     <div class="grid g2" style="margin-bottom:14px;">
@@ -537,7 +538,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S4: CLASSIFICATION — KNN -->
 <div class="slide">
   <div class="content">
-    <div class="label">// A4.3.2 · Classification</div>
+    <div class="label">A4.3.2 · Classification</div>
     <h2>K-Nearest Neighbours <span class="hl-green">(K-NN)</span></h2>
     <p class="lead" style="margin-bottom:14px;">K-NN classifies a new data point by looking at its <strong style="color:var(--green);">K nearest neighbours</strong> in the training data and choosing the most common class among them.</p>
     <div class="steps" style="margin-bottom:14px;">
@@ -565,7 +566,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S5: DECISION TREES -->
 <div class="slide">
   <div class="content">
-    <div class="label">// A4.3.2 · Classification</div>
+    <div class="label">A4.3.2 · Classification</div>
     <h2><span class="hl-cyan">Decision Trees</span></h2>
     <p class="lead" style="margin-bottom:14px;">A decision tree classifies data by repeatedly splitting it on the feature that best separates the classes — forming a tree of <strong style="color:var(--cyan);">if-then rules</strong>.</p>
     <div style="display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;margin-bottom:14px;">
@@ -611,7 +612,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S6: EVALUATION METRICS -->
 <div class="slide">
   <div class="content">
-    <div class="label">// A4.3.3 · Evaluation Metrics</div>
+    <div class="label">A4.3.3 · Evaluation Metrics</div>
     <h2>Measuring Model <span class="hl-gold">Performance</span></h2>
     <p class="lead" style="margin-bottom:14px;">Accuracy alone is often misleading — especially with imbalanced datasets. Four key metrics give a complete picture.</p>
     <table class="comparison-table" style="margin-bottom:14px;">
@@ -655,7 +656,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S7: HYPERPARAMETER TUNING + OVERFITTING -->
 <div class="slide">
   <div class="content">
-    <div class="label">// A4.3.3 · Model Evaluation</div>
+    <div class="label">A4.3.3 · Model Evaluation</div>
     <h2>Overfitting, Underfitting &amp; <span class="hl-orange">Hyperparameters</span></h2>
     <div class="grid g3" style="margin-bottom:14px;">
       <div class="card red">
@@ -693,7 +694,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S8: CLUSTERING -->
 <div class="slide">
   <div class="content">
-    <div class="label">// A4.3.4 · Unsupervised Learning</div>
+    <div class="label">A4.3.4 · Unsupervised Learning</div>
     <h2><span class="hl-cyan">Clustering</span> — Grouping Without Labels</h2>
     <p class="lead" style="margin-bottom:14px;">Clustering groups data points based on <strong style="color:var(--cyan);">similarity in their features</strong> — without any predefined labels. The algorithm discovers structure in the data on its own.</p>
     <div class="grid g2" style="margin-bottom:14px;">
@@ -739,7 +740,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S9: ASSOCIATION RULES -->
 <div class="slide">
   <div class="content">
-    <div class="label">// A4.3.5 · Association Rule Mining</div>
+    <div class="label">A4.3.5 · Association Rule Mining</div>
     <h2><span class="hl-gold">Association Rules</span> — Finding Hidden Relationships</h2>
     <p class="lead" style="margin-bottom:14px;">Association rule mining finds <strong style="color:var(--gold2);">co-occurrence patterns</strong> among items in large datasets — "if X then Y" relationships that appear frequently.</p>
     <div class="grid g2" style="margin-bottom:14px;">
@@ -772,7 +773,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S10: REINFORCEMENT LEARNING -->
 <div class="slide">
   <div class="content">
-    <div class="label">// A4.3.6 · Reinforcement Learning</div>
+    <div class="label">A4.3.6 · Reinforcement Learning</div>
     <h2>Learning Through <span class="hl-orange">Trial and Error</span></h2>
     <p class="lead" style="margin-bottom:14px;">An <strong style="color:var(--orange);">agent</strong> interacts with an <strong style="color:var(--orange);">environment</strong>, taking actions and receiving rewards or penalties — learning a policy that maximises cumulative reward over time.</p>
     <div class="grid g3" style="margin-bottom:14px;">
@@ -812,7 +813,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S11: GENETIC ALGORITHMS -->
 <div class="slide">
   <div class="content">
-    <div class="label">// A4.3.7 · Genetic Algorithms</div>
+    <div class="label">A4.3.7 · Genetic Algorithms</div>
     <h2><span class="hl-green">Genetic Algorithms</span> — Evolution as Optimization</h2>
     <p class="lead" style="margin-bottom:14px;">Genetic algorithms mimic biological evolution to find optimal or near-optimal solutions to complex problems, especially where the search space is too large for exhaustive search.</p>
     <div class="steps" style="margin-bottom:14px;">
@@ -832,7 +833,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S12: ANN -->
 <div class="slide">
   <div class="content">
-    <div class="label">// A4.3.8 · Artificial Neural Networks</div>
+    <div class="label">A4.3.8 · Artificial Neural Networks</div>
     <h2><span class="hl-purple">Artificial Neural Networks</span> (ANNs)</h2>
     <p class="lead" style="margin-bottom:14px;">ANNs are inspired by biological neurons. They process input through connected layers of nodes, learning weights during training to produce accurate outputs.</p>
     <div style="display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;margin-bottom:14px;">
@@ -869,10 +870,10 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
           </div>
           <div style="font-family:'Google Sans Code', monospace;color:var(--text3);">→</div>
           <div style="display:flex;flex-direction:column;gap:10px;align-items:center;">
-            <div style="width:28px;height:28px;border-radius:50%;border:2px solid var(--purple);background:rgba(155,138,251,0.08);"></div>
-            <div style="width:28px;height:28px;border-radius:50%;border:2px solid var(--purple);background:rgba(155,138,251,0.08);"></div>
-            <div style="width:28px;height:28px;border-radius:50%;border:2px solid var(--purple);background:rgba(155,138,251,0.08);"></div>
-            <div style="width:28px;height:28px;border-radius:50%;border:2px solid var(--purple);background:rgba(155,138,251,0.08);"></div>
+            <div style="width:28px;height:28px;border-radius:50%;border:2px solid var(--purple);background:rgba(128,128,128,0.08);"></div>
+            <div style="width:28px;height:28px;border-radius:50%;border:2px solid var(--purple);background:rgba(128,128,128,0.08);"></div>
+            <div style="width:28px;height:28px;border-radius:50%;border:2px solid var(--purple);background:rgba(128,128,128,0.08);"></div>
+            <div style="width:28px;height:28px;border-radius:50%;border:2px solid var(--purple);background:rgba(128,128,128,0.08);"></div>
             <div style="font-family:'Google Sans Code', monospace;font-size:18px;color:var(--text3);">HIDDEN</div>
           </div>
           <div style="font-family:'Google Sans Code', monospace;color:var(--text3);">→</div>
@@ -892,7 +893,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S13: CNN -->
 <div class="slide">
   <div class="content">
-    <div class="label">// A4.3.9 · Convolutional Neural Networks</div>
+    <div class="label">A4.3.9 · Convolutional Neural Networks</div>
     <h2><span class="hl-orange">CNNs</span> — Learning from Images</h2>
     <p class="lead" style="margin-bottom:14px;">CNNs are designed for data with <strong style="color:var(--orange);">spatial structure</strong> (images, video). They automatically learn to detect features — edges, textures, shapes — through convolutional layers.</p>
     <div class="steps" style="margin-bottom:14px;">
@@ -912,7 +913,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S14: MODEL SELECTION -->
 <div class="slide">
   <div class="content">
-    <div class="label">// A4.3.10 · Model Selection</div>
+    <div class="label">A4.3.10 · Model Selection</div>
     <h2>Choosing the <span class="hl-blue">Right Algorithm</span></h2>
     <p class="lead" style="margin-bottom:14px;">No single ML algorithm is best for all problems. Model selection requires understanding the <strong style="color:var(--blue);">nature of the data and the problem type</strong>.</p>
     <table class="comparison-table" style="margin-bottom:14px;">
@@ -954,7 +955,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S15: ALGORITHM COMPARISON TABLE -->
 <div class="slide scroll-slide">
   <div class="content" style="max-width:1120px;margin:0 auto;">
-    <div class="label">// Summary · All A4.3 Algorithms</div>
+    <div class="label">Summary · All A4.3 Algorithms</div>
     <h2>Algorithm <span class="hl-purple">Quick Reference</span></h2>
     <table class="comparison-table">
       <tr>
@@ -1034,7 +1035,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S16: EXAM REVIEW -->
 <div class="slide scroll-slide">
   <div class="content" style="max-width:1120px;margin:0 auto;">
-    <div class="label">// Exam Review · A4.3</div>
+    <div class="label">Exam Review · A4.3</div>
     <h2>Key Points <span class="hl-gold">Summary</span></h2>
     <div class="grid g3" style="margin-bottom:14px;">
       <div class="card blue">
@@ -1107,7 +1108,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S17: LINKING QUESTIONS -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Linking Questions · IB Connections</div>
+    <div class="label">Linking Questions · IB Connections</div>
     <h2>Connecting to Other <span class="hl-cyan">Topics</span></h2>
     <div class="steps" style="margin-bottom:14px;">
       <div class="step-row"><div class="step-n" style="color:var(--cyan);">A1</div><div class="step-text">How do GPUs and TPUs accelerate the training of neural networks? Why are CPUs insufficient for deep learning at scale?</div></div>
@@ -1123,7 +1124,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S18: CHECKLIST -->
 <div class="slide">
   <div class="content">
-    <div class="label">// Before the Exam</div>
+    <div class="label">Before the Exam</div>
     <h2>Review <span class="hl-gold">Checklist</span></h2>
     <div class="grid g2" style="margin-bottom:14px;">
       <div class="card gold">

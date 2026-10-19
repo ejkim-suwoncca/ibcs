@@ -20,10 +20,10 @@ body { background: var(--bg); color: var(--text); font-family: 'Google Sans', 'N
 body::before {
   content: ''; position: fixed; inset: 0;
   background-image:
-    linear-gradient(rgba(74,158,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(74,158,255,0.03) 1px, transparent 1px),
-    linear-gradient(rgba(74,158,255,0.01) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(74,158,255,0.01) 1px, transparent 1px);
+    linear-gradient(rgba(128,128,128,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128,128,128,0.03) 1px, transparent 1px),
+    linear-gradient(rgba(128,128,128,0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128,128,128,0.01) 1px, transparent 1px);
   background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
   pointer-events: none; z-index: 0;
 }
@@ -68,17 +68,17 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
 .card-body { font-size: clamp(1.25rem, 1.3vw, 1.5rem); color: var(--text2); line-height: 1.6; font-weight: 300; }
 .card-body strong { color: var(--text); font-weight: 500; }
 .card-body code { font-family: 'Google Sans Code', monospace; font-size: 0.88em; color: var(--gold2); }
-.info-box  { border-left:3px solid var(--blue);   padding:12px 18px; background:rgba(74,158,255,0.04);  border-top:1px solid rgba(74,158,255,0.1);  border-right:1px solid rgba(74,158,255,0.1);  border-bottom:1px solid rgba(74,158,255,0.1);  margin-top:12px; }
-.gold-box  { border-left:3px solid var(--gold);   padding:12px 18px; background:rgba(201,168,76,0.04); border-top:1px solid rgba(201,168,76,0.1);  border-right:1px solid rgba(201,168,76,0.1);  border-bottom:1px solid rgba(201,168,76,0.1);  margin-top:12px; }
-.green-box { border-left:3px solid var(--green);  padding:12px 18px; background:rgba(61,214,140,0.04); border-top:1px solid rgba(61,214,140,0.1);  border-right:1px solid rgba(61,214,140,0.1);  border-bottom:1px solid rgba(61,214,140,0.1);  margin-top:12px; }
-.red-box   { border-left:3px solid var(--red);    padding:12px 18px; background:rgba(255,107,107,0.04);border-top:1px solid rgba(255,107,107,0.1); border-right:1px solid rgba(255,107,107,0.1); border-bottom:1px solid rgba(255,107,107,0.1); margin-top:12px; }
+.info-box  { border-left:3px solid var(--blue);   padding:12px 18px; background:rgba(128,128,128,0.04);  border-top:1px solid rgba(128,128,128,0.2);  border-right:1px solid rgba(128,128,128,0.2);  border-bottom:1px solid rgba(128,128,128,0.2);  margin-top:12px; }
+.gold-box  { border-left:3px solid var(--gold);   padding:12px 18px; background:rgba(128,128,128,0.04); border-top:1px solid rgba(128,128,128,0.2);  border-right:1px solid rgba(128,128,128,0.2);  border-bottom:1px solid rgba(128,128,128,0.2);  margin-top:12px; }
+.green-box { border-left:3px solid var(--green);  padding:12px 18px; background:rgba(128,128,128,0.04); border-top:1px solid rgba(128,128,128,0.2);  border-right:1px solid rgba(128,128,128,0.2);  border-bottom:1px solid rgba(128,128,128,0.2);  margin-top:12px; }
+.red-box   { border-left:3px solid var(--red);    padding:12px 18px; background:rgba(128,128,128,0.04);border-top:1px solid rgba(128,128,128,0.2); border-right:1px solid rgba(128,128,128,0.2); border-bottom:1px solid rgba(128,128,128,0.2); margin-top:12px; }
 .info-box p,.gold-box p,.green-box p,.red-box p { font-size: clamp(1.125rem, 1.55vw, 1.2rem); color:var(--text2); line-height:1.6; }
 .info-box strong{color:var(--blue);} .gold-box strong{color:var(--gold2);} .green-box strong{color:var(--green);} .red-box strong{color:var(--red);}
 .tag { display:inline-block; font-family:'Google Sans Code', monospace; font-size:18px; padding:2px 7px; border-radius:2px; letter-spacing:0.06em; vertical-align:middle; margin-left:5px; }
-.tag.volatile { background:rgba(255,107,107,0.12); color:var(--red);   border:1px solid rgba(255,107,107,0.3); }
-.tag.perm     { background:rgba(61,214,140,0.12);  color:var(--green); border:1px solid rgba(61,214,140,0.3); }
-.tag.fast     { background:rgba(74,158,255,0.12);  color:var(--blue);  border:1px solid rgba(74,158,255,0.25); }
-.tag.slow     { background:rgba(251,146,60,0.12);  color:var(--orange);border:1px solid rgba(251,146,60,0.25); }
+.tag.volatile { background:rgba(128,128,128,0.12); color:var(--red);   border:1px solid rgba(128,128,128,0.3); }
+.tag.perm     { background:rgba(128,128,128,0.12);  color:var(--green); border:1px solid rgba(128,128,128,0.3); }
+.tag.fast     { background:rgba(128,128,128,0.12);  color:var(--blue);  border:1px solid rgba(128,128,128,0.25); }
+.tag.slow     { background:rgba(128,128,128,0.12);  color:var(--orange);border:1px solid rgba(128,128,128,0.25); }
 .flow { display:flex; flex-direction:column; gap:2px; }
 .step { display:flex; align-items:flex-start; gap:14px; background:var(--surface); border:1px solid var(--border); padding:11px 16px; }
 .step-num { font-family:'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.2vw, 1.375rem); min-width:24px; flex-shrink:0; }
@@ -96,7 +96,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
 /* Binary bit display */
 .bits { display:flex; gap:4px; flex-wrap:wrap; margin:12px 0; }
 .bit { font-family:'Google Sans Code', monospace; font-size: clamp(1.2rem, 2vw, 1.8rem); font-weight:500; padding:6px 10px; background:var(--surface); border:1px solid var(--border); transition:color 0.3s,border-color 0.3s; }
-.bit.one  { color:var(--gold2); border-color:rgba(201,168,76,0.4); }
+.bit.one  { color:var(--gold2); border-color:rgba(128,128,128,0.4); }
 .bit.zero { color:var(--text3); }
 
 /* Pixel grid */
@@ -104,9 +104,9 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
 .px { aspect-ratio:1; border-radius:1px; }
 
 /* NAV */
-.nav { position:fixed; bottom:26px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:13px; z-index:100; background:rgba(7,9,15,0.92); backdrop-filter:blur(16px); border:1px solid var(--border2); padding:10px 20px; border-radius: 999px;}
+.nav { position:fixed; bottom:26px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:13px; z-index:100; background:rgba(128,128,128,0.14); backdrop-filter:blur(16px); border:1px solid var(--border2); padding:10px 20px; border-radius: 999px;}
 .nav-btn { font-family:'Google Sans Code', monospace; font-size:18px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text2); background:none; border:1px solid var(--border2); padding:6px 14px; cursor:pointer; transition:all 0.2s; border-radius: 999px;}
-.nav-btn:hover { color:var(--gold); border-color:var(--gold); background:rgba(201,168,76,0.05); }
+.nav-btn:hover { color:var(--gold); border-color:var(--gold); background:rgba(128,128,128,0.05); }
 .nav-btn:disabled { opacity:0.25; cursor:not-allowed; }
 .nav-dots { display:flex; gap:5px; flex-wrap:wrap; max-width:220px; justify-content:center; }
 .dot { width:5px; height:5px; border-radius:50%; background:var(--border2); cursor:pointer; transition:all 0.2s; }
@@ -120,8 +120,8 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
   left: 0;
   right: 0;
   z-index: 1200;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
-  background: rgba(7, 9, 15, 0.9);
+  border-bottom: 1px solid rgba(128,128,128,0.2);
+  background: rgba(128,128,128,0.14);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
@@ -139,7 +139,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
 .course-nav a,
 .course-menu-button,
 .course-submenu-button {
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   text-decoration: none;
   white-space: nowrap;
   line-height: 1;
@@ -154,7 +154,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
   border-radius: 0;
   border-bottom: 2px solid transparent;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.12em;
@@ -163,7 +163,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
   transition: color 0.18s ease, border-color 0.18s ease;
 }
 .course-home-link {
-  color: var(--text, #f8fafc) !important;
+  color: var(--text, var(--ink)) !important;
   font-weight: 700;
   letter-spacing: 0.16em;
 }
@@ -180,7 +180,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
 .course-submenu-button::after {
   content: "▾";
   font-size: 18px;
-  color: var(--text3, #64748b);
+  color: var(--text3, var(--ink));
   transition: transform 0.18s ease;
 }
 .course-submenu-button::after {
@@ -201,10 +201,10 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
   display: grid;
   gap: 2px;
   padding: 8px;
-  border: 1px solid rgba(148, 163, 184, 0.22);
+  border: 1px solid rgba(128,128,128,0.22);
   border-radius: 6px;
-  background: rgba(8, 13, 24, 0.98);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+  background: rgba(128,128,128,0.14);
+  box-shadow: 0 18px 40px rgba(128,128,128,0.14);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.16s ease, transform 0.16s ease;
@@ -252,7 +252,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
   border: 0;
   border-radius: 4px;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.04em;
@@ -267,10 +267,10 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
 }
 .course-topic-link,
 .course-subdropdown a.current-page {
-  color: var(--accent, #22b3a0) !important;
+  color: var(--accent, var(--ink)) !important;
 }
 .course-subdropdown a.current-page {
-  background: rgba(34, 211, 238, 0.08);
+  background: rgba(128,128,128,0.08);
 }
 .course-dropdown a:hover,
 .course-dropdown a:focus,
@@ -278,7 +278,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
 .course-subdropdown a:focus,
 .course-submenu-button:hover,
 .course-submenu-button:focus {
-  color: var(--text, #f8fafc);
+  color: var(--text, var(--ink));
   background: rgba(255, 255, 255, 0.08);
   outline: none;
 }
@@ -288,8 +288,8 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
 .course-menu-button:hover,
 .course-menu-button:focus,
 .course-menu-button.current {
-  color: var(--text, #f8fafc);
-  border-color: var(--accent, #22b3a0);
+  color: var(--text, var(--ink));
+  border-color: var(--accent, var(--line-2));
   outline: none;
 }
 .course-nav ~ .slide-num { top: 98px !important; }
@@ -326,7 +326,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
     margin: 0 0 4px 12px;
     padding: 4px;
     box-shadow: none;
-    border-color: rgba(148, 163, 184, 0.14);
+    border-color: rgba(128,128,128,0.2);
     background: rgba(255, 255, 255, 0.03);
     transform: none;
     display: none;
@@ -351,6 +351,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
 }
 
 </style>
+<link rel="stylesheet" href="../assets/theme.css">
 </head>
 <body>
 
@@ -456,7 +457,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
 <!-- ══ S1: TITLE ══════════════════════════════════════════ -->
 <div class="slide active">
   <div class="content">
-    <div class="label">// Computer Hardware · IB CS</div>
+    <div class="label">Computer Hardware · IB CS</div>
     <h1>Inside the<br><span class="hl-gold">Computer</span></h1>
     <p class="lead">CPU · GPU · RAM · Storage — what they do and why it matters.</p>
     <div class="gold-box">
@@ -492,7 +493,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
 <!-- ══ S2: CPU ════════════════════════════════════════════ -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label">// 01 · CPU</div>
+    <div class="label">01 · CPU</div>
     <h2>CPU — <span class="hl-gold">The Brain</span></h2>
     <p class="lead">The CPU runs every instruction. It repeats one loop billions of times per second — <strong style="color:var(--gold2)">Fetch → Decode → Execute</strong>.</p>
 
@@ -534,7 +535,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
 <!-- ══ S3: BINARY & THE BUS ═══════════════════════════════ -->
 <div class="slide">
   <div class="content">
-    <div class="label cyan">// 02 · Binary & The Bus</div>
+    <div class="label cyan">02 · Binary & The Bus</div>
     <h2>Binary & The Bus — <span class="hl-cyan">0s and 1s</span></h2>
     <p class="lead">Computers only understand two states: <strong style="color:var(--gold2)">1</strong> (electricity on) and <strong style="color:var(--cyan)">0</strong> (electricity off). Everything — text, images, instructions — is just a long sequence of 0s and 1s.</p>
     <p class="ko" style="margin-bottom:18px;">컴퓨터는 두 가지 상태만 이해한다: 1(전기 켜짐)과 0(전기 꺼짐). 모든 것은 0과 1의 나열이다.</p>
@@ -564,7 +565,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
 <!-- ══ S4: GPU ════════════════════════════════════════════ -->
 <div class="slide">
   <div class="content">
-    <div class="label purple">// 03 · GPU</div>
+    <div class="label purple">03 · GPU</div>
     <h2>GPU — <span class="hl-purple">Pixels & AI</span></h2>
     <p class="lead">The GPU has <strong style="color:var(--purple)">thousands of tiny cores</strong> that all run at the same time — perfect for tasks that need millions of small calculations done at once.</p>
     <p class="ko" style="margin-bottom:18px;">GPU는 수천 개의 소형 코어가 동시에 작동한다 — 수백만 개의 작은 연산을 한꺼번에 처리하는 데 최적화됨.</p>
@@ -591,7 +592,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
 <!-- ══ S5: RAM ════════════════════════════════════════════ -->
 <div class="slide">
   <div class="content">
-    <div class="label blue">// 04 · RAM</div>
+    <div class="label blue">04 · RAM</div>
     <h2>RAM — <span class="hl-blue">Working Memory</span></h2>
     <p class="lead">RAM holds what the computer is using <strong style="color:var(--blue)">right now</strong>. It is fast — but it forgets everything when the power goes off.</p>
 
@@ -621,7 +622,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
 <!-- ══ S6: STORAGE ════════════════════════════════════════ -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label green">// 05 · Storage</div>
+    <div class="label green">05 · Storage</div>
     <h2>Storage — <span class="hl-green">Long-Term Memory</span></h2>
     <p class="lead"><strong style="color:var(--green)">Non-volatile</strong> — keeps data even with no power. Your OS, documents, and photos all live here permanently.</p>
     <p class="ko" style="margin-bottom:16px;">비휘발성 — 전원 없이도 데이터를 유지한다. 운영체제, 문서, 사진이 여기에 영구 저장된다.</p>
@@ -661,12 +662,12 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
 <!-- ══ S7: RAM vs STORAGE ═════════════════════════════════ -->
 <div class="slide">
   <div class="content">
-    <div class="label">// 06 · RAM vs Storage</div>
+    <div class="label">06 · RAM vs Storage</div>
     <h2>The Key <span class="hl-gold">Difference</span></h2>
     <p class="lead">Think of it as a desk and a filing cabinet.</p>
 
     <div class="grid g2" style="margin-top:8px;">
-      <div style="background:var(--surface);border:1px solid rgba(74,158,255,0.3);padding:22px;position:relative;">
+      <div style="background:var(--surface);border:1px solid rgba(128,128,128,0.3);padding:22px;position:relative;">
         <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--blue);"></div>
         <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--blue);margin-bottom:10px;">RAM · Your Desk</div>
         <div style="font-size:2.6rem;margin-bottom:8px;">🗂</div>
@@ -677,7 +678,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
         <div class="tag volatile" style="margin-top:10px;font-size:18px;padding:4px 10px;">VOLATILE</div>
         <div class="ko" style="margin-top:8px;">빠름. 지금 작업 중인 것만 보관. 전원 끄면 지워짐.</div>
       </div>
-      <div style="background:var(--surface);border:1px solid rgba(61,214,140,0.3);padding:22px;position:relative;">
+      <div style="background:var(--surface);border:1px solid rgba(128,128,128,0.3);padding:22px;position:relative;">
         <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--green);"></div>
         <div style="font-family:'Google Sans Code', monospace;font-size:1.125rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--green);margin-bottom:10px;">Storage · Filing Cabinet</div>
         <div style="font-size:2.6rem;margin-bottom:8px;">🗄</div>
@@ -702,7 +703,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
 <!-- ══ S8: COMPRESSION ════════════════════════════════════ -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label orange">// 07 · Compression</div>
+    <div class="label orange">07 · Compression</div>
     <h2>Compression — <span class="hl-orange">Why Files Shrink</span></h2>
     <p class="lead">Compression encodes <strong style="color:var(--orange)">repeated or redundant data</strong> more efficiently. Without it, YouTube streaming would be impossible.</p>
     <p class="ko" style="margin-bottom:16px;">압축은 반복되거나 중복된 데이터를 효율적으로 인코딩한다. 압축 없이는 유튜브 스트리밍이 불가능하다.</p>
@@ -738,7 +739,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
 <!-- ══ S9: BIG PICTURE ════════════════════════════════════ -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label">// 08 · The Big Picture</div>
+    <div class="label">08 · The Big Picture</div>
     <h2>How It All <span class="hl-gold">Connects</span></h2>
     <p class="lead" style="margin-bottom:16px;">Opening a game — all five parts working together.</p>
     <div class="flow">
@@ -774,7 +775,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2r
 <!-- ══ S10: KEY TERMS ═════════════════════════════════════ -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label">// 09 · Key Terms</div>
+    <div class="label">09 · Key Terms</div>
     <h2>Key Terms <span class="hl-gold">Glossary</span></h2>
     <p class="lead" style="margin-bottom:14px;">Everything you need for the questions.</p>
 

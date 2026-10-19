@@ -31,10 +31,10 @@ body::before {
   content: '';
   position: fixed; inset: 0;
   background-image:
-    linear-gradient(rgba(155,138,251,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(155,138,251,0.025) 1px, transparent 1px),
-    linear-gradient(rgba(155,138,251,0.01) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(155,138,251,0.01) 1px, transparent 1px);
+    linear-gradient(rgba(128,128,128,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128,128,128,0.025) 1px, transparent 1px),
+    linear-gradient(rgba(128,128,128,0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128,128,128,0.01) 1px, transparent 1px);
   background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
   pointer-events: none; z-index: 0;
 }
@@ -60,7 +60,7 @@ body::before {
 }
 .slide.scroll-slide::-webkit-scrollbar { width: 10px; }
 .slide.scroll-slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
-.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(14,17,23,0.3); }
+.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(128,128,128,0.14); }
 .progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--purple), var(--orange)); transition: width 0.38s ease; z-index: 100; }
 .slide-num { position: fixed; top: 17px; right: 24px; font-family: 'Google Sans Code', monospace; font-size: 18px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
 .content { width: 100%; max-width: 1120px; }
@@ -81,16 +81,16 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .card-title { font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.1vw, 1.375rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
 .card-body { font-size: clamp(1.25rem, 1.3vw, 1.5rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
 .card-body strong { color: var(--text); font-weight: 500; }
-.info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(74,158,255,0.04); border-top: 1px solid rgba(74,158,255,0.08); border-right: 1px solid rgba(74,158,255,0.08); border-bottom: 1px solid rgba(74,158,255,0.08); margin-top: 14px; }
+.info-box { border-left: 3px solid var(--blue); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
 .info-box p { font-size: clamp(1.25rem, 1.35vw, 1.5rem); color: var(--text2); line-height: 1.6; }
 .info-box strong { color: var(--blue); }
-.gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(201,168,76,0.04); border-top: 1px solid rgba(201,168,76,0.08); border-right: 1px solid rgba(201,168,76,0.08); border-bottom: 1px solid rgba(201,168,76,0.08); margin-top: 14px; }
+.gold-box { border-left: 3px solid var(--gold); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
 .gold-box p { font-size: clamp(1.25rem, 1.35vw, 1.5rem); color: var(--text2); line-height: 1.6; }
 .gold-box strong { color: var(--gold2); }
-.purple-box { border-left: 3px solid var(--purple); padding: 13px 20px; background: rgba(155,138,251,0.04); border-top: 1px solid rgba(155,138,251,0.08); border-right: 1px solid rgba(155,138,251,0.08); border-bottom: 1px solid rgba(155,138,251,0.08); margin-top: 14px; }
+.purple-box { border-left: 3px solid var(--purple); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
 .purple-box p { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.6; }
 .purple-box strong { color: var(--purple); }
-.red-box { border-left: 3px solid var(--red); padding: 13px 20px; background: rgba(255,107,107,0.04); border-top: 1px solid rgba(255,107,107,0.08); border-right: 1px solid rgba(255,107,107,0.08); border-bottom: 1px solid rgba(255,107,107,0.08); margin-top: 14px; }
+.red-box { border-left: 3px solid var(--red); padding: 13px 20px; background: rgba(128,128,128,0.04); border-top: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2); border-bottom: 1px solid rgba(128,128,128,0.2); margin-top: 14px; }
 .red-box p { font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: var(--text2); line-height: 1.6; }
 .red-box strong { color: var(--red); }
 .steps { display: flex; flex-direction: column; gap: 2px; }
@@ -108,9 +108,9 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .ml-hier { display: flex; flex-direction: column; align-items: center; gap: 0; }
 .ml-box { padding: 10px 28px; font-family: 'Google Sans Code', monospace; font-size: 1.125rem; font-weight: 500; letter-spacing: 0.06em; text-align: center; border: 1px solid; }
 .ml-line { width: 2px; height: 20px; }
-.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(7,9,15,0.92); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; border-radius: 999px;}
+.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(128,128,128,0.14); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; border-radius: 999px;}
 .nav-btn { font-family: 'Google Sans Code', monospace; font-size: 18px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; border-radius: 999px;}
-.nav-btn:hover { color: var(--purple); border-color: var(--purple); background: rgba(155,138,251,0.05); }
+.nav-btn:hover { color: var(--purple); border-color: var(--purple); background: rgba(128,128,128,0.05); }
 .nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
 .nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 220px; justify-content: center; }
 .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); cursor: pointer; transition: all 0.2s; }
@@ -124,8 +124,8 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   left: 0;
   right: 0;
   z-index: 1200;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
-  background: rgba(7, 9, 15, 0.9);
+  border-bottom: 1px solid rgba(128,128,128,0.2);
+  background: rgba(128,128,128,0.14);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
@@ -143,7 +143,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .course-nav a,
 .course-menu-button,
 .course-submenu-button {
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   text-decoration: none;
   white-space: nowrap;
   line-height: 1;
@@ -158,7 +158,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   border-radius: 0;
   border-bottom: 2px solid transparent;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.12em;
@@ -167,7 +167,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   transition: color 0.18s ease, border-color 0.18s ease;
 }
 .course-home-link {
-  color: var(--text, #f8fafc) !important;
+  color: var(--text, var(--ink)) !important;
   font-weight: 700;
   letter-spacing: 0.16em;
 }
@@ -184,7 +184,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .course-submenu-button::after {
   content: "▾";
   font-size: 18px;
-  color: var(--text3, #64748b);
+  color: var(--text3, var(--ink));
   transition: transform 0.18s ease;
 }
 .course-submenu-button::after {
@@ -205,10 +205,10 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   display: grid;
   gap: 2px;
   padding: 8px;
-  border: 1px solid rgba(148, 163, 184, 0.22);
+  border: 1px solid rgba(128,128,128,0.22);
   border-radius: 6px;
-  background: rgba(8, 13, 24, 0.98);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+  background: rgba(128,128,128,0.14);
+  box-shadow: 0 18px 40px rgba(128,128,128,0.14);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.16s ease, transform 0.16s ease;
@@ -256,7 +256,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
   border: 0;
   border-radius: 4px;
   background: transparent;
-  color: var(--text2, #94a3b8);
+  color: var(--text2, var(--ink));
   font: inherit;
   font-size: 18px;
   letter-spacing: 0.04em;
@@ -271,10 +271,10 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 }
 .course-topic-link,
 .course-subdropdown a.current-page {
-  color: var(--accent, #22b3a0) !important;
+  color: var(--accent, var(--ink)) !important;
 }
 .course-subdropdown a.current-page {
-  background: rgba(34, 211, 238, 0.08);
+  background: rgba(128,128,128,0.08);
 }
 .course-dropdown a:hover,
 .course-dropdown a:focus,
@@ -282,7 +282,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .course-subdropdown a:focus,
 .course-submenu-button:hover,
 .course-submenu-button:focus {
-  color: var(--text, #f8fafc);
+  color: var(--text, var(--ink));
   background: rgba(255, 255, 255, 0.08);
   outline: none;
 }
@@ -292,8 +292,8 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 .course-menu-button:hover,
 .course-menu-button:focus,
 .course-menu-button.current {
-  color: var(--text, #f8fafc);
-  border-color: var(--accent, #22b3a0);
+  color: var(--text, var(--ink));
+  border-color: var(--accent, var(--line-2));
   outline: none;
 }
 .course-nav ~ .slide-num { top: 98px !important; }
@@ -330,7 +330,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
     margin: 0 0 4px 12px;
     padding: 4px;
     box-shadow: none;
-    border-color: rgba(148, 163, 184, 0.14);
+    border-color: rgba(128,128,128,0.2);
     background: rgba(255, 255, 255, 0.03);
     transform: none;
     display: none;
@@ -355,6 +355,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 }
 
 </style>
+<link rel="stylesheet" href="../assets/theme.css">
 </head>
 <body>
 
@@ -459,7 +460,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S1: TITLE -->
 <div class="slide active">
   <div class="content">
-    <div class="label">// A4.1 + A4.4 · Machine Learning</div>
+    <div class="label">A4.1 + A4.4 · Machine Learning</div>
     <h1>Machine<br><span class="hl-purple">Learning</span></h1>
     <p style="font-family:'Google Sans Code', monospace;font-size: clamp(1.125rem, 1.4vw, 1.375rem);color:var(--text3);margin-bottom:20px;">Theme A4 · IB Computer Science SL</p>
     <div class="gold-box">
@@ -477,13 +478,13 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S2: IB SPEC -->
 <div class="slide">
   <div class="content">
-    <div class="label">// IB Specification · A4.1 + A4.4</div>
+    <div class="label">IB Specification · A4.1 + A4.4</div>
     <h2>What IB Requires</h2>
     <div class="steps">
-      <div class="step-row"><div class="step-n">4.1.1</div><div class="step-text"><strong>Describe</strong> the types of machine learning and their real-world applications — supervised, unsupervised, reinforcement, deep, transfer learning <span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--green);padding:2px 6px;background:rgba(61,214,140,0.1);border-radius:2px;">SL</span></div></div>
-      <div class="step-row"><div class="step-n">4.1.2</div><div class="step-text"><strong>Describe</strong> the hardware requirements for various ML deployment scenarios <span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--green);padding:2px 6px;background:rgba(61,214,140,0.1);border-radius:2px;">SL</span></div></div>
-      <div class="step-row"><div class="step-n">4.4.1</div><div class="step-text"><strong>Discuss</strong> the ethical implications of machine learning in real-world scenarios <span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--green);padding:2px 6px;background:rgba(61,214,140,0.1);border-radius:2px;">SL</span></div></div>
-      <div class="step-row"><div class="step-n">4.4.2</div><div class="step-text"><strong>Discuss</strong> ethics as technologies become integrated into daily life <span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--green);padding:2px 6px;background:rgba(61,214,140,0.1);border-radius:2px;">SL</span></div></div>
+      <div class="step-row"><div class="step-n">4.1.1</div><div class="step-text"><strong>Describe</strong> the types of machine learning and their real-world applications — supervised, unsupervised, reinforcement, deep, transfer learning <span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--green);padding:2px 6px;background:rgba(128,128,128,0.1);border-radius:2px;">SL</span></div></div>
+      <div class="step-row"><div class="step-n">4.1.2</div><div class="step-text"><strong>Describe</strong> the hardware requirements for various ML deployment scenarios <span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--green);padding:2px 6px;background:rgba(128,128,128,0.1);border-radius:2px;">SL</span></div></div>
+      <div class="step-row"><div class="step-n">4.4.1</div><div class="step-text"><strong>Discuss</strong> the ethical implications of machine learning in real-world scenarios <span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--green);padding:2px 6px;background:rgba(128,128,128,0.1);border-radius:2px;">SL</span></div></div>
+      <div class="step-row"><div class="step-n">4.4.2</div><div class="step-text"><strong>Discuss</strong> ethics as technologies become integrated into daily life <span style="font-family:'Google Sans Code', monospace;font-size:1.125rem;color:var(--green);padding:2px 6px;background:rgba(128,128,128,0.1);border-radius:2px;">SL</span></div></div>
     </div>
     <div class="gold-box" style="margin-top:14px;">
       <p><strong>"Discuss"</strong> = present multiple perspectives, evaluate pros and cons, reach a reasoned conclusion. Ethics questions require balanced arguments with real examples.</p>
@@ -494,16 +495,16 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S3: AI → ML HIERARCHY -->
 <div class="slide">
   <div class="content" style="max-width:900px;margin:0 auto;">
-    <div class="label">// Foundation · The Hierarchy</div>
+    <div class="label">Foundation · The Hierarchy</div>
     <h2>AI → ML → <span class="hl-purple">Deep Learning</span></h2>
     <p class="lead" style="margin-bottom:20px;">These three terms are often confused. They are nested concepts — each is a subset of the one above.</p>
     <div style="display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap;">
       <div class="ml-hier" style="flex:0 0 auto;">
-        <div class="ml-box" style="background:rgba(155,138,251,0.08);border-color:var(--purple);color:var(--purple);width:280px;">Artificial Intelligence (AI)</div>
+        <div class="ml-box" style="background:rgba(128,128,128,0.08);border-color:var(--purple);color:var(--purple);width:280px;">Artificial Intelligence (AI)</div>
         <div class="ml-line" style="background:var(--purple);"></div>
-        <div class="ml-box" style="background:rgba(74,158,255,0.08);border-color:var(--blue);color:var(--blue);width:220px;">Machine Learning (ML)</div>
+        <div class="ml-box" style="background:rgba(128,128,128,0.08);border-color:var(--blue);color:var(--blue);width:220px;">Machine Learning (ML)</div>
         <div class="ml-line" style="background:var(--blue);"></div>
-        <div class="ml-box" style="background:rgba(61,214,140,0.08);border-color:var(--green);color:var(--green);width:160px;">Deep Learning</div>
+        <div class="ml-box" style="background:rgba(128,128,128,0.08);border-color:var(--green);color:var(--green);width:160px;">Deep Learning</div>
       </div>
       <div style="flex:1;min-width:220px;">
         <div class="card purple" style="margin-bottom:2px;">
@@ -526,7 +527,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S4: SUPERVISED LEARNING -->
 <div class="slide">
   <div class="content" style="max-width:960px;margin:0 auto;">
-    <div class="label">// A4.1.1 · Type 1</div>
+    <div class="label">A4.1.1 · Type 1</div>
     <h2><span class="hl-blue">Supervised</span> Learning</h2>
     <p class="lead" style="margin-bottom:14px;">The algorithm is trained on <strong style="color:var(--blue);">labelled data</strong> — examples where the correct output is already known. It learns to predict outputs for new, unseen inputs.</p>
     <div class="grid g2" style="gap:2px;margin-bottom:14px;">
@@ -561,7 +562,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S5: UNSUPERVISED LEARNING -->
 <div class="slide">
   <div class="content" style="max-width:960px;margin:0 auto;">
-    <div class="label">// A4.1.1 · Type 2</div>
+    <div class="label">A4.1.1 · Type 2</div>
     <h2><span class="hl-green">Unsupervised</span> Learning</h2>
     <p class="lead" style="margin-bottom:14px;">The algorithm is trained on <strong style="color:var(--green);">unlabelled data</strong> — no correct answers are provided. It discovers hidden patterns or groupings on its own.</p>
     <div class="grid g2" style="gap:2px;margin-bottom:14px;">
@@ -591,7 +592,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S6: REINFORCEMENT LEARNING -->
 <div class="slide">
   <div class="content" style="max-width:960px;margin:0 auto;">
-    <div class="label">// A4.1.1 · Type 3</div>
+    <div class="label">A4.1.1 · Type 3</div>
     <h2><span class="hl-orange">Reinforcement</span> Learning</h2>
     <p class="lead" style="margin-bottom:14px;">Learning by <strong style="color:var(--orange);">trial and error</strong>. The algorithm (agent) takes actions in an environment and receives <strong style="color:var(--orange);">rewards</strong> or penalties. Over time, it learns to maximise total reward.</p>
     <div class="grid g2" style="gap:2px;margin-bottom:14px;">
@@ -623,7 +624,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S7: DEEP + TRANSFER LEARNING -->
 <div class="slide">
   <div class="content" style="max-width:960px;margin:0 auto;">
-    <div class="label">// A4.1.1 · Types 4 &amp; 5</div>
+    <div class="label">A4.1.1 · Types 4 &amp; 5</div>
     <h2>Deep &amp; <span class="hl-purple">Transfer</span> Learning</h2>
     <div class="grid g2" style="gap:2px;margin-bottom:14px;">
       <div class="card purple">
@@ -654,7 +655,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S8: ML TYPES COMPARISON -->
 <div class="slide scroll-slide">
   <div class="content">
-    <div class="label">// Summary · ML Types</div>
+    <div class="label">Summary · ML Types</div>
     <h2>Five ML Approaches <span class="hl-gold">Compared</span></h2>
     <table class="comparison-table" style="margin-top:10px;">
       <thead><tr><th>Type</th><th>Data</th><th>How it learns</th><th>Example application</th></tr></thead>
@@ -700,7 +701,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S9: HARDWARE -->
 <div class="slide scroll-slide">
   <div class="content" style="max-width:1000px;margin:0 auto;">
-    <div class="label">// A4.1.2 · Hardware</div>
+    <div class="label">A4.1.2 · Hardware</div>
     <h2>Hardware for <span class="hl-orange">Machine Learning</span></h2>
     <p class="lead" style="margin-bottom:12px;">Different ML tasks require different hardware. The scale and type of computation determines the right tool.</p>
     <div class="grid g2" style="gap:2px;">
@@ -750,7 +751,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S10: ETHICS INTRO -->
 <div class="slide">
   <div class="content" style="max-width:900px;margin:0 auto;">
-    <div class="label red">// A4.4 · Ethics</div>
+    <div class="label red">A4.4 · Ethics</div>
     <h2>Ethics in <span class="hl-red">Machine Learning</span></h2>
     <p class="lead">Machine learning systems make decisions that affect people's lives — jobs, loans, medical treatment, criminal justice. This power creates ethical responsibilities.</p>
     <div class="grid g3" style="gap:2px;">
@@ -785,7 +786,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S11: BIAS -->
 <div class="slide">
   <div class="content" style="max-width:960px;margin:0 auto;">
-    <div class="label red">// A4.4.1 · Ethical Issue 1</div>
+    <div class="label red">A4.4.1 · Ethical Issue 1</div>
     <h2>Bias in <span class="hl-red">Training Data</span></h2>
     <p class="lead" style="margin-bottom:14px;">If the training data over- or under-represents particular groups, the model's predictions will be unfair or inaccurate for those groups.</p>
     <div class="grid g2" style="gap:2px;margin-bottom:14px;">
@@ -807,7 +808,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S12: PRIVACY & CONSENT -->
 <div class="slide">
   <div class="content" style="max-width:960px;margin:0 auto;">
-    <div class="label red">// A4.4.1 · Ethical Issue 2 &amp; 3</div>
+    <div class="label red">A4.4.1 · Ethical Issue 2 &amp; 3</div>
     <h2>Privacy &amp; <span class="hl-purple">Consent</span></h2>
     <div class="grid g2" style="gap:2px;margin-bottom:14px;">
       <div class="card purple">
@@ -835,7 +836,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S13: TRANSPARENCY & ENVIRONMENTAL -->
 <div class="slide">
   <div class="content" style="max-width:960px;margin:0 auto;">
-    <div class="label red">// A4.4.1 · Ethical Issues 4 &amp; 5</div>
+    <div class="label red">A4.4.1 · Ethical Issues 4 &amp; 5</div>
     <h2>Transparency &amp; <span class="hl-orange">Environment</span></h2>
     <div class="grid g2" style="gap:2px;margin-bottom:14px;">
       <div class="card orange">
@@ -865,7 +866,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S14: A4.4.2 EVOLVING ETHICS -->
 <div class="slide scroll-slide">
   <div class="content" style="max-width:960px;margin:0 auto;">
-    <div class="label red">// A4.4.2 · Ethics as Technology Evolves</div>
+    <div class="label red">A4.4.2 · Ethics as Technology Evolves</div>
     <h2>Reassessing Ethics <span class="hl-red">Over Time</span></h2>
     <p class="lead" style="margin-bottom:14px;">As technology evolves, new ethical questions emerge that weren't anticipated when systems were first built.</p>
     <div class="steps">
@@ -899,7 +900,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S15: HOW TO ANSWER ETHICS Qs -->
 <div class="slide">
   <div class="content" style="max-width:900px;margin:0 auto;">
-    <div class="label">// Exam Strategy · Ethics</div>
+    <div class="label">Exam Strategy · Ethics</div>
     <h2>Answering <span class="hl-gold">Ethics Questions</span></h2>
     <div class="steps">
       <div class="step-row">
@@ -937,7 +938,7 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(1.
 <!-- ═══════════════════════════════════════════════ S16: SUMMARY -->
 <div class="slide">
   <div class="content" style="max-width:960px;margin:0 auto;">
-    <div class="label">// A4 · Summary</div>
+    <div class="label">A4 · Summary</div>
     <h2>Key <span class="hl-purple">Takeaways</span></h2>
     <div class="grid g2" style="gap:2px;">
       <div class="card purple">
