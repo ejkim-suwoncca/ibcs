@@ -4,378 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>B2.3 — Programming Constructs</title>
-<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Code:wght@400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #15120f;
-  --surface: #1c1814;
-  --surface2: #241e18;
-  --border: #2e2620;
-  --border2: #3a2f26;
-  --cyan: #4fd1ff;
-  --green: #47d18c;
-  --amber: #f6b756;
-  --red: #ff7a7a;
-  --purple: #b392ff;
-  --text: #f2ece1;
-  --text2: #c2b6a0;
-  --text3: #93876f;
-}
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { width: 100%; height: 100%; overflow: hidden; }
-body { background: var(--bg); color: var(--text); font-family: 'Google Sans', 'Noto Sans KR', sans-serif; }
-body::before {
-  content: '';
-  position: fixed; inset: 0;
-  background-image:
-    linear-gradient(rgba(128,128,128,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(128,128,128,0.03) 1px, transparent 1px),
-    linear-gradient(rgba(128,128,128,0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(128,128,128,0.015) 1px, transparent 1px);
-  background-size: 84px 84px, 84px 84px, 18px 18px, 18px 18px;
-  pointer-events: none;
-}
-.deck { position: relative; width: 100vw; height: 100vh; }
-.slide {
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;
-  padding: 100px 72px 96px; overflow-y: auto; overscroll-behavior: contain;
-  opacity: 0; pointer-events: none;
-  transform: translateY(12px);
-  transition: opacity 0.38s ease, transform 0.38s ease;
-}
-.slide.active { opacity: 1; pointer-events: all; transform: translateY(0); }
-.slide.exit { opacity: 0; transform: translateY(-12px); }
-.slide.scroll-slide {
-  justify-content: flex-start; align-items: flex-start;
-  overflow-y: auto; overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  padding-top: 100px; padding-bottom: 132px;
-}
-.slide.scroll-slide::-webkit-scrollbar { width: 10px; }
-.slide.scroll-slide::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 999px; }
-.slide.scroll-slide::-webkit-scrollbar-track { background: rgba(128,128,128,0.14); }
-.progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--green), var(--cyan)); transition: width 0.38s ease; z-index: 100; }
-.slide-num { position: fixed; top: 17px; right: 24px; font-family: 'Google Sans Code', monospace; font-size: 18px; color: var(--text3); letter-spacing: 0.1em; z-index: 100; }
-.content { width: 100%; max-width: 1120px; }
-.label { font-family: 'Google Sans Code', monospace; font-size: 18px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cyan); margin-bottom: 14px; }
-.label.green { color: var(--green); }
-.label.amber { color: var(--amber); }
-.label.purple { color: var(--purple); }
-.label.red { color: var(--red); }
-h1 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.8rem, 5.5vw, 4.8rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
-h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.1rem, 3.8vw, 3.4rem); font-weight: 500; line-height: 1.08; margin-bottom: 12px; }
-.lead { font-size: clamp(1.25rem, 1.4vw, 1.5rem); color: var(--text2); font-weight: 300; line-height: 1.65; margin-bottom: 18px; }
-.grid { display: grid; gap: 2px; width: 100%; }
-.g2 { grid-template-columns: 1fr 1fr; }
-.g3 { grid-template-columns: 1fr 1fr 1fr; }
-.g4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
-.card { background: var(--surface); border: 1px solid var(--border); padding: 16px 20px; position: relative; overflow: hidden; }
-.card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
-.card.cyan::after { background: var(--cyan); }
-.card.green::after { background: var(--green); }
-.card.amber::after { background: var(--amber); }
-.card.red::after { background: var(--red); }
-.card.purple::after { background: var(--purple); }
-.card-title { font-family: 'Google Sans Code', monospace; font-size: clamp(1.125rem, 1.1vw, 1.375rem); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
-.card-body { font-size: clamp(1.25rem, 1.3vw, 1.5rem); color: var(--text2); line-height: 1.65; font-weight: 300; }
-.card-body strong { color: var(--text); font-weight: 500; }
-.info-box, .gold-box, .green-box, .red-box {
-  padding: 12px 18px; margin-top: 12px;
-  border-top: 1px solid rgba(128,128,128,0.2);
-  border-right: 1px solid rgba(128,128,128,0.2);
-  border-bottom: 1px solid rgba(128,128,128,0.2);
-}
-.info-box { border-left: 3px solid var(--cyan); background: rgba(128,128,128,0.05); }
-.gold-box { border-left: 3px solid var(--amber); background: rgba(128,128,128,0.05); border-top-color: rgba(128,128,128,0.2); border-right-color: rgba(128,128,128,0.2); border-bottom-color: rgba(128,128,128,0.2); }
-.green-box { border-left: 3px solid var(--green); background: rgba(128,128,128,0.05); border-top-color: rgba(128,128,128,0.2); border-right-color: rgba(128,128,128,0.2); border-bottom-color: rgba(128,128,128,0.2); }
-.red-box { border-left: 3px solid var(--red); background: rgba(128,128,128,0.05); border-top-color: rgba(128,128,128,0.2); border-right-color: rgba(128,128,128,0.2); border-bottom-color: rgba(128,128,128,0.2); }
-.info-box p, .gold-box p, .green-box p, .red-box p { font-size: clamp(1.125rem, 1.38vw, 1.2rem); color: var(--text2); line-height: 1.6; }
-.info-box strong { color: var(--cyan); }
-.gold-box strong { color: var(--amber); }
-.green-box strong { color: var(--green); }
-.red-box strong { color: var(--red); }
-.code-block {
-  background: var(--tile); border: 1px solid var(--border2);
-  padding: 14px 18px; font-family: 'Google Sans Code', monospace;
-  font-size: clamp(1.125rem, 1.2vw, 1.375rem); line-height: 1.75;
-  color: var(--ink); white-space: pre-wrap; margin-top: 8px;
-}
-.code-block .cm { color: var(--text3); }
-.code-block .kw { color: var(--purple); }
-.code-block .st { color: var(--amber); }
-.code-block .fn { color: var(--cyan); }
+
 .code-block .nm { color: var(--green); }
-.lang-label { font-family: 'Google Sans Code', monospace; font-size: 18px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); margin-bottom: 3px; margin-top: 10px; }
-.code-inline { font-family: 'Google Sans Code', monospace; color: var(--cyan); font-size: 0.92em; }
-.steps { display: flex; flex-direction: column; gap: 6px; width: 100%; }
-.step-row { display: flex; gap: 16px; align-items: flex-start; background: var(--surface); border: 1px solid var(--border); padding: 12px 16px; }
-.step-n { font-family: 'Google Sans Code', monospace; font-size: 1.125rem; color: var(--green); flex-shrink: 0; min-width: 56px; padding-top: 1px; }
-.step-text { font-size: clamp(1.125rem, 1.45vw, 1.25rem); color: var(--text2); line-height: 1.6; font-weight: 300; }
-.step-text strong { color: var(--text); font-weight: 500; }
-.compare-table { width: 100%; border-collapse: collapse; }
-.compare-table th, .compare-table td { border: 1px solid var(--border2); padding: 10px 13px; vertical-align: top; }
-.compare-table th { background: var(--surface2); color: var(--text3); font-family: 'Google Sans Code', monospace; font-size: 1.125rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 400; text-align: left; }
-.compare-table td { background: var(--surface); color: var(--text2); font-size: clamp(1.125rem, 1.3vw, 1.375rem); line-height: 1.55; }
-.compare-table td strong { color: var(--text); font-weight: 500; }
-.pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
-.pill { border: 1px solid var(--border2); background: rgba(128,128,128,0.14); padding: 7px 11px; font-family: 'Google Sans Code', monospace; font-size: 1.125rem; color: var(--text2); letter-spacing: 0.08em; text-transform: uppercase; }
-.divider { width: 100%; height: 1px; background: var(--border); margin: 12px 0; }
-.tag { display: inline-block; font-family: 'Google Sans Code', monospace; font-size: 1.125rem; letter-spacing: 0.1em; padding: 2px 7px; border-radius: 2px; text-transform: uppercase; font-weight: 500; }
-.tag.must { background: rgba(128,128,128,0.12); color: var(--green); border: 1px solid rgba(128,128,128,0.3); }
-.tag.exam { background: rgba(128,128,128,0.12); color: var(--amber); border: 1px solid rgba(128,128,128,0.3); }
-.nav { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; z-index: 100; background: rgba(128,128,128,0.14); backdrop-filter: blur(16px); border: 1px solid var(--border2); padding: 10px 20px; border-radius: 999px;}
-.nav-btn { font-family: 'Google Sans Code', monospace; font-size: 18px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); background: none; border: 1px solid var(--border2); padding: 6px 14px; cursor: pointer; transition: all 0.2s; border-radius: 999px;}
-.nav-btn:hover { color: var(--green); border-color: var(--green); background: rgba(128,128,128,0.05); }
-.nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
-.nav-dots { display: flex; gap: 4px; flex-wrap: wrap; max-width: 240px; justify-content: center; }
-.dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); cursor: pointer; transition: all 0.2s; }
-.dot.active { background: var(--green); transform: scale(1.4); }
-.nav-sep { width: 1px; height: 18px; background: var(--border2); }
-@media (max-width: 900px) {
-  .slide { padding: 40px 28px 96px; }
-  .g2, .g3, .g4 { grid-template-columns: 1fr; }
-}
 
 /* COURSE NAVIGATION */
-.course-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1200;
-  border-bottom: 1px solid rgba(128,128,128,0.2);
-  background: rgba(128,128,128,0.14);
-  -webkit-backdrop-filter: blur(18px);
-  backdrop-filter: blur(18px);
-  font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
-}
-.course-nav-inner {
-  width: min(1120px, calc(100% - 32px));
-  margin: 0 auto;
-  min-height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  flex-wrap: wrap;
-}
-.course-nav a,
-.course-menu-button,
-.course-submenu-button {
-  color: var(--text2, var(--ink));
-  text-decoration: none;
-  white-space: nowrap;
-  line-height: 1;
-}
-.course-link,
-.course-menu-button {
-  min-height: 48px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 0;
-  border-radius: 0;
-  border-bottom: 2px solid transparent;
-  background: transparent;
-  color: var(--text2, var(--ink));
-  font: inherit;
-  font-size: 18px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: color 0.18s ease, border-color 0.18s ease;
-}
-.course-home-link {
-  color: var(--text, var(--ink)) !important;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-}
-
-.course-menu,
-.course-submenu {
-  position: relative;
-}
-.course-menu-button,
-.course-submenu-button {
-  gap: 6px;
-}
-.course-menu-button::after,
-.course-submenu-button::after {
-  content: "▾";
-  font-size: 18px;
-  color: var(--text3, var(--ink));
-  transition: transform 0.18s ease;
-}
-.course-submenu-button::after {
-  transform: rotate(-90deg);
-}
-.course-menu.open .course-menu-button::after,
-.course-menu:focus-within .course-menu-button::after,
-.course-menu:hover .course-menu-button::after {
-  transform: rotate(180deg);
-}
-.course-submenu.open .course-submenu-button::after,
-.course-submenu:focus-within .course-submenu-button::after,
-.course-submenu:hover .course-submenu-button::after {
-  transform: rotate(90deg);
-}
-.course-dropdown,
-.course-subdropdown {
-  display: grid;
-  gap: 2px;
-  padding: 8px;
-  border: 1px solid rgba(128,128,128,0.22);
-  border-radius: 6px;
-  background: rgba(128,128,128,0.14);
-  box-shadow: 0 18px 40px rgba(128,128,128,0.14);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.16s ease, transform 0.16s ease;
-}
-.course-dropdown {
-  position: absolute;
-  top: calc(100% + 1px);
-  left: 50%;
-  min-width: 306px;
-  transform: translate(-50%, -4px);
-}
-.course-subdropdown {
-  position: absolute;
-  top: -8px;
-  left: calc(100% + 8px);
-  min-width: 310px;
-  transform: translateX(-4px);
-  display: none;
-}
-.course-menu:hover .course-dropdown,
-.course-menu:focus-within .course-dropdown,
-.course-menu.open .course-dropdown,
-.course-submenu:hover .course-subdropdown,
-.course-submenu:focus-within .course-subdropdown,
-.course-submenu.open .course-subdropdown {
-  display: grid;
-  opacity: 1;
-  transform: translate(0, 0);
-  pointer-events: auto;
-}
-.course-menu:hover .course-dropdown,
-.course-menu:focus-within .course-dropdown,
-.course-menu.open .course-dropdown {
-  transform: translate(-50%, 0);
-}
-.course-dropdown a,
-.course-subdropdown a,
-.course-submenu-button {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 10px 11px;
-  border: 0;
-  border-radius: 4px;
-  background: transparent;
-  color: var(--text2, var(--ink));
-  font: inherit;
-  font-size: 18px;
-  letter-spacing: 0.04em;
-  line-height: 1.35;
-  text-align: left;
-  text-transform: none;
-  cursor: pointer;
-}
-.course-subdropdown a {
-  justify-content: flex-start;
-  white-space: normal;
-}
-.course-topic-link,
-.course-subdropdown a.current-page {
-  color: var(--accent, var(--ink)) !important;
-}
-.course-subdropdown a.current-page {
-  background: rgba(128,128,128,0.08);
-}
-.course-dropdown a:hover,
-.course-dropdown a:focus,
-.course-subdropdown a:hover,
-.course-subdropdown a:focus,
-.course-submenu-button:hover,
-.course-submenu-button:focus {
-  color: var(--text, var(--ink));
-  background: rgba(255, 255, 255, 0.08);
-  outline: none;
-}
-.course-link:hover,
-.course-link:focus,
-.course-link.current,
-.course-menu-button:hover,
-.course-menu-button:focus,
-.course-menu-button.current {
-  color: var(--text, var(--ink));
-  border-color: var(--accent, var(--line-2));
-  outline: none;
-}
-.course-nav ~ .slide-num { top: 98px !important; }
-@media (max-width: 720px) {
-  .course-nav-inner {
-    width: min(100% - 18px, 680px);
-    min-height: 46px;
-    gap: 12px;
-    justify-content: center;
-  }
-  .course-link,
-  .course-menu-button {
-    min-height: 36px;
-    font-size: 18px;
-  }
-  .course-dropdown {
-    position: fixed;
-    top: 88px;
-    left: 12px;
-    right: 12px;
-    min-width: 0;
-    max-height: calc(100vh - 108px);
-    overflow: auto;
-    transform: translateY(-4px);
-  }
-  .course-menu:hover .course-dropdown,
-  .course-menu:focus-within .course-dropdown,
-  .course-menu.open .course-dropdown {
-    transform: translateY(0);
-  }
-  .course-subdropdown {
-    position: static;
-    min-width: 0;
-    margin: 0 0 4px 12px;
-    padding: 4px;
-    box-shadow: none;
-    border-color: rgba(128,128,128,0.2);
-    background: rgba(255, 255, 255, 0.03);
-    transform: none;
-    display: none;
-    opacity: 1;
-    pointer-events: auto;
-  }
-  .course-submenu.open .course-subdropdown,
-  .course-submenu:focus-within .course-subdropdown {
-    display: grid;
-  }
-  .course-submenu:hover .course-subdropdown {
-    display: grid;
-  }
-  .course-submenu-button::after {
-    transform: none;
-  }
-  .course-submenu.open .course-submenu-button::after,
-  .course-submenu:focus-within .course-submenu-button::after,
-  .course-submenu:hover .course-submenu-button::after {
-    transform: rotate(180deg);
-  }
-}
 
 </style>
 <link rel="stylesheet" href="../assets/theme.css">
+<link rel="stylesheet" href="../assets/deck.css">
 </head>
 <body>
 
@@ -473,16 +110,16 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
 </nav>
 
 
-<div class="progress" id="progress"></div>
-<div class="slide-num" id="slideNum">01 / 16</div>
+
+
 <div class="deck">
 
 <!-- ═══ S1  TITLE ═══ -->
-<div class="slide active">
+<div class="slide">
   <div class="content">
     <div class="label">IB CS SL · B2 Programming · B2.3</div>
-    <h1>Programming<br><span style="color:var(--green);">Constructs</span></h1>
-    <p class="lead">Covers <strong style="color:var(--text);">B2.3 Programming constructs</strong>: sequence, selection, loops, and functions with modularization.<br>Python is the primary language. Java equivalents are shown where the guide requires both.</p>
+    <h1>Programming<br><span style="color:var(--green)">Constructs</span></h1>
+    <p class="lead">Covers <strong style="color:var(--text)">B2.3 Programming constructs</strong>: sequence, selection, loops, and functions with modularization.<br>Python is the primary language. Java equivalents are shown where the guide requires both.</p>
     <div class="gold-box">
       <p><strong>Guiding question:</strong> How do we control the order, choices and repetition in a program, and organize it into reusable parts?</p>
     </div>
@@ -532,13 +169,13 @@ h2 { font-family: 'Google Sans', 'Noto Sans KR', sans-serif; font-size: clamp(2.
     <p class="lead">A program executes <strong>line by line</strong>. If steps are in the wrong order, the output can be wrong even when each line looks reasonable.</p>
     <div class="grid g2">
       <div class="card green">
-        <div class="card-title" style="color:var(--green);">Correct sequence</div>
+        <div class="card-title" style="color:var(--green)">Correct sequence</div>
         <div class="code-block">total = 0           <span class="cm"># 1. initialise</span>
 total = total + 5   <span class="cm"># 2. update</span>
 print(total)        <span class="cm"># 3. output: 5</span></div>
       </div>
       <div class="card red">
-        <div class="card-title" style="color:var(--red);">Broken sequence</div>
+        <div class="card-title" style="color:var(--red)">Broken sequence</div>
         <div class="code-block">total = total + 5   <span class="cm"># NameError: total not defined</span>
 total = 0
 print(total)</div>
@@ -551,56 +188,56 @@ print(total)</div>
 </div>
 
 <!-- ═══ S4  SELECTION ═══ -->
-<div class="slide scroll-slide">
+<div class="slide">
   <div class="content">
     <div class="label purple">B2.3.2 · Selection</div>
     <h2>Making Decisions in Code</h2>
     <p class="lead">Selection structures execute different code blocks depending on whether a condition is True or False. Use <strong>Boolean operators</strong> (AND, OR, NOT) and <strong>relational operators</strong> (&lt;, &lt;=, &gt;, &gt;=, ==, !=) to build conditions.</p>
-    <div class="grid g2" style="margin-bottom:10px;">
+    <div class="grid g2" style="margin-bottom:10px">
       <div>
         <div class="lang-label">Python — if / elif / else</div>
         <div class="code-block">score = 78
 
-<span class="kw">if</span> score >= 80:
+<span class="kw">if</span> score &gt;= 80:
     print("Pass with distinction")
-<span class="kw">elif</span> score >= 50:
+<span class="kw">elif</span> score &gt;= 50:
     print("Pass")
 <span class="kw">else</span>:
     print("Fail")
 
 <span class="cm"># Boolean operators in conditions:</span>
-<span class="kw">if</span> score >= 50 <span class="kw">and</span> score <= 100:
+<span class="kw">if</span> score &gt;= 50 <span class="kw">and</span> score &lt;= 100:
     print("Valid score, passed")</div>
       </div>
       <div>
         <div class="lang-label">Java — if / else if / else</div>
-        <div class="code-block"><span class="kw">if</span> (score >= 80) {
+        <div class="code-block"><span class="kw">if</span> (score &gt;= 80) {
     System.out.println("Pass with distinction");
-} <span class="kw">else if</span> (score >= 50) {
+} <span class="kw">else if</span> (score &gt;= 50) {
     System.out.println("Pass");
 } <span class="kw">else</span> {
     System.out.println("Fail");
 }
 
 <span class="cm">// Boolean operators:</span>
-<span class="kw">if</span> (score >= 50 &amp;&amp; score <= 100) {
+<span class="kw">if</span> (score &gt;= 50 &amp;&amp; score &lt;= 100) {
     System.out.println("Valid score, passed");
 }</div>
       </div>
     </div>
-    <table class="compare-table">
+    
+    
+  </div>
+</div><div class="slide"><div class="content"><div class="label purple">B2.3.2 · Selection<span class="continued"> · continued</span></div><h2>Making Decisions in Code</h2><table class="compare-table">
       <thead><tr><th>Operator type</th><th>Symbols</th><th>Example</th></tr></thead>
       <tbody>
         <tr><td><strong>Relational</strong></td><td><span class="code-inline">&lt;  &lt;=  &gt;  &gt;=  ==  !=</span></td><td><span class="code-inline">score != 0</span></td></tr>
         <tr><td><strong>Boolean (Python)</strong></td><td><span class="code-inline">and  or  not</span></td><td><span class="code-inline">x &gt; 0 and x &lt; 10</span></td></tr>
         <tr><td><strong>Boolean (Java)</strong></td><td><span class="code-inline">&amp;&amp;  ||  !</span></td><td><span class="code-inline">x &gt; 0 &amp;&amp; x &lt; 10</span></td></tr>
       </tbody>
-    </table>
-    <div class="gold-box">
+    </table><div class="gold-box">
       <p><strong>Guide requirement:</strong> Must include <strong>if, else</strong> and <strong>else if</strong> (Java) / <strong>elif</strong> (Python). Must also demonstrate use with Boolean and relational operators.</p>
-    </div>
-  </div>
-</div>
+    </div></div></div>
 
 <!-- ═══ S5  LOOP VOCABULARY ═══ -->
 <div class="slide">
@@ -608,17 +245,17 @@ print(total)</div>
     <div class="label">B2.3.3 · Iteration</div>
     <h2>Loops Repeat Instructions</h2>
     <p class="lead">Iteration means repeating a block of code. Use a loop when the same action should happen more than once.</p>
-    <div class="grid g3" style="gap:2px; margin-bottom:10px;">
+    <div class="grid g3" style="gap:2px;margin-bottom:10px">
       <div class="card cyan">
-        <div class="card-title" style="color:var(--cyan);">counted loop</div>
+        <div class="card-title" style="color:var(--cyan)">counted loop</div>
         <div class="card-body">Use when the number of repetitions is known.<br><br><span class="code-inline">for i in range(5)</span></div>
       </div>
       <div class="card green">
-        <div class="card-title" style="color:var(--green);">conditional loop</div>
+        <div class="card-title" style="color:var(--green)">conditional loop</div>
         <div class="card-body">Use when repetition depends on a condition.<br><br><span class="code-inline">while password != "ib2027"</span></div>
       </div>
       <div class="card purple">
-        <div class="card-title" style="color:var(--purple);">loop body</div>
+        <div class="card-title" style="color:var(--purple)">loop body</div>
         <div class="card-body">The indented code that repeats each time the loop runs.</div>
       </div>
     </div>
@@ -629,12 +266,12 @@ print(total)</div>
 </div>
 
 <!-- ═══ S6  LOOP TRACING ═══ -->
-<div class="slide scroll-slide">
+<div class="slide">
   <div class="content">
     <div class="label">B2.3.3 · Counted Loops</div>
     <h2>Using <span class="code-inline">range()</span> in Python</h2>
     <p class="lead">A counted loop repeats a known number of times. In Python, <span class="code-inline">range()</span> creates the numbers the loop will use.</p>
-    <div class="grid g2" style="margin-bottom:10px;">
+    <div class="grid g2" style="margin-bottom:10px">
       <div class="card cyan">
         <div class="card-title">Common range patterns</div>
         <div class="code-block">for i in range(5):
@@ -662,11 +299,11 @@ for i in range(2, 11, 2):
 </div>
 
 <!-- ═══ S7  LOOP TRACING ═══ -->
-<div class="slide scroll-slide">
+<div class="slide">
   <div class="content">
     <div class="label green">B2.3.3 · Tracing Iteration</div>
     <h2>Trace the Value Each Time</h2>
-    <div class="grid g2" style="margin-bottom:10px;">
+    <div class="grid g2" style="margin-bottom:10px">
       <div>
         <div class="lang-label">Python</div>
         <div class="code-block">total = 0
@@ -694,11 +331,11 @@ print("Final:", total)</div>
 </div>
 
 <!-- ═══ S8  COUNTED LOOP EXAMPLES ═══ -->
-<div class="slide scroll-slide">
+<div class="slide">
   <div class="content">
     <div class="label">B2.3.3 · Counted Loop Examples</div>
     <h2>Use a Counted Loop When the Amount Is Known</h2>
-    <div class="grid g2" style="margin-bottom:10px;">
+    <div class="grid g2" style="margin-bottom:10px">
       <div class="card cyan">
         <div class="card-title">Add five scores</div>
         <div class="code-block">total = 0
@@ -730,12 +367,12 @@ print("Average:", average)</div>
 </div>
 
 <!-- ═══ S9  CONDITIONAL LOOP EXAMPLES ═══ -->
-<div class="slide scroll-slide">
+<div class="slide">
   <div class="content">
     <div class="label green">B2.3.3 · Conditional Loop Examples</div>
     <h2>Use a While Loop When the Amount Is Unknown</h2>
     <p class="lead">A conditional loop keeps running while its condition is True. It is useful when the program does not know how many attempts will be needed.</p>
-    <div class="grid g2" style="margin-bottom:10px;">
+    <div class="grid g2" style="margin-bottom:10px">
       <div class="card purple">
         <div class="card-title">Input validation</div>
         <div class="code-block">age = int(input("Age: "))
@@ -765,12 +402,12 @@ print("Total:", total)</div>
 </div>
 
 <!-- ═══ S10  IF INSIDE LOOPS ═══ -->
-<div class="slide scroll-slide">
+<div class="slide">
   <div class="content">
     <div class="label purple">B2.3.3 · Selection Within Iteration</div>
     <h2>Use <span class="code-inline">if</span> Inside a Loop to Filter</h2>
     <p class="lead">Loops often repeat the same check for every value in a collection or for every user input.</p>
-    <div class="grid g2" style="margin-bottom:10px;">
+    <div class="grid g2" style="margin-bottom:10px">
       <div class="card green">
         <div class="card-title">Count passing scores</div>
         <div class="code-block">scores = [45, 72, 88, 39, 61]
@@ -801,11 +438,11 @@ print("Highest:", highest)</div>
 </div>
 
 <!-- ═══ S11  LOOP DRY RUN PRACTICE ═══ -->
-<div class="slide scroll-slide">
+<div class="slide">
   <div class="content">
     <div class="label amber">B2.3.3 · Dry Run Practice</div>
     <h2>Predict the Output Before Running</h2>
-    <div class="grid g2" style="margin-bottom:10px;">
+    <div class="grid g2" style="margin-bottom:10px">
       <div class="card amber">
         <div class="card-title">Trace this loop</div>
         <div class="code-block">count = 0
@@ -836,12 +473,12 @@ print(count)</div>
 </div>
 
 <!-- ═══ S12  ITERATION ═══ -->
-<div class="slide scroll-slide">
+<div class="slide">
   <div class="content">
     <div class="label">B2.3.3 · Iteration (Loops)</div>
     <h2>Counted Loops vs Conditional Loops</h2>
     <p class="lead">Use a <strong>counted loop</strong> (for) when you know in advance how many times to repeat. Use a <strong>conditional loop</strong> (while) when you repeat until a condition changes.</p>
-    <div class="grid g2" style="margin-bottom:10px;">
+    <div class="grid g2" style="margin-bottom:10px">
       <div>
         <div class="card cyan">
           <div class="card-title">Counted loop — for (known repetitions)</div>
@@ -851,7 +488,7 @@ total = 0
     score = int(input("Score: "))
     total += score
 print("Total:", total)</div>
-          <div class="code-block" style="margin-top:6px;"><span class="cm">// Java</span>
+          <div class="code-block" style="margin-top:6px"><span class="cm">// Java</span>
 int total = 0;
 <span class="kw">for</span> (int i = 0; i &lt; 5; i++) {
     int score = scanner.nextInt();
@@ -868,7 +505,7 @@ password = ""
 <span class="kw">while</span> password != "ib2027":
     password = input("Password: ")
 print("Access granted")</div>
-          <div class="code-block" style="margin-top:6px;"><span class="cm">// Java</span>
+          <div class="code-block" style="margin-top:6px"><span class="cm">// Java</span>
 String password = "";
 <span class="kw">while</span> (!password.equals("ib2027")) {
     password = scanner.next();
@@ -877,26 +514,26 @@ System.out.println("Access granted");</div>
         </div>
       </div>
     </div>
-    <div class="red-box">
-      <p><strong>Avoid infinite loops:</strong> Every <span class="code-inline">while</span> loop needs a variable that changes inside the loop so the condition can eventually become False. If nothing changes, the loop runs forever.</p>
-    </div>
-    <div class="info-box">
-      <p><strong>Conditional statements within loops:</strong> You can use <span class="code-inline">if</span> inside a loop to filter or branch — for example, counting only the positive numbers in a list.</p>
-    </div>
+    
+    
   </div>
-</div>
+</div><div class="slide"><div class="content"><div class="label">B2.3.3 · Iteration (Loops)<span class="continued"> · continued</span></div><h2>Counted Loops vs Conditional Loops</h2><div class="red-box">
+      <p><strong>Avoid infinite loops:</strong> Every <span class="code-inline">while</span> loop needs a variable that changes inside the loop so the condition can eventually become False. If nothing changes, the loop runs forever.</p>
+    </div><div class="info-box">
+      <p><strong>Conditional statements within loops:</strong> You can use <span class="code-inline">if</span> inside a loop to filter or branch — for example, counting only the positive numbers in a list.</p>
+    </div></div></div>
 
 <!-- ═══ S  AVOIDING ERRORS ═══ -->
-<div class="slide scroll-slide">
+<div class="slide">
   <div class="content">
     <div class="label red">B2.3.1 · Ways to Avoid Errors</div>
     <h2>Infinite Loops, Deadlock and Incorrect Output <span class="tag must">must include</span></h2>
     <p class="lead">Now that you have seen sequence, selection and loops, here are three errors the guide names, and how to avoid each one.</p>
-    <div class="grid g3" style="margin-bottom:10px;">
+    <div class="grid g3" style="margin-bottom:10px">
       <div class="card red">
-        <div class="card-title" style="color:var(--red);">Infinite loop</div>
+        <div class="card-title" style="color:var(--red)">Infinite loop</div>
         <div class="card-body">The loop condition never becomes False, so the program never stops.
-          <div class="code-block" style="margin-top:8px;">count = 1
+          <div class="code-block" style="margin-top:8px">count = 1
 while count &lt;= 5:
     print(count)
 <span class="cm"># count never changes</span></div>
@@ -904,16 +541,16 @@ while count &lt;= 5:
         </div>
       </div>
       <div class="card amber">
-        <div class="card-title" style="color:var(--amber);">Deadlock</div>
+        <div class="card-title" style="color:var(--amber)">Deadlock</div>
         <div class="card-body">Two processes each hold something the other needs, and each waits for the other to let go. Neither can continue.<br><br>
           Example: Program A has the <strong>file</strong> and waits for the <strong>printer</strong>. Program B has the <strong>printer</strong> and waits for the <strong>file</strong>.<br><br>
           <strong>Avoid:</strong> always request shared resources in the same order, and release them when finished.
         </div>
       </div>
       <div class="card purple">
-        <div class="card-title" style="color:var(--purple);">Incorrect output</div>
+        <div class="card-title" style="color:var(--purple)">Incorrect output</div>
         <div class="card-body">The program runs but the answer is wrong, often because instructions are in the wrong order.
-          <div class="code-block" style="margin-top:8px;">total = 0
+          <div class="code-block" style="margin-top:8px">total = 0
 for n in [2, 4, 6]:
     total = 0   <span class="cm"># resets!</span>
     total = total + n
@@ -926,18 +563,18 @@ print(total)    <span class="cm"># 6, not 12</span></div>
 </div>
 
 <!-- ═══ S14  FUNCTIONS ═══ -->
-<div class="slide scroll-slide">
+<div class="slide">
   <div class="content">
     <div class="label amber">B2.3.4 · Functions &amp; Modularization</div>
     <h2>Breaking Programs Into Focused, Reusable Parts</h2>
-    <div class="grid g2" style="margin-bottom:10px;">
+    <div class="grid g2" style="margin-bottom:10px">
       <div>
         <div class="lang-label">Python</div>
         <div class="code-block"><span class="kw">def</span> <span class="fn">letter_grade</span>(score):
     <span class="cm"># score is a local parameter</span>
-    <span class="kw">if</span> score >= 80:
+    <span class="kw">if</span> score &gt;= 80:
         <span class="kw">return</span> <span class="st">"A"</span>
-    <span class="kw">elif</span> score >= 60:
+    <span class="kw">elif</span> score &gt;= 60:
         <span class="kw">return</span> <span class="st">"B"</span>
     <span class="kw">else</span>:
         <span class="kw">return</span> <span class="st">"C"</span>
@@ -948,8 +585,8 @@ print(grade)   <span class="cm"># B</span></div>
       <div>
         <div class="lang-label">Java</div>
         <div class="code-block"><span class="kw">static</span> String letterGrade(int score) {
-    <span class="kw">if</span> (score >= 80) <span class="kw">return</span> <span class="st">"A"</span>;
-    <span class="kw">else if</span> (score >= 60) <span class="kw">return</span> <span class="st">"B"</span>;
+    <span class="kw">if</span> (score &gt;= 80) <span class="kw">return</span> <span class="st">"A"</span>;
+    <span class="kw">else if</span> (score &gt;= 60) <span class="kw">return</span> <span class="st">"B"</span>;
     <span class="kw">else</span> <span class="kw">return</span> <span class="st">"C"</span>;
 }
 
@@ -957,7 +594,10 @@ String grade = letterGrade(74);
 System.out.println(grade);  <span class="cm">// B</span></div>
       </div>
     </div>
-    <table class="compare-table">
+    
+    
+  </div>
+</div><div class="slide"><div class="content"><div class="label amber">B2.3.4 · Functions &amp; Modularization<span class="continued"> · continued</span></div><h2>Breaking Programs Into Focused, Reusable Parts</h2><table class="compare-table">
       <thead><tr><th>Concept</th><th>Meaning</th><th>Benefit</th></tr></thead>
       <tbody>
         <tr><td><strong>Parameter</strong></td><td>Input value supplied to the function</td><td>Makes the function flexible — works for any score</td></tr>
@@ -965,20 +605,17 @@ System.out.println(grade);  <span class="cm">// B</span></div>
         <tr><td><strong>Local scope</strong></td><td>Variables created inside the function</td><td>Prevents accidental interference with other parts</td></tr>
         <tr><td><strong>Modularization</strong></td><td>Splitting a program into named, focused functions</td><td>Easier to read, test, debug and maintain</td></tr>
       </tbody>
-    </table>
-    <div class="green-box">
+    </table><div class="green-box">
       <p><strong>Common error:</strong> Printing a value inside a function is not the same as returning it. Use <span class="code-inline">return</span> when the caller needs to store or reuse the result.</p>
-    </div>
-  </div>
-</div>
+    </div></div></div>
 
 <!-- ═══ S  SCOPE ═══ -->
-<div class="slide scroll-slide">
+<div class="slide">
   <div class="content">
     <div class="label amber">B2.3.4 · Scope</div>
     <h2>Local and Global Variables</h2>
     <p class="lead">The <strong>scope</strong> of a variable is the part of the program where it can be used. A <strong>local</strong> variable is created inside a function and only exists there. A <strong>global</strong> variable is created outside all functions and can be read anywhere.</p>
-    <div class="grid g2" style="margin-bottom:10px;">
+    <div class="grid g2" style="margin-bottom:10px">
       <div class="card cyan">
         <div class="card-title">Python</div>
         <div class="code-block">school = "SCCA"          <span class="cm"># global</span>
@@ -1018,7 +655,7 @@ print(message)   <span class="cm"># NameError: local only</span></div>
         <div class="card-title">Trace &amp; Construct</div>
         <div class="card-body">
           <strong>1.</strong> What does this print?
-          <div class="code-block" style="margin-top:8px;">total = 0
+          <div class="code-block" style="margin-top:8px">total = 0
 for n in [2, 4, 6]:
     if n &gt; 3:
         total = total + n
@@ -1046,116 +683,11 @@ print(total)</div>
 
 </div><!-- /deck -->
 
-<div class="nav">
-  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>← Prev</button>
-  <div class="nav-sep"></div>
-  <div class="nav-dots" id="navDots"></div>
-  <div class="nav-sep"></div>
-  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
-</div>
 
-<script>
-let cur = 0;
-const slides = document.querySelectorAll('.slide');
-const total = slides.length;
-const prog = document.getElementById('progress');
-const slideNum = document.getElementById('slideNum');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-const dotsEl = document.getElementById('navDots');
 
-for (let i = 0; i < total; i++) {
-  const d = document.createElement('div');
-  d.className = 'dot' + (i === 0 ? ' active' : '');
-  d.onclick = () => goTo(i);
-  dotsEl.appendChild(d);
-}
 
-function goTo(n) {
-  slides[cur].classList.remove('active');
-  slides[cur].classList.add('exit');
-  const old = cur;
-  setTimeout(() => slides[old].classList.remove('exit'), 380);
-  cur = n;
-  slides[cur].classList.add('active');
-  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
-  prog.style.width = ((cur + 1) / total * 100) + '%';
-  slideNum.textContent = String(cur + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
-  prevBtn.disabled = cur === 0;
-  nextBtn.disabled = cur === total - 1;
-}
 
-function changeSlide(d) {
-  const n = cur + d;
-  if (n >= 0 && n < total) goTo(n);
-}
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
-  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') changeSlide(-1);
-});
-
-prog.style.width = (1 / total * 100) + '%';
-</script>
-
-<script>
-(function () {
-  const menus = document.querySelectorAll('.course-menu');
-  const submenus = document.querySelectorAll('.course-submenu');
-  const closeSubmenus = except => {
-    submenus.forEach(submenu => {
-      if (submenu !== except) {
-        submenu.classList.remove('open');
-        const button = submenu.querySelector('.course-submenu-button');
-        if (button) button.setAttribute('aria-expanded', 'false');
-      }
-    });
-  };
-  const closeMenus = except => {
-    menus.forEach(menu => {
-      if (menu !== except) {
-        menu.classList.remove('open');
-        const button = menu.querySelector('.course-menu-button');
-        if (button) button.setAttribute('aria-expanded', 'false');
-      }
-    });
-    if (!except) closeSubmenus(null);
-  };
-
-  menus.forEach(menu => {
-    const button = menu.querySelector('.course-menu-button');
-    if (!button) return;
-    button.addEventListener('click', event => {
-      event.preventDefault();
-      const targetId = button.getAttribute('data-scroll-target');
-      const target = targetId ? document.getElementById(targetId) : null;
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      const isOpen = menu.classList.toggle('open');
-      button.setAttribute('aria-expanded', String(isOpen));
-      closeMenus(isOpen ? menu : null);
-    });
-  });
-
-  submenus.forEach(submenu => {
-    const button = submenu.querySelector('.course-submenu-button');
-    if (!button) return;
-    button.addEventListener('click', event => {
-      event.preventDefault();
-      const isOpen = submenu.classList.toggle('open');
-      button.setAttribute('aria-expanded', String(isOpen));
-      closeSubmenus(isOpen ? submenu : null);
-    });
-  });
-
-  document.addEventListener('click', event => {
-    if (!event.target.closest('.course-menu')) closeMenus(null);
-  });
-
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape') closeMenus(null);
-  });
-})();
-</script>
-
+<script src="../assets/site.js"></script>
+<script src="../assets/deck.js"></script>
 </body>
 </html>

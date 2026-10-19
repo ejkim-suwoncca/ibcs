@@ -4,112 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>B1.1 — Approaches to Computational Thinking</title>
-<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Code:wght@400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:        #15120f;
-  --bg-soft:   #1a1510;
-  --surface:   #1c1814;
-  --surface-2: #241e18;
-  --border:    #2e2620;
-  --border-2:  #3a2f26;
-  --text:      #f2ece1;
-  --text-2:    #c2b6a0;
-  --text-3:    #93876f;
-  --blue:      #3fa4e8;
-  --amber:     #fbbf24;
-  --green:     #8fc25a;
-  --coral:     #f0654a;
-  --purple:    #c874d1;
-  --teal:      #22b3a0;
-  --pad-x: clamp(40px,5vw,88px);
-  --pad-y: clamp(36px,4.5vh,64px);
-}
-
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{width:100%;height:100%;overflow:hidden;}
-body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:'Google Sans', 'Noto Sans KR', sans-serif;
-  font-size: clamp(18px, 1.25vw, 19px);
-  line-height:1.6;
-  -webkit-font-smoothing:antialiased;
-}
 
 /* ── DECK ── */
-.deck{position:relative;width:100vw;height:100vh;}
-.slide{
-  position:absolute;inset:0;
-  display:flex;flex-direction:column;
-  padding-top:100px;padding-bottom:var(--pad-y);padding-left:var(--pad-x);padding-right:var(--pad-x);
-  overflow-y:auto;overscroll-behavior:contain;
-  opacity:0;pointer-events:none;
-  transition:opacity .25s ease, transform .25s ease;
-  transform:translateY(10px);
-}
-.slide.active{opacity:1;pointer-events:all;transform:translateY(0);}
 
 /* ── HEADER STRIP ── */
-.slide-head{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-bottom:clamp(16px,2vh,28px);
-  font-size: clamp(18px, .9vw, 22px);
-  letter-spacing:.08em;text-transform:uppercase;
-  color:var(--text-3);font-weight:500;
-}
-.slide-head .section{color:var(--blue);}
 
 /* ── TYPOGRAPHY ── */
-h1{
-  font-size: clamp(36px, 4.8vw, 62px);
-  font-weight:700;line-height:1.05;letter-spacing:-.02em;
-  margin-bottom:clamp(12px,1.6vh,20px);
-}
-h2{
-  font-size: clamp(24px, 2.8vw, 38px);
-  font-weight:700;line-height:1.1;letter-spacing:-.015em;
-  margin-bottom:clamp(8px,1.2vh,16px);
-}
-.eyebrow{
-  font-size: clamp(18px, .9vw, 22px);
-  letter-spacing:.12em;text-transform:uppercase;
-  color:var(--blue);font-weight:600;
-  margin-bottom:8px;
-}
-.lead{
-  font-size: clamp(20px, 1.4vw, 24px);
-  color:var(--text-2);line-height:1.55;font-weight:400;
-  margin-bottom:clamp(14px,2vh,24px);
-  max-width:75ch;
-}
-strong{color:var(--ink);font-weight:600;}
 
 /* ── GRID ── */
-.grid{display:grid;gap:clamp(10px,1.2vw,16px);width:100%;}
-.g2{grid-template-columns:repeat(2,1fr);}
-.g3{grid-template-columns:repeat(3,1fr);}
-.g4{grid-template-columns:repeat(4,1fr);}
 
 /* ── CARD ── */
-.card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:clamp(14px,1.4vw,20px) clamp(16px,1.6vw,22px);
-  position:relative;
-}
+
 .card .accent{
   position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:2px;
-}
-.card-title{
-  font-size: clamp(18px, 1.25vw, 20px);
-  font-weight:600;letter-spacing:-.01em;
-  margin-bottom:6px;
-}
-.card-body{
-  font-size: clamp(20px, 1.3vw, 24px);
-  color:var(--text-2);line-height:1.5;
 }
 
 .a-blue   .accent{background:var(--blue);}   .a-blue   .card-title{color:var(--blue);}
@@ -122,14 +30,14 @@ strong{color:var(--ink);font-weight:600;}
 /* ── TABLE ── */
 table.t{
   width:100%;border-collapse:collapse;
-  font-size: clamp(18px, 1.15vw, 18px);
+  font-size: var(--fs-body);
   background:var(--surface);
   border-radius:10px;overflow:hidden;
 }
 table.t th{
   background:var(--surface-2);text-align:left;
   padding:12px 16px;font-weight:600;
-  font-size: clamp(18px, .95vw, 22px);
+  font-size: var(--fs-body);
   letter-spacing:.06em;text-transform:uppercase;
   color:var(--text-2);border-bottom:1px solid var(--border-2);
 }
@@ -142,22 +50,6 @@ table.t td.step{font-weight:700;color:var(--blue);width:50px;}
 table.t td.term{font-weight:600;color:var(--text);width:28%;}
 
 /* ── CALLOUT ── */
-.note{
-  margin-top:clamp(12px,1.6vh,18px);
-  padding:12px 16px;
-  border-left:3px solid var(--amber);
-  background:rgba(128,128,128,0.07);
-  border-radius:0 8px 8px 0;
-  font-size: clamp(18px, 1.1vw, 22px);
-  color:var(--text-2);line-height:1.5;
-}
-.note strong{color:var(--amber);}
-.note.blue{border-color:var(--blue);background:rgba(128,128,128,0.07);}
-.note.blue strong{color:var(--blue);}
-.note.green{border-color:var(--green);background:rgba(128,128,128,0.07);}
-.note.green strong{color:var(--green);}
-.note.coral{border-color:var(--coral);background:rgba(128,128,128,0.07);}
-.note.coral strong{color:var(--coral);}
 
 /* ── CODE / PSEUDOCODE ── */
 .code{
@@ -165,8 +57,8 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
   border:1px solid var(--border);
   border-radius:8px;
   padding:14px 18px;
-  font-family:'Google Sans Code', monospace;
-  font-size: clamp(18px, 1.1vw, 22px);
+  font-family:"Google Sans Code", monospace;
+  font-size: var(--fs-body);
   line-height:1.75;
   color:var(--text);
   margin-top:10px;
@@ -179,47 +71,47 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
 .code .n{color:var(--green);}
 
 /* ── HUB (title slide cards) ── */
-.hub{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(12px,1.4vw,18px);max-width:1000px;}
+.hub{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;max-width:1000px;}
 .hub-card{
   background:var(--surface);
   border:1px solid var(--border);
   border-radius:10px;
-  padding:clamp(16px,1.8vw,24px);
+  padding:23px;
 }
 .hub-card .id{
-  font-family:'Google Sans Code', monospace;
-  font-size: clamp(18px, .9vw, 22px);
+  font-family:"Google Sans Code", monospace;
+  font-size: var(--fs-body);
   color:var(--blue);letter-spacing:.06em;margin-bottom:5px;
 }
 .hub-card .name{
-  font-size: clamp(18px, 1.35vw, 21px);
+  font-size: var(--fs-body);
   font-weight:600;color:var(--text);margin-bottom:4px;
 }
 .hub-card .desc{
-  font-size: clamp(18px, 1.1vw, 22px);
+  font-size: var(--fs-body);
   color:var(--text-3);line-height:1.45;
 }
 
 /* ── FLOWCHART ── */
 .flow{display:flex;flex-direction:column;align-items:center;gap:5px;}
-.flow .arrow{color:var(--text-3);font-size:20px;line-height:1;}
+.flow .arrow{color:var(--text-3);font-size: var(--fs-body);line-height:1;}
 .flow .term{
   border:2px solid var(--blue);color:var(--blue);
   border-radius:999px;padding:7px 22px;
-  font-family:'Google Sans Code', monospace;font-size: clamp(18px, 1vw, 22px);
+  font-family:"Google Sans Code", monospace;font-size: var(--fs-body);
   background:var(--surface);
 }
 .flow .io{
   border:2px solid var(--amber);color:var(--amber);
   padding:7px 20px;
-  font-family:'Google Sans Code', monospace;font-size: clamp(18px, 1vw, 22px);
+  font-family:"Google Sans Code", monospace;font-size: var(--fs-body);
   background:var(--surface);transform:skewX(-12deg);
 }
 .flow .io > span{display:inline-block;transform:skewX(12deg);}
 .flow .proc{
   border:2px solid var(--text-2);color:var(--text);
   padding:7px 20px;
-  font-family:'Google Sans Code', monospace;font-size: clamp(18px, 1vw, 22px);
+  font-family:"Google Sans Code", monospace;font-size: var(--fs-body);
   background:var(--surface);border-radius:4px;
 }
 .flow .dec{
@@ -227,297 +119,42 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
   width:150px;height:74px;
   display:flex;align-items:center;justify-content:center;
   clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);
-  font-family:'Google Sans Code', monospace;font-size: clamp(18px, .95vw, 22px);
+  font-family:"Google Sans Code", monospace;font-size: var(--fs-body);
   background:var(--surface);
 }
 
 /* ── FLOWCHART SYMBOL TABLE ── */
-.sym-row{display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid var(--border);}
+.sym-row{display:flex;align-items:center;gap:14px;padding:6px 0;border-bottom:1px solid var(--border);}
 .sym-row:last-child{border-bottom:none;}
 .sym-row .pic{flex:0 0 120px;display:flex;justify-content:center;}
 .sym-row .meta{flex:1;}
-.sym-row .nm{font-weight:600;color:var(--text);font-size: clamp(18px, 1.15vw, 18px);}
-.sym-row .ds{color:var(--text-2);font-size: clamp(18px, 1.05vw, 22px);line-height:1.4;}
+.sym-row .nm{font-weight:600;color:var(--text);font-size: var(--fs-body);}
+.sym-row .ds{color:var(--text-2);font-size: var(--fs-body);line-height:1.4;}
 
 /* ── SUMMARY RECAP ── */
 .recap{
   background:var(--bg-soft);border:1px solid var(--border);
-  border-radius:10px;padding:clamp(16px,1.8vw,22px);
-  margin-bottom:clamp(12px,1.6vh,18px);
+  border-radius:10px;padding:22px;
+  margin-bottom:12px;
 }
 .recap-line{
   display:flex;gap:14px;padding:7px 0;
-  font-size: clamp(18px, 1.15vw, 18px);color:var(--text-2);
+  font-size: var(--fs-body);color:var(--text-2);
   border-bottom:1px solid var(--border);
 }
 .recap-line:last-child{border-bottom:none;}
 .recap-line .tag{
-  font-family:'Google Sans Code', monospace;
+  font-family:"Google Sans Code", monospace;
   color:var(--blue);font-weight:600;flex:0 0 72px;
 }
 
 /* ── NAV ── */
-.nav{
-  position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
-  display:flex;align-items:center;gap:12px;z-index:100;
-  background:rgba(128,128,128,0.14);backdrop-filter:blur(16px);
-  border:1px solid var(--border-2);border-radius:999px;
-  padding:7px 16px;
-}
-.nav-btn{
-  font-family:'Google Sans', 'Noto Sans KR', sans-serif;font-size:18px;font-weight:500;letter-spacing:.06em;
-  color:var(--text-2);background:none;border:1px solid transparent;
-  padding:5px 12px;border-radius:999px;cursor:pointer;transition:all .15s;
-}
-.nav-btn:hover{color:var(--text);background:var(--surface-2);}
-.nav-btn:disabled{opacity:.3;cursor:not-allowed;}
-.nav-dots{display:flex;gap:6px;}
-.dot{
-  width:7px;height:7px;border-radius:50%;background:var(--border-2);
-  cursor:pointer;transition:all .15s;border:none;padding:0;
-}
-.dot.active{background:var(--blue);transform:scale(1.3);}
-.nav-sep{width:1px;height:16px;background:var(--border);}
 
 /* COURSE NAVIGATION */
-.course-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1200;
-  border-bottom: 1px solid rgba(128,128,128,0.2);
-  background: rgba(128,128,128,0.14);
-  -webkit-backdrop-filter: blur(18px);
-  backdrop-filter: blur(18px);
-  font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
-}
-.course-nav-inner {
-  width: min(1120px, calc(100% - 32px));
-  margin: 0 auto;
-  min-height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  flex-wrap: wrap;
-}
-.course-nav a,
-.course-menu-button,
-.course-submenu-button {
-  color: var(--text2, var(--ink));
-  text-decoration: none;
-  white-space: nowrap;
-  line-height: 1;
-}
-.course-link,
-.course-menu-button {
-  min-height: 48px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 0;
-  border-radius: 0;
-  border-bottom: 2px solid transparent;
-  background: transparent;
-  color: var(--text2, var(--ink));
-  font: inherit;
-  font-size: 18px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: color 0.18s ease, border-color 0.18s ease;
-}
-.course-home-link {
-  color: var(--text, var(--ink)) !important;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-}
-
-.course-menu,
-.course-submenu {
-  position: relative;
-}
-.course-menu-button,
-.course-submenu-button {
-  gap: 6px;
-}
-.course-menu-button::after,
-.course-submenu-button::after {
-  content: "▾";
-  font-size: 18px;
-  color: var(--text3, var(--ink));
-  transition: transform 0.18s ease;
-}
-.course-submenu-button::after {
-  transform: rotate(-90deg);
-}
-.course-menu.open .course-menu-button::after,
-.course-menu:focus-within .course-menu-button::after,
-.course-menu:hover .course-menu-button::after {
-  transform: rotate(180deg);
-}
-.course-submenu.open .course-submenu-button::after,
-.course-submenu:focus-within .course-submenu-button::after,
-.course-submenu:hover .course-submenu-button::after {
-  transform: rotate(90deg);
-}
-.course-dropdown,
-.course-subdropdown {
-  display: grid;
-  gap: 2px;
-  padding: 8px;
-  border: 1px solid rgba(128,128,128,0.22);
-  border-radius: 6px;
-  background: rgba(128,128,128,0.14);
-  box-shadow: 0 18px 40px rgba(128,128,128,0.14);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.16s ease, transform 0.16s ease;
-}
-.course-dropdown {
-  position: absolute;
-  top: calc(100% + 1px);
-  left: 50%;
-  min-width: 306px;
-  transform: translate(-50%, -4px);
-}
-.course-subdropdown {
-  position: absolute;
-  top: -8px;
-  left: calc(100% + 8px);
-  min-width: 310px;
-  transform: translateX(-4px);
-  display: none;
-}
-.course-menu:hover .course-dropdown,
-.course-menu:focus-within .course-dropdown,
-.course-menu.open .course-dropdown,
-.course-submenu:hover .course-subdropdown,
-.course-submenu:focus-within .course-subdropdown,
-.course-submenu.open .course-subdropdown {
-  display: grid;
-  opacity: 1;
-  transform: translate(0, 0);
-  pointer-events: auto;
-}
-.course-menu:hover .course-dropdown,
-.course-menu:focus-within .course-dropdown,
-.course-menu.open .course-dropdown {
-  transform: translate(-50%, 0);
-}
-.course-dropdown a,
-.course-subdropdown a,
-.course-submenu-button {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 10px 11px;
-  border: 0;
-  border-radius: 4px;
-  background: transparent;
-  color: var(--text2, var(--ink));
-  font: inherit;
-  font-size: 18px;
-  letter-spacing: 0.04em;
-  line-height: 1.35;
-  text-align: left;
-  text-transform: none;
-  cursor: pointer;
-}
-.course-subdropdown a {
-  justify-content: flex-start;
-  white-space: normal;
-}
-.course-topic-link,
-.course-subdropdown a.current-page {
-  color: var(--accent, var(--ink)) !important;
-}
-.course-subdropdown a.current-page {
-  background: rgba(128,128,128,0.08);
-}
-.course-dropdown a:hover,
-.course-dropdown a:focus,
-.course-subdropdown a:hover,
-.course-subdropdown a:focus,
-.course-submenu-button:hover,
-.course-submenu-button:focus {
-  color: var(--text, var(--ink));
-  background: rgba(255, 255, 255, 0.08);
-  outline: none;
-}
-.course-link:hover,
-.course-link:focus,
-.course-link.current,
-.course-menu-button:hover,
-.course-menu-button:focus,
-.course-menu-button.current {
-  color: var(--text, var(--ink));
-  border-color: var(--accent, var(--line-2));
-  outline: none;
-}
-.course-nav ~ .slide-num { top: 62px !important; }
-@media (max-width: 720px) {
-  .course-nav-inner {
-    width: min(100% - 18px, 680px);
-    min-height: 46px;
-    gap: 12px;
-    justify-content: center;
-  }
-  .course-link,
-  .course-menu-button {
-    min-height: 36px;
-    font-size: 18px;
-  }
-  .course-dropdown {
-    position: fixed;
-    top: 88px;
-    left: 12px;
-    right: 12px;
-    min-width: 0;
-    max-height: calc(100vh - 108px);
-    overflow: auto;
-    transform: translateY(-4px);
-  }
-  .course-menu:hover .course-dropdown,
-  .course-menu:focus-within .course-dropdown,
-  .course-menu.open .course-dropdown {
-    transform: translateY(0);
-  }
-  .course-subdropdown {
-    position: static;
-    min-width: 0;
-    margin: 0 0 4px 12px;
-    padding: 4px;
-    box-shadow: none;
-    border-color: rgba(128,128,128,0.2);
-    background: rgba(255, 255, 255, 0.03);
-    transform: none;
-    display: none;
-    opacity: 1;
-    pointer-events: auto;
-  }
-  .course-submenu.open .course-subdropdown,
-  .course-submenu:focus-within .course-subdropdown {
-    display: grid;
-  }
-  .course-submenu:hover .course-subdropdown {
-    display: grid;
-  }
-  .course-submenu-button::after {
-    transform: none;
-  }
-  .course-submenu.open .course-submenu-button::after,
-  .course-submenu:focus-within .course-submenu-button::after,
-  .course-submenu:hover .course-submenu-button::after {
-    transform: rotate(180deg);
-  }
-}
 
 </style>
 <link rel="stylesheet" href="../assets/theme.css">
+<link rel="stylesheet" href="../assets/deck.css">
 </head>
 <body>
 
@@ -620,16 +257,15 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
 <!-- ══════════════════════════════════════
      S1  TITLE
 ══════════════════════════════════════ -->
-<section class="slide active">
+<section class="slide">
   <div class="slide-head">
     <span class="section">IB CS SL · B1.1 · Computational Thinking</span>
-    <span>01 / 11</span>
   </div>
-  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;max-width:1100px;">
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;max-width:1100px">
     <div class="eyebrow">B1.1</div>
     <h1>Approaches to<br>Computational Thinking</h1>
     <p class="lead">How do we turn a real-world problem into a working computational solution?</p>
-    <div class="hub" style="margin-top:clamp(8px,1.4vh,18px);">
+    <div class="hub" style="margin-top:10px">
       <div class="hub-card">
         <div class="id">B1.1.1</div>
         <div class="name">Problem Specification</div>
@@ -660,9 +296,8 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
 <section class="slide">
   <div class="slide-head">
     <span class="section">B1.1.1 · Problem Specification</span>
-    <span>02 / 11</span>
   </div>
-  <div style="flex:1;display:flex;flex-direction:column;">
+  <div style="flex:1;display:flex;flex-direction:column">
     <h2>Understand the problem before you solve it.</h2>
     <p class="lead">A problem specification answers six questions. Miss one, and you risk building the wrong thing.</p>
     <div class="grid g3">
@@ -707,15 +342,14 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
 <section class="slide">
   <div class="slide-head">
     <span class="section">B1.1.1 · Inputs &amp; Outputs</span>
-    <span>03 / 11</span>
   </div>
-  <div style="flex:1;display:flex;flex-direction:column;">
+  <div style="flex:1;display:flex;flex-direction:column">
     <h2>How data enters and leaves the system.</h2>
     <p class="lead">You must identify both before you can design an algorithm.</p>
-    <div class="grid g2" style="align-items:start;">
+    <div class="grid g2" style="align-items:start">
       <div>
         <div class="eyebrow">Input methods</div>
-        <div class="grid" style="gap:10px;">
+        <div class="grid" style="gap:10px">
           <div class="card a-blue">
             <span class="accent"></span>
             <div class="card-title">Manual entry</div>
@@ -734,8 +368,8 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
         </div>
       </div>
       <div>
-        <div class="eyebrow" style="color:var(--amber);">Output types</div>
-        <div class="grid" style="gap:10px;">
+        <div class="eyebrow" style="color:var(--amber)">Output types</div>
+        <div class="grid" style="gap:10px">
           <div class="card a-amber">
             <span class="accent"></span>
             <div class="card-title">Temporary (soft copy)</div>
@@ -761,17 +395,16 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
 <!-- ══════════════════════════════════════
      S4  THE CT PROCESS OVERVIEW
 ══════════════════════════════════════ -->
-<section class="slide">
+<section class="slide compact">
   <div class="slide-head">
     <span class="section">B1.1.2 · The CT Process</span>
-    <span>04 / 11</span>
   </div>
-  <div style="flex:1;display:flex;flex-direction:column;">
+  <div style="flex:1;display:flex;flex-direction:column">
     <h2>Seven steps from problem to solution.</h2>
     <p class="lead">Computational thinking is a <em>process</em>, not a single skill. Each step feeds into the next.</p>
     <table class="t">
       <thead>
-        <tr><th style="width:50px;">#</th><th style="width:30%;">Stage</th><th>What you do</th></tr>
+        <tr><th style="width:50px">#</th><th style="width:30%">Stage</th><th>What you do</th></tr>
       </thead>
       <tbody>
         <tr><td class="step">1</td><td class="term">Real-world problem</td><td>Identify a situation that needs a computational solution.</td></tr>
@@ -783,7 +416,7 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
         <tr><td class="step">7</td><td class="term">Testing &amp; evaluation</td><td>Check correctness against your evaluation criteria.</td></tr>
       </tbody>
     </table>
-    <div class="note green" style="margin-top:12px;"><strong>Key point:</strong> Steps 3–6 are the four pillars of computational thinking. You need to know each one by name and definition for the exam.</div>
+    <div class="note green" style="margin-top:12px"><strong>Key point:</strong> Steps 3–6 are the four pillars of computational thinking. You need to know each one by name and definition for the exam.</div>
   </div>
 </section>
 
@@ -793,18 +426,17 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
 <section class="slide">
   <div class="slide-head">
     <span class="section">B1.1.2 · Decomposition</span>
-    <span>05 / 11</span>
   </div>
-  <div style="flex:1;display:flex;flex-direction:column;">
+  <div style="flex:1;display:flex;flex-direction:column">
     <h2>Break a big problem into smaller parts.</h2>
     <p class="lead">Each smaller part is easier to understand, design, and test on its own. Then combine the parts into a full solution.</p>
-    <div class="grid g2" style="align-items:start;">
+    <div class="grid g2" style="align-items:start">
       <div>
         <div class="card a-coral">
           <span class="accent"></span>
           <div class="card-title">Why decompose?</div>
           <div class="card-body">
-            <ul style="padding-left:18px;margin-top:4px;line-height:2;">
+            <ul style="padding-left:18px;margin-top:4px;line-height:2">
               <li>Easier to understand each part</li>
               <li>Different people can work on different parts</li>
               <li>Easier to test one part at a time</li>
@@ -812,19 +444,19 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
             </ul>
           </div>
         </div>
-        <div class="note coral" style="margin-top:12px;"><strong>Important:</strong> Decomposition splits the <em>problem</em>, not the code. You do this before writing a single line.</div>
+        <div class="note coral" style="margin-top:12px"><strong>Important:</strong> Decomposition splits the <em>problem</em>, not the code. You do this before writing a single line.</div>
       </div>
       <div>
         <div class="eyebrow">Example — school library system</div>
-        <div class="card a-blue" style="margin-bottom:10px;">
+        <div class="card a-blue" style="margin-bottom:10px">
           <span class="accent"></span>
           <div class="card-title">Full problem ↓ broken into parts</div>
-          <div class="card-body" style="margin-top:6px;">
-            <div style="display:flex;flex-direction:column;gap:8px;">
-              <div style="background:var(--surface-2);border-radius:6px;padding:8px 12px;">📚 Search for a book</div>
-              <div style="background:var(--surface-2);border-radius:6px;padding:8px 12px;">🔐 Log in / log out</div>
-              <div style="background:var(--surface-2);border-radius:6px;padding:8px 12px;">📋 Borrow &amp; return books</div>
-              <div style="background:var(--surface-2);border-radius:6px;padding:8px 12px;">🔔 Send overdue reminders</div>
+          <div class="card-body" style="margin-top:6px">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="background:var(--surface-2);border-radius:6px;padding:8px 12px">📚 Search for a book</div>
+              <div style="background:var(--surface-2);border-radius:6px;padding:8px 12px">🔐 Log in / log out</div>
+              <div style="background:var(--surface-2);border-radius:6px;padding:8px 12px">📋 Borrow &amp; return books</div>
+              <div style="background:var(--surface-2);border-radius:6px;padding:8px 12px">🔔 Send overdue reminders</div>
             </div>
           </div>
         </div>
@@ -839,31 +471,30 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
 <section class="slide">
   <div class="slide-head">
     <span class="section">B1.1.2 · Pattern Recognition &amp; Abstraction</span>
-    <span>06 / 11</span>
   </div>
-  <div style="flex:1;display:flex;flex-direction:column;">
+  <div style="flex:1;display:flex;flex-direction:column">
     <h2>Find what repeats. Remove what doesn't matter.</h2>
-    <div class="grid g2" style="align-items:start;">
+    <div class="grid g2" style="align-items:start">
       <div>
-        <div class="card a-teal" style="margin-bottom:10px;">
+        <div class="card a-teal" style="margin-bottom:10px">
           <span class="accent"></span>
           <div class="card-title">Pattern recognition</div>
           <div class="card-body">Spot similarities across sub-problems so you can reuse the same solution instead of rewriting it.</div>
         </div>
         <div class="note green"><strong>Example:</strong> "Borrow a book" and "Return a book" both need to check the member ID. Write that check once, use it twice.</div>
-        <div style="margin-top:10px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:8px;">
-          <div style="color:var(--text-3);font-size:18px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">Payoff</div>
-          <div style="color:var(--text-2);">Shorter code · fewer bugs · easier to update</div>
+        <div style="margin-top:10px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:8px">
+          <div style="color:var(--text-3);text-transform:uppercase;margin-bottom:6px">Payoff</div>
+          <div style="color:var(--text-2)">Shorter code · fewer bugs · easier to update</div>
         </div>
       </div>
       <div>
-        <div class="card a-blue" style="margin-bottom:10px;">
+        <div class="card a-blue" style="margin-bottom:10px">
           <span class="accent"></span>
           <div class="card-title">Abstraction</div>
           <div class="card-body">A simplified model of something complex. Keep only the details needed for the task; hide everything else.</div>
         </div>
         <div class="note blue"><strong>Real-world example:</strong> A bus timetable is an abstraction of the full bus system. It shows you departure times — not the engine specs, driver names, or fuel level.</div>
-        <div class="note blue" style="margin-top:8px;"><strong>In code:</strong> A function is an abstraction — you call it without knowing exactly how it works inside.</div>
+        <div class="note blue" style="margin-top:8px"><strong>In code:</strong> A function is an abstraction — you call it without knowing exactly how it works inside.</div>
       </div>
     </div>
   </div>
@@ -875,38 +506,37 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
 <section class="slide">
   <div class="slide-head">
     <span class="section">B1.1.2 · Algorithmic Thinking</span>
-    <span>07 / 11</span>
   </div>
-  <div style="flex:1;display:flex;flex-direction:column;">
+  <div style="flex:1;display:flex;flex-direction:column">
     <h2>Write a precise, step-by-step solution.</h2>
     <p class="lead">An <strong>algorithm</strong> is a finite, ordered sequence of unambiguous steps that solves a problem. Every step must be clear enough that a computer can follow it exactly.</p>
-    <div class="grid g2" style="align-items:start;">
+    <div class="grid g2" style="align-items:start">
       <div>
         <div class="card a-amber">
           <span class="accent"></span>
           <div class="card-title">Three rules for a good algorithm</div>
           <div class="card-body">
-            <ol style="padding-left:18px;margin-top:4px;line-height:2.2;">
+            <ol style="padding-left:18px;margin-top:4px;line-height:2.2">
               <li><strong>Finite</strong> — it must eventually stop.</li>
               <li><strong>Ordered</strong> — sequence matters; wrong order, wrong result.</li>
               <li><strong>Unambiguous</strong> — each step has exactly one meaning.</li>
             </ol>
           </div>
         </div>
-        <div class="note" style="margin-top:10px;"><strong>Common mistake:</strong> Writing steps in the wrong order produces the wrong answer even when every individual step is correct.</div>
+        <div class="note" style="margin-top:10px"><strong>Common mistake:</strong> Writing steps in the wrong order produces the wrong answer even when every individual step is correct.</div>
       </div>
       <div>
         <div class="eyebrow">Pseudocode example — find the larger number</div>
         <div class="code">
 <span class="k">INPUT</span> a
 <span class="k">INPUT</span> b
-<span class="k">IF</span> a > b <span class="k">THEN</span>
+<span class="k">IF</span> a &gt; b <span class="k">THEN</span>
     <span class="k">OUTPUT</span> <span class="s">"Larger is "</span>, a
 <span class="k">ELSE</span>
     <span class="k">OUTPUT</span> <span class="s">"Larger is "</span>, b
 <span class="k">END IF</span>
         </div>
-        <div class="note blue" style="margin-top:10px;"><strong>Pseudocode</strong> is plain-English code used to plan algorithms — the IB uses its own style. Learn the IB keywords: INPUT, OUTPUT, IF/THEN/ELSE, LOOP, etc.</div>
+        <div class="note blue" style="margin-top:10px"><strong>Pseudocode</strong> is plain-English code used to plan algorithms — the IB uses its own style. Learn the IB keywords: INPUT, OUTPUT, IF/THEN/ELSE, LOOP, etc.</div>
       </div>
     </div>
   </div>
@@ -915,26 +545,25 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
 <!-- ══════════════════════════════════════
      S8  FLOWCHART SYMBOLS
 ══════════════════════════════════════ -->
-<section class="slide">
+<section class="slide compact">
   <div class="slide-head">
     <span class="section">B1.1.4 · Flowchart Symbols</span>
-    <span>08 / 11</span>
   </div>
-  <div style="flex:1;display:flex;flex-direction:column;">
+  <div style="flex:1;display:flex;flex-direction:column">
     <h2>Six symbols — know them all.</h2>
-    <div class="grid g2" style="align-items:start;gap:clamp(18px,2vw,36px);">
+    <div class="grid g2" style="align-items:start;gap:26px">
       <div>
         <div class="sym-row">
           <div class="pic"><div class="flow"><div class="term">START / END</div></div></div>
           <div class="meta">
-            <div class="nm" style="color:var(--blue);">Oval / Terminator</div>
+            <div class="nm" style="color:var(--blue)">Oval / Terminator</div>
             <div class="ds">Marks the beginning or end of the algorithm.</div>
           </div>
         </div>
         <div class="sym-row">
           <div class="pic"><div class="flow"><div class="io"><span>INPUT / OUTPUT</span></div></div></div>
           <div class="meta">
-            <div class="nm" style="color:var(--amber);">Parallelogram</div>
+            <div class="nm" style="color:var(--amber)">Parallelogram</div>
             <div class="ds">Reading input from the user or displaying output.</div>
           </div>
         </div>
@@ -948,19 +577,19 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
         <div class="sym-row">
           <div class="pic"><div class="flow"><div class="dec">DECISION</div></div></div>
           <div class="meta">
-            <div class="nm" style="color:var(--coral);">Diamond</div>
+            <div class="nm" style="color:var(--coral)">Diamond</div>
             <div class="ds">A yes/no question. <strong>Always label both branches (YES / NO).</strong></div>
           </div>
         </div>
         <div class="sym-row">
-          <div class="pic" style="font-size:26px;color:var(--text-3);">&darr;</div>
+          <div class="pic" style="color:var(--text-3)">↓</div>
           <div class="meta">
             <div class="nm">Arrow / Flowline</div>
             <div class="ds">Shows the direction the algorithm flows.</div>
           </div>
         </div>
         <div class="sym-row">
-          <div class="pic"><div class="flow"><div class="proc" style="width:44px;height:44px;min-width:0;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center;">A</div></div></div>
+          <div class="pic"><div class="flow"><div class="proc" style="width:44px;height:44px;min-width:0;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center">A</div></div></div>
           <div class="meta">
             <div class="nm">Circle / Connector</div>
             <div class="ds">Joins flowlines, or continues a flowchart in another place. Matching letters link the two ends.</div>
@@ -969,20 +598,20 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
       </div>
       <div>
         <div class="eyebrow">Example flowchart — average of two numbers</div>
-        <div class="flow" style="margin-top:8px;">
+        <div class="flow" style="margin-top:8px">
           <div class="term">START</div>
-          <div class="arrow">&darr;</div>
+          <div class="arrow">↓</div>
           <div class="io"><span>INPUT a, b</span></div>
-          <div class="arrow">&darr;</div>
+          <div class="arrow">↓</div>
           <div class="proc">total ← a + b</div>
-          <div class="arrow">&darr;</div>
+          <div class="arrow">↓</div>
           <div class="proc">avg ← total ÷ 2</div>
-          <div class="arrow">&darr;</div>
+          <div class="arrow">↓</div>
           <div class="io"><span>OUTPUT avg</span></div>
-          <div class="arrow">&darr;</div>
+          <div class="arrow">↓</div>
           <div class="term">END</div>
         </div>
-        <div class="note" style="margin-top:12px;"><strong>Common error:</strong> Using a rectangle for input or output. Reading or displaying data always uses a parallelogram; a rectangle is only for a process.</div>
+        <div class="note" style="margin-top:12px"><strong>Common error:</strong> Using a rectangle for input or output. Reading or displaying data always uses a parallelogram; a rectangle is only for a process.</div>
       </div>
     </div>
   </div>
@@ -991,47 +620,46 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
 <!-- ══════════════════════════════════════
      S9  TRACE TABLES
 ══════════════════════════════════════ -->
-<section class="slide">
+<section class="slide compact">
   <div class="slide-head">
     <span class="section">B1.1.4 · Trace Tables</span>
-    <span>09 / 11</span>
   </div>
-  <div style="flex:1;display:flex;flex-direction:column;">
+  <div style="flex:1;display:flex;flex-direction:column">
     <h2>Check your algorithm, step by step.</h2>
     <p class="lead">A <strong>trace table</strong> manually tracks every variable through each line of an algorithm. Used to find logic errors before running any code.</p>
-    <div class="grid g2" style="align-items:start;gap:clamp(18px,2vw,36px);">
+    <div class="grid g2" style="align-items:start;gap:26px">
       <div>
         <div class="eyebrow">Algorithm — find the larger number</div>
         <div class="code">
 <span class="n">1.</span> <span class="k">INPUT</span> a        <span class="c">→ a = 7</span>
 <span class="n">2.</span> <span class="k">INPUT</span> b        <span class="c">→ b = −3</span>
-<span class="n">3.</span> <span class="k">IF</span> a > b <span class="k">THEN</span>
+<span class="n">3.</span> <span class="k">IF</span> a &gt; b <span class="k">THEN</span>
 <span class="n">4.</span>     max ← a
 <span class="n">5.</span> <span class="k">ELSE</span>
 <span class="n">6.</span>     max ← b
 <span class="n">7.</span> <span class="k">END IF</span>
 <span class="n">8.</span> <span class="k">OUTPUT</span> max
         </div>
-        <div class="note" style="margin-top:12px;">
+        <div class="note" style="margin-top:12px">
           <strong>How to fill a trace table:</strong><br>
           After <em>every</em> line, write each variable's current value. If a variable didn't change, copy its last value — don't leave it blank.
         </div>
       </div>
       <div>
-        <div class="eyebrow" style="color:var(--amber);">Trace — test values: a = 7, b = −3</div>
-        <table class="t" style="margin-top:8px;">
+        <div class="eyebrow" style="color:var(--amber)">Trace — test values: a = 7, b = −3</div>
+        <table class="t" style="margin-top:8px">
           <thead>
             <tr><th>Line</th><th>a</th><th>b</th><th>a &gt; b?</th><th>max</th><th>Output</th></tr>
           </thead>
           <tbody>
             <tr><td class="step">1</td><td>7</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
             <tr><td class="step">2</td><td>7</td><td>−3</td><td>—</td><td>—</td><td>—</td></tr>
-            <tr><td class="step">3</td><td>7</td><td>−3</td><td style="color:var(--green);">TRUE</td><td>—</td><td>—</td></tr>
-            <tr><td class="step">4</td><td>7</td><td>−3</td><td style="color:var(--green);">TRUE</td><td>7</td><td>—</td></tr>
-            <tr><td class="step">8</td><td>7</td><td>−3</td><td style="color:var(--green);">TRUE</td><td>7</td><td style="color:var(--amber);">7</td></tr>
+            <tr><td class="step">3</td><td>7</td><td>−3</td><td style="color:var(--green)">TRUE</td><td>—</td><td>—</td></tr>
+            <tr><td class="step">4</td><td>7</td><td>−3</td><td style="color:var(--green)">TRUE</td><td>7</td><td>—</td></tr>
+            <tr><td class="step">8</td><td>7</td><td>−3</td><td style="color:var(--green)">TRUE</td><td>7</td><td style="color:var(--amber)">7</td></tr>
           </tbody>
         </table>
-        <div class="note green" style="margin-top:10px;"><strong>Exam tip:</strong> Trace table questions are common. Always test with at least two different sets of values — including edge cases like negative numbers or equal inputs.</div>
+        <div class="note green" style="margin-top:10px"><strong>Exam tip:</strong> Trace table questions are common. Always test with at least two different sets of values — including edge cases like negative numbers or equal inputs.</div>
       </div>
     </div>
   </div>
@@ -1043,12 +671,11 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
 <section class="slide">
   <div class="slide-head">
     <span class="section">B1.1.3 · CT in Practice</span>
-    <span>10 / 11</span>
   </div>
-  <div style="flex:1;display:flex;flex-direction:column;">
+  <div style="flex:1;display:flex;flex-direction:column">
     <h2>The same four skills, everywhere.</h2>
     <p class="lead">Computational thinking <strong>does not necessarily involve programming</strong>: it is a toolkit of problem-solving techniques. Decomposition, pattern recognition, abstraction and algorithmic design appear across all areas of computer science.</p>
-    <div class="grid g2" style="align-items:start;">
+    <div class="grid g2" style="align-items:start">
       <div class="card a-blue">
         <span class="accent"></span>
         <div class="card-title">Software development</div>
@@ -1070,7 +697,7 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
         <div class="card-body">Patterns drive the model. Abstraction selects the right features. Testing checks accuracy.</div>
       </div>
     </div>
-    <div class="note" style="margin-top:auto;">
+    <div class="note" style="margin-top:auto">
       <strong>Network security too:</strong> recognize the pattern of attack traffic, abstract it to the rules that matter, and design an algorithm that blocks it. Can you find all four skills in your own IA project?
     </div>
   </div>
@@ -1082,9 +709,8 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
 <section class="slide">
   <div class="slide-head">
     <span class="section">B1.1 · Summary</span>
-    <span>11 / 11</span>
   </div>
-  <div style="flex:1;display:flex;flex-direction:column;">
+  <div style="flex:1;display:flex;flex-direction:column">
     <h2>Key takeaways for the exam.</h2>
     <div class="recap">
       <div class="recap-line"><span class="tag">B1.1.1</span><span>A problem specification may include: problem statement, constraints and limitations, objectives and goals, input specifications, output specifications, evaluation criteria.</span></div>
@@ -1114,7 +740,7 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
         <div class="card-body">Finite, ordered, unambiguous steps.</div>
       </div>
     </div>
-    <div class="note green" style="margin-top:auto;">
+    <div class="note green" style="margin-top:auto">
       <strong>You should now be able to:</strong> write a problem specification · name all 7 steps of CT · define the 4 CT skills · draw a flowchart using correct symbols · complete a trace table.
     </div>
   </div>
@@ -1123,106 +749,11 @@ table.t td.term{font-weight:600;color:var(--text);width:28%;}
 </div><!-- /deck -->
 
 <!-- NAV -->
-<nav class="nav">
-  <button class="nav-btn" id="prevBtn" onclick="go(-1)" disabled>← Prev</button>
-  <div class="nav-sep"></div>
-  <div class="nav-dots" id="dots"></div>
-  <div class="nav-sep"></div>
-  <button class="nav-btn" id="nextBtn" onclick="go(1)">Next →</button>
-</nav>
 
-<script>
-const slides = document.querySelectorAll('.slide');
-const total = slides.length;
-let cur = 0;
 
-const dotsEl = document.getElementById('dots');
-slides.forEach((_, i) => {
-  const d = document.createElement('button');
-  d.className = 'dot' + (i === 0 ? ' active' : '');
-  d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
-  d.onclick = () => show(i);
-  dotsEl.appendChild(d);
-});
 
-function show(n) {
-  if (n < 0 || n >= total || n === cur) return;
-  slides[cur].classList.remove('active');
-  cur = n;
-  slides[cur].classList.add('active');
-  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
-  document.getElementById('prevBtn').disabled = cur === 0;
-  document.getElementById('nextBtn').disabled = cur === total - 1;
-}
 
-function go(dir) { show(cur + dir); }
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); go(1); }
-  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')                    { e.preventDefault(); go(-1); }
-  if (e.key === 'Home') show(0);
-  if (e.key === 'End')  show(total - 1);
-});
-</script>
-
-<script>
-(function () {
-  const menus = document.querySelectorAll('.course-menu');
-  const submenus = document.querySelectorAll('.course-submenu');
-  const closeSubmenus = except => {
-    submenus.forEach(submenu => {
-      if (submenu !== except) {
-        submenu.classList.remove('open');
-        const button = submenu.querySelector('.course-submenu-button');
-        if (button) button.setAttribute('aria-expanded', 'false');
-      }
-    });
-  };
-  const closeMenus = except => {
-    menus.forEach(menu => {
-      if (menu !== except) {
-        menu.classList.remove('open');
-        const button = menu.querySelector('.course-menu-button');
-        if (button) button.setAttribute('aria-expanded', 'false');
-      }
-    });
-    if (!except) closeSubmenus(null);
-  };
-
-  menus.forEach(menu => {
-    const button = menu.querySelector('.course-menu-button');
-    if (!button) return;
-    button.addEventListener('click', event => {
-      event.preventDefault();
-      const targetId = button.getAttribute('data-scroll-target');
-      const target = targetId ? document.getElementById(targetId) : null;
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      const isOpen = menu.classList.toggle('open');
-      button.setAttribute('aria-expanded', String(isOpen));
-      closeMenus(isOpen ? menu : null);
-    });
-  });
-
-  submenus.forEach(submenu => {
-    const button = submenu.querySelector('.course-submenu-button');
-    if (!button) return;
-    button.addEventListener('click', event => {
-      event.preventDefault();
-      const isOpen = submenu.classList.toggle('open');
-      button.setAttribute('aria-expanded', String(isOpen));
-      closeSubmenus(isOpen ? submenu : null);
-    });
-  });
-
-  document.addEventListener('click', event => {
-    if (!event.target.closest('.course-menu')) closeMenus(null);
-  });
-
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape') closeMenus(null);
-  });
-})();
-</script>
-
+<script src="../assets/site.js"></script>
+<script src="../assets/deck.js"></script>
 </body>
 </html>

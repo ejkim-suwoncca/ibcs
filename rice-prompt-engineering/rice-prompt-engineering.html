@@ -4,134 +4,46 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Prompt Engineering with RICE</title>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400&family=Cabinet+Grotesk:wght@300;400;500;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-:root {
-  --bg: #f7f5f0;
-  --ink: #1c1917;
-  --ink-mid: #57534e;
-  --ink-light: #a8a29e;
-  --accent: #2d6a4f;
-  --accent2: #52b788;
-  --accent-warm: #d4a853;
-  --bar: #1c1917;
-  --border: #e7e5e0;
-  --card: #eeeae2;
-}
-
-html, body {
-  width: 100%; height: 100%;
-  overflow: hidden;
-  background: var(--tile);
-}
-body { display: flex; flex-direction: column; }
 
 /* ── DECK ── */
-.deck {
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-  min-height: 0;
-}
-.deck.no-part-nav .part-nav { display: none; }
-.deck.no-part-nav .content  { padding-top: 5%; }
+
+
 
 /* ── PART NAV ── */
-.part-nav {
-  position: absolute;
-  top: 14px; left: 22px; right: 22px;
-  z-index: 20;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  pointer-events: none;
-}
-.part-nav button {
-  pointer-events: auto;
-  border: 1px solid rgba(28,25,23,0.15);
-  border-top: 3px solid var(--accent);
-  border-radius: 6px;
-  background: rgba(247,245,240,0.93);
-  color: var(--ink);
-  cursor: pointer;
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-size: clamp(11px, 1vw, 14px);
-  font-weight: 700;
-  line-height: 1.25;
-  padding: 8px 10px;
-  text-align: left;
-  transition: background 0.18s, color 0.18s;
-}
-.part-nav button span {
-  display: block;
-  color: var(--accent);
-  margin-bottom: 2px;
-  font-size: clamp(10px, 0.85vw, 12px);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-.part-nav button:hover,
-.part-nav button.active {
-  background: var(--ink);
-  color: var(--ink);
-}
-.part-nav button:hover span,
-.part-nav button.active span { color: var(--accent2); }
-.deck.dark-part-nav .part-nav button {
-  border-color: rgba(247,245,240,0.2);
-  border-top-color: var(--accent2);
-  background: rgba(128,128,128,0.14);
-  color: var(--ink);
-}
-.deck.dark-part-nav .part-nav button span { color: var(--accent2); }
-.deck.dark-part-nav .part-nav button:hover,
-.deck.dark-part-nav .part-nav button.active {
-  background: var(--accent);
-  color: var(--ink);
-}
+
+
+
+
+
+
+
+
 
 /* ── SLIDE ── */
-.slide {
-  width: 100%; height: 100%;
-  background: var(--bg);
-  display: none;
-  position: absolute;
-  inset: 0;
-}
-.slide.active { display: grid; grid-template-columns: 8px 1fr; }
-.bar { background: var(--bar); }
-.content {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 112px 6% 5%;
-  position: relative;
-  overflow: hidden;
-  height: 100%;
-}
+
+
 
 /* ── SECTION SLIDES ── */
-.slide.section-slide .content { background: var(--ink); }
-.slide.section-slide .bar     { background: var(--accent); }
+.slide.section-slide { background: var(--ink); }
+
 .slide.section-slide h1.en,
 .slide.section-slide h1.big   { color: var(--ink); }
 .slide.section-slide .eyebrow { color: var(--accent2); }
 .slide.section-slide .divider { background: var(--accent2); }
-.slide.section-slide .slide-num { color: var(--ink); }
+
 .slide.section-slide .presenter { color: var(--ink); }
 .slide.section-slide .body-en   { color: var(--ink); }
 
 /* RICE color slides */
-.slide.rice-R .content  { background: var(--tile-2); }
-.slide.rice-R .bar      { background: var(--tile-2); }
-.slide.rice-I  .content { background: var(--tile-2); }
-.slide.rice-I  .bar     { background: var(--tile-2); }
-.slide.rice-C  .content { background: var(--tile-2); }
-.slide.rice-C  .bar     { background: var(--tile-2); }
-.slide.rice-E  .content { background: var(--tile-2); }
-.slide.rice-E  .bar     { background: var(--accent-warm); }
+.slide.rice-R  { background: var(--tile-2); }
+
+.slide.rice-I { background: var(--tile-2); }
+
+.slide.rice-C { background: var(--tile-2); }
+
+.slide.rice-E { background: var(--tile-2); }
+
 .slide.rice-R .eyebrow,
 .slide.rice-I  .eyebrow,
 .slide.rice-C  .eyebrow,
@@ -144,10 +56,7 @@ body { display: flex; flex-direction: column; }
 .slide.rice-I  .divider { background: var(--tile-2); }
 .slide.rice-C  .divider { background: var(--tile-2); }
 .slide.rice-E  .divider { background: var(--accent-warm); }
-.slide.rice-R .slide-num,
-.slide.rice-I  .slide-num,
-.slide.rice-C  .slide-num,
-.slide.rice-E  .slide-num { color: var(--ink); }
+
 .slide.rice-R .presenter,
 .slide.rice-I  .presenter,
 .slide.rice-C  .presenter,
@@ -174,45 +83,20 @@ body { display: flex; flex-direction: column; }
 .slide.rice-E  .prompt-tag { background: rgba(128,128,128,0.14); color: var(--ink); border-color: rgba(128,128,128,0.4); }
 
 /* ── TYPE ── */
-.eyebrow {
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-size: clamp(11px, 1vw, 14px);
-  font-weight: 700;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 14px;
-}
+
 h1.big {
-  font-family: 'Fraunces', serif;
-  font-size: clamp(38px, 6.5vw, 76px);
-  font-weight: 900;
   color: var(--ink);
-  line-height: 1.05;
   margin-bottom: 14px;
 }
 h1.en {
-  font-family: 'Fraunces', serif;
-  font-size: clamp(32px, 5.5vw, 64px);
-  font-weight: 900;
   color: var(--ink);
-  line-height: 1.1;
   margin-bottom: 12px;
 }
 h2.title {
-  font-family: 'Fraunces', serif;
-  font-size: clamp(20px, 3vw, 38px);
-  font-weight: 700;
   color: var(--ink);
-  line-height: 1.3;
   margin-bottom: 8px;
 }
-.divider {
-  width: 36px; height: 2px;
-  background: var(--ink);
-  margin-bottom: 14px;
-  flex-shrink: 0;
-}
+
 .accent-divider {
   width: 36px; height: 2px;
   background: var(--accent);
@@ -220,15 +104,11 @@ h2.title {
   flex-shrink: 0;
 }
 p.body-en {
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-size: clamp(14px, 1.4vw, 18px);
   color: var(--ink-mid);
-  line-height: 1.85;
-  font-weight: 400;
 }
 .sub-label {
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-size: clamp(11px, 1vw, 13px);
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: var(--fs-tiny);
   font-weight: 700;
   letter-spacing: 3px;
   text-transform: uppercase;
@@ -236,35 +116,15 @@ p.body-en {
   margin-bottom: 6px;
 }
 .rice-desc {
-  font-family: 'Instrument Serif', serif;
-  font-size: clamp(16px, 1.6vw, 22px);
+  font-family: "Instrument Serif", serif;
+  font-size: var(--fs-body);
   color: var(--ink-mid);
   line-height: 1.7;
 }
 
 /* ── BOTTOM ROW ── */
-.bottom-row {
-  position: absolute;
-  bottom: 4%; left: 6%; right: 5%;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-.presenter {
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-size: clamp(10px, 0.9vw, 13px);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--ink-light);
-  font-weight: 700;
-}
-.slide-num {
-  font-family: 'Fraunces', serif;
-  font-size: clamp(36px, 5vw, 64px);
-  font-weight: 900;
-  color: var(--ink);
-  line-height: 1;
-}
+
+
 
 /* ── DECO CIRCLE ── */
 .deco-circle {
@@ -278,7 +138,7 @@ p.body-en {
   pointer-events: none;
 }
 .deco-circle::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 18%;
   border-radius: 50%;
@@ -289,8 +149,8 @@ p.body-en {
 .deco-letter {
   position: absolute;
   right: 4%; bottom: 8%;
-  font-family: 'Fraunces', serif;
-  font-size: clamp(120px, 22vw, 260px);
+  font-family: "Fraunces", serif;
+  font-size: 260px;
   font-weight: 900;
   color: var(--ink);
   line-height: 1;
@@ -302,19 +162,19 @@ p.body-en {
 /* ── TABLE ── */
 table { width: 100%; border-collapse: collapse; margin-top: 4px; }
 th {
-  font-family: 'Cabinet Grotesk', sans-serif;
+  font-family: "Cabinet Grotesk", sans-serif;
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  font-size: clamp(11px, 1vw, 13px);
+  font-size: var(--fs-tiny);
   color: var(--accent);
   padding: 9px 12px;
   text-align: left;
   border-bottom: 2px solid var(--ink);
 }
 td {
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-size: clamp(13px, 1.3vw, 17px);
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: var(--fs-body);
   padding: 9px 12px;
   color: var(--ink-mid);
   border-bottom: 1px solid var(--border);
@@ -326,7 +186,7 @@ td:first-child {
   color: var(--ink);
   white-space: nowrap;
   padding-right: 16px;
-  font-family: 'Cabinet Grotesk', sans-serif;
+  font-family: "Cabinet Grotesk", sans-serif;
   letter-spacing: 0.5px;
 }
 tr:last-child td { border-bottom: none; }
@@ -334,8 +194,8 @@ tr:last-child td { border-bottom: none; }
 /* ── TWO COL ── */
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 4%; }
 .col-label {
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-size: clamp(11px, 1vw, 13px);
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: var(--fs-tiny);
   font-weight: 800;
   letter-spacing: 3px;
   text-transform: uppercase;
@@ -343,20 +203,12 @@ tr:last-child td { border-bottom: none; }
 }
 .col-label.bad  { color: var(--ink); }
 .col-label.good { color: var(--ink); }
-.prompt-box {
-  background: var(--card);
-  border-radius: 8px;
-  padding: 14px 16px;
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-size: clamp(13px, 1.3vw, 17px);
-  color: var(--ink);
-  line-height: 1.85;
-}
+
 .prompt-box.bad  { border-left: 3px solid var(--line-2); }
 .prompt-box.good { border-left: 3px solid var(--accent); }
 .prompt-box .key {
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-size: clamp(10px, 0.85vw, 12px);
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: var(--fs-tiny);
   font-weight: 800;
   letter-spacing: 2.5px;
   text-transform: uppercase;
@@ -370,8 +222,8 @@ tr:last-child td { border-bottom: none; }
 /* ── PROMPT TAG (colored inline) ── */
 .prompt-tag {
   display: inline-block;
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-size: clamp(9px, 0.8vw, 11px);
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: var(--fs-tiny);
   font-weight: 800;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -388,15 +240,15 @@ tr:last-child td { border-bottom: none; }
 /* ── BULLET LIST ── */
 .bullet-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
 .bullet-list li {
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-size: clamp(13px, 1.4vw, 17px);
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: var(--fs-body);
   color: var(--ink-mid);
   padding-left: 18px;
   position: relative;
   line-height: 1.75;
 }
 .bullet-list li::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0; top: 10px;
   width: 7px; height: 2px;
@@ -410,8 +262,8 @@ tr:last-child td { border-bottom: none; }
   border-left: 3px solid var(--accent);
   border-radius: 0 8px 8px 0;
   padding: 12px 16px;
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-size: clamp(13px, 1.25vw, 16px);
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: var(--fs-small);
   color: var(--ink);
   line-height: 1.85;
   margin-top: 10px;
@@ -431,13 +283,13 @@ tr:last-child td { border-bottom: none; }
   align-items: flex-start;
 }
 .rice-letter-badge {
-  font-family: 'Fraunces', serif;
+  font-family: "Fraunces", serif;
   font-weight: 900;
-  font-size: clamp(28px, 3.5vw, 44px);
+  font-size: var(--fs-h2);
   line-height: 1;
   flex-shrink: 0;
-  width: clamp(44px, 5.5vw, 64px);
-  height: clamp(44px, 5.5vw, 64px);
+  width: 64px;
+  height: 64px;
   display: flex; align-items: center; justify-content: center;
   border-radius: 10px;
   color: var(--ink);
@@ -448,15 +300,15 @@ tr:last-child td { border-bottom: none; }
 .rice-card-E .rice-letter-badge { background: var(--tile-2); }
 .rice-card-body { flex: 1; }
 .rice-card-title {
-  font-family: 'Fraunces', serif;
-  font-size: clamp(15px, 1.7vw, 21px);
+  font-family: "Fraunces", serif;
+  font-size: var(--fs-h3);
   font-weight: 700;
   color: var(--ink);
   margin-bottom: 3px;
 }
 .rice-card-desc {
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-size: clamp(12px, 1.15vw, 15px);
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: var(--fs-small);
   color: var(--ink-mid);
   line-height: 1.65;
 }
@@ -465,8 +317,8 @@ tr:last-child td { border-bottom: none; }
 .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4%; margin-top: 4px; }
 .compare-card { background: var(--card); border-radius: 10px; padding: 16px; }
 .compare-card-title {
-  font-family: 'Fraunces', serif;
-  font-size: clamp(15px, 1.6vw, 20px);
+  font-family: "Fraunces", serif;
+  font-size: var(--fs-body);
   font-weight: 700;
   color: var(--ink);
   margin-bottom: 10px;
@@ -475,36 +327,36 @@ tr:last-child td { border-bottom: none; }
 }
 .compare-card ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
 .compare-card ul li {
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-size: clamp(12px, 1.25vw, 16px);
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: var(--fs-small);
   color: var(--ink-mid);
   padding-left: 14px;
   position: relative;
   line-height: 1.65;
 }
-.compare-card ul li::before { content: '·'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.compare-card ul li::before { content: "·"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
 
 /* ── ETHICS LIST ── */
 .ethics-list { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
 .ethics-item { display: flex; align-items: flex-start; gap: 14px; }
 .ethics-icon {
-  width: clamp(32px, 3.5vw, 44px);
-  height: clamp(32px, 3.5vw, 44px);
+  width: 44px;
+  height: 44px;
   background: var(--card);
   border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
-  font-size: clamp(16px, 1.8vw, 20px);
+  font-size: var(--fs-body);
   flex-shrink: 0;
 }
 .ethics-text {
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-size: clamp(13px, 1.3vw, 16px);
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: var(--fs-small);
   color: var(--ink-mid);
   line-height: 1.8;
 }
 .ethics-text strong {
   color: var(--ink); display: block; font-weight: 800;
-  font-size: clamp(14px, 1.4vw, 17px);
+  font-size: var(--fs-body);
 }
 
 /* ── SUMMARY GRID ── */
@@ -515,20 +367,20 @@ tr:last-child td { border-bottom: none; }
   margin: 0 0 16px;
 }
 .summary-index-title {
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-size: 13px; font-weight: 800;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: var(--fs-tiny); font-weight: 800;
   letter-spacing: 3px; text-transform: uppercase;
   color: var(--accent); margin-bottom: 8px;
 }
 .summary-index-item {
   background: var(--card); border-radius: 6px;
   padding: 8px 10px;
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-size: clamp(11px, 1vw, 13px); font-weight: 700;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: var(--fs-tiny); font-weight: 700;
   color: var(--ink); line-height: 1.4;
 }
 .summary-index-item span {
-  display: block; font-size: clamp(10px, 0.8vw, 11px);
+  display: block; font-size: var(--fs-tiny);
   font-weight: 800; letter-spacing: 2px;
   text-transform: uppercase; color: var(--accent); margin-bottom: 2px;
 }
@@ -537,14 +389,14 @@ tr:last-child td { border-bottom: none; }
   gap: 12px 6%;
 }
 .summary-label {
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-size: clamp(10px, 0.9vw, 12px); font-weight: 800;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: var(--fs-tiny); font-weight: 800;
   letter-spacing: 2px; text-transform: uppercase;
   color: var(--accent); margin-bottom: 4px;
 }
 .summary-text {
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-size: clamp(12px, 1.2vw, 15px);
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: var(--fs-small);
   color: var(--ink-mid); line-height: 1.7;
 }
 
@@ -552,8 +404,8 @@ tr:last-child td { border-bottom: none; }
 .token-flow { display: flex; flex-direction: column; gap: 12px; margin-top: 6px; }
 .token-row { display: flex; align-items: center; gap: 12px; }
 .token-chip {
-  font-family: 'Fraunces', serif;
-  font-size: clamp(14px, 1.5vw, 18px);
+  font-family: "Fraunces", serif;
+  font-size: var(--fs-body);
   font-weight: 700;
   color: var(--ink);
   background: var(--card);
@@ -564,32 +416,32 @@ tr:last-child td { border-bottom: none; }
   flex-shrink: 0;
 }
 .token-bars { flex: 1; display: flex; flex-direction: column; gap: 5px; }
-.token-bar-item { display: flex; align-items: center; gap: 10px; font-size: clamp(12px, 1.1vw, 14px); font-family: 'Cabinet Grotesk', sans-serif; }
+.token-bar-item { display: flex; align-items: center; gap: 10px; font-size: var(--fs-tiny); font-family: "Cabinet Grotesk", sans-serif; }
 .token-bar { height: 8px; border-radius: 4px; background: var(--accent2); opacity: 0.75; }
 .token-bar.alt { background: var(--ink-light); }
-.token-val { font-weight: 700; color: var(--ink-mid); white-space: nowrap; font-size: clamp(12px, 1vw, 14px); }
+.token-val { font-weight: 700; color: var(--ink-mid); white-space: nowrap; font-size: var(--fs-tiny); }
 
 /* ── TOC ── */
 .toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 7%; margin-top: 4px; }
 .toc-part-title {
-  font-family: 'Fraunces', serif;
-  font-size: clamp(16px, 1.7vw, 22px);
+  font-family: "Fraunces", serif;
+  font-size: var(--fs-h3);
   font-weight: 700; color: var(--ink);
   margin-bottom: 8px; padding-bottom: 6px;
   border-bottom: 1px solid var(--border);
 }
 .toc-part-num {
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-size: clamp(11px, 1.1vw, 14px);
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: var(--fs-tiny);
   color: var(--accent); font-weight: 800; margin-right: 6px;
 }
 .toc-items { list-style: none; display: flex; flex-direction: column; gap: 5px; }
 .toc-items li {
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-size: clamp(13px, 1.2vw, 16px); color: var(--ink-mid);
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: var(--fs-small); color: var(--ink-mid);
   padding-left: 14px; position: relative; line-height: 1.6;
 }
-.toc-items li::before { content: '·'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.toc-items li::before { content: "·"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
 
 /* ── STEP CARDS ── */
 .steps-row { display: flex; gap: 2.5%; margin-top: 6px; }
@@ -601,353 +453,61 @@ tr:last-child td { border-bottom: none; }
   position: relative;
   overflow: hidden;
 }
-.step-num {
-  font-family: 'Fraunces', serif;
-  font-size: clamp(32px, 4vw, 50px);
-  font-weight: 900;
-  color: var(--ink);
-  position: absolute;
-  top: 4px; right: 10px;
-  line-height: 1;
-}
+
 .step-title {
-  font-family: 'Fraunces', serif;
-  font-size: clamp(14px, 1.5vw, 18px);
+  font-family: "Fraunces", serif;
+  font-size: var(--fs-body);
   font-weight: 700;
   color: var(--ink);
   margin-bottom: 6px;
   line-height: 1.3;
 }
-.step-text {
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-size: clamp(11px, 1.1vw, 14px);
-  color: var(--ink-mid);
-  line-height: 1.7;
-}
 
 /* ── NAV BAR ── */
-.nav {
-  flex-shrink: 0;
-  background: var(--tile);
-  display: flex; align-items: center; gap: 14px;
-  padding: 0 18px;
-  height: 48px;
-}
-.nav button {
-  background: none; border: 1px solid rgba(255,255,255,0.15);
-  color: var(--ink); width: 34px; height: 34px;
-  border-radius: 6px; font-size: 15px; cursor: pointer;
-  font-family: 'Cabinet Grotesk', sans-serif;
-  transition: background 0.15s;
-}
-.nav button:hover:not(:disabled) { background: rgba(255,255,255,0.1); }
-.nav button:disabled { opacity: 0.25; cursor: default; }
-.progress { flex: 1; height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; }
+
 .progress-fill { height: 100%; background: var(--accent2); border-radius: 2px; transition: width 0.3s ease; }
-.counter {
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-size: 13px; font-weight: 700;
-  color: var(--ink); letter-spacing: 1px;
-}
 
 /* COURSE NAVIGATION */
-.course-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1200;
-  border-bottom: 1px solid rgba(128,128,128,0.2);
-  background: rgba(128,128,128,0.14);
-  -webkit-backdrop-filter: blur(18px);
-  backdrop-filter: blur(18px);
-  font-family: 'DM Mono', 'Space Mono', monospace;
-}
-.course-nav-inner {
-  width: min(1120px, calc(100% - 32px));
-  margin: 0 auto;
-  min-height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  flex-wrap: wrap;
-}
-.course-nav a,
-.course-menu-button,
-.course-submenu-button {
-  color: var(--text2, var(--ink));
-  text-decoration: none;
-  white-space: nowrap;
-  line-height: 1;
-}
-.course-link,
-.course-menu-button {
-  min-height: 48px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 0;
-  border-radius: 0;
-  border-bottom: 2px solid transparent;
-  background: transparent;
-  color: var(--text2, var(--ink));
-  font: inherit;
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: color 0.18s ease, border-color 0.18s ease;
-}
-.course-home-link {
-  color: var(--text, var(--ink)) !important;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-}
-
-.course-menu,
-.course-submenu {
-  position: relative;
-}
-.course-menu-button,
-.course-submenu-button {
-  gap: 6px;
-}
-.course-menu-button::after,
-.course-submenu-button::after {
-  content: "▾";
-  font-size: 10px;
-  color: var(--text3, var(--ink));
-  transition: transform 0.18s ease;
-}
-.course-submenu-button::after {
-  transform: rotate(-90deg);
-}
-.course-menu.open .course-menu-button::after,
-.course-menu:focus-within .course-menu-button::after,
-.course-menu:hover .course-menu-button::after {
-  transform: rotate(180deg);
-}
-.course-submenu.open .course-submenu-button::after,
-.course-submenu:focus-within .course-submenu-button::after,
-.course-submenu:hover .course-submenu-button::after {
-  transform: rotate(90deg);
-}
-.course-dropdown,
-.course-subdropdown {
-  display: grid;
-  gap: 2px;
-  padding: 8px;
-  border: 1px solid rgba(128,128,128,0.22);
-  border-radius: 6px;
-  background: rgba(128,128,128,0.14);
-  box-shadow: 0 18px 40px rgba(128,128,128,0.14);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.16s ease, transform 0.16s ease;
-}
-.course-dropdown {
-  position: absolute;
-  top: calc(100% + 1px);
-  left: 50%;
-  min-width: 306px;
-  transform: translate(-50%, -4px);
-}
-.course-subdropdown {
-  position: absolute;
-  top: -8px;
-  left: calc(100% + 8px);
-  min-width: 310px;
-  transform: translateX(-4px);
-  display: none;
-}
-.course-menu:hover .course-dropdown,
-.course-menu:focus-within .course-dropdown,
-.course-menu.open .course-dropdown,
-.course-submenu:hover .course-subdropdown,
-.course-submenu:focus-within .course-subdropdown,
-.course-submenu.open .course-subdropdown {
-  display: grid;
-  opacity: 1;
-  transform: translate(0, 0);
-  pointer-events: auto;
-}
-.course-menu:hover .course-dropdown,
-.course-menu:focus-within .course-dropdown,
-.course-menu.open .course-dropdown {
-  transform: translate(-50%, 0);
-}
-.course-dropdown a,
-.course-subdropdown a,
-.course-submenu-button {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 10px 11px;
-  border: 0;
-  border-radius: 4px;
-  background: transparent;
-  color: var(--text2, var(--ink));
-  font: inherit;
-  font-size: 10px;
-  letter-spacing: 0.04em;
-  line-height: 1.35;
-  text-align: left;
-  text-transform: none;
-  cursor: pointer;
-}
-.course-subdropdown a {
-  justify-content: flex-start;
-  white-space: normal;
-}
-.course-topic-link,
-.course-subdropdown a.current-page {
-  color: var(--accent, var(--ink)) !important;
-}
-.course-subdropdown a.current-page {
-  background: rgba(128,128,128,0.08);
-}
-.course-dropdown a:hover,
-.course-dropdown a:focus,
-.course-subdropdown a:hover,
-.course-subdropdown a:focus,
-.course-submenu-button:hover,
-.course-submenu-button:focus {
-  color: var(--text, var(--ink));
-  background: rgba(255, 255, 255, 0.08);
-  outline: none;
-}
-.course-link:hover,
-.course-link:focus,
-.course-link.current,
-.course-menu-button:hover,
-.course-menu-button:focus,
-.course-menu-button.current {
-  color: var(--text, var(--ink));
-  border-color: var(--accent, var(--line-2));
-  outline: none;
-}
-.course-nav ~ .slide-num { top: 62px !important; }
-@media (max-width: 720px) {
-  .course-nav-inner {
-    width: min(100% - 18px, 680px);
-    min-height: 46px;
-    gap: 12px;
-    justify-content: center;
-  }
-  .course-link,
-  .course-menu-button {
-    min-height: 36px;
-    font-size: 9px;
-  }
-  .course-dropdown {
-    position: fixed;
-    top: 88px;
-    left: 12px;
-    right: 12px;
-    min-width: 0;
-    max-height: calc(100vh - 108px);
-    overflow: auto;
-    transform: translateY(-4px);
-  }
-  .course-menu:hover .course-dropdown,
-  .course-menu:focus-within .course-dropdown,
-  .course-menu.open .course-dropdown {
-    transform: translateY(0);
-  }
-  .course-subdropdown {
-    position: static;
-    min-width: 0;
-    margin: 0 0 4px 12px;
-    padding: 4px;
-    box-shadow: none;
-    border-color: rgba(128,128,128,0.2);
-    background: rgba(255, 255, 255, 0.03);
-    transform: none;
-    display: none;
-    opacity: 1;
-    pointer-events: auto;
-  }
-  .course-submenu.open .course-subdropdown,
-  .course-submenu:focus-within .course-subdropdown {
-    display: grid;
-  }
-  .course-submenu:hover .course-subdropdown {
-    display: grid;
-  }
-  .course-submenu-button::after {
-    transform: none;
-  }
-  .course-submenu.open .course-submenu-button::after,
-  .course-submenu:focus-within .course-submenu-button::after,
-  .course-submenu:hover .course-submenu-button::after {
-    transform: rotate(180deg);
-  }
-}
-
 
 /* ── SHARED THEME ADJUSTMENTS ──
    Fits this deck to assets/theme.css: no side bar, part tabs as pills,
    and the section / RICE slides as the theme's dark emphasis band. */
-body { padding-top: 52px; background: var(--page) !important; }
-.slide { background: var(--page) !important; }
-.slide.active { grid-template-columns: 1fr !important; }
-.bar { display: none !important; }
-.part-nav button,
-.deck.dark-part-nav .part-nav button {
-  border: 0 !important;
-  border-radius: 999px !important;
-  background: var(--tile) !important;
-  color: var(--ink) !important;
-  text-align: center;
-  padding: 9px 14px;
-}
-.part-nav button span,
-.deck.dark-part-nav .part-nav button span {
-  display: inline;
-  margin-right: 6px;
-  color: var(--muted) !important;
-  letter-spacing: 0 !important;
-  text-transform: none !important;
-}
-.part-nav button:hover, .part-nav button.active,
-.deck.dark-part-nav .part-nav button:hover, .deck.dark-part-nav .part-nav button.active {
-  background: var(--ink) !important;
-  color: var(--page) !important;
-}
-.part-nav button:hover span, .part-nav button.active span,
-.deck.dark-part-nav .part-nav button:hover span, .deck.dark-part-nav .part-nav button.active span {
-  color: var(--invert-muted) !important;
-}
-.slide.section-slide .content, .slide.rice-R .content, .slide.rice-I .content,
-.slide.rice-C .content, .slide.rice-E .content { background: var(--invert-bg) !important; }
+
+
+
+
+
+
+.slide.section-slide, .slide.rice-R, .slide.rice-I,
+.slide.rice-C, .slide.rice-E { background: var(--invert-bg) !important; }
 :is(.section-slide, .rice-R, .rice-I, .rice-C, .rice-E) :is(h1.big, h1.en, h2.title, .rice-desc strong, .body-en strong, .body-en em) {
   color: var(--invert-ink) !important;
 }
 :is(.section-slide, .rice-R, .rice-I, .rice-C, .rice-E) :is(.eyebrow, .body-en, .rice-desc, .sub-label, .presenter) {
   color: var(--invert-muted) !important;
 }
-:is(.section-slide, .rice-R, .rice-I, .rice-C, .rice-E) .slide-num { color: var(--invert-muted) !important; opacity: 0.5; }
+
 :is(.section-slide, .rice-R, .rice-I, .rice-C, .rice-E) .divider { background: var(--invert-muted) !important; }
 :is(.section-slide, .rice-R, .rice-I, .rice-C, .rice-E) .deco-letter { color: color-mix(in srgb, var(--invert-ink) 8%, transparent) !important; }
 :is(.section-slide, .rice-R, .rice-I, .rice-C, .rice-E) .deco-circle,
 :is(.section-slide, .rice-R, .rice-I, .rice-C, .rice-E) .deco-circle::before { border-color: color-mix(in srgb, var(--invert-ink) 10%, transparent) !important; }
 :is(.rice-R, .rice-I, .rice-C, .rice-E) .prompt-tag { background: rgba(128,128,128,0.14) !important; color: var(--invert-ink) !important; border: 0 !important; }
 .rice-letter-badge { background: var(--ink) !important; color: var(--page) !important; }
-.nav button { color: var(--ink) !important; background: var(--tile) !important; border: 0 !important; border-radius: 999px !important; }
-.nav button:hover:not(:disabled) { background: var(--tile-2) !important; }
-.counter { color: var(--muted) !important; }
-.deck.dark-part-nav .part-nav button { background: rgba(127,127,127,0.28) !important; color: var(--invert-ink) !important; }
-.deck.dark-part-nav .part-nav button span { color: var(--invert-muted) !important; }
-.deck.dark-part-nav .part-nav button:hover, .deck.dark-part-nav .part-nav button.active { background: var(--invert-ink) !important; color: var(--invert-bg) !important; }
-.deck.dark-part-nav .part-nav button:hover span, .deck.dark-part-nav .part-nav button.active span { color: var(--muted) !important; }
+
+
+
+
+
 :is(.rice-R, .rice-I, .rice-C, .rice-E) .highlight { background: rgba(127,127,127,0.22) !important; border: 0 !important; color: var(--invert-muted) !important; }
 :is(.rice-R, .rice-I, .rice-C, .rice-E) .highlight strong { color: var(--invert-ink) !important; }
 :is(.rice-R, .rice-I, .rice-C, .rice-E) .prompt-box .prompt-tag { background: var(--ink) !important; color: var(--page) !important; }
+.deco-circle { display: none; }
+.prompt-box { background: var(--tile) !important; color: var(--ink-2) !important; border: 0 !important; border-radius: 14px; padding: 12px 16px; }
+.prompt-box .key { color: var(--muted) !important; }
+:is(.rice-R, .rice-I, .rice-C, .rice-E) .col-label { color: var(--invert-muted) !important; }
 </style>
 <link rel="stylesheet" href="../assets/theme.css">
+<link rel="stylesheet" href="../assets/deck.css">
 </head>
 <body>
 
@@ -1048,27 +608,18 @@ body { padding-top: 52px; background: var(--page) !important; }
 <div class="deck" id="deck">
 
   <!-- PART NAV (shown from slide 3 onwards) -->
-  <div class="part-nav">
-    <button data-target="3"><span>Part 1</span>What is an LLM?</button>
-    <button data-target="8"><span>Part 2</span>Why Prompts Matter</button>
-    <button data-target="11"><span>Part 3</span>The RICE Framework</button>
-    <button data-target="19"><span>Part 4</span>Tips &amp; Ethics</button>
-  </div>
+
 
   <!-- ═══════════════════════════════════════════
        SLIDE 1 — TITLE
   ════════════════════════════════════════════ -->
-  <div class="slide section-slide active" id="s1">
-    <div class="bar"></div>
-    <div class="content">
+  <div class="slide section-slide" id="s1">
+        <div class="content">
       <div class="eyebrow">Prompt Engineering · Student Guide</div>
       <div class="divider"></div>
-      <h1 class="big" style="font-size: clamp(42px, 7vw, 88px); color:var(--ink);">Talk to AI<br><em style="font-weight:400; font-style:italic;">like a pro.</em></h1>
-      <p class="body-en" style="margin-top:10px; max-width:520px;">How Large Language Models work, and how to write prompts that actually get you what you want — using the <strong style="color:var(--ink);">RICE</strong> framework.</p>
-      <div class="bottom-row">
-        <span class="presenter">Prompt Engineering · Student Guide</span>
-        <span class="slide-num">01</span>
-      </div>
+      <h1 class="big" style="color:var(--ink)">Talk to AI<br><em style="font-weight:400;font-style:italic">like a pro.</em></h1>
+      <p class="body-en" style="margin-top:10px;max-width:520px">How Large Language Models work, and how to write prompts that actually get you what you want — using the <strong style="color:var(--ink)">RICE</strong> framework.</p>
+
       <div class="deco-circle"></div>
     </div>
   </div>
@@ -1077,8 +628,7 @@ body { padding-top: 52px; background: var(--page) !important; }
        SLIDE 2 — TABLE OF CONTENTS
   ════════════════════════════════════════════ -->
   <div class="slide" id="s2">
-    <div class="bar"></div>
-    <div class="content">
+        <div class="content">
       <div class="eyebrow">Overview</div>
       <h2 class="title">What we'll cover</h2>
       <div class="accent-divider"></div>
@@ -1116,10 +666,7 @@ body { padding-top: 52px; background: var(--page) !important; }
           </ul>
         </div>
       </div>
-      <div class="bottom-row">
-        <span class="presenter">Prompt Engineering · Student Guide</span>
-        <span class="slide-num">02</span>
-      </div>
+
     </div>
   </div>
 
@@ -1127,16 +674,12 @@ body { padding-top: 52px; background: var(--page) !important; }
        SLIDE 3 — SECTION: Part 1
   ════════════════════════════════════════════ -->
   <div class="slide section-slide" id="s3">
-    <div class="bar"></div>
-    <div class="content">
+        <div class="content">
       <div class="eyebrow">Part 1</div>
       <div class="divider"></div>
       <h1 class="big">What is<br>an LLM?</h1>
-      <p class="body-en" style="margin-top: 12px;">Before you talk to AI, understand what you're actually talking to.</p>
-      <div class="bottom-row">
-        <span class="presenter">Prompt Engineering · Student Guide</span>
-        <span class="slide-num">03</span>
-      </div>
+      <p class="body-en" style="margin-top: 12px">Before you talk to AI, understand what you're actually talking to.</p>
+
       <div class="deco-circle"></div>
     </div>
   </div>
@@ -1145,12 +688,11 @@ body { padding-top: 52px; background: var(--page) !important; }
        SLIDE 4 — AI vs LLM
   ════════════════════════════════════════════ -->
   <div class="slide" id="s4">
-    <div class="bar"></div>
-    <div class="content">
+        <div class="content">
       <div class="eyebrow">Part 1 · Basics</div>
       <h2 class="title">AI vs LLM — What's the difference?</h2>
       <div class="accent-divider"></div>
-      <div class="compare-grid" style="margin-top:6px;">
+      <div class="compare-grid" style="margin-top:6px">
         <div class="compare-card">
           <div class="compare-card-title">🤖 AI (Artificial Intelligence)</div>
           <ul>
@@ -1170,10 +712,7 @@ body { padding-top: 52px; background: var(--page) !important; }
         </div>
       </div>
       <div class="highlight">📌 Every LLM is AI — but not every AI is an LLM. Think of it like: every square is a rectangle, but not every rectangle is a square.</div>
-      <div class="bottom-row">
-        <span class="presenter">Prompt Engineering · Student Guide</span>
-        <span class="slide-num">04</span>
-      </div>
+
     </div>
   </div>
 
@@ -1181,35 +720,31 @@ body { padding-top: 52px; background: var(--page) !important; }
        SLIDE 5 — HOW LLM WORKS (Simple)
   ════════════════════════════════════════════ -->
   <div class="slide" id="s5">
-    <div class="bar"></div>
-    <div class="content">
+        <div class="content">
       <div class="eyebrow">Part 1 · How it works</div>
       <h2 class="title">How does an LLM generate text?</h2>
       <div class="accent-divider"></div>
-      <p class="body-en" style="margin-bottom:14px;">An LLM doesn't "think" or "know" things the way humans do. It <strong>predicts</strong> — based on patterns it learned from billions of web pages, books, and articles.</p>
+      <p class="body-en" style="margin-bottom:14px">An LLM doesn't "think" or "know" things the way humans do. It <strong>predicts</strong> — based on patterns it learned from billions of web pages, books, and articles.</p>
       <div class="token-flow">
         <div class="token-row">
           <div class="token-chip">"The sky"</div>
           <div class="token-bars">
-            <div class="token-bar-item"><div class="token-bar" style="width:72%;"></div><span class="token-val">is → 72%</span></div>
-            <div class="token-bar-item"><div class="token-bar alt" style="width:18%;"></div><span class="token-val">looks → 18%</span></div>
-            <div class="token-bar-item"><div class="token-bar alt" style="width:10%;"></div><span class="token-val">was → 10%</span></div>
+            <div class="token-bar-item"><div class="token-bar" style="width:72%"></div><span class="token-val">is → 72%</span></div>
+            <div class="token-bar-item"><div class="token-bar alt" style="width:18%"></div><span class="token-val">looks → 18%</span></div>
+            <div class="token-bar-item"><div class="token-bar alt" style="width:10%"></div><span class="token-val">was → 10%</span></div>
           </div>
         </div>
         <div class="token-row">
           <div class="token-chip">"The sky is"</div>
           <div class="token-bars">
-            <div class="token-bar-item"><div class="token-bar" style="width:65%;"></div><span class="token-val">blue → 65%</span></div>
-            <div class="token-bar-item"><div class="token-bar alt" style="width:20%;"></div><span class="token-val">clear → 20%</span></div>
-            <div class="token-bar-item"><div class="token-bar alt" style="width:15%;"></div><span class="token-val">the limit → 15%</span></div>
+            <div class="token-bar-item"><div class="token-bar" style="width:65%"></div><span class="token-val">blue → 65%</span></div>
+            <div class="token-bar-item"><div class="token-bar alt" style="width:20%"></div><span class="token-val">clear → 20%</span></div>
+            <div class="token-bar-item"><div class="token-bar alt" style="width:15%"></div><span class="token-val">the limit → 15%</span></div>
           </div>
         </div>
       </div>
       <div class="highlight">💡 The model picks the most likely next word — over and over — until it finishes. That's why your prompt is so powerful: it sets the direction of all those predictions.</div>
-      <div class="bottom-row">
-        <span class="presenter">Prompt Engineering · Student Guide</span>
-        <span class="slide-num">05</span>
-      </div>
+
     </div>
   </div>
 
@@ -1217,8 +752,7 @@ body { padding-top: 52px; background: var(--page) !important; }
        SLIDE 6 — LLM KEY FACTS
   ════════════════════════════════════════════ -->
   <div class="slide" id="s6">
-    <div class="bar"></div>
-    <div class="content">
+        <div class="content">
       <div class="eyebrow">Part 1 · Key Facts</div>
       <h2 class="title">What LLMs can and can't do</h2>
       <div class="accent-divider"></div>
@@ -1233,10 +767,7 @@ body { padding-top: 52px; background: var(--page) !important; }
           <tr><td>❌ Not a search engine</td><td>It doesn't browse the internet unless specifically given that tool</td></tr>
         </tbody>
       </table>
-      <div class="bottom-row">
-        <span class="presenter">Prompt Engineering · Student Guide</span>
-        <span class="slide-num">06</span>
-      </div>
+
     </div>
   </div>
 
@@ -1244,12 +775,11 @@ body { padding-top: 52px; background: var(--page) !important; }
        SLIDE 7 — CONTEXT SHAPES OUTPUT
   ════════════════════════════════════════════ -->
   <div class="slide" id="s7">
-    <div class="bar"></div>
-    <div class="content">
+        <div class="content">
       <div class="eyebrow">Part 1 · Key Insight</div>
       <h2 class="title">Context shapes everything</h2>
       <div class="accent-divider"></div>
-      <p class="body-en" style="margin-bottom: 14px;">Because an LLM predicts based on context, the information you give it directly changes the quality of the output.</p>
+      <p class="body-en" style="margin-bottom: 14px">Because an LLM predicts based on context, the information you give it directly changes the quality of the output.</p>
       <table>
         <thead><tr><th>Variable</th><th>What it affects</th><th>Effect</th></tr></thead>
         <tbody>
@@ -1259,10 +789,7 @@ body { padding-top: 52px; background: var(--page) !important; }
         </tbody>
       </table>
       <div class="highlight">📌 More information. More specific context. More precise words. → Better results. This is exactly why prompt engineering matters.</div>
-      <div class="bottom-row">
-        <span class="presenter">Prompt Engineering · Student Guide</span>
-        <span class="slide-num">07</span>
-      </div>
+
     </div>
   </div>
 
@@ -1270,16 +797,12 @@ body { padding-top: 52px; background: var(--page) !important; }
        SLIDE 8 — SECTION: Part 2
   ════════════════════════════════════════════ -->
   <div class="slide section-slide" id="s8">
-    <div class="bar"></div>
-    <div class="content">
+        <div class="content">
       <div class="eyebrow">Part 2</div>
       <div class="divider"></div>
       <h1 class="big">Why Prompts<br>Matter</h1>
-      <p class="body-en" style="margin-top: 12px;">Garbage in, garbage out — or gold in, gold out.</p>
-      <div class="bottom-row">
-        <span class="presenter">Prompt Engineering · Student Guide</span>
-        <span class="slide-num">08</span>
-      </div>
+      <p class="body-en" style="margin-top: 12px">Garbage in, garbage out — or gold in, gold out.</p>
+
       <div class="deco-circle"></div>
     </div>
   </div>
@@ -1288,32 +811,28 @@ body { padding-top: 52px; background: var(--page) !important; }
        SLIDE 9 — WEAK VS STRONG PROMPT
   ════════════════════════════════════════════ -->
   <div class="slide" id="s9">
-    <div class="bar"></div>
-    <div class="content">
+        <div class="content">
       <div class="eyebrow">Part 2 · What is a Prompt?</div>
       <h2 class="title">Weak vs. Strong Prompts</h2>
       <div class="accent-divider"></div>
-      <div class="two-col" style="margin-top:6px;">
+      <div class="two-col" style="margin-top:6px">
         <div>
           <div class="col-label bad">❌ Weak Prompt</div>
           <div class="prompt-box bad">
             "Help me with my website."
-            <div style="margin-top:10px; font-size:clamp(12px, 1.1vw, 15px); color:var(--ink-light);">→ Too vague. What kind of help? What website? What have you tried? The AI can only guess.</div>
+            <div style="margin-top:10px;color:var(--ink-light)">→ Too vague. What kind of help? What website? What have you tried? The AI can only guess.</div>
           </div>
         </div>
         <div>
           <div class="col-label good">✅ Strong Prompt</div>
           <div class="prompt-box good">
             "I'm a year 11 IB Computer Science student building a to-do list web app. My HTML and CSS are done but the JavaScript to add new tasks isn't working. Can you review my code and explain what's wrong?"
-            <div style="margin-top:10px; font-size:clamp(12px, 1.1vw, 15px); color:var(--ink-light);">→ Specific context → precise, useful answer.</div>
+            <div style="margin-top:10px;color:var(--ink-light)">→ Specific context → precise, useful answer.</div>
           </div>
         </div>
       </div>
       <div class="highlight">💡 An LLM doesn't "understand" your situation — it only knows what you tell it. Give it more, and it gives you more.</div>
-      <div class="bottom-row">
-        <span class="presenter">Prompt Engineering · Student Guide</span>
-        <span class="slide-num">09</span>
-      </div>
+
     </div>
   </div>
 
@@ -1321,8 +840,7 @@ body { padding-top: 52px; background: var(--page) !important; }
        SLIDE 10 — STUDENT ANALOGY
   ════════════════════════════════════════════ -->
   <div class="slide" id="s10">
-    <div class="bar"></div>
-    <div class="content">
+        <div class="content">
       <div class="eyebrow">Part 2 · Analogy</div>
       <h2 class="title">LLM is like a very well-read intern</h2>
       <div class="accent-divider"></div>
@@ -1334,7 +852,7 @@ body { padding-top: 52px; background: var(--page) !important; }
             <li>Is eager to help</li>
             <li>Doesn't know your project yet</li>
             <li>Will do exactly what you ask — even if it's the wrong thing</li>
-            <li style="margin-top:8px; font-weight:700; color:var(--ink);">→ Needs a clear briefing</li>
+            <li style="margin-top:8px;font-weight:700;color:var(--ink)">→ Needs a clear briefing</li>
           </ul>
         </div>
         <div class="compare-card">
@@ -1344,15 +862,12 @@ body { padding-top: 52px; background: var(--page) !important; }
             <li>Responds to every prompt instantly</li>
             <li>Has no memory of your previous work</li>
             <li>Produces what's statistically likely, not necessarily what's right</li>
-            <li style="margin-top:8px; font-weight:700; color:var(--ink);">→ Needs a clear prompt</li>
+            <li style="margin-top:8px;font-weight:700;color:var(--ink)">→ Needs a clear prompt</li>
           </ul>
         </div>
       </div>
       <div class="highlight">📌 The better your brief, the better your intern's work. The better your prompt, the better the AI's output.</div>
-      <div class="bottom-row">
-        <span class="presenter">Prompt Engineering · Student Guide</span>
-        <span class="slide-num">10</span>
-      </div>
+
     </div>
   </div>
 
@@ -1360,22 +875,18 @@ body { padding-top: 52px; background: var(--page) !important; }
        SLIDE 11 — SECTION: Part 3 RICE
   ════════════════════════════════════════════ -->
   <div class="slide section-slide" id="s11">
-    <div class="bar"></div>
-    <div class="content">
+        <div class="content">
       <div class="eyebrow">Part 3</div>
       <div class="divider"></div>
-      <h1 class="big" style="font-size: clamp(52px, 9vw, 110px); letter-spacing:-0.03em;">RICE</h1>
-      <p class="body-en" style="margin-top: 10px; font-size: clamp(16px, 1.6vw, 22px);">Your four-part framework for writing prompts that work.</p>
-      <div style="display:flex; gap:12px; margin-top:20px; flex-wrap:wrap;">
-        <div style="background:rgba(128,128,128,0.14); border:1px solid rgba(128,128,128,0.4); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.4vw,17px); color:var(--invert-ink);">R — Role</div>
-        <div style="background:rgba(128,128,128,0.14); border:1px solid rgba(128,128,128,0.4); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.4vw,17px); color:var(--invert-ink);">I — Instructions</div>
-        <div style="background:rgba(128,128,128,0.14); border:1px solid rgba(128,128,128,0.4); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.4vw,17px); color:var(--invert-ink);">C — Context</div>
-        <div style="background:rgba(128,128,128,0.14); border:1px solid rgba(128,128,128,0.4); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.4vw,17px); color:var(--invert-ink);">E — Examples</div>
+      <h1 class="big">RICE</h1>
+      <p class="body-en" style="margin-top: 10px">Your four-part framework for writing prompts that work.</p>
+      <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap">
+        <div style="background:rgba(128,128,128,0.14);border:1px solid rgba(128,128,128,0.4);border-radius:8px;padding:8px 16px;font-weight:800;color:var(--invert-ink)">R — Role</div>
+        <div style="background:rgba(128,128,128,0.14);border:1px solid rgba(128,128,128,0.4);border-radius:8px;padding:8px 16px;font-weight:800;color:var(--invert-ink)">I — Instructions</div>
+        <div style="background:rgba(128,128,128,0.14);border:1px solid rgba(128,128,128,0.4);border-radius:8px;padding:8px 16px;font-weight:800;color:var(--invert-ink)">C — Context</div>
+        <div style="background:rgba(128,128,128,0.14);border:1px solid rgba(128,128,128,0.4);border-radius:8px;padding:8px 16px;font-weight:800;color:var(--invert-ink)">E — Examples</div>
       </div>
-      <div class="bottom-row">
-        <span class="presenter">Prompt Engineering · Student Guide</span>
-        <span class="slide-num">11</span>
-      </div>
+
       <div class="deco-circle"></div>
     </div>
   </div>
@@ -1384,8 +895,7 @@ body { padding-top: 52px; background: var(--page) !important; }
        SLIDE 12 — RICE OVERVIEW TABLE
   ════════════════════════════════════════════ -->
   <div class="slide" id="s12">
-    <div class="bar"></div>
-    <div class="content">
+        <div class="content">
       <div class="eyebrow">Part 3 · RICE Overview</div>
       <h2 class="title">The RICE Framework at a glance</h2>
       <div class="accent-divider"></div>
@@ -1419,10 +929,7 @@ body { padding-top: 52px; background: var(--page) !important; }
           </div>
         </div>
       </div>
-      <div class="bottom-row">
-        <span class="presenter">Prompt Engineering · Student Guide</span>
-        <span class="slide-num">12</span>
-      </div>
+
     </div>
   </div>
 
@@ -1430,33 +937,29 @@ body { padding-top: 52px; background: var(--page) !important; }
        SLIDE 13 — R: ROLE
   ════════════════════════════════════════════ -->
   <div class="slide rice-R" id="s13">
-    <div class="bar"></div>
-    <div class="content">
+        <div class="content">
       <div class="eyebrow">Part 3 · RICE</div>
-      <h1 class="big" style="font-size:clamp(28px, 5vw, 60px); color:var(--ink); margin-bottom:6px;">R — Role</h1>
+      <h1 class="big" style="color:var(--ink);margin-bottom:6px">R — Role</h1>
       <div class="divider"></div>
-      <p class="body-en" style="margin-bottom:16px;">Tell the AI <em>who it should be</em>. This sets the persona, expertise, and tone.</p>
+      <p class="body-en" style="margin-bottom:16px">Tell the AI <em>who it should be</em>. This sets the persona, expertise, and tone.</p>
       <div class="two-col">
         <div>
           <div class="sub-label">Without Role</div>
-          <div class="prompt-box bad" style="background:rgba(255,255,255,0.07); border-left-color:var(--line-2); color:var(--ink);">
+          <div class="prompt-box bad" style="background:rgba(255,255,255,0.07);border-left-color:var(--line-2);color:var(--ink)">
             "Explain object-oriented programming."
-            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:var(--ink);">→ Generic answer. Could be for anyone, any level.</div>
+            <div style="margin-top:10px;color:var(--ink)">→ Generic answer. Could be for anyone, any level.</div>
           </div>
         </div>
         <div>
           <div class="sub-label">With Role</div>
-          <div class="prompt-box good" style="background:rgba(255,255,255,0.07); border-left-color:var(--line-2); color:var(--ink);">
+          <div class="prompt-box good" style="background:rgba(255,255,255,0.07);border-left-color:var(--line-2);color:var(--ink)">
             <span class="prompt-tag">Role</span> You are a patient IB Computer Science teacher explaining to a Year 11 student for the first time.
-            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:var(--ink);">→ Approachable tone, right level of depth, relevant vocabulary.</div>
+            <div style="margin-top:10px;color:var(--ink)">→ Approachable tone, right level of depth, relevant vocabulary.</div>
           </div>
         </div>
       </div>
-      <div class="highlight" style="background:rgba(128,128,128,0.14); border-left-color:var(--line-2); color:var(--ink); margin-top:12px;">💡 Try roles like: "experienced developer reviewing code", "examiner giving IB-style feedback", "classmate explaining simply"</div>
-      <div class="bottom-row">
-        <span class="presenter">Prompt Engineering · Student Guide</span>
-        <span class="slide-num">13</span>
-      </div>
+      <div class="highlight" style="background:rgba(128,128,128,0.14);border-left-color:var(--line-2);color:var(--ink);margin-top:12px">💡 Try roles like: "experienced developer reviewing code", "examiner giving IB-style feedback", "classmate explaining simply"</div>
+
       <div class="deco-letter">R</div>
     </div>
   </div>
@@ -1465,33 +968,29 @@ body { padding-top: 52px; background: var(--page) !important; }
        SLIDE 14 — I: INSTRUCTIONS
   ════════════════════════════════════════════ -->
   <div class="slide rice-I" id="s14">
-    <div class="bar"></div>
-    <div class="content">
+        <div class="content">
       <div class="eyebrow">Part 3 · RICE</div>
-      <h1 class="big" style="font-size:clamp(28px, 5vw, 60px); color:var(--ink); margin-bottom:6px;">I — Instructions</h1>
+      <h1 class="big" style="color:var(--ink);margin-bottom:6px">I — Instructions</h1>
       <div class="divider"></div>
-      <p class="body-en" style="margin-bottom:16px;">Tell the AI <em>exactly what you want it to do</em>. Be specific about task, format, length, and constraints.</p>
+      <p class="body-en" style="margin-bottom:16px">Tell the AI <em>exactly what you want it to do</em>. Be specific about task, format, length, and constraints.</p>
       <div class="two-col">
         <div>
           <div class="sub-label">Vague Instructions</div>
-          <div class="prompt-box bad" style="background:rgba(255,255,255,0.07); border-left-color:var(--line-2); color:var(--ink);">
+          <div class="prompt-box bad" style="background:rgba(255,255,255,0.07);border-left-color:var(--line-2);color:var(--ink)">
             "Write something about my website."
-            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:var(--ink);">→ What to write? How long? For who? In what style?</div>
+            <div style="margin-top:10px;color:var(--ink)">→ What to write? How long? For who? In what style?</div>
           </div>
         </div>
         <div>
           <div class="sub-label">Precise Instructions</div>
-          <div class="prompt-box good" style="background:rgba(255,255,255,0.07); border-left-color:var(--line-2); color:var(--ink);">
-            <span class="prompt-tag" style="background:rgba(128,128,128,0.14); color:var(--ink); border-color:rgba(128,128,128,0.4);">Instructions</span> Write a 3-sentence introduction for my portfolio website. Use a professional but friendly tone. Do not use the word "passionate".
-            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:var(--ink);">→ Length ✓ Tone ✓ Specific constraint ✓</div>
+          <div class="prompt-box good" style="background:rgba(255,255,255,0.07);border-left-color:var(--line-2);color:var(--ink)">
+            <span class="prompt-tag" style="background:rgba(128,128,128,0.14);color:var(--ink);border-color:rgba(128,128,128,0.4)">Instructions</span> Write a 3-sentence introduction for my portfolio website. Use a professional but friendly tone. Do not use the word "passionate".
+            <div style="margin-top:10px;color:var(--ink)">→ Length ✓ Tone ✓ Specific constraint ✓</div>
           </div>
         </div>
       </div>
-      <div class="highlight" style="background:rgba(128,128,128,0.14); border-left-color:var(--line-2); color:var(--ink); margin-top:12px;">💡 Include: what to produce, what format (list/table/paragraph/code), what length, what to avoid, what to include.</div>
-      <div class="bottom-row">
-        <span class="presenter">Prompt Engineering · Student Guide</span>
-        <span class="slide-num">14</span>
-      </div>
+      <div class="highlight" style="background:rgba(128,128,128,0.14);border-left-color:var(--line-2);color:var(--ink);margin-top:12px">💡 Include: what to produce, what format (list/table/paragraph/code), what length, what to avoid, what to include.</div>
+
       <div class="deco-letter">I</div>
     </div>
   </div>
@@ -1500,33 +999,29 @@ body { padding-top: 52px; background: var(--page) !important; }
        SLIDE 15 — C: CONTEXT
   ════════════════════════════════════════════ -->
   <div class="slide rice-C" id="s15">
-    <div class="bar"></div>
-    <div class="content">
+        <div class="content">
       <div class="eyebrow">Part 3 · RICE</div>
-      <h1 class="big" style="font-size:clamp(28px, 5vw, 60px); color:var(--ink); margin-bottom:6px;">C — Context</h1>
+      <h1 class="big" style="color:var(--ink);margin-bottom:6px">C — Context</h1>
       <div class="divider"></div>
-      <p class="body-en" style="margin-bottom:16px;">Give the AI the <em>background it needs</em> to understand your situation. The AI only knows what you tell it.</p>
+      <p class="body-en" style="margin-bottom:16px">Give the AI the <em>background it needs</em> to understand your situation. The AI only knows what you tell it.</p>
       <div class="two-col">
         <div>
           <div class="sub-label">No Context</div>
-          <div class="prompt-box bad" style="background:rgba(255,255,255,0.07); border-left-color:var(--line-2); color:var(--ink);">
+          <div class="prompt-box bad" style="background:rgba(255,255,255,0.07);border-left-color:var(--line-2);color:var(--ink)">
             "Why isn't my login working?"
-            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:var(--ink);">→ The AI has no idea what you've built, what language you're using, or what the error says.</div>
+            <div style="margin-top:10px;color:var(--ink)">→ The AI has no idea what you've built, what language you're using, or what the error says.</div>
           </div>
         </div>
         <div>
           <div class="sub-label">Rich Context</div>
-          <div class="prompt-box good" style="background:rgba(255,255,255,0.07); border-left-color:var(--line-2); color:var(--ink);">
-            <span class="prompt-tag" style="background:rgba(128,128,128,0.14); color:var(--ink); border-color:rgba(128,128,128,0.4);">Context</span> I'm a Year 11 IB CS student. My website uses Node.js + Express for the backend and plain HTML/CSS/JS for the front end. When I click the login button, nothing happens and the console shows "TypeError: Cannot read properties of null."
-            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:var(--ink);">→ Stack, symptom, error message all provided. AI can actually help.</div>
+          <div class="prompt-box good" style="background:rgba(255,255,255,0.07);border-left-color:var(--line-2);color:var(--ink)">
+            <span class="prompt-tag" style="background:rgba(128,128,128,0.14);color:var(--ink);border-color:rgba(128,128,128,0.4)">Context</span> I'm a Year 11 IB CS student. My website uses Node.js + Express for the backend and plain HTML/CSS/JS for the front end. When I click the login button, nothing happens and the console shows "TypeError: Cannot read properties of null."
+            <div style="margin-top:10px;color:var(--ink)">→ Stack, symptom, error message all provided. AI can actually help.</div>
           </div>
         </div>
       </div>
-      <div class="highlight" style="background:rgba(128,128,128,0.14); border-left-color:var(--line-2); color:var(--ink); margin-top:12px;">💡 Context checklist: Who are you? What's the goal? What have you tried? What went wrong? What tools/languages are you using?</div>
-      <div class="bottom-row">
-        <span class="presenter">Prompt Engineering · Student Guide</span>
-        <span class="slide-num">15</span>
-      </div>
+      <div class="highlight" style="background:rgba(128,128,128,0.14);border-left-color:var(--line-2);color:var(--ink);margin-top:12px">💡 Context checklist: Who are you? What's the goal? What have you tried? What went wrong? What tools/languages are you using?</div>
+
       <div class="deco-letter">C</div>
     </div>
   </div>
@@ -1535,33 +1030,29 @@ body { padding-top: 52px; background: var(--page) !important; }
        SLIDE 16 — E: EXAMPLES
   ════════════════════════════════════════════ -->
   <div class="slide rice-E" id="s16">
-    <div class="bar"></div>
-    <div class="content">
+        <div class="content">
       <div class="eyebrow">Part 3 · RICE</div>
-      <h1 class="big" style="font-size:clamp(28px, 5vw, 60px); color:var(--ink); margin-bottom:6px;">E — Examples</h1>
+      <h1 class="big" style="color:var(--ink);margin-bottom:6px">E — Examples</h1>
       <div class="divider"></div>
-      <p class="body-en" style="margin-bottom:16px;">Show the AI what <em>good output looks like</em>. One example teaches more than ten sentences of description.</p>
+      <p class="body-en" style="margin-bottom:16px">Show the AI what <em>good output looks like</em>. One example teaches more than ten sentences of description.</p>
       <div class="two-col">
         <div>
           <div class="sub-label">No Example</div>
-          <div class="prompt-box bad" style="background:rgba(255,255,255,0.07); border-left-color:var(--line-2); color:var(--ink);">
+          <div class="prompt-box bad" style="background:rgba(255,255,255,0.07);border-left-color:var(--line-2);color:var(--ink)">
             "Write a comment explaining this function."
-            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:var(--ink);">→ The AI doesn't know the style, format, or detail level you want.</div>
+            <div style="margin-top:10px;color:var(--ink)">→ The AI doesn't know the style, format, or detail level you want.</div>
           </div>
         </div>
         <div>
           <div class="sub-label">With Example</div>
-          <div class="prompt-box good" style="background:rgba(255,255,255,0.07); border-left-color:var(--line-2); color:var(--ink);">
-            <span class="prompt-tag" style="background:rgba(128,128,128,0.14); color:var(--ink); border-color:rgba(128,128,128,0.4);">Example</span> Here's the style I want: <em>// Checks if the username already exists in the database. Returns true if found, false otherwise.</em> — Now write one for the function below: [paste code]
-            <div style="margin-top:10px; font-size:clamp(11px,1vw,14px); color:var(--ink);">→ AI matches your exact style and detail level.</div>
+          <div class="prompt-box good" style="background:rgba(255,255,255,0.07);border-left-color:var(--line-2);color:var(--ink)">
+            <span class="prompt-tag" style="background:rgba(128,128,128,0.14);color:var(--ink);border-color:rgba(128,128,128,0.4)">Example</span> Here's the style I want: <em>// Checks if the username already exists in the database. Returns true if found, false otherwise.</em> — Now write one for the function below: [paste code]
+            <div style="margin-top:10px;color:var(--ink)">→ AI matches your exact style and detail level.</div>
           </div>
         </div>
       </div>
-      <div class="highlight" style="background:rgba(128,128,128,0.14); border-left-color:var(--line-2); color:var(--ink); margin-top:12px;">💡 You can show examples of: writing style, code style, layout, tone, answer format, or what you <em>don't</em> want ("avoid responses like this: …")</div>
-      <div class="bottom-row">
-        <span class="presenter">Prompt Engineering · Student Guide</span>
-        <span class="slide-num">16</span>
-      </div>
+      <div class="highlight" style="background:rgba(128,128,128,0.14);border-left-color:var(--line-2);color:var(--ink);margin-top:12px">💡 You can show examples of: writing style, code style, layout, tone, answer format, or what you <em>don't</em> want ("avoid responses like this: …")</div>
+
       <div class="deco-letter">E</div>
     </div>
   </div>
@@ -1570,21 +1061,17 @@ body { padding-top: 52px; background: var(--page) !important; }
        SLIDE 17 — BUILDING A FULL RICE PROMPT
   ════════════════════════════════════════════ -->
   <div class="slide" id="s17">
-    <div class="bar"></div>
-    <div class="content">
+        <div class="content">
       <div class="eyebrow">Part 3 · Full Example</div>
       <h2 class="title">A full RICE prompt — website assessment</h2>
       <div class="accent-divider"></div>
-      <div class="prompt-box good" style="line-height:2;">
+      <div class="prompt-box good" style="line-height:2">
         <span class="key">Role</span> You are an experienced IB Computer Science teacher who gives constructive, encouraging feedback.
         <span class="key">Instructions</span> Review my Introduction section of my design report. Identify 2 strengths and 2 specific improvements. Use bullet points. Keep it under 150 words.
         <span class="key">Context</span> I'm a Year 11 IB CS student working on my Website Implementation report. My introduction explains what my website does (a student task tracker) and why I built it, but I'm not sure if I've explained the background clearly enough.
         <span class="key">Examples</span> Here's the kind of feedback I want: "✅ Strength: Your problem definition is clear and student-focused. ⚠️ Improve: Add a brief explanation of the technologies you chose and why." — Here is my introduction: [paste text]
       </div>
-      <div class="bottom-row">
-        <span class="presenter">Prompt Engineering · Student Guide</span>
-        <span class="slide-num">17</span>
-      </div>
+
     </div>
   </div>
 
@@ -1592,36 +1079,32 @@ body { padding-top: 52px; background: var(--page) !important; }
        SLIDE 18 — BEFORE vs AFTER RICE
   ════════════════════════════════════════════ -->
   <div class="slide" id="s18">
-    <div class="bar"></div>
-    <div class="content">
+        <div class="content">
       <div class="eyebrow">Part 3 · Before &amp; After</div>
       <h2 class="title">Same goal — completely different results</h2>
       <div class="accent-divider"></div>
-      <div class="two-col" style="margin-top:6px;">
+      <div class="two-col" style="margin-top:6px">
         <div>
           <div class="col-label bad">❌ Without RICE</div>
           <div class="prompt-box bad">
             "Help me write my reflection."
             <br><br>
-            <em style="font-size:clamp(12px,1.1vw,14px); color:var(--ink-light);">AI response: Generic, surface-level. Could apply to any student doing any project.</em>
+            <em style="color:var(--ink-light)">AI response: Generic, surface-level. Could apply to any student doing any project.</em>
           </div>
         </div>
         <div>
           <div class="col-label good">✅ With RICE</div>
-          <div class="prompt-box good" style="font-size:clamp(12px,1.15vw,15px);">
+          <div class="prompt-box good">
             <span class="key">Role</span> IB CS examiner reviewing a student report.<br>
             <span class="key">Instructions</span> Help me write a Reflection section (200 words). Focus on what I learned and what I'd do differently.<br>
             <span class="key">Context</span> I built a to-do list web app. I struggled with connecting the frontend to the backend using fetch(). I fixed it by learning about async/await.<br>
             <span class="key">Examples</span> "I underestimated the complexity of…" — that kind of honest, reflective tone.
             <br><br>
-            <em style="font-size:clamp(12px,1.1vw,14px); color:var(--ink-light);">AI response: Specific, personal, on-brief. Sounds like you.</em>
+            <em style="color:var(--ink-light)">AI response: Specific, personal, on-brief. Sounds like you.</em>
           </div>
         </div>
       </div>
-      <div class="bottom-row">
-        <span class="presenter">Prompt Engineering · Student Guide</span>
-        <span class="slide-num">18</span>
-      </div>
+
     </div>
   </div>
 
@@ -1629,16 +1112,12 @@ body { padding-top: 52px; background: var(--page) !important; }
        SLIDE 19 — SECTION: Part 4
   ════════════════════════════════════════════ -->
   <div class="slide section-slide" id="s19">
-    <div class="bar"></div>
-    <div class="content">
+        <div class="content">
       <div class="eyebrow">Part 4</div>
       <div class="divider"></div>
       <h1 class="big">Tips &amp; Ethics</h1>
-      <p class="body-en" style="margin-top: 12px;">Good prompts are just the start — knowing how to use AI responsibly is what matters.</p>
-      <div class="bottom-row">
-        <span class="presenter">Prompt Engineering · Student Guide</span>
-        <span class="slide-num">19</span>
-      </div>
+      <p class="body-en" style="margin-top: 12px">Good prompts are just the start — knowing how to use AI responsibly is what matters.</p>
+
       <div class="deco-circle"></div>
     </div>
   </div>
@@ -1647,12 +1126,11 @@ body { padding-top: 52px; background: var(--page) !important; }
        SLIDE 20 — ITERATE
   ════════════════════════════════════════════ -->
   <div class="slide" id="s20">
-    <div class="bar"></div>
-    <div class="content">
+        <div class="content">
       <div class="eyebrow">Part 4 · Iteration</div>
       <h2 class="title">Prompt → Review → Refine</h2>
       <div class="accent-divider"></div>
-      <p class="body-en" style="margin-bottom:14px;">Your first prompt is rarely your best. Treat it like a first draft.</p>
+      <p class="body-en" style="margin-bottom:14px">Your first prompt is rarely your best. Treat it like a first draft.</p>
       <div class="steps-row">
         <div class="step-card">
           <div class="step-num">1</div>
@@ -1675,11 +1153,8 @@ body { padding-top: 52px; background: var(--page) !important; }
           <div class="step-text">Test the code. Check the facts. Rewrite it in your own voice. You're responsible for what you submit.</div>
         </div>
       </div>
-      <div class="highlight" style="margin-top:10px;">💡 You can also say: <strong>"That's good, but make it 30% shorter"</strong> or <strong>"Rewrite using simpler vocabulary"</strong> — follow-up prompts are powerful.</div>
-      <div class="bottom-row">
-        <span class="presenter">Prompt Engineering · Student Guide</span>
-        <span class="slide-num">20</span>
-      </div>
+      <div class="highlight" style="margin-top:10px">💡 You can also say: <strong>"That's good, but make it 30% shorter"</strong> or <strong>"Rewrite using simpler vocabulary"</strong> — follow-up prompts are powerful.</div>
+
     </div>
   </div>
 
@@ -1687,8 +1162,7 @@ body { padding-top: 52px; background: var(--page) !important; }
        SLIDE 21 — ETHICS & ACADEMIC INTEGRITY
   ════════════════════════════════════════════ -->
   <div class="slide" id="s21">
-    <div class="bar"></div>
-    <div class="content">
+        <div class="content">
       <div class="eyebrow">Part 4 · Academic Integrity</div>
       <h2 class="title">Using AI responsibly in your assessment</h2>
       <div class="accent-divider"></div>
@@ -1722,10 +1196,7 @@ body { padding-top: 52px; background: var(--page) !important; }
           </div>
         </div>
       </div>
-      <div class="bottom-row">
-        <span class="presenter">Prompt Engineering · Student Guide</span>
-        <span class="slide-num">21</span>
-      </div>
+
     </div>
   </div>
 
@@ -1733,25 +1204,21 @@ body { padding-top: 52px; background: var(--page) !important; }
        SLIDE 22 — QUICK REFERENCE TABLE
   ════════════════════════════════════════════ -->
   <div class="slide" id="s22">
-    <div class="bar"></div>
-    <div class="content">
+        <div class="content">
       <div class="eyebrow">Part 4 · Quick Reference</div>
       <h2 class="title">RICE — Quick Reference Card</h2>
       <div class="accent-divider"></div>
       <table>
         <thead><tr><th>Letter</th><th>Ask yourself</th><th>Example phrase to use</th></tr></thead>
         <tbody>
-          <tr><td style="color:var(--ink);">R — Role</td><td>Who should the AI be?</td><td>"You are a [role] who [expertise]…"</td></tr>
-          <tr><td style="color:var(--ink);">I — Instructions</td><td>What exactly do I want?</td><td>"Write / Review / Explain / Fix / List [X] in [format] of [length]…"</td></tr>
-          <tr><td style="color:var(--ink);">C — Context</td><td>What background does AI need?</td><td>"I am a Year 11 student. I am building [X]. The problem is [Y]…"</td></tr>
-          <tr><td style="color:var(--ink);">E — Examples</td><td>What does good output look like?</td><td>"Here is an example of the style I want: [paste example]…"</td></tr>
+          <tr><td style="color:var(--ink)">R — Role</td><td>Who should the AI be?</td><td>"You are a [role] who [expertise]…"</td></tr>
+          <tr><td style="color:var(--ink)">I — Instructions</td><td>What exactly do I want?</td><td>"Write / Review / Explain / Fix / List [X] in [format] of [length]…"</td></tr>
+          <tr><td style="color:var(--ink)">C — Context</td><td>What background does AI need?</td><td>"I am a Year 11 student. I am building [X]. The problem is [Y]…"</td></tr>
+          <tr><td style="color:var(--ink)">E — Examples</td><td>What does good output look like?</td><td>"Here is an example of the style I want: [paste example]…"</td></tr>
         </tbody>
       </table>
-      <div class="highlight" style="margin-top:12px;">📌 You don't need all four every time — but the more you include, the better. Start with <strong>Instructions + Context</strong> at minimum.</div>
-      <div class="bottom-row">
-        <span class="presenter">Prompt Engineering · Student Guide</span>
-        <span class="slide-num">22</span>
-      </div>
+      <div class="highlight" style="margin-top:12px">📌 You don't need all four every time — but the more you include, the better. Start with <strong>Instructions + Context</strong> at minimum.</div>
+
     </div>
   </div>
 
@@ -1759,8 +1226,7 @@ body { padding-top: 52px; background: var(--page) !important; }
        SLIDE 23 — SUMMARY
   ════════════════════════════════════════════ -->
   <div class="slide" id="s23">
-    <div class="bar"></div>
-    <div class="content">
+        <div class="content">
       <div class="eyebrow">Closing · Summary</div>
       <div class="summary-index-title">Part Index</div>
       <div class="summary-index">
@@ -1769,7 +1235,7 @@ body { padding-top: 52px; background: var(--page) !important; }
         <div class="summary-index-item"><span>Part 3</span>The RICE Framework</div>
         <div class="summary-index-item"><span>Part 4</span>Tips &amp; Ethics</div>
       </div>
-      <h2 class="title" style="margin-bottom:6px;">Key Takeaways</h2>
+      <h2 class="title" style="margin-bottom:6px">Key Takeaways</h2>
       <div class="accent-divider"></div>
       <div class="summary-grid">
         <div>
@@ -1789,10 +1255,7 @@ body { padding-top: 52px; background: var(--page) !important; }
           <div class="summary-text">Document your AI use, verify everything it produces, and make sure you can explain every word and line of code you submit.</div>
         </div>
       </div>
-      <div class="bottom-row">
-        <span class="presenter">Prompt Engineering · Student Guide</span>
-        <span class="slide-num">23</span>
-      </div>
+
     </div>
   </div>
 
@@ -1800,22 +1263,18 @@ body { padding-top: 52px; background: var(--page) !important; }
        SLIDE 24 — CLOSING
   ════════════════════════════════════════════ -->
   <div class="slide section-slide" id="s24">
-    <div class="bar"></div>
-    <div class="content">
+        <div class="content">
       <div class="eyebrow">Thank You</div>
       <div class="divider"></div>
-      <h1 class="big">Now go build<br><em style="font-weight:400;">something great.</em></h1>
-      <p class="body-en" style="margin-top:16px; font-size: clamp(14px, 1.4vw, 18px);">Remember: AI is a tool. You are the designer, the thinker, and the author. Use RICE to communicate clearly — and always own your work.</p>
-      <div style="display:flex; gap:12px; margin-top:22px; flex-wrap:wrap;">
-        <div style="background:rgba(128,128,128,0.14); border:1px solid rgba(128,128,128,0.35); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.3vw,16px); color:var(--invert-ink);">R — Role</div>
-        <div style="background:rgba(128,128,128,0.14); border:1px solid rgba(128,128,128,0.35); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.3vw,16px); color:var(--invert-ink);">I — Instructions</div>
-        <div style="background:rgba(128,128,128,0.14); border:1px solid rgba(128,128,128,0.35); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.3vw,16px); color:var(--invert-ink);">C — Context</div>
-        <div style="background:rgba(128,128,128,0.14); border:1px solid rgba(128,128,128,0.35); border-radius:8px; padding:8px 16px; font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:clamp(13px,1.3vw,16px); color:var(--invert-ink);">E — Examples</div>
+      <h1 class="big">Now go build<br><em style="font-weight:400">something great.</em></h1>
+      <p class="body-en" style="margin-top:16px">Remember: AI is a tool. You are the designer, the thinker, and the author. Use RICE to communicate clearly — and always own your work.</p>
+      <div style="display:flex;gap:12px;margin-top:22px;flex-wrap:wrap">
+        <div style="background:rgba(128,128,128,0.14);border:1px solid rgba(128,128,128,0.35);border-radius:8px;padding:8px 16px;font-weight:800;color:var(--invert-ink)">R — Role</div>
+        <div style="background:rgba(128,128,128,0.14);border:1px solid rgba(128,128,128,0.35);border-radius:8px;padding:8px 16px;font-weight:800;color:var(--invert-ink)">I — Instructions</div>
+        <div style="background:rgba(128,128,128,0.14);border:1px solid rgba(128,128,128,0.35);border-radius:8px;padding:8px 16px;font-weight:800;color:var(--invert-ink)">C — Context</div>
+        <div style="background:rgba(128,128,128,0.14);border:1px solid rgba(128,128,128,0.35);border-radius:8px;padding:8px 16px;font-weight:800;color:var(--invert-ink)">E — Examples</div>
       </div>
-      <div class="bottom-row">
-        <span class="presenter">Prompt Engineering · Student Guide</span>
-        <span class="slide-num">24</span>
-      </div>
+
       <div class="deco-circle"></div>
     </div>
   </div>
@@ -1823,126 +1282,11 @@ body { padding-top: 52px; background: var(--page) !important; }
 </div><!-- /deck -->
 
 <!-- NAV -->
-<div class="nav">
-  <button id="prevBtn" onclick="changeSlide(-1)" disabled>←</button>
-  <div class="progress"><div class="progress-fill" id="pf" style="width:4.16%;"></div></div>
-  <span class="counter" id="counter">1 / 24</span>
-  <button id="nextBtn" onclick="changeSlide(1)">→</button>
-</div>
 
-<script>
-const TOTAL = 24;
-let cur = 1;
 
-function changeSlide(d) {
-  document.getElementById('s' + cur).classList.remove('active');
-  cur = Math.max(1, Math.min(TOTAL, cur + d));
-  document.getElementById('s' + cur).classList.add('active');
-  updateControls();
-}
 
-function goToSlide(n) {
-  document.getElementById('s' + cur).classList.remove('active');
-  cur = Math.max(1, Math.min(TOTAL, n));
-  document.getElementById('s' + cur).classList.add('active');
-  updateControls();
-}
 
-function updateControls() {
-  const activeSlide = document.getElementById('s' + cur);
-  const deck = document.getElementById('deck');
-  const pct = (cur / TOTAL * 100) + '%';
-  document.getElementById('counter').textContent = cur + ' / ' + TOTAL;
-  document.getElementById('pf').style.width = pct;
-  document.getElementById('prevBtn').disabled = cur === 1;
-  document.getElementById('nextBtn').disabled = cur === TOTAL;
-
-  const isDark = activeSlide.classList.contains('section-slide') ||
-                 activeSlide.classList.contains('rice-R') ||
-                 activeSlide.classList.contains('rice-I') ||
-                 activeSlide.classList.contains('rice-C') ||
-                 activeSlide.classList.contains('rice-E');
-
-  deck.classList.toggle('no-part-nav', cur < 3 || cur === TOTAL);
-  deck.classList.toggle('dark-part-nav', isDark);
-
-  document.querySelectorAll('.part-nav button').forEach(btn => {
-    const start = Number(btn.dataset.target);
-    const next = btn.nextElementSibling ? Number(btn.nextElementSibling.dataset.target) : TOTAL + 1;
-    btn.classList.toggle('active', cur >= start && cur < next);
-  });
-}
-
-document.querySelectorAll('.part-nav button').forEach(btn => {
-  btn.addEventListener('click', () => goToSlide(Number(btn.dataset.target)));
-});
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
-  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   changeSlide(-1);
-});
-
-updateControls();
-</script>
-
-<script>
-(function () {
-  const menus = document.querySelectorAll('.course-menu');
-  const submenus = document.querySelectorAll('.course-submenu');
-  const closeSubmenus = except => {
-    submenus.forEach(submenu => {
-      if (submenu !== except) {
-        submenu.classList.remove('open');
-        const button = submenu.querySelector('.course-submenu-button');
-        if (button) button.setAttribute('aria-expanded', 'false');
-      }
-    });
-  };
-  const closeMenus = except => {
-    menus.forEach(menu => {
-      if (menu !== except) {
-        menu.classList.remove('open');
-        const button = menu.querySelector('.course-menu-button');
-        if (button) button.setAttribute('aria-expanded', 'false');
-      }
-    });
-    if (!except) closeSubmenus(null);
-  };
-
-  menus.forEach(menu => {
-    const button = menu.querySelector('.course-menu-button');
-    if (!button) return;
-    button.addEventListener('click', event => {
-      event.preventDefault();
-      const targetId = button.getAttribute('data-scroll-target');
-      const target = targetId ? document.getElementById(targetId) : null;
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      const isOpen = menu.classList.toggle('open');
-      button.setAttribute('aria-expanded', String(isOpen));
-      closeMenus(isOpen ? menu : null);
-    });
-  });
-
-  submenus.forEach(submenu => {
-    const button = submenu.querySelector('.course-submenu-button');
-    if (!button) return;
-    button.addEventListener('click', event => {
-      event.preventDefault();
-      const isOpen = submenu.classList.toggle('open');
-      button.setAttribute('aria-expanded', String(isOpen));
-      closeSubmenus(isOpen ? submenu : null);
-    });
-  });
-
-  document.addEventListener('click', event => {
-    if (!event.target.closest('.course-menu')) closeMenus(null);
-  });
-
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape') closeMenus(null);
-  });
-})();
-</script>
-
+<script src="../assets/site.js"></script>
+<script src="../assets/deck.js"></script>
 </body>
 </html>
